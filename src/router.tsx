@@ -6,6 +6,7 @@ import { LimitedSizeLayout } from "./layout/LimitedSize/index.tsx";
 import { LoginPage } from "./pages/login/index.tsx";
 import { AuthLayout } from "./layout/Auth/index.tsx";
 import { PageLoadingLayout } from "./layout/PageLoading/index.tsx";
+import { ProfilePage } from "./pages/profile/index.tsx";
 
 export function Router() {
   return (
@@ -17,6 +18,7 @@ export function Router() {
               <Route element={<PageLoadingLayout />}>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/login" element={<LoginPage />} />
+                <Route path="/profile" element={<ProfilePage />} />
               </Route>
             </Route>
           </Route>

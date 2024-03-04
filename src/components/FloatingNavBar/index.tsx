@@ -1,5 +1,12 @@
+import { useNavigate } from "react-router-dom";
 import styles from "./style.module.scss";
 
 export function FloatingNavBar() {
-  return <div className={styles.container}>FloatingNavBar</div>;
+  const navigate = useNavigate();
+  return (
+    <div className={styles.container}>
+      <span onClick={() => navigate("/")}>Home</span>
+      <span onClick={() => navigate("/profile")}>Profile</span>
+    </div>
+  );
 }
