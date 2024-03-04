@@ -15,8 +15,8 @@ export function Router() {
           <Route element={<LimitedSizeLayout />}>
             <Route element={<AuthLayout />}>
               <Route element={<PageLoadingLayout />}>
-                <Route path="/*" element={<HomePage />} />
-                <Route path="/login*" element={<LoginPage />} />
+                <Route path="/" element={<HomePage />} />
+                <Route path="/login" element={<LoginPage />} />
               </Route>
             </Route>
           </Route>
