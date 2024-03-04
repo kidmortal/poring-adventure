@@ -1,4 +1,3 @@
-import * as React from "react";
 import * as ReactDOM from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./firebase.ts";
