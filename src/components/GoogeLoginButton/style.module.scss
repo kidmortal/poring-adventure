@@ -1,6 +1,26 @@
 .container {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  border-radius: 6px;
+  border: 1px solid #d6d6d6;
+  padding: 6px;
+
+  justify-content: flex-start;
   align-items: center;
+
+  width: 100%;
+
+  cursor: pointer;
+
+  background: #fff;
+
+  > span {
+    margin-left: 6px;
+
+    color: #4a4949;
+
+    font-size: 12px;
+    font-weight: 12px;
+    line-height: 12px;
+    letter-spacing: 0.2px;
+  }
 }

@@ -1,6 +1,7 @@
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import styles from "./style.module.scss";
 import { auth } from "../../firebase";
+import { GoogleIcon } from "../../assets/Google";
 
 export function GoogleLoginButton() {
   function handleClick() {
@@ -30,8 +31,9 @@ export function GoogleLoginButton() {
   }
 
   return (
-    <div className={styles.container} onClick={() => handleClick()}>
-      GoogleLoginButton
-    </div>
+    <button className={styles.container} onClick={() => handleClick()}>
+      <GoogleIcon size={24} />
+      <span>Login with Google</span>
+    </button>
   );
 }
