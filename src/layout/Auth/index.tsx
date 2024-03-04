@@ -15,7 +15,7 @@ export function AuthLayout() {
       store.setUserLoggedIn(isAuthenticated);
       store.setIsLoading(isFetching);
       if (isAuthenticated && location.pathname.includes("login")) {
-        navigate("/home");
+        navigate("/");
       }
       if (!isAuthenticated && !location.pathname.includes("login")) {
         navigate("/login");
