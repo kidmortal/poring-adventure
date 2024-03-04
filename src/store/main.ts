@@ -1,15 +1,25 @@
 import { create } from "zustand";
 
+type LoggedUserInfo = {
+  loggedIn: boolean;
+  accessToken: string;
+  email: string;
+};
+
 interface MainState {
-  userLoggedIn: boolean;
+  loggedUserInfo: LoggedUserInfo;
   isLoading: boolean;
   setIsLoading: (v: boolean) => void;
-  setUserLoggedIn: (v: boolean) => void;
+  setUserLoggedInfo: (v: LoggedUserInfo) => void;
 }
 
 export const useMainStore = create<MainState>()((set) => ({
-  userLoggedIn: false,
   isLoading: false,
+  loggedUserInfo: {
+    loggedIn: false,
+    accessToken: "",
+    email: "",
+  },
+  setUserLoggedInfo: (v) => set(() => ({ loggedUserInfo: v })),
   setIsLoading: (v) => set(() => ({ isLoading: v })),
-  setUserLoggedIn: (v) => set(() => ({ userLoggedIn: v })),
 }));

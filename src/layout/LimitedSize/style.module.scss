@@ -1,6 +1,22 @@
 .container {
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  background-color: #191919;
+}
+
+.limitedContainer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  max-width: 30rem;
+  max-height: 50rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: green;
+  border-radius: 1rem;
 }

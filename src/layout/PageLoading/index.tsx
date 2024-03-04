@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 
-import { useMainStore } from "../../store/main";
+import { useMainStore } from "@/store/main";
 
 export function PageLoadingLayout() {
   const store = useMainStore();
