@@ -30,10 +30,5 @@ export function AuthLayout() {
     store.setIsLoading(isFetching);
   }, [isAuthenticated, isFetching]);
 
-  return (
-    <div>
-      <h1>Auth layer</h1>
-      <Outlet />
-    </div>
-  );
+  return <Outlet />;
 }

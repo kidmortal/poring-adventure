@@ -1,0 +1,45 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.classList {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.characterContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.character {
+  height: 148px;
+  width: 125px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.selected {
+  transform: scale(1.2);
+}
+
+.head {
+  top: -36px;
+  right: -1px;
+  position: absolute;
+  z-index: 2;
+}
+.body {
+  top: 0px;
+  position: absolute;
+}
