@@ -3,35 +3,38 @@ import styles from "./style.module.scss";
 import { CharacterInfo } from "@/components/CharacterInfo";
 import { api } from "@/api/service";
 import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/Button";
 
 export function ProfilePage() {
   const navigate = useNavigate();
-  const { userCharacter, loggedUserInfo, setUserCharacter } = useMainStore();
+  const store = useMainStore();
 
   async function handleDelete() {
+    store.setIsLoading({ application: true });
     const result = await api.deleteUser(
-      loggedUserInfo.email,
-      loggedUserInfo.accessToken
+      store.loggedUserInfo.email,
+      store.loggedUserInfo.accessToken
     );
 
     if (result) {
-      setUserCharacter(undefined);
+      store.setUserCharacter(undefined);
       navigate("/create");
     }
+    store.setIsLoading({ application: false });
   }
 
   return (
     <div className={styles.container}>
-      <span>Name {userCharacter?.name}</span>
+      <h2>{store.userCharacter?.name}</h2>
       <span>
-        Level {userCharacter?.level} {userCharacter?.classname}
+        Level {store.userCharacter?.level} {store.userCharacter?.classname}
       </span>
       <CharacterInfo
-        costume={userCharacter?.appearance?.costume ?? ""}
-        gender={userCharacter?.appearance?.gender ?? "female"}
-        head={userCharacter?.appearance?.head ?? ""}
+        costume={store.userCharacter?.appearance?.costume ?? ""}
+        gender={store.userCharacter?.appearance?.gender ?? "female"}
+        head={store.userCharacter?.appearance?.head ?? ""}
       />
-      <button onClick={() => handleDelete()}>Delete my char</button>
+      <Button label="Delete my char" onClick={() => handleDelete()} />
     </div>
   );
 }
