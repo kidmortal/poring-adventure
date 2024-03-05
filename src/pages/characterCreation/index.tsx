@@ -1,7 +1,6 @@
 import { useCharacterCreationStore } from "@/store/characterCreation";
 import styles from "./style.module.scss";
 import cn from "classnames";
-import { useState } from "react";
 
 const headScrMap: { [name: string]: { female: string; male: string } } = {
   head1: {

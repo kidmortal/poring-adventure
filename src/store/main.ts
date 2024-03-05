@@ -15,7 +15,7 @@ type LoadingStates = {
 interface MainState {
   loggedUserInfo: LoggedUserInfo;
   isLoading: LoadingStates;
-  userCharacter: any;
+  userCharacter?: User;
   fetchUserCharacter: () => Promise<boolean>;
   setIsLoading: (v: LoadingStates) => void;
   setUserLoggedInfo: (v: LoggedUserInfo) => void;
@@ -26,7 +26,7 @@ export const useMainStore = create<MainState>()((set, get) => ({
     application: false,
     profile: false,
   },
-  userCharacter: {},
+  userCharacter: undefined,
   loggedUserInfo: {
     loggedIn: false,
     accessToken: "",

@@ -12,7 +12,7 @@ export function AuthLayout() {
 
   useEffect(() => {
     if (!isFetching) {
-      store.setIsLoading(isFetching);
+      store.setIsLoading({ application: isFetching });
       store.setUserLoggedInfo({
         loggedIn: isAuthenticated,
         // @ts-expect-error idk man, should have it
@@ -27,7 +27,7 @@ export function AuthLayout() {
       }
     }
 
-    store.setIsLoading(isFetching);
+    store.setIsLoading({ application: isFetching });
   }, [isAuthenticated, isFetching]);
 
   return <Outlet />;
