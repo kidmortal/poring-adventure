@@ -16,7 +16,7 @@ interface MainState {
   loggedUserInfo: LoggedUserInfo;
   isLoading: LoadingStates;
   userCharacter?: User;
-  setUserCharacter: (v: User) => void;
+  setUserCharacter: (v?: User) => void;
   fetchUserCharacter: () => Promise<boolean>;
   setIsLoading: (v: LoadingStates) => void;
   setUserLoggedInfo: (v: LoggedUserInfo) => void;

@@ -15,3 +15,10 @@ declare type Appearance = {
   costume: string;
   userEmail: string;
 };
+
+declare type CreateUserPayload = {
+  email: string;
+  name: string;
+  classname: string;
+  gender: string;
+};

@@ -1,4 +1,3 @@
-import { auth } from "@/firebase";
 import { useMainStore } from "@/store/main";
 import styles from "./style.module.scss";
 
@@ -9,7 +8,6 @@ export function HomePage() {
     <div className={styles.container}>
       <span>Access token for {store.loggedUserInfo.email}</span>
       <textarea value={store.loggedUserInfo.accessToken} readOnly />
-      <button onClick={() => auth.signOut()}>Quitar</button>
     </div>
   );
 }

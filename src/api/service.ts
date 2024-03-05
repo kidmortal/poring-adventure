@@ -10,15 +10,13 @@ class ApiService {
     const info = await this.endpoint.get(`/users/${email}`);
     return info.data;
   }
-  async createNewUser(
-    args: {
-      email: string;
-      name: string;
-      classname: string;
-      gender: string;
-    },
-    accessToken: string
-  ) {
+  async deleteUser(email: string, accessToken: string) {
+    const info = await this.endpoint.delete(`/users/${email}`, {
+      headers: { auth: accessToken },
+    });
+    return info.data;
+  }
+  async createNewUser(args: CreateUserPayload, accessToken: string) {
     const info = await this.endpoint.post(`/users/`, args, {
       headers: { auth: accessToken },
     });
