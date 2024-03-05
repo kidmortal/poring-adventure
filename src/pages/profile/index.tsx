@@ -4,6 +4,7 @@ import { CharacterInfo } from "@/components/CharacterInfo";
 import { api } from "@/api/service";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/Button";
+import { When } from "@/components/When";
 
 export function ProfilePage() {
   const navigate = useNavigate();
@@ -25,16 +26,18 @@ export function ProfilePage() {
 
   return (
     <div className={styles.container}>
-      <h2>{store.userCharacter?.name}</h2>
-      <span>
-        Level {store.userCharacter?.level} {store.userCharacter?.classname}
-      </span>
-      <CharacterInfo
-        costume={store.userCharacter?.appearance?.costume ?? ""}
-        gender={store.userCharacter?.appearance?.gender ?? "female"}
-        head={store.userCharacter?.appearance?.head ?? ""}
-      />
-      <Button label="Delete my char" onClick={() => handleDelete()} />
+      <When value={!!store.userCharacter?.name}>
+        <h2>{store.userCharacter?.name}</h2>
+        <span>
+          Level {store.userCharacter?.level} {store.userCharacter?.classname}
+        </span>
+        <CharacterInfo
+          costume={store.userCharacter?.appearance?.costume ?? ""}
+          gender={store.userCharacter?.appearance?.gender ?? "female"}
+          head={store.userCharacter?.appearance?.head ?? ""}
+        />
+        <Button label="Delete my char" onClick={() => handleDelete()} />
+      </When>
     </div>
   );
 }

@@ -11,6 +11,22 @@ export function AuthLayout() {
   const { isAuthenticated, isFetching, user } = useAuth();
 
   useEffect(() => {
+    if (!isAuthenticated && !location.pathname.includes("login")) {
+      navigate("/login");
+      if (store.userCharacter) {
+        store.setUserCharacter(undefined);
+      }
+      if (store.loggedUserInfo) {
+        store.setUserLoggedInfo({
+          loggedIn: false,
+          accessToken: "",
+          email: "",
+        });
+      }
+    }
+  }, [location]);
+
+  useEffect(() => {
     if (!isFetching) {
       store.setIsLoading({ application: isFetching });
       store.setUserLoggedInfo({

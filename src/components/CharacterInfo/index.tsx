@@ -1,7 +1,6 @@
 import cn from "classnames";
 import styles from "./style.module.scss";
 import { useState } from "react";
-import { When } from "../When";
 
 const headScrMap: { [name: string]: { female: string; male: string } } = {
   head_1: {
