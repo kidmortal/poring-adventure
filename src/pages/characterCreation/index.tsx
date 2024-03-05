@@ -3,9 +3,9 @@ import styles from "./style.module.scss";
 import cn from "classnames";
 
 const headScrMap: { [name: string]: { female: string; male: string } } = {
-  head1: {
-    male: "assets/male_head.png",
-    female: "assets/female_head.png",
+  head_1: {
+    male: "assets/head_1_male.png",
+    female: "assets/head_1_female.png",
   },
 };
 
@@ -29,7 +29,7 @@ function Character({
     <div className={styles.characterContainer}>
       <span>{name}</span>
       <div className={cn(styles.character)}>
-        <img className={styles.head} src={headScrMap[head][gender]} />
+        <img className={styles.head} src={headScrMap[head]?.[gender]} />
         <img className={styles.body} src={bodySrcMap[name]} />
       </div>
     </div>
@@ -46,7 +46,7 @@ function CharacterPicker() {
         <Character
           name={store.selectedCharacterClass}
           gender={store.gender}
-          head="head1"
+          head="head_1"
         />
       </div>
       <div className={styles.characterCreationOptions}>
