@@ -3,6 +3,8 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+  height: 140px;
+  width: 148px;
 }
 
 .character {
@@ -28,4 +30,8 @@
   height: 125px;
   top: 0px;
   position: absolute;
+}
+
+.hidden {
+  display: none;
 }

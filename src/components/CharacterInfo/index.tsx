@@ -1,5 +1,7 @@
 import cn from "classnames";
 import styles from "./style.module.scss";
+import { useState } from "react";
+import { When } from "../When";
 
 const headScrMap: { [name: string]: { female: string; male: string } } = {
   head_1: {
@@ -24,11 +26,16 @@ export function CharacterInfo({
   head: string;
   gender: "male" | "female";
 }) {
+  const [assetLoaded, setAssetLoaded] = useState(false);
   return (
     <div className={styles.characterContainer}>
-      <div className={cn(styles.character)}>
+      <div className={cn(styles.character, { [styles.hidden]: !assetLoaded })}>
         <img className={styles.head} src={headScrMap[head]?.[gender]} />
-        <img className={styles.body} src={bodySrcMap[costume]} />
+        <img
+          className={styles.body}
+          src={bodySrcMap[costume]}
+          onLoad={() => setAssetLoaded(true)}
+        />
       </div>
     </div>
   );

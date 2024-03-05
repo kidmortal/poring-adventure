@@ -1,6 +1,7 @@
 import { useCharacterCreationStore } from "@/store/characterCreation";
 import styles from "./style.module.scss";
 import cn from "classnames";
+import { Button } from "@/components/Button";
 
 const headScrMap: { [name: string]: { female: string; male: string } } = {
   head_1: {
@@ -134,7 +135,10 @@ export function CharacterCreationPage() {
         onChange={(e) => store.setCharacterName(e.target.value)}
       />
       <CharacterPicker />
-      <button onClick={() => store.createCharacter()}>Create</button>
+      <Button
+        label="Create Character"
+        onClick={() => store.createCharacter()}
+      />
     </div>
   );
 }
