@@ -36,7 +36,7 @@ export function AuthLayout() {
         email: user?.email || "",
       });
       if (isAuthenticated && location.pathname.includes("login")) {
-        navigate("/");
+        navigate("/profile");
       }
       if (!isAuthenticated && !location.pathname.includes("login")) {
         navigate("/login");

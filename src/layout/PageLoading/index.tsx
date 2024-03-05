@@ -8,9 +8,12 @@ export function PageLoadingLayout() {
 
   if (store.isLoading.application) {
     return (
-      <div className={styles.container}>
-        <img alt="poring" src="assets/poring.gif" />
-        <span>Loading...</span>
+      <div>
+        <div className={styles.fullScreenOverlay}>
+          <img alt="poring" src="assets/poring.gif" />
+          <span>Loading...</span>
+        </div>
+        <Outlet />
       </div>
     );
   }

@@ -1,4 +1,7 @@
-.container {
+.fullScreenOverlay {
+  position: absolute;
+  left: 0;
+  top: 0;
   height: 100%;
   width: 100%;
   display: flex;
@@ -6,7 +9,7 @@
   justify-content: center;
   gap: 3rem;
   align-items: center;
-  background-color: rgba($color: #191919, $alpha: 0.6);
+  background-color: rgba($color: #191919, $alpha: 0.7);
   z-index: 5;
   color: white;
   font-size: 40px;
