@@ -16,6 +16,7 @@ interface MainState {
   loggedUserInfo: LoggedUserInfo;
   isLoading: LoadingStates;
   userCharacter?: User;
+  setUserCharacter: (v: User) => void;
   fetchUserCharacter: () => Promise<boolean>;
   setIsLoading: (v: LoadingStates) => void;
   setUserLoggedInfo: (v: LoggedUserInfo) => void;
@@ -42,6 +43,7 @@ export const useMainStore = create<MainState>()((set, get) => ({
     set(() => ({ userCharacter }));
     return true;
   },
+  setUserCharacter: (v) => set(() => ({ userCharacter: v })),
   setUserLoggedInfo: (v) => set(() => ({ loggedUserInfo: v })),
   setIsLoading: (v) => set(() => ({ isLoading: v })),
 }));

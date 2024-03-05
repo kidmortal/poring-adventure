@@ -134,7 +134,7 @@ export function CharacterCreationPage() {
         onChange={(e) => store.setCharacterName(e.target.value)}
       />
       <CharacterPicker />
-      <button>Create</button>
+      <button onClick={() => store.createCharacter()}>Create</button>
     </div>
   );
 }

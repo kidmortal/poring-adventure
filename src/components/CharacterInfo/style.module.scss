@@ -1,0 +1,31 @@
+.characterContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.character {
+  height: 140px;
+  width: 148px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.head {
+  width: 148px;
+  height: 125px;
+  top: -42px;
+  right: 0px;
+  position: absolute;
+  z-index: 2;
+}
+.body {
+  width: 148px;
+  height: 125px;
+  top: 0px;
+  position: absolute;
+}

@@ -5,4 +5,13 @@ declare type User = {
   classname: string;
   level: number;
   experience: number;
+  appearance: Appearance;
+};
+
+declare type Appearance = {
+  id: 1;
+  head: string;
+  gender: "male" | "female";
+  costume: string;
+  userEmail: string;
 };
