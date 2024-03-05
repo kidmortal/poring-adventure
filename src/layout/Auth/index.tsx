@@ -9,9 +9,10 @@ export function AuthLayout() {
   const navigate = useNavigate();
   const store = useMainStore();
   const { isAuthenticated, isFetching, user } = useAuth();
+  const isOnLoginPage = location.pathname.includes("login");
 
   useEffect(() => {
-    if (!isAuthenticated && !location.pathname.includes("login")) {
+    if (!isAuthenticated && !isOnLoginPage) {
       navigate("/login");
       if (store.userCharacter) {
         store.setUserCharacter(undefined);
@@ -28,7 +29,7 @@ export function AuthLayout() {
 
   useEffect(() => {
     if (!isFetching) {
-      store.setIsLoading({ application: isFetching });
+      store.setIsLoading(isFetching);
       store.setUserLoggedInfo({
         loggedIn: isAuthenticated,
         // @ts-expect-error idk man, should have it
@@ -43,7 +44,7 @@ export function AuthLayout() {
       }
     }
 
-    store.setIsLoading({ application: isFetching });
+    store.setIsLoading(isFetching);
   }, [isAuthenticated, isFetching]);
 
   return <Outlet />;

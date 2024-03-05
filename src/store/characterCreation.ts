@@ -21,7 +21,7 @@ export const useCharacterCreationStore = create<CharacterCreationState>()(
     createCharacter: async () => {
       const mainStore = useMainStore.getState();
       try {
-        mainStore.setIsLoading({ application: true });
+        mainStore.setIsLoading(true);
         const state = get();
         const newUser = await api.createNewUser(
           {
@@ -33,11 +33,11 @@ export const useCharacterCreationStore = create<CharacterCreationState>()(
           mainStore.loggedUserInfo.accessToken
         );
         mainStore.setUserCharacter(newUser);
-        mainStore.setIsLoading({ application: false });
+        mainStore.setIsLoading(false);
         return true;
       } catch (error) {
         console.log("an error occured creating character");
-        mainStore.setIsLoading({ application: false });
+        mainStore.setIsLoading(false);
         return false;
       }
     },

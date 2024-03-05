@@ -9,18 +9,23 @@ export function CharacterLayout() {
   const store = useMainStore();
   const isOnCreatePage = location.pathname.includes("create");
 
-  useEffect(() => {
-    if (store.loggedUserInfo.email) {
-      store.fetchUserCharacter().then((success) => {
+  async function fetchCharacter() {
+    if (!store.isLoading) {
+      if (store.loggedUserInfo.email) {
+        const success = await store.fetchUserCharacter();
         if (success && isOnCreatePage) {
           navigate("/profile");
         }
         if (!success) {
           navigate("/create");
         }
-      });
+      }
     }
-  }, [store.loggedUserInfo.email]);
+  }
+
+  useEffect(() => {
+    fetchCharacter();
+  }, []);
 
   useEffect(() => {
     if (store.userCharacter && isOnCreatePage) {

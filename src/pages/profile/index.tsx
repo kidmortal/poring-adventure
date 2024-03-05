@@ -11,7 +11,7 @@ export function ProfilePage() {
   const store = useMainStore();
 
   async function handleDelete() {
-    store.setIsLoading({ application: true });
+    store.setIsLoading(true);
     const result = await api.deleteUser(
       store.loggedUserInfo.email,
       store.loggedUserInfo.accessToken
@@ -21,7 +21,7 @@ export function ProfilePage() {
       store.setUserCharacter(undefined);
       navigate("/create");
     }
-    store.setIsLoading({ application: false });
+    store.setIsLoading(false);
   }
 
   return (

@@ -7,26 +7,19 @@ type LoggedUserInfo = {
   email: string;
 };
 
-type LoadingStates = {
-  application?: boolean;
-  profile?: boolean;
-};
-
 interface MainState {
   loggedUserInfo: LoggedUserInfo;
-  isLoading: LoadingStates;
+  isLoading: boolean;
   userCharacter?: User;
+  clearUserData: () => void;
   setUserCharacter: (v?: User) => void;
   fetchUserCharacter: () => Promise<boolean>;
-  setIsLoading: (v: LoadingStates) => void;
+  setIsLoading: (v: boolean) => void;
   setUserLoggedInfo: (v: LoggedUserInfo) => void;
 }
 
 export const useMainStore = create<MainState>()((set, get) => ({
-  isLoading: {
-    application: false,
-    profile: false,
-  },
+  isLoading: false,
   userCharacter: undefined,
   loggedUserInfo: {
     loggedIn: false,
@@ -34,8 +27,10 @@ export const useMainStore = create<MainState>()((set, get) => ({
     email: "",
   },
   fetchUserCharacter: async () => {
-    const { loggedUserInfo } = get();
-    const userCharacter = await api.getUserInfo(loggedUserInfo.email);
+    const state = get();
+    state.setIsLoading(true);
+    const userCharacter = await api.getUserInfo(state.loggedUserInfo.email);
+    state.setIsLoading(false);
     if (!userCharacter) {
       console.log("no character");
       return false;
@@ -43,6 +38,11 @@ export const useMainStore = create<MainState>()((set, get) => ({
     set(() => ({ userCharacter }));
     return true;
   },
+  clearUserData: () =>
+    set(() => ({
+      userCharacter: undefined,
+      loggedUserInfo: { accessToken: "", email: "", loggedIn: false },
+    })),
   setUserCharacter: (v) => set(() => ({ userCharacter: v })),
   setUserLoggedInfo: (v) => set(() => ({ loggedUserInfo: v })),
   setIsLoading: (v) => set(() => ({ isLoading: v })),
