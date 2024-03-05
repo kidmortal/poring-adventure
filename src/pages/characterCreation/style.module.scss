@@ -20,8 +20,8 @@
 }
 
 .character {
-  height: 148px;
-  width: 125px;
+  height: 140px;
+  width: 148px;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -34,12 +34,23 @@
 }
 
 .head {
-  top: -36px;
-  right: -1px;
+  width: 148px;
+  height: 125px;
+  top: -42px;
+  right: 0px;
   position: absolute;
   z-index: 2;
 }
 .body {
+  width: 148px;
+  height: 125px;
   top: 0px;
   position: absolute;
+}
+
+.characterCreationOptions {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
 }

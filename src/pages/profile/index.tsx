@@ -1,13 +1,19 @@
 import { useMainStore } from "@/store/main";
 import styles from "./style.module.scss";
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export function ProfilePage() {
+  const navigate = useNavigate();
   const store = useMainStore();
 
   useEffect(() => {
     if (store.loggedUserInfo.email) {
-      store.fetchUserCharacter();
+      store.fetchUserCharacter().then((success) => {
+        if (!success) {
+          navigate("/create");
+        }
+      });
     }
   }, [store.loggedUserInfo.email]);
 

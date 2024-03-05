@@ -5,7 +5,7 @@ import { useMainStore } from "@/store/main";
 export function PageLoadingLayout() {
   const store = useMainStore();
 
-  if (store.isLoading) {
+  if (store.isLoading.application) {
     return <span>Loading</span>;
   }
 
