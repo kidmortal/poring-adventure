@@ -11,14 +11,20 @@ export function CharacterLayout() {
 
   useEffect(() => {
     if (store.loggedUserInfo.email) {
-      store.fetchUserCharacter().then((success) => {
-        if (success && isOnCreatePage) {
-          navigate("/profile");
-        }
-        if (!success) {
-          navigate("/create");
-        }
-      });
+      store.setIsLoading({ application: true });
+      store
+        .fetchUserCharacter()
+        .then((success) => {
+          if (success && isOnCreatePage) {
+            navigate("/profile");
+          }
+          if (!success) {
+            navigate("/create");
+          }
+        })
+        .finally(() => {
+          store.setIsLoading({ application: false });
+        });
     }
   }, [store.loggedUserInfo.email]);
 
