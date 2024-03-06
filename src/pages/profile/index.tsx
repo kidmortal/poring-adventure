@@ -28,6 +28,9 @@ export function ProfilePage() {
   if (userChatacter?.status === "pending") {
     return <FullscreenLoading />;
   }
+  if (userChatacter?.status === "error") {
+    return <div>An error ocurred</div>;
+  }
 
   if (userChatacter?.status === "success") {
     return (

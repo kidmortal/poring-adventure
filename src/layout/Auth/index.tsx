@@ -14,9 +14,6 @@ export function AuthLayout() {
   useEffect(() => {
     if (!isAuthenticated && !isOnLoginPage) {
       navigate("/login");
-      if (store.userCharacter) {
-        store.setUserCharacter(undefined);
-      }
       if (store.loggedUserInfo) {
         store.setUserLoggedInfo({
           loggedIn: false,
