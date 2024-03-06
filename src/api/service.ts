@@ -6,6 +6,16 @@ class ApiService {
     headers: { "Content-Type": "application/json" },
   });
 
+  async purchaseMarketListing(args: {
+    listingId: number;
+    accessToken: string;
+  }) {
+    const info = await this.endpoint.get(`/market/purchase/${args.listingId}`, {
+      headers: { auth: args.accessToken },
+    });
+    return info.data;
+  }
+
   async getFirst10Users() {
     const info = await this.endpoint.get<User[]>(`/users/`);
     return info.data;
