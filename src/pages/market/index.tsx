@@ -5,6 +5,7 @@ import { api } from "@/api/service";
 import { FullscreenLoading } from "@/components/FullscreenLoading";
 import { Tooltip } from "@/components/Tooltip";
 import { useMainStore } from "@/store/main";
+import { toast } from "react-toastify";
 
 export function MarketPage() {
   const store = useMainStore();
@@ -21,10 +22,15 @@ export function MarketPage() {
         listingId: id,
         accessToken: store.loggedUserInfo.accessToken,
       }),
-    onSuccess: () =>
+    onSuccess: () => {
+      toast("Purchase successful", { type: "success" });
       queryClient.refetchQueries({
         queryKey: [Query.ALL_MARKET],
-      }),
+      });
+      queryClient.refetchQueries({
+        queryKey: [Query.USER_CHARACTER],
+      });
+    },
   });
 
   if (query.isLoading) {

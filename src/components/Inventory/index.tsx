@@ -5,6 +5,8 @@ import { Tooltip } from "../Tooltip";
 import cn from "classnames";
 import { api } from "@/api/service";
 import { useMainStore } from "@/store/main";
+import { FullscreenLoading } from "../FullscreenLoading";
+import { toast } from "react-toastify";
 
 export function Inventory() {
   const store = useMainStore();
@@ -17,11 +19,20 @@ export function Inventory() {
         { itemId: id, price: 10, stack: 1 },
         store.loggedUserInfo.accessToken
       ),
-    onSuccess: () =>
+    onSuccess: () => {
+      toast("Market Listing successful", { type: "success" });
       queryClient.refetchQueries({
         queryKey: [Query.USER_CHARACTER],
-      }),
+      });
+      queryClient.refetchQueries({
+        queryKey: [Query.ALL_MARKET],
+      });
+    },
   });
+
+  if (createMarketListingMutation.isPending) {
+    return <FullscreenLoading />;
+  }
 
   return (
     <div className={styles.container}>
@@ -40,7 +51,7 @@ export function Inventory() {
 }
 
 function InventoryItem({ item, onClick }: { item: Item; onClick: () => void }) {
-  const isOnSale = !!item.marketListing?.id;
+  const isOnSale = !!item.marketListing;
 
   return (
     <Tooltip text={item.name}>
