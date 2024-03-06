@@ -14,14 +14,14 @@ export function CharacterLayout() {
 
   useQuery({
     queryKey: [Query.ALL_CHARACTERS],
-    staleTime: 1000 * 10,
+    staleTime: 1000 * 2,
     queryFn: () => api.getFirst10Users(),
   });
 
   const characterQuery = useQuery({
     queryKey: [Query.USER_CHARACTER],
     enabled: !!store.loggedUserInfo.email,
-    staleTime: 1000 * 10,
+    staleTime: 1000 * 2,
     queryFn: () => api.getUserInfo(store.loggedUserInfo.email),
   });
 
