@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { CharacterInfo } from "@/components/CharacterInfo";
 import { api } from "@/api/service";
 import { FullscreenLoading } from "@/components/FullscreenLoading";
+import { Silver } from "@/components/Silver";
 
 export function RankingPage() {
   const query = useQuery({
@@ -25,9 +26,12 @@ export function RankingPage() {
             gender={u.appearance.gender}
             head={u.appearance.head}
           />
-          <span>
-            {u.name} - LV {u.level} {u.classname}
-          </span>
+          <div className={styles.characterInfo}>
+            <span>
+              {u.name} - LV {u.level} {u.classname}
+            </span>
+            <Silver amount={u.silver} />
+          </div>
         </div>
       ))}
     </div>

@@ -3,13 +3,14 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  height: 100px;
-  width: 50px;
+  width: 36px;
+  height: 70px;
+  margin-top: 1.5rem;
 }
 
 .character {
-  height: 140px;
-  width: 148px;
+  width: 36px;
+  height: 70px;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -21,7 +22,7 @@
   width: 28px;
   height: 29px;
   top: -22px;
-  right: 62px;
+  right: 6px;
   position: absolute;
   z-index: 2;
 }
