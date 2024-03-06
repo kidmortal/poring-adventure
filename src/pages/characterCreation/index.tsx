@@ -6,6 +6,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/api/service";
 import { useMainStore } from "@/store/main";
 import { Query } from "@/store/query";
+import { FullscreenLoading } from "@/components/FullscreenLoading";
 
 const headScrMap: { [name: string]: { female: string; male: string } } = {
   head_1: {
@@ -145,10 +146,13 @@ export function CharacterCreationPage() {
   const newCharacterMutation = useMutation({
     mutationFn: () =>
       api.createNewUser(newUserData, loggedUserInfo.accessToken),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [Query.USER_CHARACTER] });
-    },
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: [Query.USER_CHARACTER] }),
   });
+
+  if (newCharacterMutation.isPending) {
+    return <FullscreenLoading />;
+  }
 
   return (
     <div className={styles.container}>

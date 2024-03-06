@@ -4,6 +4,7 @@ import { useMainStore } from "@/store/main";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/api/service";
 import { Query } from "@/store/query";
+import { FullscreenLoading } from "@/components/FullscreenLoading";
 
 export function CharacterLayout() {
   const location = useLocation();
@@ -25,7 +26,7 @@ export function CharacterLayout() {
   });
 
   if (characterQuery.isLoading) {
-    return <>loading character</>;
+    return <FullscreenLoading />;
   }
 
   if (characterQuery.isFetched && !characterQuery.data && !isOnCreatePage) {

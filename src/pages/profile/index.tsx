@@ -2,46 +2,52 @@ import { useMainStore } from "@/store/main";
 import styles from "./style.module.scss";
 import { CharacterInfo } from "@/components/CharacterInfo";
 import { api } from "@/api/service";
-import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/Button";
-import { When } from "@/components/When";
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Query } from "@/store/query";
+import { FullscreenLoading } from "@/components/FullscreenLoading";
 
 export function ProfilePage() {
-  const navigate = useNavigate();
   const store = useMainStore();
   const queryClient = useQueryClient();
-  const userChatacter = queryClient.getQueryData<User>([Query.USER_CHARACTER]);
+  const userChatacter = queryClient.getQueryState<User>([Query.USER_CHARACTER]);
 
-  async function handleDelete() {
-    store.setIsLoading(true);
-    const result = await api.deleteUser(
-      store.loggedUserInfo.email,
-      store.loggedUserInfo.accessToken
-    );
+  const deleteUserMutation = useMutation({
+    mutationFn: () =>
+      api.deleteUser(
+        store.loggedUserInfo.email,
+        store.loggedUserInfo.accessToken
+      ),
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: [Query.USER_CHARACTER] }),
+  });
 
-    if (result) {
-      queryClient.invalidateQueries({ queryKey: [Query.USER_CHARACTER] });
-      navigate("/create");
-    }
-    store.setIsLoading(false);
+  if (deleteUserMutation.isPending) {
+    return <FullscreenLoading />;
+  }
+  if (userChatacter?.status === "pending") {
+    return <FullscreenLoading />;
   }
 
-  return (
-    <div className={styles.container}>
-      <When value={!!userChatacter?.name}>
-        <h2>{userChatacter?.name}</h2>
+  if (userChatacter?.status === "success") {
+    return (
+      <div className={styles.container}>
+        <h2>{userChatacter?.data?.name}</h2>
         <span>
-          Level {userChatacter?.level} {userChatacter?.classname}
+          Level {userChatacter?.data?.level} {userChatacter?.data?.classname}
         </span>
         <CharacterInfo
-          costume={userChatacter?.appearance?.costume ?? ""}
-          gender={userChatacter?.appearance?.gender ?? "female"}
-          head={userChatacter?.appearance?.head ?? ""}
+          costume={userChatacter?.data?.appearance?.costume ?? ""}
+          gender={userChatacter?.data?.appearance?.gender ?? "female"}
+          head={userChatacter?.data?.appearance?.head ?? ""}
         />
-        <Button label="Delete my char" onClick={() => handleDelete()} />
-      </When>
-    </div>
-  );
+        <Button
+          label="Delete my char"
+          onClick={() => deleteUserMutation.mutate()}
+        />
+      </div>
+    );
+  }
+
+  return <div className={styles.container}>No data to show</div>;
 }
