@@ -6,6 +6,7 @@ import { FullscreenLoading } from "@/components/FullscreenLoading";
 import { Tooltip } from "@/components/Tooltip";
 import { useMainStore } from "@/store/main";
 import { toast } from "react-toastify";
+import { Button } from "@/components/Button";
 
 export function MarketPage() {
   const store = useMainStore();
@@ -50,16 +51,13 @@ export function MarketPage() {
             <span>{u.price}</span>
             <img src="https://cdn.discordapp.com/emojis/651562374326779955.webp?size=96&quality=lossless" />
           </div>
-          <button
-            disabled={purchaseMutation.isPending}
-            onClick={() => {
-              if (!purchaseMutation.isPending) {
-                purchaseMutation.mutate(u.id);
-              }
-            }}
-          >
-            Buy item
-          </button>
+          <div>
+            <Button
+              onClick={() => purchaseMutation.mutate(u.id)}
+              label="Buy item"
+              disabled={purchaseMutation.isPending}
+            />
+          </div>
         </div>
       ))}
     </div>

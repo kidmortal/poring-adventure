@@ -6,6 +6,7 @@ import { Silver } from "../Silver";
 import { When } from "../When";
 import { useMainStore } from "@/store/main";
 import { auth } from "@/firebase";
+import { Button } from "../Button";
 
 export function CharacterSummaryHeader() {
   const store = useMainStore();
@@ -29,7 +30,11 @@ export function CharacterSummaryHeader() {
 
       <div>
         <When value={store.loggedUserInfo.loggedIn}>
-          <button onClick={() => auth.signOut()}>Sign out</button>
+          <Button
+            onClick={() => auth.signOut()}
+            label="Sign out"
+            theme="error"
+          />
         </When>
       </div>
     </div>
