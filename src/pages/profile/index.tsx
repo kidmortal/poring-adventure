@@ -40,6 +40,10 @@ export function ProfilePage() {
         <span>
           Level {userChatacter?.data?.level} {userChatacter?.data?.classname}
         </span>
+        <div className={styles.silverContainer}>
+          <span>{userChatacter.data?.silver}</span>
+          <img src="https://cdn.discordapp.com/emojis/651562374326779955.webp?size=96&quality=lossless" />
+        </div>
         <CharacterInfo
           costume={userChatacter?.data?.appearance?.costume ?? ""}
           gender={userChatacter?.data?.appearance?.gender ?? "female"}

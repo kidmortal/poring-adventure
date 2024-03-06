@@ -2,6 +2,7 @@ declare type User = {
   id: number;
   email: string;
   name: string;
+  silver: number;
   classname: string;
   level: number;
   experience: number;
@@ -25,16 +26,4 @@ declare type Item = {
   image: string;
   userEmail: string;
   marketListing: MarketListing;
-};
-
-declare type MarketListing = {
-  id: number;
-  price: number;
-  stack: number;
-  itemId: number;
-  sellerEmail: string;
-  createdAt: string;
-  updatedAt: string;
-  buyerEmail?: string;
-  expiresAt?: string;
 };

@@ -5,8 +5,17 @@
   align-items: center;
   font-size: 18px;
   color: white;
+  gap: 0.5rem;
   textarea {
     height: 15rem;
     width: 20rem;
   }
+}
+
+.silverContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 0.2rem;
 }

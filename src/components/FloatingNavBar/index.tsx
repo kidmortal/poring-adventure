@@ -8,6 +8,7 @@ export function FloatingNavBar() {
       <span onClick={() => navigate("/")}>Home</span>
       <span onClick={() => navigate("/profile")}>Profile</span>
       <span onClick={() => navigate("/ranking")}>Ranking</span>
+      <span onClick={() => navigate("/market")}>Market</span>
     </div>
   );
 }

@@ -11,6 +11,11 @@ class ApiService {
     return info.data;
   }
 
+  async getFirst10MarketListing() {
+    const info = await this.endpoint.get<MarketListing[]>(`/market/`);
+    return info.data;
+  }
+
   async getUserInfo(email: string) {
     const info = await this.endpoint.get<User>(`/users/${email}`);
     console.log(info.data);
