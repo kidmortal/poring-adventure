@@ -23,8 +23,54 @@ export function Inventory(props: Props) {
         { itemId: id, price: 10, stack: 1 },
         store.loggedUserInfo.accessToken
       ),
+    onMutate: async (listingItemId) => {
+      // Cancel any outgoing refetches
+      // (so they don't overwrite our optimistic update)
+      await queryClient.cancelQueries({ queryKey: [Query.USER_CHARACTER] });
+
+      // Snapshot the previous value
+      const previousUserCharacter = queryClient.getQueryData<User>([
+        Query.USER_CHARACTER,
+      ]);
+
+      if (previousUserCharacter) {
+        const inventoryItemIndex = previousUserCharacter.items?.findIndex(
+          (item) => item.id === listingItemId
+        );
+
+        if (inventoryItemIndex && inventoryItemIndex >= 0) {
+          const newUserInfo = previousUserCharacter;
+          if (newUserInfo.items) {
+            newUserInfo.items[inventoryItemIndex].marketListing = {
+              id: 0,
+              createdAt: "",
+              updatedAt: "",
+              sellerEmail: "",
+              itemId: 0,
+              price: 10,
+              stack: 0,
+            };
+            // Optimistically update to the new value
+            queryClient.setQueryData([Query.USER_CHARACTER], newUserInfo);
+
+            return { previousUserCharacter, newUserInfo };
+          }
+        }
+      }
+
+      // Return the normal values
+      return { previousUserCharacter };
+    },
+    onError: (err, newTodo, context) => {
+      queryClient.setQueryData(
+        [Query.USER_CHARACTER],
+        context?.previousUserCharacter
+      );
+    },
     onSuccess: () => {
       toast("Market Listing successful", { type: "success" });
+    },
+    onSettled: () => {
       queryClient.refetchQueries({
         queryKey: [Query.USER_CHARACTER],
       });
