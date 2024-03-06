@@ -3,7 +3,6 @@ import styles from "./style.module.scss";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/api/service";
 import { FullscreenLoading } from "@/components/FullscreenLoading";
-import { Button } from "@/components/Button";
 import { Tooltip } from "@/components/Tooltip";
 
 export function MarketPage() {
