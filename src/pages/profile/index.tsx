@@ -33,7 +33,7 @@ export function ProfilePage() {
     return <div>An error ocurred</div>;
   }
 
-  if (userChatacter?.status === "success") {
+  if (userChatacter?.status === "success" && userChatacter.data) {
     return (
       <div className={styles.container}>
         <h2>{userChatacter?.data?.name}</h2>

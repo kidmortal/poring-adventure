@@ -21,12 +21,10 @@ export function MarketPage() {
         listingId: id,
         accessToken: store.loggedUserInfo.accessToken,
       }),
-    onSuccess: () => {
-      console.log("success");
+    onSuccess: () =>
       queryClient.refetchQueries({
-        queryKey: [Query.ALL_MARKET, Query.USER_CHARACTER],
-      });
-    },
+        queryKey: [Query.ALL_MARKET],
+      }),
   });
 
   if (query.isLoading) {

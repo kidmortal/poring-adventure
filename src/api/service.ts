@@ -16,6 +16,16 @@ class ApiService {
     return info.data;
   }
 
+  async createMarketListing(
+    args: CreateMarketListingPayload,
+    accessToken: string
+  ) {
+    const info = await this.endpoint.post(`/market/`, args, {
+      headers: { auth: accessToken },
+    });
+    return info.data;
+  }
+
   async getFirst10Users() {
     const info = await this.endpoint.get<User[]>(`/users/`);
     return info.data;

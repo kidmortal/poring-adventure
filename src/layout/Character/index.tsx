@@ -5,6 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { api } from "@/api/service";
 import { Query } from "@/store/query";
 import { FullscreenLoading } from "@/components/FullscreenLoading";
+import { useEffect } from "react";
 
 export function CharacterLayout() {
   const location = useLocation();
@@ -19,18 +20,23 @@ export function CharacterLayout() {
     queryFn: () => api.getUserInfo(store.loggedUserInfo.email),
   });
 
+  useEffect(() => {
+    if (!isOnCreatePage && !characterQuery.data) {
+      navigate("/create");
+    }
+  }, [location]);
+
   if (characterQuery.isLoading) {
     return <FullscreenLoading />;
+  }
+  if (characterQuery.data && isOnCreatePage) {
+    console.log("go profile");
+    navigate("/profile");
   }
 
   if (characterQuery.isFetched && !characterQuery.data && !isOnCreatePage) {
     console.log("go create");
     navigate("/create");
-  }
-
-  if (characterQuery.data && isOnCreatePage) {
-    console.log("go profile");
-    navigate("/profile");
   }
 
   return <Outlet />;
