@@ -12,12 +12,6 @@ export function CharacterLayout() {
   const store = useMainStore();
   const isOnCreatePage = location.pathname.includes("create");
 
-  useQuery({
-    queryKey: [Query.ALL_CHARACTERS],
-    staleTime: 1000 * 2,
-    queryFn: () => api.getFirst10Users(),
-  });
-
   const characterQuery = useQuery({
     queryKey: [Query.USER_CHARACTER],
     enabled: !!store.loggedUserInfo.email,
