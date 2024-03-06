@@ -18,20 +18,25 @@
 }
 
 .head {
-  width: 148px;
-  height: 125px;
-  top: -42px;
-  right: 0px;
+  width: 28px;
+  height: 29px;
+  top: -22px;
+  right: 62px;
   position: absolute;
   z-index: 2;
 }
 .body {
-  width: 148px;
-  height: 125px;
+  width: 36px;
+  height: 70px;
   top: 0px;
   position: absolute;
 }
 
 .hidden {
   display: none;
+}
+
+.isolatedHeadContainer {
+  width: 28px;
+  height: 29px;
 }

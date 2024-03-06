@@ -1,26 +1,12 @@
 import { useCharacterCreationStore } from "@/store/characterCreation";
 import styles from "./style.module.scss";
-import cn from "classnames";
 import { Button } from "@/components/Button";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/api/service";
 import { useMainStore } from "@/store/main";
 import { Query } from "@/store/query";
 import { FullscreenLoading } from "@/components/FullscreenLoading";
-
-const headScrMap: { [name: string]: { female: string; male: string } } = {
-  head_1: {
-    male: "assets/head_1_male.png",
-    female: "assets/head_1_female.png",
-  },
-};
-
-const bodySrcMap: { [name: string]: string } = {
-  acolyte: "assets/acolyte.png",
-  mage: "assets/mage.png",
-  assassin: "assets/assassin.png",
-  knight: "assets/knight.png",
-};
+import { CharacterInfo } from "@/components/CharacterInfo";
 
 function Character({
   name,
@@ -33,11 +19,7 @@ function Character({
 }) {
   return (
     <div className={styles.characterContainer}>
-      <span>{name}</span>
-      <div className={cn(styles.character)}>
-        <img className={styles.head} src={headScrMap[head]?.[gender]} />
-        <img className={styles.body} src={bodySrcMap[name]} />
-      </div>
+      <CharacterInfo gender={gender} head={head} costume={name} />
     </div>
   );
 }
@@ -48,13 +30,11 @@ function CharacterPicker() {
   return (
     <div className={styles.container}>
       <h1>Create Your Character</h1>
-      <div className={styles.classList}>
-        <Character
-          name={store.selectedCharacterClass}
-          gender={store.gender}
-          head="head_1"
-        />
-      </div>
+      <Character
+        name={store.selectedCharacterClass}
+        gender={store.gender}
+        head="head_1"
+      />
       <div className={styles.characterCreationOptions}>
         <div>
           <div>

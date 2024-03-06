@@ -16,6 +16,21 @@ const bodySrcMap: { [name: string]: string } = {
   knight: "assets/knight.png",
 };
 
+export function CharacterHead({
+  gender,
+  head,
+}: {
+  head: string;
+  gender: "male" | "female";
+}) {
+  return (
+    <img
+      className={styles.isolatedHeadContainer}
+      src={headScrMap[head]?.[gender]}
+    />
+  );
+}
+
 export function CharacterInfo({
   costume,
   gender,

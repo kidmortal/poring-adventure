@@ -52,9 +52,14 @@ export function Inventory() {
 
 function InventoryItem({ item, onClick }: { item: Item; onClick: () => void }) {
   const isOnSale = !!item.marketListing;
+  let tooltipText = item.name;
+
+  if (isOnSale) {
+    tooltipText += ` - on sale for ${item.marketListing.price} silver`;
+  }
 
   return (
-    <Tooltip text={item.name}>
+    <Tooltip text={tooltipText}>
       <div
         onClick={() => {
           if (!isOnSale) {
