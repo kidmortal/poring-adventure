@@ -9,6 +9,7 @@ export function FloatingNavBar() {
       <span onClick={() => navigate("/profile")}>Profile</span>
       <span onClick={() => navigate("/ranking")}>Ranking</span>
       <span onClick={() => navigate("/market")}>Market</span>
+      <span onClick={() => navigate("/market")}>Battle</span>
     </div>
   );
 }

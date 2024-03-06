@@ -9,6 +9,7 @@
   border: 1px solid white;
   padding: 1rem;
   border-radius: 1rem;
+  color: white;
 }
 
 .characterInfo {
@@ -16,12 +17,5 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: 0.6rem;
-  color: white;
-  font-size: 22px;
-}
-
-.loginContainer {
-  display: flex;
-  flex-direction: row;
+  gap: 1rem;
 }

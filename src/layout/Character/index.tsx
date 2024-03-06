@@ -6,6 +6,7 @@ import { api } from "@/api/service";
 import { Query } from "@/store/query";
 import { FullscreenLoading } from "@/components/FullscreenLoading";
 import { useEffect } from "react";
+import { CharacterSummaryHeader } from "@/components/CharacterSummaryHeader";
 
 export function CharacterLayout() {
   const location = useLocation();
@@ -39,5 +40,10 @@ export function CharacterLayout() {
     navigate("/create");
   }
 
-  return <Outlet />;
+  return (
+    <>
+      <CharacterSummaryHeader />
+      <Outlet />
+    </>
+  );
 }
