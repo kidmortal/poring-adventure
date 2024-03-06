@@ -61,7 +61,7 @@ export function Inventory(props: Props) {
       // Return the normal values
       return { previousUserCharacter };
     },
-    onError: (err, newTodo, context) => {
+    onError: (_err, _newTodo, context) => {
       queryClient.setQueryData(
         [Query.USER_CHARACTER],
         context?.previousUserCharacter
