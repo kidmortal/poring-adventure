@@ -1,18 +1,16 @@
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 
 import { useMainStore } from "@/store/main";
 import { useQuery } from "@tanstack/react-query";
 import { api } from "@/api/service";
 import { Query } from "@/store/query";
 import { FullscreenLoading } from "@/components/FullscreenLoading";
-import { useEffect } from "react";
 import { CharacterSummaryHeader } from "@/components/CharacterSummaryHeader";
+import { useEffect } from "react";
+import { CharacterCreationPage } from "@/pages/characterCreation";
 
 export function CharacterLayout() {
-  const location = useLocation();
-  const navigate = useNavigate();
   const store = useMainStore();
-  const isOnCreatePage = location.pathname.includes("create");
 
   const characterQuery = useQuery({
     queryKey: [Query.USER_CHARACTER],
@@ -22,22 +20,16 @@ export function CharacterLayout() {
   });
 
   useEffect(() => {
-    if (!isOnCreatePage && !characterQuery.data) {
-      navigate("/create");
+    if (characterQuery?.data) {
+      store.setUserCharacterData(characterQuery?.data);
     }
-  }, [location]);
+  }, [characterQuery?.data]);
 
   if (characterQuery.isLoading) {
     return <FullscreenLoading />;
   }
-  if (characterQuery.data && isOnCreatePage) {
-    console.log("go profile");
-    navigate("/profile");
-  }
-
-  if (characterQuery.isFetched && !characterQuery.data && !isOnCreatePage) {
-    console.log("go create");
-    navigate("/create");
+  if (characterQuery.isFetched && !characterQuery.data) {
+    return <CharacterCreationPage />;
   }
 
   return (

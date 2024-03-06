@@ -35,14 +35,16 @@ export function CharacterInfo({
   costume,
   gender,
   head,
+  onClick,
 }: {
   costume: string;
   head: string;
   gender: "male" | "female";
+  onClick?: () => void;
 }) {
   const [assetLoaded, setAssetLoaded] = useState(false);
   return (
-    <div className={styles.characterContainer}>
+    <div className={styles.characterContainer} onClick={onClick}>
       <div className={cn(styles.character, { [styles.hidden]: !assetLoaded })}>
         <img className={styles.head} src={headScrMap[head]?.[gender]} />
         <img

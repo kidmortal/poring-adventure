@@ -38,7 +38,6 @@ class ApiService {
 
   async getUserInfo(email: string) {
     const info = await this.endpoint.get<User>(`/users/${email}`);
-    console.log(info.data);
     return info.data;
   }
   async deleteUser(email: string, accessToken: string) {

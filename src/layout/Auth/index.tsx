@@ -1,19 +1,32 @@
 import { useEffect } from "react";
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 
 import { useMainStore } from "@/store/main";
 import { useAuth } from "@/hooks/useAuth";
+import { FullscreenLoading } from "@/components/FullscreenLoading";
+import { LoginPage } from "@/pages/login";
 
 export function AuthLayout() {
   const location = useLocation();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const store = useMainStore();
   const { isAuthenticated, isFetching, user } = useAuth();
-  const isOnLoginPage = location.pathname.includes("login");
 
   useEffect(() => {
-    if (!isAuthenticated && !isOnLoginPage) {
-      navigate("/login");
+    if (!isFetching) {
+      store.setUserLoggedInfo({
+        loggedIn: isAuthenticated,
+        // @ts-expect-error idk man, should have it
+        accessToken: user?.accessToken,
+        email: user?.email || "",
+      });
+    }
+    store.setIsLoading(isFetching);
+  }, [isAuthenticated, isFetching]);
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      // navigate("/login");
       if (store.loggedUserInfo) {
         store.setUserLoggedInfo({
           loggedIn: false,
@@ -24,25 +37,13 @@ export function AuthLayout() {
     }
   }, [location]);
 
-  useEffect(() => {
-    if (!isFetching) {
-      store.setIsLoading(isFetching);
-      store.setUserLoggedInfo({
-        loggedIn: isAuthenticated,
-        // @ts-expect-error idk man, should have it
-        accessToken: user?.accessToken,
-        email: user?.email || "",
-      });
-      if (isAuthenticated && location.pathname.includes("login")) {
-        navigate("/profile");
-      }
-      if (!isAuthenticated && !location.pathname.includes("login")) {
-        navigate("/login");
-      }
-    }
+  if (isFetching) {
+    return <FullscreenLoading />;
+  }
 
-    store.setIsLoading(isFetching);
-  }, [isAuthenticated, isFetching]);
+  if (!isAuthenticated) {
+    return <LoginPage />;
+  }
 
   return <Outlet />;
 }

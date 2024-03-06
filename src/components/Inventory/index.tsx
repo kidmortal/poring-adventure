@@ -7,11 +7,15 @@ import { api } from "@/api/service";
 import { useMainStore } from "@/store/main";
 import { FullscreenLoading } from "../FullscreenLoading";
 import { toast } from "react-toastify";
+import { When } from "../When";
 
-export function Inventory() {
+type Props = {
+  items?: Item[];
+};
+
+export function Inventory(props: Props) {
   const store = useMainStore();
   const queryClient = useQueryClient();
-  const userQuery = queryClient.getQueryData<User>([Query.USER_CHARACTER]);
 
   const createMarketListingMutation = useMutation({
     mutationFn: (id: number) =>
@@ -30,15 +34,14 @@ export function Inventory() {
     },
   });
 
-  if (createMarketListingMutation.isPending) {
-    return <FullscreenLoading />;
-  }
-
   return (
     <div className={styles.container}>
+      <When value={createMarketListingMutation.isPending}>
+        <FullscreenLoading />
+      </When>
       <span>Inventory</span>
       <div className={styles.inventoryContainer}>
-        {userQuery?.items?.map((value) => (
+        {props.items?.map((value) => (
           <InventoryItem
             key={value.id}
             item={value}
