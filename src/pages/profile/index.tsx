@@ -6,6 +6,7 @@ import { Button } from "@/components/Button";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Query } from "@/store/query";
 import { FullscreenLoading } from "@/components/FullscreenLoading";
+import { Inventory } from "@/components/Inventory";
 
 export function ProfilePage() {
   const store = useMainStore();
@@ -44,6 +45,7 @@ export function ProfilePage() {
           gender={userChatacter?.data?.appearance?.gender ?? "female"}
           head={userChatacter?.data?.appearance?.head ?? ""}
         />
+        <Inventory />
         <Button
           label="Delete my char"
           onClick={() => deleteUserMutation.mutate()}

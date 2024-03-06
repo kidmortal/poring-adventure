@@ -1,0 +1,35 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  gap: 1rem;
+}
+
+.inventoryContainer {
+  min-height: 3rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+.inventoryItemContainer {
+  position: relative;
+  background-color: red;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem;
+  border-radius: 6px;
+  gap: 0.5rem;
+}
+
+.stackAmount {
+  position: absolute;
+  bottom: 0;
+  right: 4px;
+  font-size: 22px;
+}
