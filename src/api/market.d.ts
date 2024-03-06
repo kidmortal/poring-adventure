@@ -19,4 +19,5 @@ declare type MarketListing = {
   buyerEmail?: string;
   expiresAt?: string;
   item?: Item;
+  seller?: User;
 };

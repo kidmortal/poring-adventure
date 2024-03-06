@@ -21,10 +21,12 @@ export function MarketPage() {
         listingId: id,
         accessToken: store.loggedUserInfo.accessToken,
       }),
-    onSuccess: () =>
-      queryClient.invalidateQueries({
-        queryKey: [Query.USER_CHARACTER, Query.ALL_MARKET],
-      }),
+    onSuccess: () => {
+      console.log("success");
+      queryClient.refetchQueries({
+        queryKey: [Query.ALL_MARKET, Query.USER_CHARACTER],
+      });
+    },
   });
 
   if (query.isLoading) {
@@ -35,9 +37,9 @@ export function MarketPage() {
     <div className={styles.container}>
       {query.data?.map((u) => (
         <div className={styles.listingContainer} key={u.id}>
-          <span>{u.sellerEmail} </span>
+          <span>{u.seller?.name} </span>
           <Tooltip text={u.item?.name ?? "No name"}>
-            <img width={60} height={60} src={u.item?.image} />
+            <img width={30} height={30} src={u.item?.image} />
           </Tooltip>
 
           <div className={styles.priceContainer}>
