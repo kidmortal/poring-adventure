@@ -5,10 +5,14 @@ import { api } from "@/api/service";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/Button";
 import { When } from "@/components/When";
+import { useQueryClient } from "@tanstack/react-query";
+import { Query } from "@/store/query";
 
 export function ProfilePage() {
   const navigate = useNavigate();
   const store = useMainStore();
+  const queryClient = useQueryClient();
+  const userChatacter = queryClient.getQueryData<User>([Query.USER_CHARACTER]);
 
   async function handleDelete() {
     store.setIsLoading(true);
@@ -18,7 +22,7 @@ export function ProfilePage() {
     );
 
     if (result) {
-      store.setUserCharacter(undefined);
+      queryClient.invalidateQueries({ queryKey: [Query.USER_CHARACTER] });
       navigate("/create");
     }
     store.setIsLoading(false);
@@ -26,15 +30,15 @@ export function ProfilePage() {
 
   return (
     <div className={styles.container}>
-      <When value={!!store.userCharacter?.name}>
-        <h2>{store.userCharacter?.name}</h2>
+      <When value={!!userChatacter?.name}>
+        <h2>{userChatacter?.name}</h2>
         <span>
-          Level {store.userCharacter?.level} {store.userCharacter?.classname}
+          Level {userChatacter?.level} {userChatacter?.classname}
         </span>
         <CharacterInfo
-          costume={store.userCharacter?.appearance?.costume ?? ""}
-          gender={store.userCharacter?.appearance?.gender ?? "female"}
-          head={store.userCharacter?.appearance?.head ?? ""}
+          costume={userChatacter?.appearance?.costume ?? ""}
+          gender={userChatacter?.appearance?.gender ?? "female"}
+          head={userChatacter?.appearance?.head ?? ""}
         />
         <Button label="Delete my char" onClick={() => handleDelete()} />
       </When>

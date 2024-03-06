@@ -7,7 +7,7 @@ import { When } from "@/components/When";
 export function PageLoadingLayout() {
   const store = useMainStore();
   return (
-    <div>
+    <div className={styles.container}>
       <When value={store.isLoading}>
         <div className={styles.fullScreenOverlay}>
           <img alt="poring" src="assets/poring.gif" />

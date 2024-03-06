@@ -7,6 +7,7 @@ export function FloatingNavBar() {
     <div className={styles.container}>
       <span onClick={() => navigate("/")}>Home</span>
       <span onClick={() => navigate("/profile")}>Profile</span>
+      <span onClick={() => navigate("/ranking")}>Ranking</span>
     </div>
   );
 }

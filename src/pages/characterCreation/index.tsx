@@ -2,6 +2,10 @@ import { useCharacterCreationStore } from "@/store/characterCreation";
 import styles from "./style.module.scss";
 import cn from "classnames";
 import { Button } from "@/components/Button";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { api } from "@/api/service";
+import { useMainStore } from "@/store/main";
+import { Query } from "@/store/query";
 
 const headScrMap: { [name: string]: { female: string; male: string } } = {
   head_1: {
@@ -127,7 +131,25 @@ function CharacterPicker() {
 }
 
 export function CharacterCreationPage() {
+  const queryClient = useQueryClient();
   const store = useCharacterCreationStore();
+  const { loggedUserInfo } = useMainStore();
+
+  const newUserData = {
+    email: loggedUserInfo.email,
+    name: store.characterName,
+    classname: store.selectedCharacterClass,
+    gender: store.gender,
+  };
+
+  const newCharacterMutation = useMutation({
+    mutationFn: () =>
+      api.createNewUser(newUserData, loggedUserInfo.accessToken),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [Query.USER_CHARACTER] });
+    },
+  });
+
   return (
     <div className={styles.container}>
       <input
@@ -137,7 +159,7 @@ export function CharacterCreationPage() {
       <CharacterPicker />
       <Button
         label="Create Character"
-        onClick={() => store.createCharacter()}
+        onClick={() => newCharacterMutation.mutate()}
       />
     </div>
   );

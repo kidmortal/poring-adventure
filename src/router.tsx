@@ -9,6 +9,7 @@ import { PageLoadingLayout } from "./layout/PageLoading/index.tsx";
 import { ProfilePage } from "./pages/profile/index.tsx";
 import { CharacterCreationPage } from "./pages/characterCreation/index.tsx";
 import { CharacterLayout } from "./layout/Character/index.tsx";
+import { RankingPage } from "./pages/ranking/index.tsx";
 
 export function Router() {
   return (
@@ -21,6 +22,7 @@ export function Router() {
                 <Route path="/" element={<HomePage />} />
                 <Route path="/login" element={<LoginPage />} />
                 <Route element={<CharacterLayout />}>
+                  <Route path="/ranking" element={<RankingPage />} />
                   <Route path="/profile" element={<ProfilePage />} />
                   <Route path="/create" element={<CharacterCreationPage />} />
                 </Route>
