@@ -8,11 +8,29 @@ import { useMainStore } from "@/store/main";
 import { Query } from "@/store/query";
 import { toast } from "react-toastify";
 import { InventoryItem } from "../InventoryItem";
+import { Silver } from "../Silver";
+import { Broker } from "@/assets/Broker";
 
 type Props = {
   item?: Item;
   onRequestClose: (i?: Item) => void;
 };
+
+function ItemDetails({ item }: { item?: Item }) {
+  const isOnSale = !!item?.marketListing;
+  return (
+    <div className={styles.itemDetailContainer}>
+      <span>{item?.name}</span>
+      <When value={isOnSale}>
+        <div className={styles.row}>
+          <Broker />
+          <span>On sale</span>
+          <Silver amount={item?.marketListing?.price} />
+        </div>
+      </When>
+    </div>
+  );
+}
 
 export function ItemMenuModal(props: Props) {
   const store = useMainStore();
@@ -87,29 +105,34 @@ export function ItemMenuModal(props: Props) {
   return (
     <div className={styles.container}>
       <div ref={containerRef} className={styles.modalBox}>
-        <InventoryItem item={props.item} />
-        <Button label="Use item" disabled={isOnSale} />
-        <When value={isOnSale}>
-          <Button
-            label="Revoke selling"
-            theme="error"
-            onClick={() => {
-              toast("To be added", { type: "info" });
-            }}
-          />
-        </When>
-        <When value={!isOnSale}>
-          <Button
-            label="Sell item"
-            theme="error"
-            onClick={() => {
-              if (props.item) {
-                createMarketListingMutation.mutate(props.item?.id);
-              }
-            }}
-            disabled={isOnSale || createMarketListingMutation.isPending}
-          />
-        </When>
+        <div className={styles.itemInfoContainer}>
+          <InventoryItem item={props.item} />
+          <ItemDetails item={props.item} />
+        </div>
+        <div className={styles.buttonsContainer}>
+          <Button label="Use item" disabled={isOnSale} />
+          <When value={isOnSale}>
+            <Button
+              label="Revoke selling"
+              theme="error"
+              onClick={() => {
+                toast("To be added", { type: "info" });
+              }}
+            />
+          </When>
+          <When value={!isOnSale}>
+            <Button
+              label="Sell item"
+              theme="error"
+              onClick={() => {
+                if (props.item) {
+                  createMarketListingMutation.mutate(props.item?.id);
+                }
+              }}
+              disabled={isOnSale || createMarketListingMutation.isPending}
+            />
+          </When>
+        </div>
       </div>
     </div>
   );
