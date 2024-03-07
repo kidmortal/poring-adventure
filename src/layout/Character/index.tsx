@@ -8,6 +8,7 @@ import { FullscreenLoading } from "@/components/FullscreenLoading";
 import { CharacterSummaryHeader } from "@/components/CharacterSummaryHeader";
 import { useEffect } from "react";
 import { CharacterCreationPage } from "@/pages/characterCreation";
+import { ErrorMessage } from "@/components/ErrorMessage";
 
 export function CharacterLayout() {
   const store = useMainStore();
@@ -27,6 +28,9 @@ export function CharacterLayout() {
 
   if (characterQuery.isLoading) {
     return <FullscreenLoading />;
+  }
+  if (characterQuery.isError) {
+    return <ErrorMessage message={characterQuery.error.message} />;
   }
   if (characterQuery.isFetched && !characterQuery.data) {
     return <CharacterCreationPage />;
