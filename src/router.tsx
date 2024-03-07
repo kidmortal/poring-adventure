@@ -9,6 +9,7 @@ import { CharacterCreationPage } from "./pages/characterCreation/index.tsx";
 import { CharacterLayout } from "./layout/Character/index.tsx";
 import { RankingPage } from "./pages/ranking/index.tsx";
 import { MarketPage } from "./pages/market/index.tsx";
+import { ModalLayout } from "./layout/Modal/index.tsx";
 
 export function Router() {
   return (
@@ -19,12 +20,14 @@ export function Router() {
             <Route element={<AuthLayout />}>
               <Route element={<PageLoadingLayout />}>
                 <Route element={<CharacterLayout />}>
-                  <Route path="/" element={<ProfilePage />} />
-                  <Route path="/ranking" element={<RankingPage />} />
-                  <Route path="/market" element={<MarketPage />} />
-                  <Route path="/profile" element={<ProfilePage />} />
-                  <Route path="/create" element={<CharacterCreationPage />} />
-                  <Route path="*" element={<ProfilePage />} />
+                  <Route element={<ModalLayout />}>
+                    <Route path="/" element={<ProfilePage />} />
+                    <Route path="/ranking" element={<RankingPage />} />
+                    <Route path="/market" element={<MarketPage />} />
+                    <Route path="/profile" element={<ProfilePage />} />
+                    <Route path="/create" element={<CharacterCreationPage />} />
+                    <Route path="*" element={<ProfilePage />} />
+                  </Route>
                 </Route>
               </Route>
             </Route>

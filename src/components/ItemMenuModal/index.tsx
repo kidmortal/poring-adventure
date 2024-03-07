@@ -41,54 +41,31 @@ export function ItemMenuModal(props: Props) {
         { itemId: id, price: 10, stack: 1 },
         store.loggedUserInfo.accessToken
       ),
-    onMutate: async (listingItemId) => {
-      // Cancel any outgoing refetches
-      // (so they don't overwrite our optimistic update)
-      await queryClient.cancelQueries({ queryKey: [Query.USER_CHARACTER] });
-
-      // Snapshot the previous value
-      const previousUserCharacter = queryClient.getQueryData<User>([
-        Query.USER_CHARACTER,
-      ]);
-
-      if (previousUserCharacter) {
-        const inventoryItemIndex = previousUserCharacter.items?.findIndex(
-          (item) => item.id === listingItemId
-        );
-
-        if (inventoryItemIndex && inventoryItemIndex >= 0) {
-          const newUserInfo = previousUserCharacter;
-          if (newUserInfo.items) {
-            newUserInfo.items[inventoryItemIndex].marketListing = {
-              id: 0,
-              createdAt: "",
-              updatedAt: "",
-              sellerEmail: "",
-              itemId: 0,
-              price: 10,
-              stack: 0,
-            };
-            // Optimistically update to the new value
-            queryClient.setQueryData([Query.USER_CHARACTER], newUserInfo);
-
-            return { previousUserCharacter, newUserInfo };
-          }
-        }
-      }
-
-      // Return the normal values
-      return { previousUserCharacter };
-    },
-    onError: (_err, _newTodo, context) => {
-      queryClient.setQueryData(
-        [Query.USER_CHARACTER],
-        context?.previousUserCharacter
-      );
-    },
     onSuccess: () => {
       toast("Market Listing successful", { type: "success" });
     },
     onSettled: () => {
+      props.onRequestClose();
+      queryClient.refetchQueries({
+        queryKey: [Query.USER_CHARACTER],
+      });
+      queryClient.refetchQueries({
+        queryKey: [Query.ALL_MARKET],
+      });
+    },
+  });
+
+  const revokeMarketListingMutation = useMutation({
+    mutationFn: (listingId: number) =>
+      api.revokeMarketListing({
+        accessToken: store.loggedUserInfo.accessToken,
+        listingId,
+      }),
+    onSuccess: () => {
+      toast("Listing removed", { type: "success" });
+    },
+    onSettled: () => {
+      props.onRequestClose();
       queryClient.refetchQueries({
         queryKey: [Query.USER_CHARACTER],
       });
@@ -101,7 +78,8 @@ export function ItemMenuModal(props: Props) {
   const { containerRef } = useDetectClickOutsideElement({
     onClickOutside: () => props.onRequestClose(props.item),
   });
-  const isOnSale = !!props.item?.marketListing;
+  const listingId = props.item?.marketListing?.id;
+  const isOnSale = !!listingId;
   return (
     <div className={styles.container}>
       <div ref={containerRef} className={styles.modalBox}>
@@ -116,7 +94,9 @@ export function ItemMenuModal(props: Props) {
               label="Revoke selling"
               theme="error"
               onClick={() => {
-                toast("To be added", { type: "info" });
+                if (isOnSale && listingId) {
+                  revokeMarketListingMutation.mutate(listingId);
+                }
               }}
             />
           </When>
