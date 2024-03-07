@@ -85,26 +85,29 @@ export function Inventory(props: Props) {
   });
 
   return (
-    <div className={styles.container}>
+    <div>
       <When value={createMarketListingMutation.isPending}>
         <FullscreenLoading />
       </When>
-      <span>Inventory</span>
-      <div className={styles.backgroundContainer}>
-        {Array(12)
-          .fill(0)
-          .map(() => (
-            <BlankInventory />
+
+      <div className={styles.container}>
+        <span>Inventory</span>
+        <div className={styles.backgroundContainer}>
+          {Array(12)
+            .fill(0)
+            .map(() => (
+              <BlankInventory />
+            ))}
+        </div>
+        <div className={styles.inventoryContainer}>
+          {props.items?.map((value) => (
+            <InventoryItem
+              key={value.id}
+              item={value}
+              onClick={() => createMarketListingMutation.mutate(value.id)}
+            />
           ))}
-      </div>
-      <div className={styles.inventoryContainer}>
-        {props.items?.map((value) => (
-          <InventoryItem
-            key={value.id}
-            item={value}
-            onClick={() => createMarketListingMutation.mutate(value.id)}
-          />
-        ))}
+        </div>
       </div>
     </div>
   );
