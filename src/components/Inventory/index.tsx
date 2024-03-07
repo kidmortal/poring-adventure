@@ -13,6 +13,10 @@ type Props = {
   items?: Item[];
 };
 
+function BlankInventory() {
+  return <div className={styles.inventoryBlank}></div>;
+}
+
 export function Inventory(props: Props) {
   const store = useMainStore();
   const queryClient = useQueryClient();
@@ -86,6 +90,13 @@ export function Inventory(props: Props) {
         <FullscreenLoading />
       </When>
       <span>Inventory</span>
+      <div className={styles.backgroundContainer}>
+        {Array(12)
+          .fill(0)
+          .map(() => (
+            <BlankInventory />
+          ))}
+      </div>
       <div className={styles.inventoryContainer}>
         {props.items?.map((value) => (
           <InventoryItem
