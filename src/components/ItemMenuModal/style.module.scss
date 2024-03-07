@@ -1,0 +1,32 @@
+.container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background-color: rgba($color: #191919, $alpha: 0.7);
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.itemContainer {
+  background-color: blue;
+  padding: 0.3rem;
+  border-radius: 6px;
+}
+
+.modalBox {
+  min-height: 15rem;
+  min-width: 15rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: #9bb0c1;
+  padding: 1.5rem;
+  border-radius: 6px;
+  gap: 1rem;
+}
