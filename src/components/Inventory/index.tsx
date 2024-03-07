@@ -8,29 +8,25 @@ import { useMainStore } from "@/store/main";
 import { FullscreenLoading } from "../FullscreenLoading";
 import { toast } from "react-toastify";
 import { When } from "../When";
-import { ItemMenuModal } from "../ItemMenuModal";
-import { useState } from "react";
+import { useItemMenuStore } from "@/store/itemMenu";
 
 type Props = {
   items?: Item[];
 };
 
-function BlankInventorySlot() {
-  return <div className={styles.inventoryBlank}></div>;
-}
-function BlankInventory() {
-  return (
-    <div className={styles.backgroundContainer}>
-      {Array(12)
-        .fill(0)
-        .map(() => (
-          <BlankInventorySlot />
-        ))}
-    </div>
-  );
-}
+function InventoryItems(props: {
+  items: Item[];
+  onClick?: (i: Item) => void;
+  limit: number;
+}) {
+  const inventorySlots: (Item | { id: string })[] = props.items;
+  if (inventorySlots.length < props.limit) {
+    const remainingSlots = props.limit - inventorySlots.length;
+    for (let index = 0; index < remainingSlots; index++) {
+      inventorySlots.push({ id: `empty-${index}` });
+    }
+  }
 
-function InventoryItems(props: { items: Item[]; onClick?: (i: Item) => void }) {
   return (
     <div className={styles.inventoryContainer}>
       {props.items?.map((value) => (
@@ -45,8 +41,7 @@ function InventoryItems(props: { items: Item[]; onClick?: (i: Item) => void }) {
 }
 
 export function Inventory(props: Props) {
-  const [modalOpen, setModalOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState<Item | undefined>();
+  const itemMenuStore = useItemMenuStore();
   const store = useMainStore();
   const queryClient = useQueryClient();
 
@@ -119,30 +114,14 @@ export function Inventory(props: Props) {
         <FullscreenLoading />
       </When>
 
-      <When value={modalOpen}>
-        <ItemMenuModal
-          onRequestClose={() => {
-            setModalOpen(false);
-            setSelectedItem(undefined);
-          }}
-          onSellItem={(i) => {
-            setModalOpen(false);
-            setSelectedItem(undefined);
-            if (i) {
-              createMarketListingMutation.mutate(i.id);
-            }
-          }}
-          item={selectedItem}
-        />
-      </When>
       <div className={styles.container}>
         <span>Inventory</span>
-        <BlankInventory />
         <InventoryItems
           items={props.items ?? []}
+          limit={12}
           onClick={(i) => {
-            setSelectedItem(i);
-            setModalOpen(true);
+            itemMenuStore.setSelectedItem(i);
+            itemMenuStore.setIsModalOpen(true);
           }}
         />
       </div>
@@ -152,14 +131,13 @@ export function Inventory(props: Props) {
 
 function InventoryItem({ item, onClick }: { item: Item; onClick: () => void }) {
   const isOnSale = !!item.marketListing;
-  let tooltipText = item.name;
 
-  if (isOnSale) {
-    tooltipText += ` - on sale for ${item.marketListing.price} silver`;
+  if (!item.image) {
+    return <div className={cn(styles.inventoryItemContainer, styles.empty)} />;
   }
 
   return (
-    <Tooltip text={tooltipText}>
+    <Tooltip text={item.name}>
       <div
         onClick={onClick}
         className={cn(styles.inventoryItemContainer, {

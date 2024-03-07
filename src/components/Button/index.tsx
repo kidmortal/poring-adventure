@@ -2,7 +2,7 @@ import cn from "classnames";
 import styles from "./style.module.scss";
 
 type Props = {
-  label: string;
+  label: React.ReactNode;
   theme?: "primary" | "secondary" | "error" | "success";
   className?: string;
   onClick?: () => void;

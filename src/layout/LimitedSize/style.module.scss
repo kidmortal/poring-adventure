@@ -11,13 +11,13 @@
   position: relative;
   width: 100%;
   height: 100%;
-  max-width: 30rem;
-  max-height: 50rem;
+  max-width: 360px; // Iphone XR
+  max-height: 740px; // Iphone XR
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   background-color: green;
   border-radius: 1rem;
-  padding: 8rem 2rem 5rem 2rem;
+  padding: 8rem 1.5rem 2rem 1.5rem;
 }

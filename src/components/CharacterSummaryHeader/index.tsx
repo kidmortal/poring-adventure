@@ -7,6 +7,7 @@ import { When } from "../When";
 import { useMainStore } from "@/store/main";
 import { auth } from "@/firebase";
 import { Button } from "../Button";
+import SignOut from "@/assets/SignOut";
 
 export function CharacterSummaryHeader() {
   const store = useMainStore();
@@ -32,7 +33,7 @@ export function CharacterSummaryHeader() {
         <When value={store.loggedUserInfo.loggedIn}>
           <Button
             onClick={() => auth.signOut()}
-            label="Sign out"
+            label={<SignOut />}
             theme="error"
           />
         </When>

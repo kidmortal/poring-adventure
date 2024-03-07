@@ -2,7 +2,7 @@
   display: flex;
   border-radius: 6px;
   border: 1px solid #d6d6d6;
-  padding: 6px;
+  padding: 1rem;
 
   justify-content: flex-start;
   align-items: center;
@@ -12,13 +12,18 @@
   cursor: pointer;
 
   background: #fff;
+  transition: 200ms;
+
+  &:hover {
+    background-color: #ccd3ca;
+  }
 
   > span {
     margin-left: 6px;
 
     color: #4a4949;
 
-    font-size: 12px;
+    font-size: 18px;
     font-weight: 12px;
     line-height: 12px;
     letter-spacing: 0.2px;
