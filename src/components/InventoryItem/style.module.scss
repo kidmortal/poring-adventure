@@ -1,0 +1,28 @@
+.inventoryItemContainer {
+  cursor: pointer;
+  position: relative;
+  background-color: gray;
+  width: 3rem;
+  height: 3rem;
+  padding: 0.5rem;
+  border-radius: 6px;
+  gap: 0.5rem;
+}
+
+.empty {
+  cursor: default;
+}
+
+.saleIcon {
+  position: absolute;
+  left: 3px;
+  top: 3px;
+}
+
+.stackAmount {
+  position: absolute;
+  bottom: 0;
+  right: 4px;
+  font-size: 24px;
+  color: white;
+}

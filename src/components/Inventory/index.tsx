@@ -1,14 +1,13 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import styles from "./style.module.scss";
 import { Query } from "@/store/query";
-import { Tooltip } from "../Tooltip";
-import cn from "classnames";
 import { api } from "@/api/service";
 import { useMainStore } from "@/store/main";
 import { FullscreenLoading } from "../FullscreenLoading";
 import { toast } from "react-toastify";
 import { When } from "../When";
 import { useItemMenuStore } from "@/store/itemMenu";
+import { InventoryItem } from "../InventoryItem";
 
 type Props = {
   items?: Item[];
@@ -126,27 +125,5 @@ export function Inventory(props: Props) {
         />
       </div>
     </div>
-  );
-}
-
-function InventoryItem({ item, onClick }: { item: Item; onClick: () => void }) {
-  const isOnSale = !!item.marketListing;
-
-  if (!item.image) {
-    return <div className={cn(styles.inventoryItemContainer, styles.empty)} />;
-  }
-
-  return (
-    <Tooltip text={item.name}>
-      <div
-        onClick={onClick}
-        className={cn(styles.inventoryItemContainer, {
-          [styles.onSale]: isOnSale,
-        })}
-      >
-        <img width={40} height={40} src={item.image} />
-        <span className={styles.stackAmount}>{item.stack}</span>
-      </div>
-    </Tooltip>
   );
 }

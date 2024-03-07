@@ -7,6 +7,7 @@ import { api } from "@/api/service";
 import { useMainStore } from "@/store/main";
 import { Query } from "@/store/query";
 import { toast } from "react-toastify";
+import { InventoryItem } from "../InventoryItem";
 
 type Props = {
   item?: Item;
@@ -86,10 +87,7 @@ export function ItemMenuModal(props: Props) {
   return (
     <div className={styles.container}>
       <div ref={containerRef} className={styles.modalBox}>
-        <div className={styles.itemContainer}>
-          <img width={40} height={40} src={props.item?.image} />
-          <span className={styles.stackAmount}>{props.item?.stack}</span>
-        </div>
+        <InventoryItem item={props.item} />
         <Button label="Use item" disabled={isOnSale} />
         <When value={isOnSale}>
           <Button
