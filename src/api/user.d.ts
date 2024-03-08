@@ -3,12 +3,24 @@ declare type User = {
   email: string;
   name: string;
   classname: string;
-  level: number;
-  experience: number;
   silver: number;
   appearance: Appearance;
+  stats?: Stats;
   inventory: InventoryItem[];
   equipment: Equipment[];
+};
+
+declare type Stats = {
+  id: number;
+  level: number;
+  experience: number;
+  health: number;
+  maxHealth: number;
+  attack: number;
+  str: number;
+  agi: number;
+  int: number;
+  userEmail: string;
 };
 
 declare type Appearance = {

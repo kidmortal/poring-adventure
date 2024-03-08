@@ -1,11 +1,22 @@
 .container {
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
-  h1 {
-    margin-bottom: 3rem;
-  }
+  text-align: center;
+  gap: 1rem;
+  color: white;
+}
+
+.row {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  gap: 1rem;
+  align-items: center;
 }
 
 .classList {

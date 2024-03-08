@@ -16,7 +16,7 @@ export function ProfilePage() {
         <div className={styles.userCharacterInfoContainer}>
           <h2>{store.userCharacterData?.name}</h2>
           <span>
-            Level {store.userCharacterData?.level}{" "}
+            Level {store.userCharacterData?.stats?.level}{" "}
             {store.userCharacterData?.classname}
           </span>
           <CharacterInfo
