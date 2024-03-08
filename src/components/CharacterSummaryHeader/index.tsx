@@ -5,12 +5,13 @@ import { CharacterHead } from "../CharacterInfo";
 import { Silver } from "../Silver";
 import { When } from "../When";
 import { useMainStore } from "@/store/main";
-import { auth } from "@/firebase";
 import { Button } from "../Button";
-import SignOut from "@/assets/SignOut";
+import { useModalStore } from "@/store/modal";
+import { Settings } from "@/assets/Settings";
 
 export function CharacterSummaryHeader() {
   const store = useMainStore();
+  const modalStore = useModalStore();
   const queryClient = useQueryClient();
   const userChatacter = queryClient.getQueryState<User>([Query.USER_CHARACTER]);
 
@@ -32,8 +33,12 @@ export function CharacterSummaryHeader() {
       <div>
         <When value={store.loggedUserInfo.loggedIn}>
           <Button
-            onClick={() => auth.signOut()}
-            label={<SignOut />}
+            onClick={() => {
+              modalStore.setUserConfig({
+                open: true,
+              });
+            }}
+            label={<Settings />}
             theme="danger"
           />
         </When>

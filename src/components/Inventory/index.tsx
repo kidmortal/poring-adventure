@@ -1,7 +1,7 @@
 import styles from "./style.module.scss";
 
-import { useItemMenuStore } from "@/store/itemMenu";
 import { InventoryItem } from "../InventoryItem";
+import { useModalStore } from "@/store/modal";
 
 type Props = {
   items?: InventoryItem[];
@@ -35,7 +35,7 @@ function InventoryItems(props: {
 }
 
 export function Inventory(props: Props) {
-  const itemMenuStore = useItemMenuStore();
+  const modalStore = useModalStore();
 
   return (
     <div className={styles.container}>
@@ -44,8 +44,10 @@ export function Inventory(props: Props) {
         items={props.items ?? []}
         limit={12}
         onClick={(i) => {
-          itemMenuStore.setSelectedItem(i);
-          itemMenuStore.setIsModalOpen(true);
+          modalStore.setInventoryItem({
+            open: true,
+            selectedItem: i,
+          });
         }}
       />
     </div>

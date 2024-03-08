@@ -1,21 +1,33 @@
 import { Outlet } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 import { When } from "@/components/When";
-import { useItemMenuStore } from "@/store/itemMenu";
 import { ItemMenuModal } from "@/components/ItemMenuModal";
+import { useModalStore } from "@/store/modal";
+import { UserSettingsModal } from "@/components/Modals/UserSettingsModal";
 
 export function ModalLayout() {
-  const itemMenuStore = useItemMenuStore();
+  const modalStore = useModalStore();
   return (
     <>
       <Outlet />
-      <When value={itemMenuStore.isModalOpen}>
+      <When value={modalStore.inventoryItem.open}>
         <ItemMenuModal
           onRequestClose={() => {
-            itemMenuStore.setIsModalOpen(false);
-            itemMenuStore.setSelectedItem(undefined);
+            modalStore.setInventoryItem({
+              open: false,
+              selectedItem: undefined,
+            });
           }}
-          item={itemMenuStore.selectedItem}
+          item={modalStore.inventoryItem.selectedItem}
+        />
+      </When>
+      <When value={modalStore.userConfig.open}>
+        <UserSettingsModal
+          onRequestClose={() => {
+            modalStore.setUserConfig({
+              open: false,
+            });
+          }}
         />
       </When>
     </>
