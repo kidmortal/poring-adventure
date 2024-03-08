@@ -1,0 +1,36 @@
+.inventoryItemContainer {
+  cursor: pointer;
+  position: relative;
+  width: 3rem;
+  height: 3rem;
+  padding: 0.5rem;
+  border-radius: 6px;
+  gap: 0.5rem;
+  background-color: gray;
+}
+
+.empty {
+  cursor: default;
+}
+
+.statContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+
+  img {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+.statsContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.2rem;
+}

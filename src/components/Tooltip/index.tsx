@@ -1,12 +1,22 @@
 import React from "react";
-import "./style.css";
+import cn from "classnames";
+import styles from "./style.module.scss";
 
-export function Tooltip(props: { text: string; children: React.ReactNode }) {
-  const { text, children } = props;
+export type ToolTipDirection = "top" | "bottom" | "left" | "right";
+
+type Props = {
+  text: React.ReactNode;
+  direction?: ToolTipDirection;
+  children: React.ReactNode;
+};
+
+export function Tooltip({ text, children, direction = "top" }: Props) {
   return (
-    <div className="tooltip">
+    <div className={styles.container}>
       {children}
-      <span className="tooltiptext">{text}</span>
+      <div className={cn(styles.tooltipContainer, styles[direction])}>
+        <div className={styles.content}>{text}</div>
+      </div>
     </div>
   );
 }

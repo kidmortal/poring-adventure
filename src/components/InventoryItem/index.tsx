@@ -1,12 +1,15 @@
 import { Broker } from "@/assets/Broker";
-import { Tooltip } from "../Tooltip";
+import { ToolTipDirection, Tooltip } from "../Tooltip";
 import styles from "./style.module.scss";
 import cn from "classnames";
 import { When } from "../When";
+import React from "react";
 
 type Props = {
   inventoryItem?: InventoryItem;
   backgroundColor?: string;
+  toolTip?: React.ReactNode;
+  toolTipDirection?: ToolTipDirection;
   stack?: number;
   onClick?: () => void;
 };
@@ -37,7 +40,7 @@ export function InventoryItem(args: Props) {
   }
 
   return (
-    <Tooltip text={item.name}>
+    <Tooltip text={args.toolTip || item.name} direction={args.toolTipDirection}>
       <div
         onClick={args.onClick}
         style={{ backgroundColor: args.backgroundColor }}

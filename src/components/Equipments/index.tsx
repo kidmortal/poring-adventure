@@ -1,7 +1,8 @@
 import styles from "./style.module.scss";
-import { InventoryItem } from "../InventoryItem";
 
-export function EquippedItems(props: {
+import { EquippedItem } from "../EquipedItem";
+
+export function Equipments(props: {
   equips: Equipment[];
   onClick?: (i: Item) => void;
 }) {
@@ -16,18 +17,7 @@ export function EquippedItems(props: {
   return (
     <div className={styles.inventoryContainer}>
       {props.equips?.map((equip) => (
-        <InventoryItem
-          key={equip.id}
-          inventoryItem={{
-            item: equip.item,
-            itemId: equip.id,
-            id: equip.id,
-            stack: 1,
-            userEmail: "",
-          }}
-          backgroundColor="gray"
-          onClick={() => {}}
-        />
+        <EquippedItem key={equip.id} equip={equip} />
       ))}
     </div>
   );

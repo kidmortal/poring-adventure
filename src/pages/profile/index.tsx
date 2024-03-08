@@ -2,7 +2,9 @@ import { useMainStore } from "@/store/main";
 import styles from "./style.module.scss";
 import { CharacterInfo } from "@/components/CharacterInfo";
 import { Inventory } from "@/components/Inventory";
-import { EquippedItems } from "@/components/EquipedItems";
+import { CharacterStatsInfo } from "@/components/CharacterStatsInfo";
+
+import { Equipments } from "@/components/Equipments";
 
 export function ProfilePage() {
   const store = useMainStore();
@@ -12,7 +14,7 @@ export function ProfilePage() {
   return (
     <div className={styles.container}>
       <div className={styles.middleSector}>
-        <EquippedItems equips={equippedItems} />
+        <Equipments equips={equippedItems} />
         <div className={styles.userCharacterInfoContainer}>
           <h2>{store.userCharacterData?.name}</h2>
           <span>
@@ -26,7 +28,7 @@ export function ProfilePage() {
             onClick={() => console.log(store.loggedUserInfo.accessToken)}
           />
         </div>
-        <div></div>
+        <CharacterStatsInfo />
       </div>
 
       <Inventory items={store.userCharacterData?.inventory} />

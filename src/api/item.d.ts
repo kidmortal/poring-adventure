@@ -3,6 +3,8 @@ declare type Item = {
   name: string;
   category: string;
   image: string;
+  attack?: number;
+  health?: number;
 };
 
 declare type Equipment = {

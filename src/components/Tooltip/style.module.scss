@@ -1,0 +1,54 @@
+.container {
+  position: relative;
+  display: flex;
+
+  &:hover .tooltipContainer {
+    visibility: visible;
+    opacity: 1;
+  }
+}
+
+.tooltipContainer {
+  pointer-events: none;
+  position: absolute;
+  visibility: hidden;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  min-width: 80px;
+  min-height: 160px;
+  z-index: 3;
+  top: 0;
+  opacity: 0;
+  transition: opacity 0.3s;
+
+  &.left {
+    left: -220%;
+  }
+
+  &.right {
+    right: -95px;
+    top: -60px;
+  }
+
+  &.top {
+    top: -120%;
+    left: -20%;
+  }
+  &.bottom {
+    top: 100%;
+  }
+}
+
+.content {
+  display: flex;
+  background-color: black;
+  color: white;
+  font-size: 12px;
+  text-align: center;
+  border-radius: 6px;
+  padding: 0.3rem;
+}

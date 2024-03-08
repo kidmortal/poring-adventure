@@ -28,6 +28,7 @@ function InventoryItems(props: {
           inventoryItem={value}
           onClick={() => props.onClick?.(value)}
           backgroundColor="gray"
+          toolTipDirection="right"
         />
       ))}
     </div>
