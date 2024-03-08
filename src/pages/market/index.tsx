@@ -44,7 +44,7 @@ export function MarketPage() {
       {query.data?.map((u) => (
         <div className={styles.listingContainer} key={u.id}>
           <span>{u.seller?.name} </span>
-          <InventoryItem inventoryItem={u.item} />
+          <InventoryItem inventoryItem={{ ...u.inventory, stack: u.stack }} />
           <Silver amount={u.price} />
           <div>
             <Button

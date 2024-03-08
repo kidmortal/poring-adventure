@@ -7,6 +7,6 @@ declare type MarketListing = {
   createdAt: string;
   updatedAt: string;
   expiresAt: string;
-  item: InventoryItem;
+  inventory: InventoryItem;
   seller: User;
 };

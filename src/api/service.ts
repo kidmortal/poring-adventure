@@ -10,9 +10,16 @@ class ApiService {
     listingId: number;
     accessToken: string;
   }) {
-    const info = await this.endpoint.get(`/market/purchase/${args.listingId}`, {
-      headers: { auth: args.accessToken },
-    });
+    const info = await this.endpoint.post(
+      `/market/purchase/`,
+      {
+        marketListingId: args.listingId,
+        stack: 1,
+      },
+      {
+        headers: { auth: args.accessToken },
+      }
+    );
     return info.data;
   }
 
