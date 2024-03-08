@@ -31,10 +31,10 @@
     background-color: darken($color: #4caf50, $amount: 5);
   }
 }
-.error {
-  background-color: #ff5722;
+.danger {
+  background-color: #d37676;
   &:hover {
-    background-color: darken($color: #ff5722, $amount: 5);
+    background-color: darken($color: #d37676, $amount: 5);
   }
 }
 

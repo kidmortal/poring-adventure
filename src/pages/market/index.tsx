@@ -3,10 +3,11 @@ import styles from "./style.module.scss";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { api } from "@/api/service";
 import { FullscreenLoading } from "@/components/FullscreenLoading";
-import { Tooltip } from "@/components/Tooltip";
 import { useMainStore } from "@/store/main";
 import { toast } from "react-toastify";
 import { Button } from "@/components/Button";
+import { Silver } from "@/components/Silver";
+import { InventoryItem } from "@/components/InventoryItem";
 
 export function MarketPage() {
   const store = useMainStore();
@@ -43,14 +44,8 @@ export function MarketPage() {
       {query.data?.map((u) => (
         <div className={styles.listingContainer} key={u.id}>
           <span>{u.seller?.name} </span>
-          <Tooltip text={u.item?.name ?? "No name"}>
-            <img width={30} height={30} src={u.item?.image} />
-          </Tooltip>
-
-          <div className={styles.priceContainer}>
-            <span>{u.price}</span>
-            <img src="https://cdn.discordapp.com/emojis/651562374326779955.webp?size=96&quality=lossless" />
-          </div>
+          <InventoryItem inventoryItem={u.item} />
+          <Silver amount={u.price} />
           <div>
             <Button
               onClick={() => purchaseMutation.mutate(u.id)}

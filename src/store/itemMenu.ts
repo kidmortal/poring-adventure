@@ -2,9 +2,9 @@ import { create } from "zustand";
 
 interface ItemMenuState {
   isModalOpen: boolean;
-  selectedItem?: Item;
+  selectedItem?: InventoryItem;
   setIsModalOpen: (v: boolean) => void;
-  setSelectedItem: (v?: Item) => void;
+  setSelectedItem: (v?: InventoryItem) => void;
 }
 
 export const useItemMenuStore = create<ItemMenuState>()((set) => ({

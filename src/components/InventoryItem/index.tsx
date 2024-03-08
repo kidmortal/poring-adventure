@@ -5,26 +5,49 @@ import cn from "classnames";
 import { When } from "../When";
 
 type Props = {
-  item?: Item;
+  inventoryItem?: InventoryItem;
+  backgroundColor?: string;
   onClick?: () => void;
 };
 
-export function InventoryItem({ item, onClick }: Props) {
-  const isOnSale = !!item?.marketListing;
+export function InventoryItem({
+  inventoryItem,
+  onClick,
+  backgroundColor,
+}: Props) {
+  const item = inventoryItem?.item;
+  const isOnSale = !!inventoryItem?.marketListing;
 
-  if (!item?.image) {
-    return <div className={cn(styles.inventoryItemContainer, styles.empty)} />;
+  if (!item?.id) {
+    return (
+      <div
+        style={{ backgroundColor: backgroundColor }}
+        className={cn(styles.inventoryItemContainer, styles.empty)}
+      />
+    );
   }
 
   if (!item) {
-    return <div className={cn(styles.inventoryItemContainer, styles.empty)} />;
+    return (
+      <div
+        style={{ backgroundColor: backgroundColor }}
+        className={cn(styles.inventoryItemContainer, styles.empty)}
+      />
+    );
   }
 
   return (
     <Tooltip text={item.name}>
-      <div onClick={onClick} className={cn(styles.inventoryItemContainer)}>
+      <div
+        onClick={onClick}
+        style={{ backgroundColor: backgroundColor }}
+        className={cn(styles.inventoryItemContainer)}
+      >
         <img width={40} height={40} src={item.image} />
-        <span className={styles.stackAmount}>{item.stack}</span>
+        <When value={inventoryItem.stack > 1}>
+          <span className={styles.stackAmount}>{inventoryItem.stack}</span>
+        </When>
+
         <When value={isOnSale}>
           <div className={styles.saleIcon}>
             <Broker />

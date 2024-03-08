@@ -34,7 +34,7 @@ export function CharacterSummaryHeader() {
           <Button
             onClick={() => auth.signOut()}
             label={<SignOut />}
-            theme="error"
+            theme="danger"
           />
         </When>
       </div>

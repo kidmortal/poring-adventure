@@ -3,7 +3,7 @@ import styles from "./style.module.scss";
 
 type Props = {
   label: React.ReactNode;
-  theme?: "primary" | "secondary" | "error" | "success";
+  theme?: "primary" | "secondary" | "danger" | "success";
   className?: string;
   onClick?: () => void;
   disabled?: boolean;

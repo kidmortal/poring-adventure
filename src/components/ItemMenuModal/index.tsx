@@ -12,15 +12,15 @@ import { Silver } from "../Silver";
 import { Broker } from "@/assets/Broker";
 
 type Props = {
-  item?: Item;
-  onRequestClose: (i?: Item) => void;
+  item?: InventoryItem;
+  onRequestClose: (i?: InventoryItem) => void;
 };
 
-function ItemDetails({ item }: { item?: Item }) {
-  const isOnSale = !!item?.marketListing;
+function ItemDetails({ item }: { item?: InventoryItem }) {
+  const isOnSale = !!item?.marketListing?.id;
   return (
     <div className={styles.itemDetailContainer}>
-      <span>{item?.name}</span>
+      <span>{item?.item.name}</span>
       <When value={isOnSale}>
         <div className={styles.row}>
           <Broker />
@@ -84,15 +84,20 @@ export function ItemMenuModal(props: Props) {
     <div className={styles.container}>
       <div ref={containerRef} className={styles.modalBox}>
         <div className={styles.itemInfoContainer}>
-          <InventoryItem item={props.item} />
+          <InventoryItem inventoryItem={props.item} />
           <ItemDetails item={props.item} />
         </div>
         <div className={styles.buttonsContainer}>
-          <Button label="Use item" disabled={isOnSale} />
+          <Button
+            label="Use item"
+            onClick={() => toast("To be added", { type: "info" })}
+            disabled={isOnSale}
+          />
           <When value={isOnSale}>
             <Button
               label="Revoke selling"
-              theme="error"
+              theme="danger"
+              disabled={!isOnSale || revokeMarketListingMutation.isPending}
               onClick={() => {
                 if (isOnSale && listingId) {
                   revokeMarketListingMutation.mutate(listingId);
@@ -103,10 +108,10 @@ export function ItemMenuModal(props: Props) {
           <When value={!isOnSale}>
             <Button
               label="Sell item"
-              theme="error"
+              theme="danger"
               onClick={() => {
                 if (props.item) {
-                  createMarketListingMutation.mutate(props.item?.id);
+                  createMarketListingMutation.mutate(props.item?.itemId);
                 }
               }}
               disabled={isOnSale || createMarketListingMutation.isPending}
