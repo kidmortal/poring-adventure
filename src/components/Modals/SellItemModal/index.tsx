@@ -60,7 +60,6 @@ export function SellItemModal(props: Props) {
             label="Sell item"
             theme="danger"
             onClick={() => {
-              console.log(props.item);
               if (props.item) {
                 createMarketListingMutation.mutate({
                   id: props.item?.itemId,

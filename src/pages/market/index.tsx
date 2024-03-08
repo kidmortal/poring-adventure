@@ -8,14 +8,16 @@ import { toast } from "react-toastify";
 import { Button } from "@/components/Button";
 import { Silver } from "@/components/Silver";
 import { InventoryItem } from "@/components/InventoryItem";
+import { useWebsocketApi } from "@/api/websocketServer";
 
 export function MarketPage() {
+  const wsapi = useWebsocketApi();
   const store = useMainStore();
   const queryClient = useQueryClient();
   const query = useQuery({
     queryKey: [Query.ALL_MARKET],
     staleTime: 1000 * 2,
-    queryFn: () => api.getFirst10MarketListing(),
+    queryFn: () => wsapi.getFirst10MarketListing(),
   });
 
   const purchaseMutation = useMutation({

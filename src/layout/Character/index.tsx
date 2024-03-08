@@ -2,22 +2,24 @@ import { Outlet } from "react-router-dom";
 
 import { useMainStore } from "@/store/main";
 import { useQuery } from "@tanstack/react-query";
-import { api } from "@/api/service";
+
 import { Query } from "@/store/query";
 import { FullscreenLoading } from "@/components/FullscreenLoading";
 import { CharacterSummaryHeader } from "@/components/CharacterSummaryHeader";
 import { useEffect } from "react";
 import { CharacterCreationPage } from "@/pages/characterCreation";
 import { ErrorMessage } from "@/components/ErrorMessage";
+import { useWebsocketApi } from "@/api/websocketServer";
 
 export function CharacterLayout() {
   const store = useMainStore();
+  const api = useWebsocketApi();
 
   const characterQuery = useQuery({
     queryKey: [Query.USER_CHARACTER],
-    enabled: !!store.loggedUserInfo.email,
+    enabled: !!store.websocket,
     staleTime: 1000 * 2,
-    queryFn: () => api.getUserInfo(store.loggedUserInfo.email),
+    queryFn: () => api.getUser(),
   });
 
   useEffect(() => {
