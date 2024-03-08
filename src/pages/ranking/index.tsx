@@ -28,7 +28,7 @@ export function RankingPage() {
           />
           <div className={styles.characterInfo}>
             <span>
-              {u.name} - LV {u.level} {u.classname}
+              {u.name} - LV {u.stats?.level} {u.classname}
             </span>
             <Silver amount={u.silver} />
           </div>
