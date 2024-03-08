@@ -70,6 +70,8 @@ export function ItemMenuModal(props: Props) {
 
   const listingId = props.item?.marketListing?.id;
   const isOnSale = !!listingId;
+  const hasRemainingStock =
+    (props.item?.stack || 0) > (props.item?.marketListing?.stack || 0);
   return (
     <BaseModal onRequestClose={props.onRequestClose} isOpen={props.isOpen}>
       <div className={styles.itemInfoContainer}>
@@ -77,11 +79,11 @@ export function ItemMenuModal(props: Props) {
         <ItemDetails item={props.item} />
       </div>
       <div className={styles.buttonsContainer}>
-        <Button
+        {/* <Button
           label="Use item"
           onClick={() => toast("To be added", { type: "info" })}
           disabled={isOnSale}
-        />
+        /> */}
         <When value={isOnSale}>
           <Button
             label="Revoke selling"
@@ -94,7 +96,7 @@ export function ItemMenuModal(props: Props) {
             }}
           />
         </When>
-        <When value={!isOnSale}>
+        <When value={hasRemainingStock}>
           <Button
             label="Sell item"
             theme="danger"
@@ -102,7 +104,7 @@ export function ItemMenuModal(props: Props) {
               modalStore.setInventoryItem({ open: false });
               modalStore.setSellItem({ open: true });
             }}
-            disabled={isOnSale}
+            disabled={!hasRemainingStock}
           />
         </When>
       </div>

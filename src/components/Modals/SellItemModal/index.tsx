@@ -41,8 +41,8 @@ export function SellItemModal(props: Props) {
     },
   });
 
-  const listingId = props.item?.marketListing?.id;
-  const isOnSale = !!listingId;
+  const hasRemainingStock =
+    (props.item?.stack || 0) > (props.item?.marketListing?.stack || 0);
   return (
     <BaseModal onRequestClose={props.onRequestClose} isOpen={props.isOpen}>
       <div className={styles.itemInfoContainer}>
@@ -52,7 +52,7 @@ export function SellItemModal(props: Props) {
         <input placeholder="price - 5" type="number" disabled />
         <input placeholder="amount - 2" type="number" disabled />
         <Silver amount={50} />
-        <When value={!isOnSale}>
+        <When value={hasRemainingStock}>
           <Button
             label="Sell item"
             theme="danger"
@@ -66,7 +66,9 @@ export function SellItemModal(props: Props) {
                 });
               }
             }}
-            disabled={isOnSale || createMarketListingMutation.isPending}
+            disabled={
+              !hasRemainingStock || createMarketListingMutation.isPending
+            }
           />
         </When>
       </div>

@@ -5,18 +5,18 @@ declare type Item = {
   image: string;
 };
 
-declare interface Equipment {
+declare type Equipment = {
   id: number;
   userEmail: string;
   itemId: number;
   item: Item;
-}
+};
 
-declare interface InventoryItem {
+declare type InventoryItem = {
   id: number;
   stack: number;
   userEmail: string;
   itemId: number;
   item: Item;
   marketListing?: MarketListing;
-}
+};
