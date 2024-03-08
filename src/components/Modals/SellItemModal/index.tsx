@@ -19,6 +19,8 @@ type Props = {
 };
 
 export function SellItemModal(props: Props) {
+  const price = 5;
+  const amount = 1;
   const store = useMainStore();
   const queryClient = useQueryClient();
   const createMarketListingMutation = useMutation({
@@ -49,9 +51,9 @@ export function SellItemModal(props: Props) {
         <InventoryItem inventoryItem={props.item} />
       </div>
       <div className={styles.buttonsContainer}>
-        <input placeholder="price - 5" type="number" disabled />
-        <input placeholder="amount - 2" type="number" disabled />
-        <Silver amount={50} />
+        <input placeholder={`price - ${price}`} type="number" disabled />
+        <input placeholder={`amount - ${amount}`} type="number" disabled />
+        <Silver amount={amount * price} />
         <When value={hasRemainingStock}>
           <Button
             label="Sell item"
@@ -62,7 +64,7 @@ export function SellItemModal(props: Props) {
                 createMarketListingMutation.mutate({
                   id: props.item?.itemId,
                   price: 5,
-                  stack: 2,
+                  stack: 1,
                 });
               }
             }}
