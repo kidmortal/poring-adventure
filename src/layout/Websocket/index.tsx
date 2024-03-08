@@ -10,7 +10,7 @@ export function WebsocketLayout() {
   useEffect(() => {
     if (!store.websocket && store.loggedUserInfo.accessToken) {
       store.setWebsocket(
-        io("http://localhost:8000", {
+        io(import.meta.env.VITE_API_URL, {
           auth: { acessToken: store.loggedUserInfo.accessToken },
         })
       );
