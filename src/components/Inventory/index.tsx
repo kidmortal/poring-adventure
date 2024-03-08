@@ -20,8 +20,6 @@ function InventoryItems(props: {
     }
   }
 
-  console.log(inventorySlots);
-
   return (
     <div className={styles.inventoryContainer}>
       {props.items?.map((value) => (
