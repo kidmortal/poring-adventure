@@ -10,6 +10,8 @@ import { CharacterLayout } from "./layout/Character/index.tsx";
 import { RankingPage } from "./pages/ranking/index.tsx";
 import { MarketPage } from "./pages/market/index.tsx";
 import { ModalLayout } from "./layout/Modal/index.tsx";
+import { BattlePage } from "./pages/battle/index.tsx";
+import { WebsocketLayout } from "./layout/Websocket/index.tsx";
 
 export function Router() {
   return (
@@ -18,15 +20,21 @@ export function Router() {
         <Routes>
           <Route element={<LimitedSizeLayout />}>
             <Route element={<AuthLayout />}>
-              <Route element={<PageLoadingLayout />}>
-                <Route element={<CharacterLayout />}>
-                  <Route element={<ModalLayout />}>
-                    <Route path="/" element={<ProfilePage />} />
-                    <Route path="/ranking" element={<RankingPage />} />
-                    <Route path="/market" element={<MarketPage />} />
-                    <Route path="/profile" element={<ProfilePage />} />
-                    <Route path="/create" element={<CharacterCreationPage />} />
-                    <Route path="*" element={<ProfilePage />} />
+              <Route element={<WebsocketLayout />}>
+                <Route element={<PageLoadingLayout />}>
+                  <Route element={<CharacterLayout />}>
+                    <Route element={<ModalLayout />}>
+                      <Route path="/" element={<ProfilePage />} />
+                      <Route path="/ranking" element={<RankingPage />} />
+                      <Route path="/market" element={<MarketPage />} />
+                      <Route path="/profile" element={<ProfilePage />} />
+                      <Route
+                        path="/create"
+                        element={<CharacterCreationPage />}
+                      />
+                      <Route path="/battle" element={<BattlePage />} />
+                      <Route path="*" element={<ProfilePage />} />
+                    </Route>
                   </Route>
                 </Route>
               </Route>

@@ -1,3 +1,4 @@
+import HealthBar from "../HealthBar";
 import styles from "./style.module.scss";
 import { useMainStore } from "@/store/main";
 
@@ -20,6 +21,7 @@ export function CharacterStatsInfo() {
 
   return (
     <div className={styles.container}>
+      <HealthBar currentHealth={20} maxHealth={20} />
       <div className={styles.statContainer}>
         <img src="assets/stats/health.webp" />
         <span>

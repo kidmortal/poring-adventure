@@ -1,8 +1,7 @@
 import styles from "./style.module.scss";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { api } from "@/api/service";
-import { useMainStore } from "@/store/main";
+
 import { Query } from "@/store/query";
 import { toast } from "react-toastify";
 
@@ -11,6 +10,7 @@ import { When } from "@/components/When";
 import { Silver } from "@/components/Silver";
 import { InventoryItem } from "@/components/InventoryItem";
 import { Button } from "@/components/Button";
+import { useWebsocketApi } from "@/api/websocketServer";
 
 type Props = {
   isOpen?: boolean;
@@ -19,16 +19,17 @@ type Props = {
 };
 
 export function SellItemModal(props: Props) {
+  const api = useWebsocketApi();
   const price = 5;
   const amount = 1;
-  const store = useMainStore();
   const queryClient = useQueryClient();
   const createMarketListingMutation = useMutation({
     mutationFn: (args: { id: number; stack: number; price: number }) =>
-      api.createMarketListing(
-        { itemId: args.id, price: args.price, stack: args.stack },
-        store.loggedUserInfo.accessToken
-      ),
+      api.createMarketListing({
+        itemId: args.id,
+        price: args.price,
+        stack: args.stack,
+      }),
     onSuccess: () => {
       toast("Market Listing successful", { type: "success" });
     },

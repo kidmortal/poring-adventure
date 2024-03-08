@@ -18,7 +18,9 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.2",
     "react-toastify": "^10.0.4",
+    "react-use-websocket": "^4.8.1",
     "sass": "^1.71.1",
+    "socket.io-client": "^4.7.4",
     "zustand": "^4.5.2"
   },
   "devDependencies": {

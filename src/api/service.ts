@@ -23,16 +23,6 @@ class ApiService {
     return info.data;
   }
 
-  async createMarketListing(
-    args: CreateMarketListingPayload,
-    accessToken: string
-  ) {
-    const info = await this.endpoint.post(`/market/`, args, {
-      headers: { auth: accessToken },
-    });
-    return info.data;
-  }
-
   async revokeMarketListing(args: { listingId: number; accessToken: string }) {
     const info = await this.endpoint.delete(`/market/${args.listingId}`, {
       headers: { auth: args.accessToken },
