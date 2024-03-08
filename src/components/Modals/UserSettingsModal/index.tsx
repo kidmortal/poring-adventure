@@ -10,6 +10,7 @@ import { When } from "@/components/When";
 import { FullscreenLoading } from "@/components/FullscreenLoading";
 
 type Props = {
+  isOpen?: boolean;
   onRequestClose: (i?: InventoryItem) => void;
 };
 
@@ -28,7 +29,7 @@ export function UserSettingsModal(props: Props) {
   });
 
   return (
-    <BaseModal onRequestClose={props.onRequestClose}>
+    <BaseModal onRequestClose={props.onRequestClose} isOpen={props.isOpen}>
       <When value={deleteUserMutation.isPending}>
         <FullscreenLoading />
       </When>

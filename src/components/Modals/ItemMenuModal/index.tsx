@@ -6,14 +6,15 @@ import { useMainStore } from "@/store/main";
 import { Query } from "@/store/query";
 import { toast } from "react-toastify";
 
-import { Broker } from "@/assets/Broker";
 import { BaseModal } from "../BaseModal";
 import { When } from "@/components/When";
 import { Silver } from "@/components/Silver";
 import { InventoryItem } from "@/components/InventoryItem";
 import { Button } from "@/components/Button";
+import { useModalStore } from "@/store/modal";
 
 type Props = {
+  isOpen?: boolean;
   item?: InventoryItem;
   onRequestClose: (i?: InventoryItem) => void;
 };
@@ -25,9 +26,17 @@ function ItemDetails({ item }: { item?: InventoryItem }) {
       <span>{item?.item.name}</span>
       <When value={isOnSale}>
         <div className={styles.row}>
-          <Broker />
-          <span>On sale</span>
-          <Silver amount={item?.marketListing?.price} />
+          <span>Sale</span>
+          <InventoryItem
+            inventoryItem={item}
+            stack={item?.marketListing?.stack}
+          />
+          <Silver
+            amount={
+              (item?.marketListing?.price ?? 0) *
+              (item?.marketListing?.stack ?? 1)
+            }
+          />
         </div>
       </When>
     </div>
@@ -36,26 +45,8 @@ function ItemDetails({ item }: { item?: InventoryItem }) {
 
 export function ItemMenuModal(props: Props) {
   const store = useMainStore();
+  const modalStore = useModalStore();
   const queryClient = useQueryClient();
-  const createMarketListingMutation = useMutation({
-    mutationFn: (id: number) =>
-      api.createMarketListing(
-        { itemId: id, price: 10, stack: 1 },
-        store.loggedUserInfo.accessToken
-      ),
-    onSuccess: () => {
-      toast("Market Listing successful", { type: "success" });
-    },
-    onSettled: () => {
-      props.onRequestClose();
-      queryClient.refetchQueries({
-        queryKey: [Query.USER_CHARACTER],
-      });
-      queryClient.refetchQueries({
-        queryKey: [Query.ALL_MARKET],
-      });
-    },
-  });
 
   const revokeMarketListingMutation = useMutation({
     mutationFn: (listingId: number) =>
@@ -80,7 +71,7 @@ export function ItemMenuModal(props: Props) {
   const listingId = props.item?.marketListing?.id;
   const isOnSale = !!listingId;
   return (
-    <BaseModal onRequestClose={props.onRequestClose}>
+    <BaseModal onRequestClose={props.onRequestClose} isOpen={props.isOpen}>
       <div className={styles.itemInfoContainer}>
         <InventoryItem inventoryItem={props.item} />
         <ItemDetails item={props.item} />
@@ -108,11 +99,10 @@ export function ItemMenuModal(props: Props) {
             label="Sell item"
             theme="danger"
             onClick={() => {
-              if (props.item) {
-                createMarketListingMutation.mutate(props.item?.itemId);
-              }
+              modalStore.setInventoryItem({ open: false });
+              modalStore.setSellItem({ open: true });
             }}
-            disabled={isOnSale || createMarketListingMutation.isPending}
+            disabled={isOnSale}
           />
         </When>
       </div>
