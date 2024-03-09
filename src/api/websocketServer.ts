@@ -1,4 +1,17 @@
 import { useMainStore } from "@/store/main";
+import { Socket } from "socket.io-client";
+
+async function asyncEmit<T>(
+  ws: Socket,
+  event: string,
+  args: number | string | object
+): Promise<T> {
+  return new Promise(function (resolve) {
+    ws.emit(event, args, (response: T) => {
+      resolve(response);
+    });
+  });
+}
 
 export function useWebsocketApi() {
   const { websocket, loggedUserInfo } = useMainStore();
@@ -16,13 +29,25 @@ export function useWebsocketApi() {
     });
   }
 
+  async function createBattleInstance() {
+    if (!websocket) return undefined;
+    return asyncEmit<Battle>(websocket, "battle_create", "");
+  }
+
+  async function requestBattleAttack() {
+    if (!websocket) return undefined;
+    return asyncEmit<Battle>(websocket, "battle_attack", "");
+  }
+
+  async function cancelBattleInstance() {
+    if (!websocket) return undefined;
+    return asyncEmit<Battle>(websocket, "battle_reset", "");
+  }
+
   async function revokeMarketListing(listingId: number) {
     if (!websocket) return undefined;
-    return new Promise(function (resolve) {
-      websocket.emit("remove_market_listing", listingId, (msg: string) => {
-        resolve(msg);
-      });
-    });
+
+    return asyncEmit<string>(websocket, "remove_market_listing", listingId);
   }
 
   async function purchaseMarketListing(args: {
@@ -30,57 +55,30 @@ export function useWebsocketApi() {
     marketListingId: number;
   }) {
     if (!websocket) return undefined;
-    return new Promise(function (resolve) {
-      websocket.emit("purchase_market_listing", args, (msg: string) => {
-        resolve(msg);
-      });
-    });
+    return asyncEmit<string>(websocket, "purchase_market_listing", args);
   }
 
   async function getUser(): Promise<User | undefined> {
     if (!websocket) return undefined;
     const email = loggedUserInfo.email;
-    return new Promise(function (resolve) {
-      websocket.emit("get_user", email, (user: User) => {
-        resolve(user);
-      });
-    });
+    return asyncEmit<User>(websocket, "get_user", email);
   }
 
   async function getFirstMonster(): Promise<Monster | undefined> {
     if (!websocket) return undefined;
-    return new Promise(function (resolve) {
-      websocket.emit("get_monster", "", (monster: Monster) => {
-        console.log(monster);
-        resolve(monster);
-      });
-    });
+    return asyncEmit<Monster>(websocket, "get_monster", "");
   }
 
   async function getFirst10Users(): Promise<User[] | undefined> {
     if (!websocket) return undefined;
-    const email = loggedUserInfo.email;
-    return new Promise(function (resolve) {
-      websocket.emit("get_all_user", email, (users: User[]) => {
-        resolve(users);
-      });
-    });
+    return asyncEmit<User[]>(websocket, "get_all_user", "");
   }
 
   async function getFirst10MarketListing(): Promise<
     MarketListing[] | undefined
   > {
     if (!websocket) return undefined;
-    const email = loggedUserInfo.email;
-    return new Promise(function (resolve) {
-      websocket.emit(
-        "get_all_market_listing",
-        email,
-        (listing: MarketListing[]) => {
-          resolve(listing);
-        }
-      );
-    });
+    return asyncEmit<MarketListing[]>(websocket, "get_all_market_listing", "");
   }
 
   return {
@@ -91,5 +89,8 @@ export function useWebsocketApi() {
     revokeMarketListing,
     getFirst10Users,
     getFirstMonster,
+    createBattleInstance,
+    requestBattleAttack,
+    cancelBattleInstance,
   };
 }
