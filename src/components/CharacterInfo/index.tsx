@@ -27,7 +27,7 @@ export function CharacterInfo({
   costume: string;
   head: string;
   gender: "male" | "female";
-  orientation: "front" | "back";
+  orientation?: "front" | "back";
   onClick?: () => void;
 }) {
   const [assetLoaded, setAssetLoaded] = useState(false);
