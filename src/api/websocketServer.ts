@@ -47,6 +47,16 @@ export function useWebsocketApi() {
     });
   }
 
+  async function getFirstMonster(): Promise<Monster | undefined> {
+    if (!websocket) return undefined;
+    return new Promise(function (resolve) {
+      websocket.emit("get_monster", "", (monster: Monster) => {
+        console.log(monster);
+        resolve(monster);
+      });
+    });
+  }
+
   async function getFirst10Users(): Promise<User[] | undefined> {
     if (!websocket) return undefined;
     const email = loggedUserInfo.email;
@@ -80,5 +90,6 @@ export function useWebsocketApi() {
     purchaseMarketListing,
     revokeMarketListing,
     getFirst10Users,
+    getFirstMonster,
   };
 }
