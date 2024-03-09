@@ -10,6 +10,8 @@ import { useEffect } from "react";
 import { CharacterCreationPage } from "@/pages/characterCreation";
 import { ErrorMessage } from "@/components/ErrorMessage";
 import { useWebsocketApi } from "@/api/websocketServer";
+import { FloatingNavBar } from "@/components/FloatingNavBar";
+import styles from "./style.module.scss";
 
 export function CharacterLayout() {
   const store = useMainStore();
@@ -39,9 +41,10 @@ export function CharacterLayout() {
   }
 
   return (
-    <>
+    <div className={styles.container}>
       <CharacterSummaryHeader />
       <Outlet />
-    </>
+      <FloatingNavBar />
+    </div>
   );
 }

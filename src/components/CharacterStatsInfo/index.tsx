@@ -2,6 +2,15 @@ import HealthBar from "../HealthBar";
 import styles from "./style.module.scss";
 import { useMainStore } from "@/store/main";
 
+function Stat(props: { label: string; assetName: string }) {
+  return (
+    <div className={styles.statContainer}>
+      <img src={`https://kidmortal.sirv.com/misc/${props.assetName}.webp`} />
+      <span>{props.label}</span>
+    </div>
+  );
+}
+
 export function CharacterStatsInfo() {
   const store = useMainStore();
 
@@ -22,30 +31,26 @@ export function CharacterStatsInfo() {
   return (
     <div className={styles.container}>
       <HealthBar currentHealth={20} maxHealth={20} />
-      <div className={styles.statContainer}>
-        <img src="assets/stats/health.webp" />
-        <span>
-          HP: {store.userCharacterData?.stats?.health} + {bonusHealth}
-        </span>
-      </div>
-      <div className={styles.statContainer}>
-        <img src="assets/stats/attack.webp" />
-        <span>
-          ATK: {store.userCharacterData?.stats?.attack} + {bonusAttack}
-        </span>
-      </div>
-      <div className={styles.statContainer}>
-        <img src="assets/stats/str.webp" />
-        <span>STR: {store.userCharacterData?.stats?.str}</span>
-      </div>
-      <div className={styles.statContainer}>
-        <img src="assets/stats/agi.webp" />
-        <span>AGI: {store.userCharacterData?.stats?.agi}</span>
-      </div>
-      <div className={styles.statContainer}>
-        <img src="assets/stats/int.webp" />
-        <span>INT: {store.userCharacterData?.stats?.int}</span>
-      </div>
+      <Stat
+        assetName="health"
+        label={`HP: ${store.userCharacterData?.stats?.health} + ${bonusHealth}`}
+      />
+      <Stat
+        assetName="attack"
+        label={`ATK: ${store.userCharacterData?.stats?.attack} + ${bonusAttack}`}
+      />
+      <Stat
+        assetName="str"
+        label={`STR: ${store.userCharacterData?.stats?.str}`}
+      />
+      <Stat
+        assetName="agi"
+        label={`AGI: ${store.userCharacterData?.stats?.agi}`}
+      />
+      <Stat
+        assetName="int"
+        label={`INT: ${store.userCharacterData?.stats?.int}`}
+      />
     </div>
   );
 }

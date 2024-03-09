@@ -80,6 +80,36 @@ export function BattlePage() {
           disabled={cancelBattleMutation.isPending || query.isRefetching}
         />
       </div>
+      <div className={styles.skills}>
+        <div>
+          <Button
+            label={
+              <div>
+                <img
+                  width={15}
+                  height={15}
+                  src="https://cdn.discordapp.com/emojis/646881350267305994.webp?size=96&quality=lossless"
+                />
+                <span>Fireball</span>
+              </div>
+            }
+          />
+        </div>
+        <div>
+          <Button
+            label={
+              <div>
+                <img
+                  width={15}
+                  height={15}
+                  src="https://cdn.discordapp.com/emojis/662327427049193475.webp?size=96&quality=lossless"
+                />
+                <span>Ice Shards</span>
+              </div>
+            }
+          />
+        </div>
+      </div>
     </div>
   );
 }
