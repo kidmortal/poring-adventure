@@ -1,3 +1,4 @@
+import { Stat } from "../CharacterStatsInfo";
 import { Tooltip } from "../Tooltip";
 import styles from "./style.module.scss";
 import cn from "classnames";
@@ -13,14 +14,8 @@ function EquipmentStat({ equip }: { equip: Equipment }) {
     <div className={styles.statsContainer}>
       <h3>{equip?.item?.name}</h3>
       <span>{equip.item.category}</span>
-      <div className={styles.statContainer}>
-        <img src="assets/stats/health.webp" />
-        <span>HP: {equip?.item?.health}</span>
-      </div>
-      <div className={styles.statContainer}>
-        <img src="assets/stats/attack.webp" />
-        <span>ATK: {equip?.item?.attack}</span>
-      </div>
+      <Stat assetName="health" label={`HP: ${equip?.item?.health}`} />
+      <Stat assetName="attack" label={`ATK: ${equip?.item?.attack}`} />
     </div>
   );
 }

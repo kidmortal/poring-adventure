@@ -2,7 +2,7 @@ import HealthBar from "../HealthBar";
 import styles from "./style.module.scss";
 import { useMainStore } from "@/store/main";
 
-function Stat(props: { label: string; assetName: string }) {
+export function Stat(props: { label: string; assetName: string }) {
   return (
     <div className={styles.statContainer}>
       <img src={`https://kidmortal.sirv.com/misc/${props.assetName}.webp`} />
