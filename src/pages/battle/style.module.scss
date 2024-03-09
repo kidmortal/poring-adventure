@@ -1,19 +1,58 @@
 .container {
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   color: white;
 }
+.monsterSection {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 4rem;
+}
 
-.logContainer {
+.monsterContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
 }
 
+.userSection {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  padding-left: 4rem;
+}
+
+.userContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.logContainer {
+  height: 7rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  overflow-y: auto;
+  margin-bottom: 1rem;
+}
+
 .actions {
+  padding-top: 2rem;
+  width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: center;

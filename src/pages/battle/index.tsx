@@ -5,6 +5,7 @@ import styles from "./style.module.scss";
 import { Query } from "@/store/query";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/Button";
+import { CharacterInfo } from "@/components/CharacterInfo";
 
 export function BattlePage() {
   const store = useMainStore();
@@ -40,15 +41,32 @@ export function BattlePage() {
 
   return (
     <div className={styles.container}>
-      <span>{query.data?.monster.name}</span>
-      <span>HP {query.data?.monster.health}</span>
-      <span>attack {query.data?.monster.attack}</span>
-      <img src={query.data?.monster.image} />
       <div className={styles.logContainer}>
         {query.data?.log.map((log) => (
           <span key={`${log}${crypto.randomUUID()}`}>{log}</span>
         ))}
       </div>
+      <div className={styles.monsterSection}>
+        <div className={styles.monsterContainer}>
+          <span>{query.data?.monster.name}</span>
+          <span>HP {query.data?.monster.health}</span>
+          <span>attack {query.data?.monster.attack}</span>
+          <img src={query.data?.monster.image} />
+        </div>
+      </div>
+
+      <div className={styles.userSection}>
+        <div className={styles.userContainer}>
+          <span>{store.userCharacterData?.name}</span>
+          <span>HP: {store.userCharacterData?.stats?.health}</span>
+          <CharacterInfo
+            costume={`${store.userCharacterData?.classname}_back`}
+            gender={store.userCharacterData?.appearance.gender ?? "male"}
+            head={`${store.userCharacterData?.appearance.head}_back`}
+          />
+        </div>
+      </div>
+
       <div className={styles.actions}>
         <Button
           label="Attack"
