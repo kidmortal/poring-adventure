@@ -24,7 +24,6 @@ export function BattlePage() {
     onSuccess: (data: Battle | undefined) => {
       if (data) {
         queryClient.setQueryData([Query.BATTLE], data);
-        console.log(data);
       }
     },
   });
@@ -35,8 +34,6 @@ export function BattlePage() {
       queryClient.invalidateQueries({ queryKey: [Query.BATTLE] });
     },
   });
-
-  console.log(query.data);
 
   if (query.isLoading) {
     return <FullscreenLoading />;
@@ -87,7 +84,7 @@ export function BattlePage() {
           disabled={cancelBattleMutation.isPending || query.isRefetching}
         />
       </div>
-      <div className={styles.skills}>
+      {/* <div className={styles.skills}>
         <div>
           <Button
             label={
@@ -116,7 +113,7 @@ export function BattlePage() {
             }
           />
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

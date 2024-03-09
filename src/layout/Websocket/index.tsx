@@ -3,6 +3,7 @@ import { io } from "socket.io-client";
 
 import { useEffect } from "react";
 import { useMainStore } from "@/store/main";
+import { toast } from "react-toastify";
 
 export function WebsocketLayout() {
   const store = useMainStore();
@@ -19,8 +20,8 @@ export function WebsocketLayout() {
 
   useEffect(() => {
     if (store.websocket) {
-      store.websocket.on("message", (msg: string) => {
-        console.log(msg); // true
+      store.websocket.on("notification", (msg: string) => {
+        toast(msg, { type: "info", autoClose: 2000 });
       });
     }
   }, [store.websocket]);
