@@ -5,8 +5,10 @@ import { Inventory } from "@/components/Inventory";
 import { CharacterStatsInfo } from "@/components/CharacterStatsInfo";
 
 import { Equipments } from "@/components/Equipments";
+import { useNavigate } from "react-router-dom";
 
 export function ProfilePage() {
+  const navigate = useNavigate();
   const store = useMainStore();
 
   const equippedItems = store.userCharacterData?.equipment ?? [];
@@ -25,7 +27,12 @@ export function ProfilePage() {
             costume={store.userCharacterData?.appearance?.costume ?? ""}
             gender={store.userCharacterData?.appearance?.gender ?? "female"}
             head={store.userCharacterData?.appearance?.head ?? ""}
-            onClick={() => console.log(store.loggedUserInfo.accessToken)}
+            onClick={() => {
+              console.log(store.loggedUserInfo.accessToken);
+              if (store.userCharacterData?.admin) {
+                navigate("/admin");
+              }
+            }}
           />
         </div>
         <CharacterStatsInfo />

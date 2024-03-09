@@ -50,6 +50,29 @@ export function useWebsocketApi() {
     return asyncEmit<string>(websocket, "remove_market_listing", listingId);
   }
 
+  async function getAllWebsockets() {
+    if (!websocket) return undefined;
+
+    return asyncEmit<{ id: string; email: string }[]>(
+      websocket,
+      "get_all_sockets",
+      ""
+    );
+  }
+
+  async function sendWebsocketNotification(args: {
+    to: string;
+    message: string;
+  }) {
+    if (!websocket) return undefined;
+
+    return asyncEmit<{ id: string; email: string }[]>(
+      websocket,
+      "message_socket",
+      args
+    );
+  }
+
   async function purchaseMarketListing(args: {
     stack: number;
     marketListingId: number;
@@ -92,5 +115,7 @@ export function useWebsocketApi() {
     createBattleInstance,
     requestBattleAttack,
     cancelBattleInstance,
+    getAllWebsockets,
+    sendWebsocketNotification,
   };
 }

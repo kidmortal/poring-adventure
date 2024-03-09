@@ -5,6 +5,7 @@ declare type User = {
   classname: string;
   silver: number;
   appearance: Appearance;
+  admin?: boolean;
   stats?: Stats;
   inventory: InventoryItem[];
   equipment: Equipment[];
