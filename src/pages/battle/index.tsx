@@ -60,9 +60,10 @@ export function BattlePage() {
           <span>{store.userCharacterData?.name}</span>
           <span>HP: {store.userCharacterData?.stats?.health}</span>
           <CharacterInfo
-            costume={`${store.userCharacterData?.classname}_back`}
+            costume={`${store.userCharacterData?.classname}`}
             gender={store.userCharacterData?.appearance.gender ?? "male"}
-            head={`${store.userCharacterData?.appearance.head}_back`}
+            head={`${store.userCharacterData?.appearance.head}`}
+            orientation="back"
           />
         </div>
       </div>
