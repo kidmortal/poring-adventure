@@ -5,11 +5,12 @@ import "react-toastify/dist/ReactToastify.css";
 import cn from "classnames";
 
 export function LimitedSizeLayout() {
+  console.log(import.meta.env.PROD);
   return (
     <div className={styles.container}>
       <div
         className={cn(styles.limitedContainer, {
-          [styles.limitedDev]: import.meta.env.DEV,
+          [styles.limitedDev]: import.meta.env.DEV && import.meta.env.VITE_DEV,
         })}
       >
         <ToastContainer />
