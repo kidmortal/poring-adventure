@@ -6,9 +6,20 @@ type Props = {
 };
 
 export default function HealthBar(props: Props) {
+  const currentPercentage = Math.floor(
+    (props.currentHealth / props.maxHealth) * 100
+  );
+
   return (
     <div className={styles.container}>
-      HP {props.currentHealth}/{props.maxHealth}
+      <span>
+        HP {props.currentHealth}/{props.maxHealth}
+      </span>
+
+      <div
+        style={{ width: `${currentPercentage}%` }}
+        className={styles.fillColor}
+      />
     </div>
   );
 }

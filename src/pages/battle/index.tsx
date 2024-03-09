@@ -6,6 +6,7 @@ import { Query } from "@/store/query";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/Button";
 import { CharacterInfo } from "@/components/CharacterInfo";
+import HealthBar from "@/components/HealthBar";
 
 export function BattlePage() {
   const store = useMainStore();
@@ -35,6 +36,8 @@ export function BattlePage() {
     },
   });
 
+  console.log(query.data);
+
   if (query.isLoading) {
     return <FullscreenLoading />;
   }
@@ -57,12 +60,15 @@ export function BattlePage() {
 
       <div className={styles.userSection}>
         <div className={styles.userContainer}>
-          <span>{store.userCharacterData?.name}</span>
-          <span>HP: {store.userCharacterData?.stats?.health}</span>
+          <span>{query.data?.user.name}</span>
+          <HealthBar
+            currentHealth={query.data?.user.stats?.health ?? 0}
+            maxHealth={query.data?.user.stats?.maxHealth ?? 0}
+          />
           <CharacterInfo
-            costume={`${store.userCharacterData?.classname}`}
-            gender={store.userCharacterData?.appearance.gender ?? "male"}
-            head={`${store.userCharacterData?.appearance.head}`}
+            costume={`${query.data?.user.classname}`}
+            gender={query.data?.user.appearance.gender ?? "male"}
+            head={`${query.data?.user.appearance.head}`}
             orientation="back"
           />
         </div>
