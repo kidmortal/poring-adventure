@@ -27,7 +27,7 @@ export function useWebsocketApi() {
 
   async function purchaseMarketListing(args: {
     stack: number;
-    itemId: number;
+    marketListingId: number;
   }) {
     if (!websocket) return undefined;
     return new Promise(function (resolve) {

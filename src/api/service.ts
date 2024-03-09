@@ -6,11 +6,6 @@ class ApiService {
     headers: { "Content-Type": "application/json" },
   });
 
-  async getFirst10Users() {
-    const info = await this.endpoint.get<User[]>(`/users/`);
-    return info.data;
-  }
-
   async deleteUser(email: string, accessToken: string) {
     const info = await this.endpoint.delete(`/users/${email}`, {
       headers: { auth: accessToken },

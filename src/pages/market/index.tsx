@@ -23,7 +23,7 @@ export function MarketPage() {
   const purchaseMutation = useMutation({
     mutationFn: (id: number) =>
       api.purchaseMarketListing({
-        itemId: id,
+        marketListingId: id,
         stack: 1,
       }),
     onSuccess: () => {
