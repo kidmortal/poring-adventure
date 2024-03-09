@@ -140,7 +140,7 @@ export function CharacterCreationPage() {
         <Character
           name={store.selectedCharacterClass}
           gender={store.gender}
-          head="head_1"
+          head="1"
         />
 
         <ClassRadioSelectors />
