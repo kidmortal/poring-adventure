@@ -1,8 +1,7 @@
 import styles from "./style.module.scss";
 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { api } from "@/api/service";
-import { useMainStore } from "@/store/main";
+
 import { Query } from "@/store/query";
 import { toast } from "react-toastify";
 
@@ -12,6 +11,7 @@ import { Silver } from "@/components/Silver";
 import { InventoryItem } from "@/components/InventoryItem";
 import { Button } from "@/components/Button";
 import { useModalStore } from "@/store/modal";
+import { useWebsocketApi } from "@/api/websocketServer";
 
 type Props = {
   isOpen?: boolean;
@@ -44,16 +44,12 @@ function ItemDetails({ item }: { item?: InventoryItem }) {
 }
 
 export function ItemMenuModal(props: Props) {
-  const store = useMainStore();
+  const api = useWebsocketApi();
   const modalStore = useModalStore();
   const queryClient = useQueryClient();
 
   const revokeMarketListingMutation = useMutation({
-    mutationFn: (listingId: number) =>
-      api.revokeMarketListing({
-        accessToken: store.loggedUserInfo.accessToken,
-        listingId,
-      }),
+    mutationFn: (listingId: number) => api.revokeMarketListing(listingId),
     onSuccess: () => {
       toast("Listing removed", { type: "success" });
     },

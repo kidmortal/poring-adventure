@@ -2,13 +2,18 @@ import { Query } from "@/store/query";
 import styles from "./style.module.scss";
 import { useQuery } from "@tanstack/react-query";
 import { CharacterInfo } from "@/components/CharacterInfo";
-import { api } from "@/api/service";
+
 import { FullscreenLoading } from "@/components/FullscreenLoading";
 import { Silver } from "@/components/Silver";
+import { useMainStore } from "@/store/main";
+import { useWebsocketApi } from "@/api/websocketServer";
 
 export function RankingPage() {
+  const api = useWebsocketApi();
+  const store = useMainStore();
   const query = useQuery({
     queryKey: [Query.ALL_CHARACTERS],
+    enabled: !!store.websocket,
     staleTime: 1000 * 2,
     queryFn: () => api.getFirst10Users(),
   });

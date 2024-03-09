@@ -1,30 +1,30 @@
 import { Query } from "@/store/query";
 import styles from "./style.module.scss";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { api } from "@/api/service";
 import { FullscreenLoading } from "@/components/FullscreenLoading";
-import { useMainStore } from "@/store/main";
 import { toast } from "react-toastify";
 import { Button } from "@/components/Button";
 import { Silver } from "@/components/Silver";
 import { InventoryItem } from "@/components/InventoryItem";
 import { useWebsocketApi } from "@/api/websocketServer";
+import { useMainStore } from "@/store/main";
 
 export function MarketPage() {
-  const wsapi = useWebsocketApi();
   const store = useMainStore();
+  const api = useWebsocketApi();
   const queryClient = useQueryClient();
   const query = useQuery({
     queryKey: [Query.ALL_MARKET],
+    enabled: !!store.websocket,
     staleTime: 1000 * 2,
-    queryFn: () => wsapi.getFirst10MarketListing(),
+    queryFn: () => api.getFirst10MarketListing(),
   });
 
   const purchaseMutation = useMutation({
     mutationFn: (id: number) =>
       api.purchaseMarketListing({
-        listingId: id,
-        accessToken: store.loggedUserInfo.accessToken,
+        itemId: id,
+        stack: 1,
       }),
     onSuccess: () => {
       toast("Purchase successful", { type: "success" });

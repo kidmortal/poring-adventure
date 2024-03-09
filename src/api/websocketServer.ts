@@ -16,12 +16,43 @@ export function useWebsocketApi() {
     });
   }
 
+  async function revokeMarketListing(listingId: number) {
+    if (!websocket) return undefined;
+    return new Promise(function (resolve) {
+      websocket.emit("remove_market_listing", listingId, (msg: string) => {
+        resolve(msg);
+      });
+    });
+  }
+
+  async function purchaseMarketListing(args: {
+    stack: number;
+    itemId: number;
+  }) {
+    if (!websocket) return undefined;
+    return new Promise(function (resolve) {
+      websocket.emit("purchase_market_listing", args, (msg: string) => {
+        resolve(msg);
+      });
+    });
+  }
+
   async function getUser(): Promise<User | undefined> {
     if (!websocket) return undefined;
     const email = loggedUserInfo.email;
     return new Promise(function (resolve) {
       websocket.emit("get_user", email, (user: User) => {
         resolve(user);
+      });
+    });
+  }
+
+  async function getFirst10Users(): Promise<User[] | undefined> {
+    if (!websocket) return undefined;
+    const email = loggedUserInfo.email;
+    return new Promise(function (resolve) {
+      websocket.emit("get_all_user", email, (users: User[]) => {
+        resolve(users);
       });
     });
   }
@@ -42,5 +73,12 @@ export function useWebsocketApi() {
     });
   }
 
-  return { createMarketListing, getUser, getFirst10MarketListing };
+  return {
+    createMarketListing,
+    getUser,
+    getFirst10MarketListing,
+    purchaseMarketListing,
+    revokeMarketListing,
+    getFirst10Users,
+  };
 }
