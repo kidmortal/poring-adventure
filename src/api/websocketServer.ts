@@ -29,6 +29,11 @@ export function useWebsocketApi() {
     });
   }
 
+  async function getBattleInstance() {
+    if (!websocket) return undefined;
+    return asyncEmit<Battle>(websocket, "battle_update", "");
+  }
+
   async function createBattleInstance() {
     if (!websocket) return undefined;
     return asyncEmit<Battle>(websocket, "battle_create", "");
@@ -117,5 +122,6 @@ export function useWebsocketApi() {
     cancelBattleInstance,
     getAllWebsockets,
     sendWebsocketNotification,
+    getBattleInstance,
   };
 }

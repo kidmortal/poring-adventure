@@ -3,72 +3,74 @@ import { FullscreenLoading } from "@/components/FullscreenLoading";
 import { useMainStore } from "@/store/main";
 import styles from "./style.module.scss";
 import { Query } from "@/store/query";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/Button";
-import { CharacterInfo } from "@/components/CharacterInfo";
-import HealthBar from "@/components/HealthBar";
+import { BattleUserInfo } from "./components/BattleUserInfo";
+import { BattleMonsterInfo } from "./components/BattleMonsterInfo";
+import { When } from "@/components/When";
+import { BattleRewardBox } from "./components/BattleRewardsBox";
+import { useBattleStore } from "@/store/battle";
 
 export function BattlePage() {
   const store = useMainStore();
-  const queryClient = useQueryClient();
+  const battleStore = useBattleStore();
   const api = useWebsocketApi();
   const query = useQuery({
     queryKey: [Query.BATTLE],
-    enabled: !!store.websocket,
+    enabled: !!store.websocket && !!store.loggedUserInfo.accessToken,
     staleTime: 1000 * 2,
-    queryFn: () => api.createBattleInstance(),
+    queryFn: () => api.getBattleInstance(),
+  });
+
+  const createBattleMutation = useMutation({
+    mutationFn: () => api.createBattleInstance(),
   });
 
   const attackMutation = useMutation({
     mutationFn: () => api.requestBattleAttack(),
-    onSuccess: (data: Battle | undefined) => {
-      if (data) {
-        queryClient.setQueryData([Query.BATTLE], data);
-      }
-    },
   });
 
   const cancelBattleMutation = useMutation({
     mutationFn: () => api.cancelBattleInstance(),
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [Query.BATTLE] });
-    },
   });
 
   if (query.isLoading) {
     return <FullscreenLoading />;
   }
+  const userIsInBattle = battleStore.battle;
+  const battleIsFinished =
+    userIsInBattle && !battleStore.battle?.battleFinished;
 
   return (
     <div className={styles.container}>
       <div className={styles.logContainer}>
-        {query.data?.log.map((log) => (
+        {battleStore.battle?.log?.map((log) => (
           <span key={`${log}${crypto.randomUUID()}`}>{log}</span>
         ))}
       </div>
       <div className={styles.monsterSection}>
-        <div className={styles.monsterContainer}>
-          <span>{query.data?.monster.name}</span>
-          <span>HP {query.data?.monster.health}</span>
-          <span>attack {query.data?.monster.attack}</span>
-          <img src={query.data?.monster.image} />
-        </div>
+        <When value={!userIsInBattle}>
+          <Button
+            label="Search monster"
+            onClick={() => createBattleMutation.mutate()}
+            disabled={createBattleMutation.isPending}
+          />
+        </When>
+        <When value={!!userIsInBattle}>
+          <When value={!!battleIsFinished}>
+            <BattleMonsterInfo monster={battleStore.battle?.monster} />
+          </When>
+          <When value={!battleIsFinished}>
+            <BattleRewardBox
+              drops={battleStore.battle?.drops}
+              userLost={battleStore.battle?.userLost}
+            />
+          </When>
+        </When>
       </div>
 
       <div className={styles.userSection}>
-        <div className={styles.userContainer}>
-          <span>{query.data?.user.name}</span>
-          <HealthBar
-            currentHealth={query.data?.user.stats?.health ?? 0}
-            maxHealth={query.data?.user.stats?.maxHealth ?? 0}
-          />
-          <CharacterInfo
-            costume={`${query.data?.user.classname}`}
-            gender={query.data?.user.appearance.gender ?? "male"}
-            head={`${query.data?.user.appearance.head}`}
-            orientation="back"
-          />
-        </div>
+        <BattleUserInfo user={battleStore.battle?.user} />
       </div>
 
       <div className={styles.actions}>
@@ -78,7 +80,7 @@ export function BattlePage() {
           disabled={attackMutation.isPending || query.isRefetching}
         />
         <Button
-          label="Reset"
+          label="End Battle"
           theme="danger"
           onClick={() => cancelBattleMutation.mutate()}
           disabled={cancelBattleMutation.isPending || query.isRefetching}
