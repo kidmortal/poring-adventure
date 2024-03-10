@@ -19,19 +19,19 @@ export function BattlePage() {
     queryKey: [Query.BATTLE],
     enabled: !!store.websocket && !!store.loggedUserInfo.accessToken,
     staleTime: 1000 * 2,
-    queryFn: () => api.getBattleInstance(),
+    queryFn: () => api.battle.getBattleInstance(),
   });
 
   const createBattleMutation = useMutation({
-    mutationFn: () => api.createBattleInstance(),
+    mutationFn: () => api.battle.createBattleInstance(),
   });
 
   const attackMutation = useMutation({
-    mutationFn: () => api.requestBattleAttack(),
+    mutationFn: () => api.battle.requestBattleAttack(),
   });
 
   const cancelBattleMutation = useMutation({
-    mutationFn: () => api.cancelBattleInstance(),
+    mutationFn: () => api.battle.cancelBattleInstance(),
   });
 
   if (query.isLoading) {

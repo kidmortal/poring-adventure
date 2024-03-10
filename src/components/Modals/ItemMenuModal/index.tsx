@@ -49,9 +49,26 @@ export function ItemMenuModal(props: Props) {
   const queryClient = useQueryClient();
 
   const revokeMarketListingMutation = useMutation({
-    mutationFn: (listingId: number) => api.revokeMarketListing(listingId),
+    mutationFn: (listingId: number) =>
+      api.market.revokeMarketListing(listingId),
     onSuccess: () => {
       toast("Listing removed", { type: "success" });
+    },
+    onSettled: () => {
+      props.onRequestClose();
+      queryClient.refetchQueries({
+        queryKey: [Query.USER_CHARACTER],
+      });
+      queryClient.refetchQueries({
+        queryKey: [Query.ALL_MARKET],
+      });
+    },
+  });
+
+  const consumeItemMutation = useMutation({
+    mutationFn: (itemId: number) => api.items.consumeItem(itemId),
+    onSuccess: () => {
+      toast("Item consumed", { type: "success" });
     },
     onSettled: () => {
       props.onRequestClose();
@@ -75,11 +92,15 @@ export function ItemMenuModal(props: Props) {
         <ItemDetails item={props.item} />
       </div>
       <div className={styles.buttonsContainer}>
-        {/* <Button
+        <Button
           label="Use item"
-          onClick={() => toast("To be added", { type: "info" })}
-          disabled={isOnSale}
-        /> */}
+          onClick={() => {
+            if (props.item?.itemId) {
+              consumeItemMutation.mutate(props.item?.itemId);
+            }
+          }}
+          disabled={!hasRemainingStock || consumeItemMutation.isPending}
+        />
         <When value={isOnSale}>
           <Button
             label="Revoke selling"

@@ -49,6 +49,12 @@ export function useWebsocketApi() {
     return asyncEmit<Battle>(websocket, "battle_reset", "");
   }
 
+  async function consumeItem(itemId: number) {
+    if (!websocket) return undefined;
+
+    return asyncEmit<string>(websocket, "consume_item", itemId);
+  }
+
   async function revokeMarketListing(listingId: number) {
     if (!websocket) return undefined;
 
@@ -110,18 +116,30 @@ export function useWebsocketApi() {
   }
 
   return {
-    createMarketListing,
-    getUser,
-    getFirst10MarketListing,
-    purchaseMarketListing,
-    revokeMarketListing,
-    getFirst10Users,
+    users: {
+      getUser,
+      getFirst10Users,
+    },
+    market: {
+      createMarketListing,
+      getFirst10MarketListing,
+      purchaseMarketListing,
+      revokeMarketListing,
+    },
+    battle: {
+      createBattleInstance,
+      requestBattleAttack,
+      cancelBattleInstance,
+      getBattleInstance,
+    },
+    admin: {
+      sendWebsocketNotification,
+      getAllWebsockets,
+    },
+    items: {
+      consumeItem,
+    },
+
     getFirstMonster,
-    createBattleInstance,
-    requestBattleAttack,
-    cancelBattleInstance,
-    getAllWebsockets,
-    sendWebsocketNotification,
-    getBattleInstance,
   };
 }

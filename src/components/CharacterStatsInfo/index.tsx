@@ -36,7 +36,7 @@ export function CharacterStatsInfo() {
       />
       <Stat
         assetName="health"
-        label={`HP: ${store.userCharacterData?.stats?.health} + ${bonusHealth}`}
+        label={`HP: ${store.userCharacterData?.stats?.maxHealth} + ${bonusHealth}`}
       />
       <Stat
         assetName="attack"

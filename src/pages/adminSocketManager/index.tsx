@@ -12,12 +12,12 @@ export default function AdminSocketManager() {
     queryKey: ["sockets"],
     enabled: !!store.websocket,
     staleTime: 1000 * 2,
-    queryFn: () => api.getAllWebsockets(),
+    queryFn: () => api.admin.getAllWebsockets(),
   });
 
   const notificationMutation = useMutation({
     mutationFn: (args: { to: string; message: string }) =>
-      api.sendWebsocketNotification(args),
+      api.admin.sendWebsocketNotification(args),
   });
 
   if (query.isLoading) {

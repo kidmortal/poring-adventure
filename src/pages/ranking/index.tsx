@@ -15,7 +15,7 @@ export function RankingPage() {
     queryKey: [Query.ALL_CHARACTERS],
     enabled: !!store.websocket,
     staleTime: 1000 * 2,
-    queryFn: () => api.getFirst10Users(),
+    queryFn: () => api.users.getFirst10Users(),
   });
 
   if (query.isLoading) {

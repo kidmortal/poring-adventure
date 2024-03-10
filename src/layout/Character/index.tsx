@@ -22,7 +22,7 @@ export function CharacterLayout() {
     enabled: !!store.websocket && !!store.loggedUserInfo.accessToken,
     staleTime: 1000 * 2,
     retry: 3,
-    queryFn: () => api.getUser(),
+    queryFn: () => api.users.getUser(),
   });
 
   useEffect(() => {

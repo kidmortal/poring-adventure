@@ -17,12 +17,12 @@ export function MarketPage() {
     queryKey: [Query.ALL_MARKET],
     enabled: !!store.websocket,
     staleTime: 1000 * 2,
-    queryFn: () => api.getFirst10MarketListing(),
+    queryFn: () => api.market.getFirst10MarketListing(),
   });
 
   const purchaseMutation = useMutation({
     mutationFn: (id: number) =>
-      api.purchaseMarketListing({
+      api.market.purchaseMarketListing({
         marketListingId: id,
         stack: 1,
       }),

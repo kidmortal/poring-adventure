@@ -25,7 +25,7 @@ export function SellItemModal(props: Props) {
   const queryClient = useQueryClient();
   const createMarketListingMutation = useMutation({
     mutationFn: (args: { id: number; stack: number; price: number }) =>
-      api.createMarketListing({
+      api.market.createMarketListing({
         itemId: args.id,
         price: args.price,
         stack: args.stack,
