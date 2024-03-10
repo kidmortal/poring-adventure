@@ -1,6 +1,6 @@
 .container {
   width: 100%;
-  height: 100%;
+  margin-top: 0.5rem;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -23,7 +23,7 @@
 
 .userCharacterInfoContainer {
   width: 100%;
-  height: 100%;
+
   display: flex;
   flex-direction: column;
   justify-content: center;
