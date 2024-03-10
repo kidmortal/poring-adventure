@@ -115,6 +115,16 @@ export function useWebsocketApi() {
     return asyncEmit<MarketListing[]>(websocket, "get_all_market_listing", "");
   }
 
+  async function equipItem(itemId: number) {
+    if (!websocket) return undefined;
+    return asyncEmit<string>(websocket, "equip_item", itemId);
+  }
+
+  async function unequipItem(itemId: number) {
+    if (!websocket) return undefined;
+    return asyncEmit<string>(websocket, "unequip_item", itemId);
+  }
+
   return {
     users: {
       getUser,
@@ -138,6 +148,8 @@ export function useWebsocketApi() {
     },
     items: {
       consumeItem,
+      equipItem,
+      unequipItem,
     },
 
     getFirstMonster,

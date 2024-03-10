@@ -30,10 +30,13 @@ export function CharacterStatsInfo() {
 
   return (
     <div className={styles.container}>
-      <HealthBar
-        currentHealth={store.userCharacterData?.stats?.health ?? 0}
-        maxHealth={store.userCharacterData?.stats?.maxHealth ?? 0}
-      />
+      <div className={styles.healthContainer}>
+        <HealthBar
+          currentHealth={store.userCharacterData?.stats?.health ?? 0}
+          maxHealth={store.userCharacterData?.stats?.maxHealth ?? 0}
+        />
+      </div>
+
       <Stat
         assetName="health"
         label={`HP: ${store.userCharacterData?.stats?.maxHealth} + ${bonusHealth}`}

@@ -12,31 +12,56 @@ import { InventoryItem } from "@/components/InventoryItem";
 import { Button } from "@/components/Button";
 import { useModalStore } from "@/store/modal";
 import { useWebsocketApi } from "@/api/websocketServer";
+import { useMainStore } from "@/store/main";
+
+// function isItemEquippable({
+//   equips,
+//   item,
+// }: {
+//   equips?: Equipment[];
+//   item?: Item;
+// }) {
+//   equips?.forEach((equip) => {
+//     console.log({
+//       equippedId: equip.itemId,
+//       referenceId: item?.id,
+//       equippedCategory: equip.item?.category,
+//       referenceCategory: item?.category,
+//     });
+//     if (equip.itemId === item?.id || equip.item?.category === item?.category) {
+//       console.log(`cannot equip ${item?.name}`);
+//       return false;
+//     }
+//   });
+//   console.log(`can equip ${item?.name}`);
+//   return true;
+// }
 
 type Props = {
   isOpen?: boolean;
-  item?: InventoryItem;
+  item?: InventoryItem | Equipment;
   onRequestClose: (i?: InventoryItem) => void;
 };
 
-function ItemDetails({ item }: { item?: InventoryItem }) {
-  const isOnSale = !!item?.marketListing?.id;
+function ItemDetails({ item }: { item?: InventoryItem | Equipment }) {
+  let isOnSale = false;
+  let stack = 0;
+  let totalPrice = 0;
+  if (item && "marketListing" in item) {
+    isOnSale = !!item?.marketListing;
+    stack = item?.marketListing?.stack ?? 0;
+    totalPrice =
+      (item.marketListing?.price ?? 0) * (item.marketListing?.stack ?? 1);
+  }
+
   return (
     <div className={styles.itemDetailContainer}>
       <span>{item?.item.name}</span>
       <When value={isOnSale}>
         <div className={styles.row}>
           <span>Sale</span>
-          <InventoryItem
-            inventoryItem={item}
-            stack={item?.marketListing?.stack}
-          />
-          <Silver
-            amount={
-              (item?.marketListing?.price ?? 0) *
-              (item?.marketListing?.stack ?? 1)
-            }
-          />
+          <InventoryItem inventoryItem={item} stack={stack} />
+          <Silver amount={totalPrice} />
         </div>
       </When>
     </div>
@@ -44,6 +69,7 @@ function ItemDetails({ item }: { item?: InventoryItem }) {
 }
 
 export function ItemMenuModal(props: Props) {
+  const store = useMainStore();
   const api = useWebsocketApi();
   const modalStore = useModalStore();
   const queryClient = useQueryClient();
@@ -75,32 +101,93 @@ export function ItemMenuModal(props: Props) {
       queryClient.refetchQueries({
         queryKey: [Query.USER_CHARACTER],
       });
+    },
+  });
+
+  const unequipItemMutation = useMutation({
+    mutationFn: (itemId: number) => api.items.unequipItem(itemId),
+    onSuccess: () => {
+      toast("Item unequipped", { type: "success" });
+    },
+    onSettled: () => {
+      props.onRequestClose();
       queryClient.refetchQueries({
-        queryKey: [Query.ALL_MARKET],
+        queryKey: [Query.USER_CHARACTER],
       });
     },
   });
 
-  const listingId = props.item?.marketListing?.id;
+  const equipItemMutation = useMutation({
+    mutationFn: (itemId: number) => api.items.equipItem(itemId),
+    onSuccess: () => {
+      toast("Item equipped", { type: "success" });
+    },
+    onSettled: () => {
+      props.onRequestClose();
+      queryClient.refetchQueries({
+        queryKey: [Query.USER_CHARACTER],
+      });
+    },
+  });
+
+  const item = props.item;
+  let listingId = 0;
+  let hasRemainingStock = false;
+
+  if (item && "marketListing" in item) {
+    listingId = item.marketListing?.id ?? 0;
+    hasRemainingStock = (item.stack || 0) > (item.marketListing?.stack || 0);
+  }
+
   const isOnSale = !!listingId;
-  const hasRemainingStock =
-    (props.item?.stack || 0) > (props.item?.marketListing?.stack || 0);
+  const isConsumable = props.item?.item?.category === "consumable";
+
+  const isAlreadyEquipped = !!store.userCharacterData?.equipment.find(
+    (equip) => equip.itemId === item?.itemId
+  );
+
   return (
     <BaseModal onRequestClose={props.onRequestClose} isOpen={props.isOpen}>
       <div className={styles.itemInfoContainer}>
-        <InventoryItem inventoryItem={props.item} />
-        <ItemDetails item={props.item} />
+        <InventoryItem inventoryItem={item} />
+        <ItemDetails item={item} />
       </div>
       <div className={styles.buttonsContainer}>
-        <Button
-          label="Use item"
-          onClick={() => {
-            if (props.item?.itemId) {
-              consumeItemMutation.mutate(props.item?.itemId);
-            }
-          }}
-          disabled={!hasRemainingStock || consumeItemMutation.isPending}
-        />
+        <When value={isConsumable}>
+          <Button
+            label="Use item"
+            onClick={() => {
+              if (props.item?.itemId) {
+                consumeItemMutation.mutate(props.item?.itemId);
+              }
+            }}
+            disabled={!hasRemainingStock || consumeItemMutation.isPending}
+          />
+        </When>
+
+        <When value={!isConsumable}>
+          <When value={!isAlreadyEquipped}>
+            <Button
+              label="Equip item"
+              onClick={() => {
+                if (props.item?.itemId) {
+                  equipItemMutation.mutate(props.item?.itemId);
+                }
+              }}
+            />
+          </When>
+          <When value={isAlreadyEquipped}>
+            <Button
+              label="Unequip item"
+              onClick={() => {
+                if (props.item?.itemId) {
+                  unequipItemMutation.mutate(props.item?.itemId);
+                }
+              }}
+            />
+          </When>
+        </When>
+
         <When value={isOnSale}>
           <Button
             label="Revoke selling"

@@ -7,7 +7,7 @@ type UserConfigState = {
 
 type InventoryItemState = {
   open: boolean;
-  selectedItem?: InventoryItem;
+  selectedItem?: InventoryItem | Equipment;
 };
 
 type SellItemState = {

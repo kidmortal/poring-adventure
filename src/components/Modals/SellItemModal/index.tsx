@@ -14,7 +14,7 @@ import { useWebsocketApi } from "@/api/websocketServer";
 
 type Props = {
   isOpen?: boolean;
-  item?: InventoryItem;
+  item?: InventoryItem | Equipment;
   onRequestClose: (i?: InventoryItem) => void;
 };
 
@@ -44,8 +44,14 @@ export function SellItemModal(props: Props) {
     },
   });
 
-  const hasRemainingStock =
-    (props.item?.stack || 0) > (props.item?.marketListing?.stack || 0);
+  const item = props.item;
+
+  let hasRemainingStock = false;
+
+  if (item && "marketListing" in item) {
+    hasRemainingStock = (item.stack || 0) > (item.marketListing?.stack || 0);
+  }
+
   return (
     <BaseModal onRequestClose={props.onRequestClose} isOpen={props.isOpen}>
       <div className={styles.itemInfoContainer}>

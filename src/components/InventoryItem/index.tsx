@@ -6,7 +6,7 @@ import { When } from "../When";
 import React from "react";
 
 type Props = {
-  inventoryItem?: InventoryItem;
+  inventoryItem?: InventoryItem | Equipment;
   backgroundColor?: string;
   toolTip?: React.ReactNode;
   toolTipDirection?: ToolTipDirection;
@@ -17,9 +17,12 @@ type Props = {
 export function InventoryItem(args: Props) {
   const inventoryItem = args.inventoryItem;
   const item = args.inventoryItem?.item;
-  const isOnSale = !!inventoryItem?.marketListing;
-
-  const stack = args.stack || inventoryItem?.stack || 0;
+  let isOnSale = false;
+  let stack = 0;
+  if (inventoryItem && "marketListing" in inventoryItem) {
+    isOnSale = !!inventoryItem?.marketListing;
+    stack = args.stack || inventoryItem?.stack || 0;
+  }
 
   if (!inventoryItem) {
     return (
