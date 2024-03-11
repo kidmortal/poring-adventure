@@ -151,7 +151,6 @@ export function useWebsocketApi() {
       equipItem,
       unequipItem,
     },
-
     getFirstMonster,
   };
 }

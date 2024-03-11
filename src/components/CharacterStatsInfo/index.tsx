@@ -27,6 +27,9 @@ export function CharacterStatsInfo() {
       }
     });
   }
+  const rawHealth =
+    (store.userCharacterData?.stats?.maxHealth || 0) - bonusHealth;
+  const rawAtk = (store.userCharacterData?.stats?.attack || 0) - bonusAttack;
 
   return (
     <div className={styles.container}>
@@ -37,14 +40,8 @@ export function CharacterStatsInfo() {
         />
       </div>
 
-      <Stat
-        assetName="health"
-        label={`HP: ${store.userCharacterData?.stats?.maxHealth} + ${bonusHealth}`}
-      />
-      <Stat
-        assetName="attack"
-        label={`ATK: ${store.userCharacterData?.stats?.attack} + ${bonusAttack}`}
-      />
+      <Stat assetName="health" label={`HP: ${rawHealth} +${bonusHealth}`} />
+      <Stat assetName="attack" label={`ATK: ${rawAtk} +${bonusAttack}`} />
       <Stat
         assetName="str"
         label={`STR: ${store.userCharacterData?.stats?.str}`}

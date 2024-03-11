@@ -13,6 +13,7 @@ import { Button } from "@/components/Button";
 import { useModalStore } from "@/store/modal";
 import { useWebsocketApi } from "@/api/websocketServer";
 import { useMainStore } from "@/store/main";
+import { EquipmentStat } from "@/components/EquipedItem";
 
 // function isItemEquippable({
 //   equips,
@@ -56,7 +57,7 @@ function ItemDetails({ item }: { item?: InventoryItem | Equipment }) {
 
   return (
     <div className={styles.itemDetailContainer}>
-      <span>{item?.item.name}</span>
+      <EquipmentStat item={item} />
       <When value={isOnSale}>
         <div className={styles.row}>
           <span>Sale</span>

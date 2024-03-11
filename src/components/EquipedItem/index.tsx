@@ -1,5 +1,6 @@
 import { Stat } from "../CharacterStatsInfo";
 import { Tooltip } from "../Tooltip";
+import { When } from "../When";
 import styles from "./style.module.scss";
 import cn from "classnames";
 
@@ -9,13 +10,17 @@ type Props = {
   onClick?: () => void;
 };
 
-function EquipmentStat({ equip }: { equip: Equipment }) {
+export function EquipmentStat({ item }: { item?: Equipment | InventoryItem }) {
   return (
     <div className={styles.statsContainer}>
-      <h3>{equip?.item?.name}</h3>
-      <span>{equip.item.category}</span>
-      <Stat assetName="health" label={`HP: ${equip?.item?.health}`} />
-      <Stat assetName="attack" label={`ATK: ${equip?.item?.attack}`} />
+      <h3>{item?.item?.name}</h3>
+      <span>{item?.item.category}</span>
+      <When value={!!item?.item?.health}>
+        <Stat assetName="health" label={`HP: ${item?.item?.health}`} />
+      </When>
+      <When value={!!item?.item?.attack}>
+        <Stat assetName="attack" label={`ATK: ${item?.item?.attack}`} />
+      </When>
     </div>
   );
 }
@@ -33,7 +38,7 @@ export function EquippedItem(args: Props) {
   }
 
   return (
-    <Tooltip direction="right" text={<EquipmentStat equip={equipment} />}>
+    <Tooltip direction="right" text={<EquipmentStat item={equipment} />}>
       <div
         onClick={args.onClick}
         style={{ backgroundColor: args.backgroundColor }}
