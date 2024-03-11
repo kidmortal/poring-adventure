@@ -11,7 +11,7 @@ type InventoryItemState = {
 };
 
 type SellItemState = {
-  open: boolean;
+  open?: boolean;
   amount?: number;
   price?: number;
 };
@@ -34,6 +34,8 @@ export const useModalStore = create<ModalState>()((set) => ({
   },
   sellItem: {
     open: false,
+    amount: 1,
+    price: 5,
   },
   setInventoryItem: (v) =>
     set((state) => ({ inventoryItem: { ...state.inventoryItem, ...v } })),

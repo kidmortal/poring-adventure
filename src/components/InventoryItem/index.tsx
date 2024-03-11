@@ -18,7 +18,7 @@ export function InventoryItem(args: Props) {
   const inventoryItem = args.inventoryItem;
   const item = args.inventoryItem?.item;
   let isOnSale = false;
-  let stack = 0;
+  let stack = args.stack ?? 0;
   if (inventoryItem && "marketListing" in inventoryItem) {
     isOnSale = !!inventoryItem?.marketListing;
     stack = args.stack || inventoryItem?.stack || 0;

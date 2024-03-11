@@ -11,6 +11,7 @@ import { Silver } from "@/components/Silver";
 import { InventoryItem } from "@/components/InventoryItem";
 import { Button } from "@/components/Button";
 import { useWebsocketApi } from "@/api/websocketServer";
+import { useModalStore } from "@/store/modal";
 
 type Props = {
   isOpen?: boolean;
@@ -20,8 +21,7 @@ type Props = {
 
 export function SellItemModal(props: Props) {
   const api = useWebsocketApi();
-  const price = 5;
-  const amount = 1;
+  const modalStore = useModalStore();
   const queryClient = useQueryClient();
   const createMarketListingMutation = useMutation({
     mutationFn: (args: { id: number; stack: number; price: number }) =>
@@ -47,6 +47,8 @@ export function SellItemModal(props: Props) {
   const item = props.item;
 
   let hasRemainingStock = false;
+  const sellPrice = modalStore.sellItem.price ?? 0;
+  const sellAmount = modalStore.sellItem.amount ?? 0;
 
   if (item && "marketListing" in item) {
     hasRemainingStock = (item.stack || 0) > (item.marketListing?.stack || 0);
@@ -58,9 +60,19 @@ export function SellItemModal(props: Props) {
         <InventoryItem inventoryItem={props.item} />
       </div>
       <div className={styles.buttonsContainer}>
-        <input placeholder={`price - ${price}`} type="number" disabled />
-        <input placeholder={`amount - ${amount}`} type="number" disabled />
-        <Silver amount={amount * price} />
+        <input
+          placeholder={`price - ${sellPrice}`}
+          type="number"
+          min={1}
+          onChange={(e) => modalStore.setSellItem({ price: +e.target.value })}
+        />
+        <input
+          placeholder={`amount - ${sellAmount}`}
+          type="number"
+          min={0}
+          onChange={(e) => modalStore.setSellItem({ amount: +e.target.value })}
+        />
+        <Silver amount={sellAmount * sellPrice} />
         <When value={hasRemainingStock}>
           <Button
             label="Sell item"
@@ -69,8 +81,8 @@ export function SellItemModal(props: Props) {
               if (props.item) {
                 createMarketListingMutation.mutate({
                   id: props.item?.itemId,
-                  price: 5,
-                  stack: 1,
+                  price: sellPrice,
+                  stack: sellAmount,
                 });
               }
             }}
