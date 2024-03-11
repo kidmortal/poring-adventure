@@ -52,7 +52,7 @@ export function MarketPage() {
     <div className={styles.container}>
       {store.marketListings.map((u) => (
         <div className={styles.listingContainer} key={u.id}>
-          <span>{u.seller?.name} </span>
+          <span className={styles.sellerName}>{u.seller?.name} </span>
           <InventoryItem
             inventoryItem={u.inventory}
             stack={u.stack}
@@ -62,7 +62,7 @@ export function MarketPage() {
           <div>
             <Button
               onClick={() => purchaseMutation.mutate(u.id)}
-              label="Buy item"
+              label="Buy"
               disabled={purchaseMutation.isPending}
             />
           </div>

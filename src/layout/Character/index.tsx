@@ -40,6 +40,9 @@ export function CharacterLayout() {
   if (characterQuery.isFetched && !characterQuery.data) {
     return <CharacterCreationPage />;
   }
+  if (!store.userCharacterData?.id) {
+    return <FullscreenLoading info="Fetching character info" />;
+  }
 
   return (
     <div className={styles.container}>
