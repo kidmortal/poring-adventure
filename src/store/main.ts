@@ -13,8 +13,10 @@ interface MainState {
   userCharacterData?: User;
   websocket?: Socket;
   wsAuthenticated: boolean;
+  marketListings: MarketListing[];
   clearUserData: () => void;
   setIsLoading: (v: boolean) => void;
+  setMarketListings: (v: MarketListing[]) => void;
   setWebsocket: (v?: Socket) => void;
   setWsAuthenticated: (v?: boolean) => void;
   setUserCharacterData: (v?: User) => void;
@@ -31,6 +33,8 @@ export const useMainStore = create<MainState>()((set) => ({
   websocket: undefined,
   wsAuthenticated: false,
   userCharacterData: undefined,
+  marketListings: [],
+  setMarketListings: (v) => set(() => ({ marketListings: v })),
   clearUserData: () =>
     set(() => ({
       loggedUserInfo: { accessToken: "", email: "", loggedIn: false },

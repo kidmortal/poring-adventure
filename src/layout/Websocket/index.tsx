@@ -26,6 +26,9 @@ export function WebsocketLayout() {
         toast(msg, { type: "info", autoClose: 5000 });
       });
       socket.on("authenticated", () => store.setWsAuthenticated(true));
+      socket.on("market_listing", (listings: MarketListing[]) =>
+        store.setMarketListings(listings)
+      );
       socket.on("battle_update", (battle: Battle) =>
         battleStore.setBattle(battle)
       );

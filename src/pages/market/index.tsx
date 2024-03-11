@@ -8,6 +8,7 @@ import { Silver } from "@/components/Silver";
 import { InventoryItem } from "@/components/InventoryItem";
 import { useWebsocketApi } from "@/api/websocketServer";
 import { useMainStore } from "@/store/main";
+import { useEffect } from "react";
 
 export function MarketPage() {
   const store = useMainStore();
@@ -19,6 +20,12 @@ export function MarketPage() {
     staleTime: 1000 * 2,
     queryFn: () => api.market.getFirst10MarketListing(),
   });
+
+  useEffect(() => {
+    if (query.data) {
+      store.setMarketListings(query.data);
+    }
+  }, [query.data]);
 
   const purchaseMutation = useMutation({
     mutationFn: (id: number) =>
@@ -43,7 +50,7 @@ export function MarketPage() {
 
   return (
     <div className={styles.container}>
-      {query.data?.map((u) => (
+      {store.marketListings.map((u) => (
         <div className={styles.listingContainer} key={u.id}>
           <span>{u.seller?.name} </span>
           <InventoryItem
