@@ -5,6 +5,7 @@ import { useModalStore } from "@/store/modal";
 import { UserSettingsModal } from "@/components/Modals/UserSettingsModal";
 import { ItemMenuModal } from "@/components/Modals/ItemMenuModal";
 import { SellItemModal } from "@/components/Modals/SellItemModal";
+import { BuyItemModal } from "@/components/Modals/BuyItemModal";
 
 export function ModalLayout() {
   const modalStore = useModalStore();
@@ -28,6 +29,15 @@ export function ModalLayout() {
         }
         isOpen={modalStore.sellItem.open}
         item={modalStore.inventoryItem.selectedItem}
+      />
+      <BuyItemModal
+        onRequestClose={() =>
+          modalStore.setBuyItem({
+            open: false,
+          })
+        }
+        isOpen={modalStore.buyItem.open}
+        item={modalStore.buyItem.marketListing}
       />
       <UserSettingsModal
         isOpen={modalStore.userConfig.open}

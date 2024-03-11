@@ -18,7 +18,7 @@ export function BattleUserInfo(props: Props) {
           maxHealth={props.user?.stats?.maxHealth ?? 0}
         />
         <CharacterInfo
-          costume={`${props.user?.classname}`}
+          costume={`${props.user?.appearance.costume}`}
           gender={props.user?.appearance.gender ?? "male"}
           head={`${props.user?.appearance.head}`}
           orientation="back"
