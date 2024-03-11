@@ -9,7 +9,7 @@
 }
 
 .character {
-  width: 36px;
+  width: 60px;
   height: 70px;
   position: relative;
   display: flex;
@@ -19,10 +19,10 @@
 }
 
 .head {
-  width: 28px;
-  height: 29px;
-  top: -22px;
-  right: 6px;
+  width: 50px;
+  height: 60px;
+  top: -36px;
+  right: 5px;
   position: absolute;
   z-index: 2;
 }
@@ -38,6 +38,6 @@
 }
 
 .isolatedHeadContainer {
-  width: 28px;
-  height: 29px;
+  width: 50px;
+  height: 60px;
 }
