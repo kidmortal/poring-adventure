@@ -38,7 +38,7 @@ export function AuthLayout() {
   }, [location]);
 
   if (isFetching) {
-    return <FullscreenLoading />;
+    return <FullscreenLoading info="Login data" />;
   }
 
   if (!isAuthenticated) {

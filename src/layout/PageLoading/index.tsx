@@ -11,7 +11,7 @@ export function PageLoadingLayout() {
     <>
       <When value={store.isLoading}>
         <div className={styles.coverBackground} />
-        <FullscreenLoading />
+        <FullscreenLoading info="Fetching login data" />
       </When>
       <Outlet />
     </>

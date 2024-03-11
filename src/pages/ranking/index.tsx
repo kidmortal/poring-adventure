@@ -19,7 +19,7 @@ export function RankingPage() {
   });
 
   if (query.isLoading) {
-    return <FullscreenLoading />;
+    return <FullscreenLoading info="Player List" />;
   }
 
   return (

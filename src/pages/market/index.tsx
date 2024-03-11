@@ -38,7 +38,7 @@ export function MarketPage() {
   });
 
   if (query.isLoading) {
-    return <FullscreenLoading />;
+    return <FullscreenLoading info="Market Update" />;
   }
 
   return (

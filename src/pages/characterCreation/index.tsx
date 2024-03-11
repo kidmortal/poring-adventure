@@ -126,7 +126,7 @@ export function CharacterCreationPage() {
   });
 
   if (newCharacterMutation.isPending) {
-    return <FullscreenLoading />;
+    return <FullscreenLoading info="Character Creation" />;
   }
 
   return (

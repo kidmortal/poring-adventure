@@ -14,7 +14,7 @@ async function asyncEmit<T>(
 }
 
 export function useWebsocketApi() {
-  const { websocket, loggedUserInfo } = useMainStore();
+  const { websocket } = useMainStore();
 
   async function createMarketListing(args: {
     price: number;
@@ -94,8 +94,7 @@ export function useWebsocketApi() {
 
   async function getUser(): Promise<User | undefined> {
     if (!websocket) return undefined;
-    const email = loggedUserInfo.email;
-    return asyncEmit<User>(websocket, "get_user", email);
+    return asyncEmit<User>(websocket, "get_user", "");
   }
 
   async function getFirstMonster(): Promise<Monster | undefined> {

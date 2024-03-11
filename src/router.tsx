@@ -22,6 +22,7 @@ export function Router() {
         <Routes>
           <Route element={<LimitedSizeLayout />}>
             <Route element={<AuthLayout />}>
+              <Route path="/create" element={<CharacterCreationPage />} />
               <Route element={<WebsocketLayout />}>
                 <Route element={<PageLoadingLayout />}>
                   <Route element={<CharacterLayout />}>
@@ -30,10 +31,6 @@ export function Router() {
                       <Route path="/ranking" element={<RankingPage />} />
                       <Route path="/market" element={<MarketPage />} />
                       <Route path="/profile" element={<ProfilePage />} />
-                      <Route
-                        path="/create"
-                        element={<CharacterCreationPage />}
-                      />
                       <Route path="/battle" element={<BattlePage />} />
                       <Route element={<AdminLayout />}>
                         <Route path="/admin" element={<AdminSocketManager />} />

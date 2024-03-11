@@ -12,9 +12,11 @@ interface MainState {
   isLoading: boolean;
   userCharacterData?: User;
   websocket?: Socket;
+  wsAuthenticated: boolean;
   clearUserData: () => void;
   setIsLoading: (v: boolean) => void;
   setWebsocket: (v?: Socket) => void;
+  setWsAuthenticated: (v?: boolean) => void;
   setUserCharacterData: (v?: User) => void;
   setUserLoggedInfo: (v: LoggedUserInfo) => void;
 }
@@ -27,12 +29,14 @@ export const useMainStore = create<MainState>()((set) => ({
     email: "",
   },
   websocket: undefined,
+  wsAuthenticated: false,
   userCharacterData: undefined,
   clearUserData: () =>
     set(() => ({
       loggedUserInfo: { accessToken: "", email: "", loggedIn: false },
     })),
   setWebsocket: (v) => set(() => ({ websocket: v })),
+  setWsAuthenticated: (v) => set(() => ({ wsAuthenticated: v })),
   setUserLoggedInfo: (v) => set(() => ({ loggedUserInfo: v })),
   setUserCharacterData: (v) => set(() => ({ userCharacterData: v })),
   setIsLoading: (v) => set(() => ({ isLoading: v })),

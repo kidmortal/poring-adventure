@@ -21,7 +21,7 @@ export default function AdminSocketManager() {
   });
 
   if (query.isLoading) {
-    return <FullscreenLoading />;
+    return <FullscreenLoading info="Admin socket" />;
   }
 
   return (

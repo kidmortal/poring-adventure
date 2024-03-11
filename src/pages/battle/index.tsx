@@ -35,7 +35,7 @@ export function BattlePage() {
   });
 
   if (query.isLoading) {
-    return <FullscreenLoading />;
+    return <FullscreenLoading info="Battle Info" />;
   }
   const userIsInBattle = battleStore.battle;
   const battleIsFinished =

@@ -31,7 +31,7 @@ export function UserSettingsModal(props: Props) {
   return (
     <BaseModal onRequestClose={props.onRequestClose} isOpen={props.isOpen}>
       <When value={deleteUserMutation.isPending}>
-        <FullscreenLoading />
+        <FullscreenLoading info="User Deletion" />
       </When>
       <Button
         onClick={() => auth.signOut()}

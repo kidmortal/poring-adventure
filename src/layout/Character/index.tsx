@@ -19,7 +19,7 @@ export function CharacterLayout() {
 
   const characterQuery = useQuery({
     queryKey: [Query.USER_CHARACTER],
-    enabled: !!store.websocket && !!store.loggedUserInfo.accessToken,
+    enabled: !!store.websocket && store.wsAuthenticated,
     staleTime: 1000 * 2,
     retry: 3,
     queryFn: () => api.users.getUser(),
@@ -32,7 +32,7 @@ export function CharacterLayout() {
   }, [characterQuery?.data]);
 
   if (characterQuery.isLoading) {
-    return <FullscreenLoading />;
+    return <FullscreenLoading info="Fetching character info" />;
   }
   if (characterQuery.isError) {
     return <ErrorMessage message={characterQuery.error.message} />;
