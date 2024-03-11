@@ -18,11 +18,14 @@ export function ProfilePage() {
       <div className={styles.middleSector}>
         <Equipments equips={equippedItems} />
         <div className={styles.userCharacterInfoContainer}>
-          <h2>{store.userCharacterData?.name}</h2>
-          <span>
-            Level {store.userCharacterData?.stats?.level}{" "}
-            {store.userCharacterData?.classname}
-          </span>
+          <div className={styles.nameContainer}>
+            <h2>{store.userCharacterData?.name}</h2>
+            <span>
+              Level {store.userCharacterData?.stats?.level}{" "}
+              {store.userCharacterData?.classname}
+            </span>
+          </div>
+
           <CharacterInfo
             costume={store.userCharacterData?.appearance?.costume ?? ""}
             gender={store.userCharacterData?.appearance?.gender ?? "female"}

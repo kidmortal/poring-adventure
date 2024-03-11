@@ -22,11 +22,14 @@ export function CharacterSummaryHeader() {
   return (
     <div className={styles.container}>
       <div className={styles.characterInfo}>
-        <CharacterHead
-          gender={userChatacter?.data?.appearance?.gender ?? "female"}
-          head={userChatacter?.data?.appearance?.head ?? ""}
-        />
-        <h2>{userChatacter?.data?.name}</h2>
+        <div className={styles.nameContainer}>
+          <CharacterHead
+            gender={userChatacter?.data?.appearance?.gender ?? "female"}
+            head={userChatacter?.data?.appearance?.head ?? ""}
+          />
+          <h2>{userChatacter?.data?.name}</h2>
+        </div>
+
         <Silver amount={userChatacter?.data?.silver} />
       </div>
 

@@ -39,3 +39,12 @@
   align-items: center;
   gap: 0.2rem;
 }
+
+.nameContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 14px;
+}
