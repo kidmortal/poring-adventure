@@ -4,11 +4,12 @@ import { InventoryItem } from "@/components/InventoryItem";
 import { Silver } from "@/components/Silver";
 
 type Props = {
+  members?: User[];
   drops?: BattleDrop[];
   userLost?: boolean;
 };
 
-export function BattleRewardBox({ drops, userLost }: Props) {
+export function BattleRewardBox({ drops, userLost, members }: Props) {
   if (userLost) {
     return <h3>You lost, Git gud son</h3>;
   }
@@ -19,11 +20,19 @@ export function BattleRewardBox({ drops, userLost }: Props) {
       <ForEach
         items={drops}
         render={(drop) => {
+          let username = "";
+          if (members) {
+            const user = members.find(
+              (member) => member.email === drop.userEmail
+            );
+            username = user?.name ?? "";
+          }
           const items = drop?.dropedItems;
           return (
             <div key={drop.userEmail} className={styles.dropContainer}>
+              <span>{username}</span>
               <Silver amount={drop?.silver} />
-              <RenderDropedItems items={items} />
+              <RenderDropedItems items={items} email={drop.userEmail} />
             </div>
           );
         }}
@@ -32,13 +41,19 @@ export function BattleRewardBox({ drops, userLost }: Props) {
   );
 }
 
-function RenderDropedItems({ items }: { items: BattleUserDropedItem[] }) {
+function RenderDropedItems({
+  items,
+  email,
+}: {
+  email: string;
+  items: BattleUserDropedItem[];
+}) {
   return (
     <ForEach
       items={items}
       render={({ item, itemId, stack }) => (
         <InventoryItem
-          key={itemId}
+          key={`${email}-${item.id}`}
           inventoryItem={{
             item: item,
             id: 0,

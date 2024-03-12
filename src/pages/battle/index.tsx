@@ -38,7 +38,7 @@ export function BattlePage() {
   if (query.isLoading) {
     return <FullscreenLoading info="Battle Info" />;
   }
-  const userIsInBattle = battleStore.battle;
+  const userIsInBattle = !!battleStore.battle;
   const battleIsFinished =
     userIsInBattle && !battleStore.battle?.battleFinished;
 
@@ -46,56 +46,69 @@ export function BattlePage() {
 
   return (
     <div className={styles.container}>
-      <span>{battleStore.battle?.attackerList[turnIndex ?? 0]}</span>
-      <div className={styles.logContainer}>
-        {battleStore.battle?.log?.map((log) => (
-          <span key={`${log}${crypto.randomUUID()}`}>{log}</span>
-        ))}
-      </div>
-      <div className={styles.monsterSection}>
-        <When value={!userIsInBattle}>
+      <When value={!userIsInBattle}>
+        <div className={styles.noBattleContainer}>
           <Button
             label="Search monster"
             onClick={() => createBattleMutation.mutate()}
             disabled={createBattleMutation.isPending}
           />
-        </When>
-        <When value={!!userIsInBattle}>
-          <When value={!!battleIsFinished}>
-            <ForEach
-              items={battleStore.battle?.monsters}
-              render={(m) => <BattleMonsterInfo monster={m} />}
-            />
-          </When>
-          <When value={!battleIsFinished}>
-            <BattleRewardBox
-              drops={battleStore.battle?.drops}
-              userLost={battleStore.battle?.userLost}
-            />
-          </When>
-        </When>
-      </div>
+        </div>
+      </When>
+      <When value={userIsInBattle}>
+        <div className={styles.turnLabelContainer}>
+          Turn: {battleStore.battle?.attackerList[turnIndex ?? 0]}
+        </div>
 
-      <div className={styles.userSection}>
-        <ForEach
-          items={battleStore.battle?.users}
-          render={(u) => <BattleUserInfo user={u} />}
-        />
-      </div>
+        <div className={styles.logContainer}>
+          {battleStore.battle?.log?.map((log) => (
+            <span key={`${log}${crypto.randomUUID()}`}>{log}</span>
+          ))}
+        </div>
+        <div className={styles.monsterSection}>
+          <When value={userIsInBattle}>
+            <When value={!!battleIsFinished}>
+              <ForEach
+                items={battleStore.battle?.monsters}
+                render={(m) => (
+                  <BattleMonsterInfo
+                    key={`${m.name}-${crypto.randomUUID()}`}
+                    monster={m}
+                  />
+                )}
+              />
+            </When>
+            <When value={!battleIsFinished}>
+              <BattleRewardBox
+                drops={battleStore.battle?.drops}
+                userLost={battleStore.battle?.userLost}
+                members={battleStore.battle?.users}
+              />
+            </When>
+          </When>
+        </div>
+        <div className={styles.userSection}>
+          <ForEach
+            items={battleStore.battle?.users}
+            render={(u) => <BattleUserInfo key={u.email} user={u} />}
+          />
+        </div>
 
-      <div className={styles.actions}>
-        <Button
-          label="Attack"
-          onClick={() => attackMutation.mutate()}
-          disabled={attackMutation.isPending || query.isRefetching}
-        />
-        <Button
-          label="End Battle"
-          theme="danger"
-          onClick={() => cancelBattleMutation.mutate()}
-          disabled={cancelBattleMutation.isPending || query.isRefetching}
-        />
-      </div>
+        <div className={styles.actions}>
+          <Button
+            label="Attack"
+            onClick={() => attackMutation.mutate()}
+            disabled={attackMutation.isPending || query.isRefetching}
+          />
+          <Button
+            label="End Battle"
+            theme="danger"
+            onClick={() => cancelBattleMutation.mutate()}
+            disabled={cancelBattleMutation.isPending || query.isRefetching}
+          />
+        </div>
+      </When>
+
       {/* <div className={styles.skills}>
         <div>
           <Button

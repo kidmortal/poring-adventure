@@ -22,10 +22,11 @@
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
+  gap: 0.5rem;
 }
 
 .logContainer {
-  height: 7rem;
+  height: 5rem;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -33,6 +34,7 @@
   align-items: center;
   overflow-y: auto;
   margin-bottom: 1rem;
+  font-size: 12px;
 }
 
 .actions {
@@ -52,4 +54,17 @@
   justify-content: flex-start;
   align-items: center;
   gap: 1rem;
+}
+
+.turnLabelContainer {
+  font-size: 16px;
+  padding: 0.5rem 0;
+}
+
+.noBattleContainer {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
