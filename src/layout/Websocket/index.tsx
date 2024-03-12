@@ -7,10 +7,12 @@ import { toast } from "react-toastify";
 
 import { useBattleStore } from "@/store/battle";
 import { FullscreenLoading } from "@/components/FullscreenLoading";
+import { useModalStore } from "@/store/modal";
 
 export function WebsocketLayout() {
   const [temporarySocket, setTemporarySocket] = useState<Socket | undefined>();
   const store = useMainStore();
+  const modal = useModalStore();
   const battleStore = useBattleStore();
 
   useEffect(() => {
@@ -32,6 +34,7 @@ export function WebsocketLayout() {
       socket.on("user_update", (user: User) =>
         store.setUserCharacterData(user)
       );
+      socket.on("party_data", (party: Party) => modal.setPartyInfo({ party }));
       socket.on("battle_update", (battle: Battle) => {
         console.log(battle);
         battleStore.setBattle(battle);

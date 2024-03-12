@@ -36,6 +36,7 @@ export function ModalLayout() {
       <PartyInfoModal
         onRequestClose={() => modalStore.setPartyInfo({ open: false })}
         isOpen={modalStore.partyInfo.open}
+        party={modalStore.partyInfo.party}
       />
       <FriendListModal
         onRequestClose={() => modalStore.setFriendlist({ open: false })}

@@ -96,6 +96,20 @@ export function useWebsocketApi() {
     if (!websocket) return undefined;
     return asyncEmit<User>(websocket, "get_user", "");
   }
+  async function getParty(): Promise<boolean> {
+    if (!websocket) return false;
+    return asyncEmit<boolean>(websocket, "get_party", "");
+  }
+
+  async function createParty(): Promise<boolean> {
+    if (!websocket) return false;
+    return asyncEmit<boolean>(websocket, "create_party", "");
+  }
+
+  async function removeParty(): Promise<boolean> {
+    if (!websocket) return false;
+    return asyncEmit<boolean>(websocket, "remove_party", "");
+  }
 
   async function getFirstMonster(): Promise<Monster | undefined> {
     if (!websocket) return undefined;
@@ -128,6 +142,11 @@ export function useWebsocketApi() {
     users: {
       getUser,
       getFirst10Users,
+    },
+    party: {
+      getParty,
+      createParty,
+      removeParty,
     },
     market: {
       createMarketListing,

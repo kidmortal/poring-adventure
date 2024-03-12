@@ -5,12 +5,12 @@ import styles from "./style.module.scss";
 import { Query } from "@/store/query";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Button } from "@/components/Button";
-import { BattleUserInfo } from "./components/BattleUserInfo";
 import { BattleMonsterInfo } from "./components/BattleMonsterInfo";
 import { When } from "@/components/When";
 import { BattleRewardBox } from "./components/BattleRewardsBox";
 import { useBattleStore } from "@/store/battle";
 import ForEach from "@/components/ForEach";
+import { CharacterWithHealthBar } from "@/components/CharacterWithHealthBar";
 
 export function BattlePage() {
   const store = useMainStore();
@@ -90,7 +90,13 @@ export function BattlePage() {
         <div className={styles.userSection}>
           <ForEach
             items={battleStore.battle?.users}
-            render={(u) => <BattleUserInfo key={u.email} user={u} />}
+            render={(u) => (
+              <CharacterWithHealthBar
+                orientation="back"
+                key={u.email}
+                user={u}
+              />
+            )}
           />
         </div>
 
