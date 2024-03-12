@@ -35,6 +35,9 @@
   overflow-y: auto;
   margin-bottom: 1rem;
   font-size: 12px;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .actions {
