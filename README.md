@@ -1,3 +1,11 @@
+Splash
+
+![image](https://github.com/kidmortal/poring-adventure/assets/18023467/28328c0b-eacd-4a00-bb0c-26a919fb0ffc)
+
+
+
+How it looks on mobile (it doesnt really have a desktop layout xd)
+
 ![image](https://github.com/kidmortal/poring-adventure/assets/18023467/d3579775-8599-47cf-9ef0-949aa4a91b0c)
 
 
