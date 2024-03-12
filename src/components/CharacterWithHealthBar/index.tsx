@@ -17,6 +17,7 @@ export function CharacterWithHealthBar({ orientation = "front", user }: Props) {
         <HealthBar
           currentHealth={user?.stats?.health ?? 0}
           maxHealth={user?.stats?.maxHealth ?? 0}
+          minWidth="5rem"
         />
         <CharacterInfo
           costume={`${user?.appearance.costume}`}

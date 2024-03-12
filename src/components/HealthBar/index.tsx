@@ -3,6 +3,7 @@ import styles from "./style.module.scss";
 type Props = {
   currentHealth: number;
   maxHealth: number;
+  minWidth?: string;
 };
 
 export default function HealthBar(props: Props) {
@@ -11,7 +12,7 @@ export default function HealthBar(props: Props) {
   );
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} style={{ minWidth: props.minWidth }}>
       <span>
         HP {props.currentHealth}/{props.maxHealth}
       </span>
