@@ -7,10 +7,12 @@ import { FullscreenLoading } from "@/components/FullscreenLoading";
 import { Silver } from "@/components/Silver";
 import { useMainStore } from "@/store/main";
 import { useWebsocketApi } from "@/api/websocketServer";
+import { useModalStore } from "@/store/modal";
 
 export function RankingPage() {
   const api = useWebsocketApi();
   const store = useMainStore();
+  const modal = useModalStore();
   const query = useQuery({
     queryKey: [Query.ALL_CHARACTERS],
     enabled: !!store.websocket,
@@ -25,7 +27,16 @@ export function RankingPage() {
   return (
     <div className={styles.container}>
       {query.data?.map((u) => (
-        <div className={styles.characterContainer} key={u.email}>
+        <div
+          className={styles.characterContainer}
+          key={u.email}
+          onClick={() =>
+            modal.setInteractUser({
+              open: true,
+              user: u,
+            })
+          }
+        >
           <CharacterInfo
             costume={u.appearance.costume}
             gender={u.appearance.gender}

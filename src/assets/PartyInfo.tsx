@@ -35,7 +35,7 @@ export function PartyInfo() {
         className="clr-i-solid clr-i-solid-path-6"
         d="M18.11,20.3A9.69,9.69,0,0,0,11,23l-.25.28v6.33a1.57,1.57,0,0,0,1.6,1.54H23.84a1.57,1.57,0,0,0,1.6-1.54V23.3L25.2,23A9.58,9.58,0,0,0,18.11,20.3Z"
       ></path>
-      <rect x="0" y="0" width="36" height="36" fill-opacity="0" />
+      <rect x="0" y="0" width="36" height="36" fillOpacity="0" />
     </svg>
   );
 }

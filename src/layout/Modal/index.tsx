@@ -8,6 +8,7 @@ import { SellItemModal } from "@/components/Modals/SellItemModal";
 import { BuyItemModal } from "@/components/Modals/BuyItemModal";
 import { PartyInfoModal } from "@/components/Modals/PartyInfoModal";
 import { FriendListModal } from "@/components/Modals/FriendListModal";
+import { InteractUserModal } from "@/components/Modals/InteractUserModal";
 
 export function ModalLayout() {
   const modalStore = useModalStore();
@@ -41,6 +42,11 @@ export function ModalLayout() {
       <FriendListModal
         onRequestClose={() => modalStore.setFriendlist({ open: false })}
         isOpen={modalStore.friendlist.open}
+      />
+      <InteractUserModal
+        onRequestClose={() => modalStore.setInteractUser({ open: false })}
+        isOpen={modalStore.interactUser.open}
+        user={modalStore.interactUser.user}
       />
     </>
   );

@@ -3,17 +3,19 @@ import { Socket, io } from "socket.io-client";
 
 import { useEffect, useState } from "react";
 import { useMainStore } from "@/store/main";
-import { toast } from "react-toastify";
 
 import { useBattleStore } from "@/store/battle";
 import { FullscreenLoading } from "@/components/FullscreenLoading";
 import { useModalStore } from "@/store/modal";
+import { useWebsocketApi } from "@/api/websocketServer";
+import { addToastListeners } from "@/toast";
 
 export function WebsocketLayout() {
   const [temporarySocket, setTemporarySocket] = useState<Socket | undefined>();
   const store = useMainStore();
   const modal = useModalStore();
   const battleStore = useBattleStore();
+  const api = useWebsocketApi();
 
   useEffect(() => {
     if (
@@ -24,25 +26,25 @@ export function WebsocketLayout() {
       const socket = io(import.meta.env.VITE_API_URL, {
         auth: { acessToken: store.loggedUserInfo.accessToken },
       });
-      socket.on("notification", (msg: string) => {
-        toast(msg, { type: "info", autoClose: 5000 });
-      });
+
       socket.on("authenticated", () => store.setWsAuthenticated(true));
-      socket.on("market_update", (listings: MarketListing[]) =>
-        store.setMarketListings(listings)
-      );
-      socket.on("user_update", (user: User) =>
-        store.setUserCharacterData(user)
-      );
-      socket.on("party_data", (party: Party) => modal.setPartyInfo({ party }));
-      socket.on("battle_update", (battle: Battle) => {
-        console.log(battle);
-        battleStore.setBattle(battle);
-      });
+
       setTemporarySocket(socket);
       socket.on("connect", () => store.setWebsocket(socket));
     }
   }, [store.loggedUserInfo.accessToken]);
+
+  useEffect(() => {
+    if (store.websocket) {
+      addToastListeners({
+        websocket: store.websocket,
+        api,
+        modal,
+        battle: battleStore,
+        store,
+      });
+    }
+  }, [store.websocket]);
 
   if (!store.websocket && !store.wsAuthenticated) {
     return <FullscreenLoading info="Websocket connection" />;

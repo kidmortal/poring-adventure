@@ -101,6 +101,11 @@ export function useWebsocketApi() {
     return asyncEmit<boolean>(websocket, "get_party", "");
   }
 
+  async function removeFromParty(userEmail: string): Promise<boolean> {
+    if (!websocket) return false;
+    return asyncEmit<boolean>(websocket, "kick_from_party", userEmail);
+  }
+
   async function createParty(): Promise<boolean> {
     if (!websocket) return false;
     return asyncEmit<boolean>(websocket, "create_party", "");
@@ -109,6 +114,16 @@ export function useWebsocketApi() {
   async function removeParty(): Promise<boolean> {
     if (!websocket) return false;
     return asyncEmit<boolean>(websocket, "remove_party", "");
+  }
+
+  async function inviteToParty(email: string): Promise<boolean> {
+    if (!websocket) return false;
+    return asyncEmit<boolean>(websocket, "invite_to_party", email);
+  }
+
+  async function joinParty(partyId: number): Promise<boolean> {
+    if (!websocket) return false;
+    return asyncEmit<boolean>(websocket, "join_party", partyId);
   }
 
   async function getFirstMonster(): Promise<Monster | undefined> {
@@ -147,6 +162,9 @@ export function useWebsocketApi() {
       getParty,
       createParty,
       removeParty,
+      inviteToParty,
+      joinParty,
+      removeFromParty,
     },
     market: {
       createMarketListing,
@@ -172,3 +190,5 @@ export function useWebsocketApi() {
     getFirstMonster,
   };
 }
+
+export type WebsocketApi = ReturnType<typeof useWebsocketApi>;

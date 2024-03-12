@@ -27,11 +27,16 @@ type PartyInfoState = {
   party?: Party;
 };
 
+type InteractUserState = {
+  open?: boolean;
+  user?: User;
+};
+
 type FriendListState = {
   open?: boolean;
 };
 
-interface ModalState {
+export interface ModalState {
   userConfig: UserConfigState;
   setUserConfig: (v: UserConfigState) => void;
   inventoryItem: InventoryItemState;
@@ -44,6 +49,8 @@ interface ModalState {
   setPartyInfo: (v: PartyInfoState) => void;
   friendlist: FriendListState;
   setFriendlist: (v: FriendListState) => void;
+  interactUser: InteractUserState;
+  setInteractUser: (v: InteractUserState) => void;
 }
 
 export const useModalStore = create<ModalState>()((set) => ({
@@ -52,6 +59,7 @@ export const useModalStore = create<ModalState>()((set) => ({
   buyItem: { amount: 1 },
   partyInfo: { open: false },
   friendlist: { open: false },
+  interactUser: { open: false },
   sellItem: {
     open: false,
     amount: 1,
@@ -69,4 +77,7 @@ export const useModalStore = create<ModalState>()((set) => ({
 
   setFriendlist: (v) =>
     set((state) => ({ friendlist: { ...state.friendlist, ...v } })),
+
+  setInteractUser: (v) =>
+    set((state) => ({ interactUser: { ...state.interactUser, ...v } })),
 }));

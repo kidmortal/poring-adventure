@@ -29,6 +29,10 @@ export function PartyInfoModal(props: Props) {
     mutationFn: () => api.party.createParty(),
   });
 
+  const removeFromPartyMutation = useMutation({
+    mutationFn: (email: string) => api.party.removeFromParty(email),
+  });
+
   const deletePartyMutation = useMutation({
     mutationFn: () => api.party.removeParty(),
   });
@@ -51,9 +55,13 @@ export function PartyInfoModal(props: Props) {
             <ForEach
               items={props.party?.members}
               render={(u) => (
-                <div className={styles.memberContainer}>
+                <div key={u.email} className={styles.memberContainer}>
                   <CharacterWithHealthBar user={u} />
-                  <Button label="Remove" />
+                  <Button
+                    label="Remove"
+                    onClick={() => removeFromPartyMutation.mutate(u.email)}
+                    disabled={removeFromPartyMutation.isPending}
+                  />
                 </div>
               )}
             />

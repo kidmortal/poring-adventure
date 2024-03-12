@@ -7,7 +7,7 @@ type LoggedUserInfo = {
   email: string;
 };
 
-interface MainState {
+export interface MainStoreState {
   loggedUserInfo: LoggedUserInfo;
   isLoading: boolean;
   userCharacterData?: User;
@@ -23,7 +23,7 @@ interface MainState {
   setUserLoggedInfo: (v: LoggedUserInfo) => void;
 }
 
-export const useMainStore = create<MainState>()((set) => ({
+export const useMainStore = create<MainStoreState>()((set) => ({
   isLoading: false,
   loggedUserInfo: {
     loggedIn: false,
