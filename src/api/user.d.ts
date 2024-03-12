@@ -31,3 +31,9 @@ declare type Appearance = {
   costume: string;
   userEmail: string;
 };
+
+declare type Party = {
+  id?: number;
+  leaderEmail?: string;
+  members?: User[];
+};

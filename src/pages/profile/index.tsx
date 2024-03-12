@@ -6,10 +6,15 @@ import { CharacterStatsInfo } from "@/components/CharacterStatsInfo";
 
 import { Equipments } from "@/components/Equipments";
 import { useNavigate } from "react-router-dom";
+import { IconButton } from "@/components/IconButton";
+import { FriendList } from "@/assets/FriendList";
+import { PartyInfo } from "@/assets/PartyInfo";
+import { useModalStore } from "@/store/modal";
 
 export function ProfilePage() {
   const navigate = useNavigate();
   const store = useMainStore();
+  const modal = useModalStore();
 
   const equippedItems = store.userCharacterData?.equipment ?? [];
 
@@ -38,7 +43,19 @@ export function ProfilePage() {
             }}
           />
         </div>
-        <CharacterStatsInfo />
+        <div>
+          <div className={styles.extraMenus}>
+            <IconButton
+              label={<FriendList />}
+              onClick={() => modal.setFriendlist({ open: true })}
+            />
+            <IconButton
+              label={<PartyInfo />}
+              onClick={() => modal.setPartyInfo({ open: true })}
+            />
+          </div>
+          <CharacterStatsInfo />
+        </div>
       </div>
 
       <Inventory items={store.userCharacterData?.inventory} />
