@@ -10,6 +10,7 @@ import { BattleMonsterInfo } from "./components/BattleMonsterInfo";
 import { When } from "@/components/When";
 import { BattleRewardBox } from "./components/BattleRewardsBox";
 import { useBattleStore } from "@/store/battle";
+import ForEach from "@/components/ForEach";
 
 export function BattlePage() {
   const store = useMainStore();
@@ -41,8 +42,11 @@ export function BattlePage() {
   const battleIsFinished =
     userIsInBattle && !battleStore.battle?.battleFinished;
 
+  const turnIndex = battleStore.battle?.attackerTurn;
+
   return (
     <div className={styles.container}>
+      <span>{battleStore.battle?.attackerList[turnIndex ?? 0]}</span>
       <div className={styles.logContainer}>
         {battleStore.battle?.log?.map((log) => (
           <span key={`${log}${crypto.randomUUID()}`}>{log}</span>
@@ -58,7 +62,10 @@ export function BattlePage() {
         </When>
         <When value={!!userIsInBattle}>
           <When value={!!battleIsFinished}>
-            <BattleMonsterInfo monster={battleStore.battle?.monster} />
+            <ForEach
+              items={battleStore.battle?.monsters}
+              render={(m) => <BattleMonsterInfo monster={m} />}
+            />
           </When>
           <When value={!battleIsFinished}>
             <BattleRewardBox
@@ -70,7 +77,10 @@ export function BattlePage() {
       </div>
 
       <div className={styles.userSection}>
-        <BattleUserInfo user={battleStore.battle?.user} />
+        <ForEach
+          items={battleStore.battle?.users}
+          render={(u) => <BattleUserInfo user={u} />}
+        />
       </div>
 
       <div className={styles.actions}>

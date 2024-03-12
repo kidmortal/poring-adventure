@@ -1,7 +1,8 @@
 declare type Battle = {
-  user: User;
-  monster: Monster;
-  attackerTurn: string;
+  users: User[];
+  monsters: Monster[];
+  attackerTurn: number;
+  attackerList: string[];
   battleFinished: boolean;
   userLost: boolean;
   log: string[];

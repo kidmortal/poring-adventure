@@ -1,6 +1,4 @@
 import styles from "./style.module.scss";
-import { useQueryClient } from "@tanstack/react-query";
-import { Query } from "@/store/query";
 import { CharacterHead } from "../CharacterInfo";
 import { Silver } from "../Silver";
 import { When } from "../When";
@@ -12,10 +10,8 @@ import { Settings } from "@/assets/Settings";
 export function CharacterSummaryHeader() {
   const store = useMainStore();
   const modalStore = useModalStore();
-  const queryClient = useQueryClient();
-  const userChatacter = queryClient.getQueryState<User>([Query.USER_CHARACTER]);
 
-  if (!userChatacter?.data) {
+  if (!store.userCharacterData) {
     return <></>;
   }
 
@@ -24,13 +20,13 @@ export function CharacterSummaryHeader() {
       <div className={styles.characterInfo}>
         <div className={styles.nameContainer}>
           <CharacterHead
-            gender={userChatacter?.data?.appearance?.gender ?? "female"}
-            head={userChatacter?.data?.appearance?.head ?? ""}
+            gender={store.userCharacterData.appearance?.gender ?? "female"}
+            head={store.userCharacterData.appearance?.head ?? ""}
           />
-          <h2>{userChatacter?.data?.name}</h2>
+          <h2>{store.userCharacterData.name}</h2>
         </div>
 
-        <Silver amount={userChatacter?.data?.silver} />
+        <Silver amount={store.userCharacterData.silver} />
       </div>
 
       <div>

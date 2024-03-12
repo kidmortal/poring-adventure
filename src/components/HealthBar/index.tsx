@@ -17,7 +17,9 @@ export default function HealthBar(props: Props) {
       </span>
 
       <div
-        style={{ width: `${currentPercentage}%` }}
+        style={{
+          width: `${currentPercentage > 100 ? 100 : currentPercentage}%`,
+        }}
         className={styles.fillColor}
       />
     </div>

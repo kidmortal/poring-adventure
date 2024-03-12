@@ -32,9 +32,10 @@ export function WebsocketLayout() {
       socket.on("user_update", (user: User) =>
         store.setUserCharacterData(user)
       );
-      socket.on("battle_update", (battle: Battle) =>
-        battleStore.setBattle(battle)
-      );
+      socket.on("battle_update", (battle: Battle) => {
+        console.log(battle);
+        battleStore.setBattle(battle);
+      });
       setTemporarySocket(socket);
       socket.on("connect", () => store.setWebsocket(socket));
     }
