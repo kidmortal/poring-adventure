@@ -1,7 +1,6 @@
 import ForEach from "@/components/ForEach";
 import styles from "./style.module.scss";
 import { InventoryItem } from "@/components/InventoryItem";
-import { Silver } from "@/components/Silver";
 import { SilverStack } from "@/components/SilverStack";
 import { ExpStack } from "@/components/ExpStack";
 import { Tooltip } from "@/components/Tooltip";
