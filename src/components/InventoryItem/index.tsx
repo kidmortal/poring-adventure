@@ -1,5 +1,5 @@
 import { Broker } from "@/assets/Broker";
-import { ToolTipDirection, Tooltip } from "../Tooltip";
+import { ToolTipDirection } from "../Tooltip";
 import styles from "./style.module.scss";
 import cn from "classnames";
 import { When } from "../When";
@@ -43,23 +43,21 @@ export function InventoryItem(args: Props) {
   }
 
   return (
-    <Tooltip text={args.toolTip || item.name} direction={args.toolTipDirection}>
-      <div
-        onClick={args.onClick}
-        style={{ backgroundColor: args.backgroundColor }}
-        className={cn(styles.inventoryItemContainer)}
-      >
-        <img width={40} height={40} src={item.image} />
-        <When value={stack > 1}>
-          <span className={styles.stackAmount}>{stack}</span>
-        </When>
+    <div
+      onClick={args.onClick}
+      style={{ backgroundColor: args.backgroundColor }}
+      className={cn(styles.inventoryItemContainer)}
+    >
+      <img width={40} height={40} src={item.image} />
+      <When value={stack > 1}>
+        <span className={styles.stackAmount}>{stack}</span>
+      </When>
 
-        <When value={isOnSale}>
-          <div className={styles.saleIcon}>
-            <Broker />
-          </div>
-        </When>
-      </div>
-    </Tooltip>
+      <When value={isOnSale}>
+        <div className={styles.saleIcon}>
+          <Broker />
+        </div>
+      </When>
+    </div>
   );
 }

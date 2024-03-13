@@ -1,5 +1,4 @@
 import { Stat } from "../CharacterStatsInfo";
-import { Tooltip } from "../Tooltip";
 import { When } from "../When";
 import styles from "./style.module.scss";
 import cn from "classnames";
@@ -38,14 +37,12 @@ export function EquippedItem(args: Props) {
   }
 
   return (
-    <Tooltip direction="right" text={<EquipmentStat item={equipment} />}>
-      <div
-        onClick={args.onClick}
-        style={{ backgroundColor: args.backgroundColor }}
-        className={cn(styles.inventoryItemContainer)}
-      >
-        <img width={40} height={40} src={item?.image} />
-      </div>
-    </Tooltip>
+    <div
+      onClick={args.onClick}
+      style={{ backgroundColor: args.backgroundColor }}
+      className={cn(styles.inventoryItemContainer)}
+    >
+      <img width={40} height={40} src={item?.image} />
+    </div>
   );
 }
