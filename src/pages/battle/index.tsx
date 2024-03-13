@@ -11,6 +11,8 @@ import { BattleRewardBox } from "./components/BattleRewardsBox";
 import { useBattleStore } from "@/store/battle";
 import ForEach from "@/components/ForEach";
 import { CharacterWithHealthBar } from "@/components/CharacterWithHealthBar";
+import { BattleLogs } from "./components/BattleLogs";
+import { BattleActions } from "./components/BattleActions";
 
 export function BattlePage() {
   const store = useMainStore();
@@ -25,14 +27,6 @@ export function BattlePage() {
 
   const createBattleMutation = useMutation({
     mutationFn: () => api.battle.createBattleInstance(),
-  });
-
-  const attackMutation = useMutation({
-    mutationFn: () => api.battle.requestBattleAttack(),
-  });
-
-  const cancelBattleMutation = useMutation({
-    mutationFn: () => api.battle.cancelBattleInstance(),
   });
 
   if (query.isLoading) {
@@ -64,18 +58,7 @@ export function BattlePage() {
         </div>
 
         <div className={styles.logContainer}>
-          {battleStore.battle?.log?.map((log) => (
-            <div>
-              <When value={!!log.icon}>
-                <img
-                  width={15}
-                  height={15}
-                  src={`https://kidmortal.sirv.com/skills/${log.icon}.webp`}
-                />
-              </When>
-              <span key={`${log}${crypto.randomUUID()}`}>{log.message}</span>
-            </div>
-          ))}
+          <BattleLogs logs={battleStore.battle?.log} />
         </div>
         <div className={styles.monsterSection}>
           <When value={userIsInBattle}>
@@ -111,27 +94,7 @@ export function BattlePage() {
             )}
           />
         </div>
-
-        <div className={styles.actions}>
-          <Button
-            label="Attack"
-            onClick={() => attackMutation.mutate()}
-            disabled={attackMutation.isPending || !isYourTurn}
-          />
-          <Button
-            label="Cast"
-            theme="secondary"
-            onClick={() => cancelBattleMutation.mutate()}
-            disabled={cancelBattleMutation.isPending || !isYourTurn}
-          />
-
-          <Button
-            label="Run"
-            theme="danger"
-            onClick={() => cancelBattleMutation.mutate()}
-            disabled={cancelBattleMutation.isPending || !isYourTurn}
-          />
-        </div>
+        <BattleActions api={api} isYourTurn={isYourTurn} />
       </When>
     </div>
   );
