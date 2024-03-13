@@ -1,4 +1,5 @@
 import HealthBar from "../HealthBar";
+import ManaBar from "../ManaBar";
 import styles from "./style.module.scss";
 import { useMainStore } from "@/store/main";
 
@@ -37,6 +38,10 @@ export function CharacterStatsInfo() {
         <HealthBar
           currentHealth={store.userCharacterData?.stats?.health ?? 0}
           maxHealth={store.userCharacterData?.stats?.maxHealth ?? 0}
+        />
+        <ManaBar
+          currentHealth={store.userCharacterData?.stats?.mana ?? 0}
+          maxHealth={store.userCharacterData?.stats?.maxMana ?? 0}
         />
       </div>
 

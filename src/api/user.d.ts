@@ -17,6 +17,8 @@ declare type Stats = {
   experience: number;
   health: number;
   maxHealth: number;
+  mana: number;
+  maxMana: number;
   attack: number;
   str: number;
   agi: number;

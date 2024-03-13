@@ -3,6 +3,7 @@ import styles from "./style.module.scss";
 import { CharacterInfo } from "@/components/CharacterInfo";
 import HealthBar from "@/components/HealthBar";
 import { When } from "@/components/When";
+import ManaBar from "../ManaBar";
 
 type Props = {
   user?: User;
@@ -17,6 +18,11 @@ export function CharacterWithHealthBar({ orientation = "front", user }: Props) {
         <HealthBar
           currentHealth={user?.stats?.health ?? 0}
           maxHealth={user?.stats?.maxHealth ?? 0}
+          minWidth="5rem"
+        />
+        <ManaBar
+          currentHealth={user?.stats?.mana ?? 0}
+          maxHealth={user?.stats?.maxMana ?? 0}
           minWidth="5rem"
         />
         <CharacterInfo
