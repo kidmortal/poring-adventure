@@ -11,6 +11,8 @@ import { InventoryItem } from "@/components/InventoryItem";
 import { Button } from "@/components/Button";
 import { useWebsocketApi } from "@/api/websocketServer";
 import { useModalStore } from "@/store/modal";
+import Input from "@/components/Input";
+import { EquipmentStat } from "@/components/EquipedItem";
 
 type Props = {
   isOpen?: boolean;
@@ -41,7 +43,7 @@ export function BuyItemModal(props: Props) {
     },
   });
 
-  const sellPrice = modalStore.sellItem.price ?? 0;
+  const sellPrice = modalStore.buyItem.marketListing?.price ?? 0;
   const buyingAmount = modalStore.buyItem.amount ?? 0;
   const stock = props.item?.stack || 0;
 
@@ -49,22 +51,25 @@ export function BuyItemModal(props: Props) {
     <BaseModal onRequestClose={props.onRequestClose} isOpen={props.isOpen}>
       <div className={styles.itemInfoContainer}>
         <InventoryItem inventoryItem={props.item?.inventory} stack={stock} />
+        <EquipmentStat item={props.item?.inventory} />
+
         <span>Seller: {props.item?.seller.name}</span>
-        <div>
-          Unit price: <Silver amount={sellPrice} />
+        <div className={styles.row}>
+          <span>Unit price: </span>
+          <Silver amount={sellPrice} />
         </div>
       </div>
       <div className={styles.buttonsContainer}>
-        <input
-          placeholder={`buying amount`}
-          type="number"
-          min={0}
-          max={stock}
-          value={modalStore.buyItem.amount}
-          onChange={(e) => modalStore.setBuyItem({ amount: +e.target.value })}
-        />
-        <div>
-          <h2>Total</h2> <Silver amount={buyingAmount * sellPrice} />
+        <div className={styles.row}>
+          <Input
+            placeholder={`buying amount`}
+            type="number"
+            min={0}
+            max={stock}
+            value={modalStore.buyItem.amount}
+            onChange={(e) => modalStore.setBuyItem({ amount: +e.target.value })}
+          />
+          <Silver amount={buyingAmount * sellPrice} />
         </div>
 
         <Button

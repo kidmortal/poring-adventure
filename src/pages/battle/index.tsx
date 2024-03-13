@@ -40,7 +40,6 @@ export function BattlePage() {
   const turnName = battleStore.battle?.attackerList[turnIndex ?? 0];
   const isYourTurn = userName === turnName;
 
-  console.log(battleIsFinished);
   return (
     <div className={styles.container}>
       <When value={!userIsInBattle}>
