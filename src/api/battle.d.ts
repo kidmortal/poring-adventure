@@ -17,6 +17,7 @@ declare type BattleLog = {
 declare type BattleDrop = {
   userEmail: string;
   silver: number;
+  exp: number;
   dropedItems: BattleUserDropedItem[];
 };
 

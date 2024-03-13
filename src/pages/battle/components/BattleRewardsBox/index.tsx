@@ -2,6 +2,9 @@ import ForEach from "@/components/ForEach";
 import styles from "./style.module.scss";
 import { InventoryItem } from "@/components/InventoryItem";
 import { Silver } from "@/components/Silver";
+import { SilverStack } from "@/components/SilverStack";
+import { ExpStack } from "@/components/ExpStack";
+import { Tooltip } from "@/components/Tooltip";
 
 type Props = {
   members?: User[];
@@ -31,7 +34,10 @@ export function BattleRewardBox({ drops, userLost, members }: Props) {
           return (
             <div key={drop.userEmail} className={styles.dropContainer}>
               <span>{username}</span>
-              <Silver amount={drop?.silver} />
+              <Tooltip text="Experience">
+                <ExpStack amount={drop?.exp} />
+              </Tooltip>
+              <SilverStack amount={drop?.silver} />
               <RenderDropedItems items={items} email={drop.userEmail} />
             </div>
           );

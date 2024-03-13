@@ -1,0 +1,20 @@
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 0.4rem;
+
+  font-size: 22px;
+  color: white;
+}
+
+.overLay {
+  span {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    height: 26px;
+  }
+}
