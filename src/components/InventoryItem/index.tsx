@@ -48,7 +48,7 @@ export function InventoryItem(args: Props) {
       style={{ backgroundColor: args.backgroundColor }}
       className={cn(styles.inventoryItemContainer)}
     >
-      <img width={40} height={40} src={item.image} />
+      <img width={26} height={26} src={item.image} />
       <When value={stack > 1}>
         <span className={styles.stackAmount}>{stack}</span>
       </When>

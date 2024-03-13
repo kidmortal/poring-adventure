@@ -1,8 +1,8 @@
 .inventoryItemContainer {
   cursor: pointer;
   position: relative;
-  width: 3rem;
-  height: 3rem;
+  min-width: fit-content;
+  min-height: fit-content;
   padding: 0.5rem;
   border-radius: 6px;
   gap: 0.5rem;
@@ -10,6 +10,8 @@
 
 .empty {
   cursor: default;
+  min-width: 3rem;
+  min-height: 3rem;
 }
 
 .saleIcon {

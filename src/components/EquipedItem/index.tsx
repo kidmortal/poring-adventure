@@ -4,7 +4,7 @@ import styles from "./style.module.scss";
 import cn from "classnames";
 
 type Props = {
-  equip: Equipment;
+  equip?: Equipment;
   backgroundColor?: string;
   onClick?: () => void;
 };
