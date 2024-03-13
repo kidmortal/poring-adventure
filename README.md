@@ -1,6 +1,24 @@
-![image](https://github.com/kidmortal/zenith-web/assets/18023467/d84f9c1a-d861-4efa-9b4a-2babdb965b09)
+Splash
 
-## back-end service repository: https://github.com/kidmortal/zenith-app
+![image](https://github.com/kidmortal/poring-adventure/assets/18023467/28328c0b-eacd-4a00-bb0c-26a919fb0ffc)
+
+
+
+How it looks on mobile (it doesnt really have a desktop layout xd)
+
+![image](https://github.com/kidmortal/poring-adventure/assets/18023467/d3579775-8599-47cf-9ef0-949aa4a91b0c)
+
+
+Summary - RPG mini game with co-op features using websocket.
+
+using sprites from ragnarok, and with RPG elements such as classes and stats.
+
+You can try it here
+
+## Live preview https://poring-adventure.netlify.app
+
+
+## back-end service repository: [https://github.com/kidmortal/zenith-app](https://github.com/kidmortal/poring-adventure-api)
 
 ### How to run
 
