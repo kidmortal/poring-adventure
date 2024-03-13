@@ -47,11 +47,8 @@ export function addToastListeners({
   );
   websocket.on("user_update", (user: User) => store.setUserCharacterData(user));
   websocket.on("party_data", (party: Party) => modal.setPartyInfo({ party }));
-  websocket.on("battle_update", (b: Battle) => {
-    console.log(b);
-    battle.setBattle(b);
-  });
+  websocket.on("party_data", (party: Party) => modal.setPartyInfo({ party }));
   websocket.on("notification", (msg: string) => {
-    toast(msg, { type: "info", autoClose: 5000 });
+    toast(msg, { type: "info", autoClose: 3000, theme: "colored" });
   });
 }

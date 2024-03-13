@@ -5,8 +5,13 @@ declare type Battle = {
   attackerList: string[];
   battleFinished: boolean;
   userLost: boolean;
-  log: string[];
+  log: BattleLog[];
   drops: BattleDrop[];
+};
+
+declare type BattleLog = {
+  icon?: string;
+  message: string;
 };
 
 declare type BattleDrop = {

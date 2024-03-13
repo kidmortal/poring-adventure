@@ -62,7 +62,16 @@ export function BattlePage() {
 
         <div className={styles.logContainer}>
           {battleStore.battle?.log?.map((log) => (
-            <span key={`${log}${crypto.randomUUID()}`}>{log}</span>
+            <div>
+              <When value={!!log.icon}>
+                <img
+                  width={15}
+                  height={15}
+                  src={`https://kidmortal.sirv.com/skills/${log.icon}.webp`}
+                />
+              </When>
+              <span key={`${log}${crypto.randomUUID()}`}>{log.message}</span>
+            </div>
           ))}
         </div>
         <div className={styles.monsterSection}>
