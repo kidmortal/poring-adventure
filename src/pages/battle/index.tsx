@@ -42,7 +42,10 @@ export function BattlePage() {
   const battleIsFinished =
     userIsInBattle && !battleStore.battle?.battleFinished;
 
-  const turnIndex = battleStore.battle?.attackerTurn;
+  const userName = store.userCharacterData?.name ?? "";
+  const turnIndex = battleStore.battle?.attackerTurn ?? 0;
+  const turnName = battleStore.battle?.attackerList[turnIndex ?? 0];
+  const isYourTurn = userName === turnName;
 
   return (
     <div className={styles.container}>
@@ -113,47 +116,23 @@ export function BattlePage() {
           <Button
             label="Attack"
             onClick={() => attackMutation.mutate()}
-            disabled={attackMutation.isPending || query.isRefetching}
+            disabled={attackMutation.isPending || !isYourTurn}
           />
           <Button
-            label="End Battle"
+            label="Cast"
+            theme="secondary"
+            onClick={() => cancelBattleMutation.mutate()}
+            disabled={cancelBattleMutation.isPending || !isYourTurn}
+          />
+
+          <Button
+            label="Run"
             theme="danger"
             onClick={() => cancelBattleMutation.mutate()}
-            disabled={cancelBattleMutation.isPending || query.isRefetching}
+            disabled={cancelBattleMutation.isPending || !isYourTurn}
           />
         </div>
       </When>
-
-      {/* <div className={styles.skills}>
-        <div>
-          <Button
-            label={
-              <div>
-                <img
-                  width={15}
-                  height={15}
-                  src="https://cdn.discordapp.com/emojis/646881350267305994.webp?size=96&quality=lossless"
-                />
-                <span>Fireball</span>
-              </div>
-            }
-          />
-        </div>
-        <div>
-          <Button
-            label={
-              <div>
-                <img
-                  width={15}
-                  height={15}
-                  src="https://cdn.discordapp.com/emojis/662327427049193475.webp?size=96&quality=lossless"
-                />
-                <span>Ice Shards</span>
-              </div>
-            }
-          />
-        </div>
-      </div> */}
     </div>
   );
 }

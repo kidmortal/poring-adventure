@@ -51,4 +51,8 @@ export function addToastListeners({
   websocket.on("notification", (msg: string) => {
     toast(msg, { type: "info", autoClose: 3000, theme: "colored" });
   });
+  websocket.on("battle_update", (b: Battle) => {
+    console.log(b);
+    battle.setBattle(b);
+  });
 }
