@@ -1,10 +1,10 @@
 import { Socket } from "socket.io-client";
 import { WebsocketApi } from "../api/websocketServer";
 import { toast } from "react-toastify";
-import { Button } from "../components/Button";
 import { MainStoreState } from "@/store/main";
 import { ModalState } from "@/store/modal";
 import { BattleState } from "@/store/battle";
+import { InviteBox } from "./InviteBox";
 
 export function addToastListeners({
   websocket,
@@ -21,28 +21,23 @@ export function addToastListeners({
 }) {
   websocket.on("party_invite", (party: Party) => {
     toast(
-      <div>
-        Part invite ID: {party.id}
-        <Button
-          label="Accept invite"
-          onClick={() => {
-            toast.dismiss({ id: "party_invite", containerId: "" });
-
-            if (party.id) {
-              api.party.joinParty(party.id);
-            }
-          }}
-        />
-        <Button
-          label="Refuse invite"
-          onClick={() => {
-            toast.dismiss({ id: "party_invite", containerId: "" });
-          }}
-        />
-      </div>,
+      <InviteBox
+        party={party}
+        onRefuse={() => {
+          toast.dismiss({ id: "party_invite", containerId: "" });
+        }}
+        onConfirm={() => {
+          toast.dismiss({ id: "party_invite", containerId: "" });
+          if (party.id) {
+            api.party.joinParty(party.id);
+          }
+        }}
+      />,
       {
         autoClose: false,
         toastId: "party_invite",
+        type: "info",
+        theme: "colored",
       }
     );
   });
