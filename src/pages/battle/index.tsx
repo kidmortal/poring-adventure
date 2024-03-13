@@ -33,14 +33,14 @@ export function BattlePage() {
     return <FullscreenLoading info="Battle Info" />;
   }
   const userIsInBattle = !!battleStore.battle;
-  const battleIsFinished =
-    userIsInBattle && !battleStore.battle?.battleFinished;
+  const battleIsFinished = battleStore.battle?.battleFinished || false;
 
   const userName = store.userCharacterData?.name ?? "";
   const turnIndex = battleStore.battle?.attackerTurn ?? 0;
   const turnName = battleStore.battle?.attackerList[turnIndex ?? 0];
   const isYourTurn = userName === turnName;
 
+  console.log(battleIsFinished);
   return (
     <div className={styles.container}>
       <When value={!userIsInBattle}>
@@ -62,7 +62,7 @@ export function BattlePage() {
         </div>
         <div className={styles.monsterSection}>
           <When value={userIsInBattle}>
-            <When value={!!battleIsFinished}>
+            <When value={!battleIsFinished}>
               <ForEach
                 items={battleStore.battle?.monsters}
                 render={(m) => (
@@ -73,7 +73,7 @@ export function BattlePage() {
                 )}
               />
             </When>
-            <When value={!battleIsFinished}>
+            <When value={battleIsFinished}>
               <BattleRewardBox
                 drops={battleStore.battle?.drops}
                 userLost={battleStore.battle?.userLost}
@@ -94,7 +94,11 @@ export function BattlePage() {
             )}
           />
         </div>
-        <BattleActions api={api} isYourTurn={isYourTurn} />
+        <BattleActions
+          api={api}
+          isYourTurn={isYourTurn}
+          battleEnded={battleIsFinished}
+        />
       </When>
     </div>
   );
