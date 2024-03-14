@@ -16,21 +16,41 @@ export function CharacterStatsInfo() {
   const store = useMainStore();
 
   let bonusHealth = 0;
+  let bonusMana = 0;
   let bonusAttack = 0;
+  let bonusStr = 0;
+  let bonusAgi = 0;
+  let bonusInt = 0;
   const equippedItems = store.userCharacterData?.equipment;
   if (equippedItems) {
     equippedItems.forEach((equip) => {
       if (equip?.item?.health) {
         bonusHealth += equip.item.health;
       }
+      if (equip?.item?.mana) {
+        bonusMana += equip.item.mana;
+      }
       if (equip?.item?.attack) {
         bonusAttack += equip.item.attack;
+      }
+      if (equip?.item?.str) {
+        bonusStr += equip.item.str;
+      }
+      if (equip?.item?.agi) {
+        bonusAgi += equip.item.agi;
+      }
+      if (equip?.item?.int) {
+        bonusInt += equip.item.int;
       }
     });
   }
   const rawHealth =
     (store.userCharacterData?.stats?.maxHealth || 0) - bonusHealth;
+  const rawMana = (store.userCharacterData?.stats?.maxMana || 0) - bonusMana;
   const rawAtk = (store.userCharacterData?.stats?.attack || 0) - bonusAttack;
+  const rawStr = (store.userCharacterData?.stats?.str || 0) - bonusStr;
+  const rawAgi = (store.userCharacterData?.stats?.agi || 0) - bonusAgi;
+  const rawInt = (store.userCharacterData?.stats?.int || 0) - bonusInt;
 
   return (
     <div className={styles.container}>
@@ -46,19 +66,11 @@ export function CharacterStatsInfo() {
       </div>
 
       <Stat assetName="health" label={`HP: ${rawHealth} +${bonusHealth}`} />
+      <Stat assetName="mana" label={`MP: ${rawMana} +${bonusMana}`} />
       <Stat assetName="attack" label={`ATK: ${rawAtk} +${bonusAttack}`} />
-      <Stat
-        assetName="str"
-        label={`STR: ${store.userCharacterData?.stats?.str}`}
-      />
-      <Stat
-        assetName="agi"
-        label={`AGI: ${store.userCharacterData?.stats?.agi}`}
-      />
-      <Stat
-        assetName="int"
-        label={`INT: ${store.userCharacterData?.stats?.int}`}
-      />
+      <Stat assetName="str" label={`STR: ${rawStr} +${bonusStr}`} />
+      <Stat assetName="agi" label={`AGI: ${rawAgi} +${bonusAgi}`} />
+      <Stat assetName="int" label={`INT: ${rawInt} +${bonusInt}`} />
     </div>
   );
 }
