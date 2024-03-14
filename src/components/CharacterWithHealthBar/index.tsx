@@ -7,14 +7,24 @@ import ManaBar from "../ManaBar";
 
 type Props = {
   user?: User;
+  classInfo?: boolean;
   orientation?: "front" | "back";
 };
 
-export function CharacterWithHealthBar({ orientation = "front", user }: Props) {
+export function CharacterWithHealthBar({
+  orientation = "front",
+  user,
+  classInfo = false,
+}: Props) {
   return (
     <When value={!!user}>
       <div className={styles.userContainer}>
         <span>{user?.name}</span>
+        <When value={classInfo}>
+          <span className={styles.classinfo}>
+            LV {user?.stats?.level} {user?.profession?.name}
+          </span>
+        </When>
         <HealthBar
           currentHealth={user?.stats?.health ?? 0}
           maxHealth={user?.stats?.maxHealth ?? 0}

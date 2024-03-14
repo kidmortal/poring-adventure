@@ -22,8 +22,8 @@ export function Router() {
         <Routes>
           <Route element={<LimitedSizeLayout />}>
             <Route element={<AuthLayout />}>
-              <Route path="/create" element={<CharacterCreationPage />} />
               <Route element={<WebsocketLayout />}>
+                <Route path="/create" element={<CharacterCreationPage />} />
                 <Route element={<PageLoadingLayout />}>
                   <Route element={<CharacterLayout />}>
                     <Route element={<ModalLayout />}>

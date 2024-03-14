@@ -21,7 +21,7 @@ export function PartyInfoModal(props: Props) {
   const query = useQuery({
     queryKey: [Query.PARTY],
     enabled: !!store.websocket,
-    staleTime: 1000 * 2,
+    staleTime: Infinity,
     queryFn: () => api.party.getParty(),
   });
 
@@ -37,6 +37,7 @@ export function PartyInfoModal(props: Props) {
     mutationFn: () => api.party.removeParty(),
   });
 
+  console.log(props.party);
   return (
     <BaseModal onRequestClose={props.onRequestClose} isOpen={props.isOpen}>
       <div className={styles.container}>
@@ -56,7 +57,7 @@ export function PartyInfoModal(props: Props) {
               items={props.party?.members}
               render={(u) => (
                 <div key={u.email} className={styles.memberContainer}>
-                  <CharacterWithHealthBar user={u} />
+                  <CharacterWithHealthBar user={u} classInfo />
                   <Button
                     label="Remove"
                     onClick={() => removeFromPartyMutation.mutate(u.email)}

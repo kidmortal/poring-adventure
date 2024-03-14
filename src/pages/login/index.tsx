@@ -7,6 +7,7 @@ export function LoginPage() {
   const store = useMainStore();
   return (
     <div className={styles.container}>
+      <img src="https://kidmortal.sirv.com/misc/poring_adventure.png?q=20" />
       <When value={!store.loggedUserInfo.loggedIn}>
         <GoogleLoginButton />
       </When>

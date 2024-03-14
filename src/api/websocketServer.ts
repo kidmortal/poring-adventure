@@ -97,6 +97,13 @@ export function useWebsocketApi() {
     return asyncEmit<string>(websocket, "purchase_market_listing", args);
   }
 
+  async function createUser(
+    payload: CreateUserPayload
+  ): Promise<User | undefined> {
+    if (!websocket) return undefined;
+    return asyncEmit<User>(websocket, "create_user", payload);
+  }
+
   async function getUser(): Promise<User | undefined> {
     if (!websocket) return undefined;
     return asyncEmit<User>(websocket, "get_user", "");
@@ -141,6 +148,11 @@ export function useWebsocketApi() {
     return asyncEmit<User[]>(websocket, "get_all_user", "");
   }
 
+  async function getAllProfessions(): Promise<Profession[] | undefined> {
+    if (!websocket) return undefined;
+    return asyncEmit<Profession[]>(websocket, "get_all_professions", "");
+  }
+
   async function getFirst10MarketListing(): Promise<
     MarketListing[] | undefined
   > {
@@ -161,7 +173,9 @@ export function useWebsocketApi() {
   return {
     users: {
       getUser,
+      createUser,
       getFirst10Users,
+      getAllProfessions,
     },
     party: {
       getParty,

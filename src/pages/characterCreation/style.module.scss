@@ -8,6 +8,7 @@
   text-align: center;
   gap: 1rem;
   color: white;
+  padding: 0 0.2rem 3rem 0.2rem;
 }
 
 .row {
@@ -16,55 +17,5 @@
   flex-direction: row;
   justify-content: flex-start;
   gap: 1rem;
-  align-items: center;
-}
-
-.classList {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-}
-
-.characterContainer {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-}
-
-.character {
-  height: 140px;
-  width: 148px;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-}
-
-.selected {
-  transform: scale(1.2);
-}
-
-.head {
-  width: 148px;
-  height: 125px;
-  top: -42px;
-  right: 0px;
-  position: absolute;
-  z-index: 2;
-}
-.body {
-  width: 148px;
-  height: 125px;
-  top: 0px;
-  position: absolute;
-}
-
-.characterCreationOptions {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
   align-items: center;
 }

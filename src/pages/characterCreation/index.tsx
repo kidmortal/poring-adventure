@@ -1,80 +1,15 @@
 import { useCharacterCreationStore } from "@/store/characterCreation";
 import styles from "./style.module.scss";
 import { Button } from "@/components/Button";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { api } from "@/api/service";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useMainStore } from "@/store/main";
 import { Query } from "@/store/query";
 import { FullscreenLoading } from "@/components/FullscreenLoading";
-import { CharacterInfo } from "@/components/CharacterInfo";
+import { useWebsocketApi } from "@/api/websocketServer";
+import ForEach from "@/components/ForEach";
+import { ProfessionBlock } from "./ProfessionBlock";
+import Input from "@/components/Input";
 
-function Character({
-  name,
-  gender,
-  head,
-}: {
-  name: string;
-  head: string;
-  gender: "male" | "female";
-}) {
-  return (
-    <div className={styles.characterContainer}>
-      <CharacterInfo gender={gender} head={head} costume={name} />
-    </div>
-  );
-}
-
-function ClassRadioSelectors() {
-  const store = useCharacterCreationStore();
-  return (
-    <div className={styles.row}>
-      <div>
-        <input
-          type="radio"
-          id="acolyte"
-          name="acolyte"
-          value="acolyte"
-          onChange={() => store.setSelectedCharacterClass("acolyte")}
-          checked={store.selectedCharacterClass === "acolyte"}
-        />
-        <label htmlFor="acolyte">acolyte</label>
-      </div>
-      <div>
-        <input
-          type="radio"
-          id="knight"
-          name="knight"
-          value="knight"
-          onChange={() => store.setSelectedCharacterClass("knight")}
-          checked={store.selectedCharacterClass === "knight"}
-        />
-        <label htmlFor="knight">knight</label>
-      </div>
-      <div>
-        <input
-          type="radio"
-          id="mage"
-          name="mage"
-          value="mage"
-          onChange={() => store.setSelectedCharacterClass("mage")}
-          checked={store.selectedCharacterClass === "mage"}
-        />
-        <label htmlFor="mage">mage</label>
-      </div>
-      <div>
-        <input
-          type="radio"
-          id="assassin"
-          name="assassin"
-          value="assassin"
-          onChange={() => store.setSelectedCharacterClass("assassin")}
-          checked={store.selectedCharacterClass === "assassin"}
-        />
-        <label htmlFor="assassin">assassin</label>
-      </div>
-    </div>
-  );
-}
 function GenderRadioSelectors() {
   const store = useCharacterCreationStore();
   return (
@@ -107,21 +42,27 @@ function GenderRadioSelectors() {
 }
 
 export function CharacterCreationPage() {
+  const api = useWebsocketApi();
   const queryClient = useQueryClient();
+  const mainStore = useMainStore();
   const store = useCharacterCreationStore();
-  const { loggedUserInfo } = useMainStore();
+
+  const query = useQuery({
+    queryKey: [Query.ALL_CHARACTERS],
+    enabled: !!mainStore.websocket,
+    staleTime: 1000 * 10, // 10 seconds
+    queryFn: () => api.users.getAllProfessions(),
+  });
 
   const newUserData: CreateUserPayload = {
-    email: loggedUserInfo.email,
     name: store.characterName,
-    classname: store.selectedCharacterClass,
     gender: store.gender,
-    professionId: 2,
+    professionId: store.selectedProfession?.id ?? 1,
+    costume: store.selectedProfession?.costume,
   };
 
   const newCharacterMutation = useMutation({
-    mutationFn: () =>
-      api.createNewUser(newUserData, loggedUserInfo.accessToken),
+    mutationFn: () => api.users.createUser(newUserData),
     onSuccess: () =>
       queryClient.invalidateQueries({ queryKey: [Query.USER_CHARACTER] }),
   });
@@ -133,22 +74,28 @@ export function CharacterCreationPage() {
   return (
     <div className={styles.container}>
       <h1>Create your character</h1>
-      <input
+      <Input
         placeholder="Character name"
         onChange={(e) => store.setCharacterName(e.target.value)}
       />
+      <GenderRadioSelectors />
       <div className={styles.container}>
-        <Character
-          name={store.selectedCharacterClass}
-          gender={store.gender}
-          head="1"
+        <ForEach
+          items={query.data}
+          render={(pro) => (
+            <ProfessionBlock
+              key={pro.id}
+              profession={pro}
+              selectedGender={store.gender}
+              selected={store.selectedProfession?.id === pro.id}
+              onClick={() => store.setSelectedProfession(pro)}
+            />
+          )}
         />
-
-        <ClassRadioSelectors />
-        <GenderRadioSelectors />
         <Button
           label="Create Character"
           onClick={() => newCharacterMutation.mutate()}
+          disabled={!store.selectedProfession || !store.characterName}
         />
       </div>
     </div>
