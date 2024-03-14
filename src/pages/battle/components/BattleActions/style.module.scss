@@ -41,6 +41,10 @@
 
 .skillButton {
   width: fit-content;
-  padding: 1rem;
-  border-radius: 100%;
+  padding: 0.5rem;
+  border-radius: 8px;
+  img {
+    width: 32px;
+    height: 32px;
+  }
 }

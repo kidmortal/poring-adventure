@@ -73,6 +73,7 @@ export function BattleActions({ api, isYourTurn, battleEnded, user }: Props) {
             render={(equippedSkill) => (
               <Button
                 className={styles.skillButton}
+                theme="secondary"
                 label={
                   <SkillText
                     asset={equippedSkill.skill.image}

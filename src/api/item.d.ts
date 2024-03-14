@@ -4,7 +4,11 @@ declare type Item = {
   category: string;
   image: string;
   attack?: number;
+  str?: number;
+  int?: number;
+  agi?: number;
   health?: number;
+  mana?: number;
 };
 
 declare type Equipment = {

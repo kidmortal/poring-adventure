@@ -13,30 +13,7 @@ import { Button } from "@/components/Button";
 import { useModalStore } from "@/store/modal";
 import { useWebsocketApi } from "@/api/websocketServer";
 import { useMainStore } from "@/store/main";
-import { EquipmentStat } from "@/components/EquipedItem";
-
-// function isItemEquippable({
-//   equips,
-//   item,
-// }: {
-//   equips?: Equipment[];
-//   item?: Item;
-// }) {
-//   equips?.forEach((equip) => {
-//     console.log({
-//       equippedId: equip.itemId,
-//       referenceId: item?.id,
-//       equippedCategory: equip.item?.category,
-//       referenceCategory: item?.category,
-//     });
-//     if (equip.itemId === item?.id || equip.item?.category === item?.category) {
-//       console.log(`cannot equip ${item?.name}`);
-//       return false;
-//     }
-//   });
-//   console.log(`can equip ${item?.name}`);
-//   return true;
-// }
+import { ItemStats } from "@/components/EquipedItem";
 
 type Props = {
   isOpen?: boolean;
@@ -57,7 +34,7 @@ function ItemDetails({ item }: { item?: InventoryItem | Equipment }) {
 
   return (
     <div className={styles.itemDetailContainer}>
-      <EquipmentStat item={item} />
+      <ItemStats item={item} />
       <When value={isOnSale}>
         <div className={styles.row}>
           <span>Sale</span>

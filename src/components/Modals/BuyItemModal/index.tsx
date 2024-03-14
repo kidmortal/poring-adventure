@@ -12,7 +12,7 @@ import { Button } from "@/components/Button";
 import { useWebsocketApi } from "@/api/websocketServer";
 import { useModalStore } from "@/store/modal";
 import Input from "@/components/Input";
-import { EquipmentStat } from "@/components/EquipedItem";
+import { ItemStats } from "@/components/EquipedItem";
 
 type Props = {
   isOpen?: boolean;
@@ -51,7 +51,7 @@ export function BuyItemModal(props: Props) {
     <BaseModal onRequestClose={props.onRequestClose} isOpen={props.isOpen}>
       <div className={styles.itemInfoContainer}>
         <InventoryItem inventoryItem={props.item?.inventory} stack={stock} />
-        <EquipmentStat item={props.item?.inventory} />
+        <ItemStats item={props.item?.inventory} />
 
         <span>Seller: {props.item?.seller.name}</span>
         <div className={styles.row}>
