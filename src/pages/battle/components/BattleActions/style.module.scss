@@ -11,7 +11,7 @@
 
 .skillsContainer {
   height: fit-content;
-  top: -50%;
+  top: -60%;
   bottom: 0;
   left: 0;
   right: 0;
@@ -37,4 +37,10 @@
   justify-content: flex-start;
   align-items: center;
   gap: 0.5rem;
+}
+
+.skillButton {
+  width: fit-content;
+  padding: 1rem;
+  border-radius: 100%;
 }

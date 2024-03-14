@@ -9,6 +9,8 @@ declare type User = {
   stats?: Stats;
   inventory: InventoryItem[];
   equipment: Equipment[];
+  learnedSkills: LearnedSkill[];
+  profession: Profession;
 };
 
 declare type Stats = {

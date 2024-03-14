@@ -19,11 +19,13 @@ export function CharacterWithHealthBar({ orientation = "front", user }: Props) {
           currentHealth={user?.stats?.health ?? 0}
           maxHealth={user?.stats?.maxHealth ?? 0}
           minWidth="5rem"
+          minHeight="0.3rem"
         />
         <ManaBar
           currentHealth={user?.stats?.mana ?? 0}
           maxHealth={user?.stats?.maxMana ?? 0}
           minWidth="5rem"
+          minHeight="0.5rem"
         />
         <CharacterInfo
           costume={`${user?.appearance.costume}`}

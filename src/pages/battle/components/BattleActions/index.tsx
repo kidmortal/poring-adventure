@@ -4,20 +4,26 @@ import { useMutation } from "@tanstack/react-query";
 import { WebsocketApi } from "@/api/websocketServer";
 import { useState } from "react";
 import cn from "classnames";
-import { toast } from "react-toastify";
 import { When } from "@/components/When";
+import ForEach from "@/components/ForEach";
 
 type Props = {
   api: WebsocketApi;
+  user?: User;
   isYourTurn?: boolean;
   battleEnded: boolean;
 };
 
-export function BattleActions({ api, isYourTurn, battleEnded }: Props) {
+export function BattleActions({ api, isYourTurn, battleEnded, user }: Props) {
+  const equippedSkills = user?.learnedSkills.filter((skill) => skill.equipped);
   const [isCasting, setIsCasting] = useState(false);
 
   const attackMutation = useMutation({
     mutationFn: () => api.battle.requestBattleAttack(),
+  });
+
+  const castMutation = useMutation({
+    mutationFn: (skillId: number) => api.battle.requestBattleCast(skillId),
   });
 
   const cancelBattleMutation = useMutation({
@@ -59,19 +65,32 @@ export function BattleActions({ api, isYourTurn, battleEnded }: Props) {
             [styles.visible]: isCasting,
           })}
         >
-          <Button
-            label={<SkillText asset="fireball" name="Fire" />}
-            onClick={() => toast("Not implemented")}
+          <When value={equippedSkills?.length === 0}>
+            <Button label="You have no learned skills" disabled />
+          </When>
+          <ForEach
+            items={equippedSkills}
+            render={(equippedSkill) => (
+              <Button
+                className={styles.skillButton}
+                label={
+                  <SkillText
+                    asset={equippedSkill.skill.image}
+                    name={equippedSkill.skill.name}
+                  />
+                }
+                onClick={() => {
+                  castMutation.mutate(equippedSkill.skillId);
+                  setIsCasting(false);
+                }}
+                disabled={
+                  castMutation.isPending ||
+                  (user?.stats?.mana ?? 0) < equippedSkill.skill.manaCost
+                }
+              />
+            )}
           />
-          <Button
-            label={<SkillText asset="ice_shards" name="Ice" />}
-            onClick={() => toast("Not implemented")}
-          />
-          <Button
-            label={<SkillText asset="healing" name="Heal" />}
-            onClick={() => toast("Not implemented")}
-          />
-        </div>{" "}
+        </div>
       </When>
     </div>
   );
@@ -80,12 +99,8 @@ export function BattleActions({ api, isYourTurn, battleEnded }: Props) {
 function SkillText(args: { name: string; asset: string }) {
   return (
     <div className={styles.skillText}>
-      <img
-        width={20}
-        height={20}
-        src={`https://kidmortal.sirv.com/skills/${args.asset}.webp`}
-      />
-      <span>{args.name}</span>
+      <img width={20} height={20} src={args.asset} />
+      {/* <span>{args.name}</span> */}
     </div>
   );
 }

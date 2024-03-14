@@ -94,6 +94,7 @@ export function BattlePage() {
           />
         </div>
         <BattleActions
+          user={store.userCharacterData}
           api={api}
           isYourTurn={isYourTurn}
           battleEnded={battleIsFinished}

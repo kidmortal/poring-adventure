@@ -12,11 +12,7 @@ export function BattleLogs({ logs }: Props) {
       render={(log) => (
         <div key={`${log.message}${crypto.randomUUID()}`}>
           <When value={!!log.icon}>
-            <img
-              width={15}
-              height={15}
-              src={`https://kidmortal.sirv.com/skills/${log.icon}.webp`}
-            />
+            <img width={20} height={20} src={log.icon} />
           </When>
           <span key={`${log}${crypto.randomUUID()}`}>{log.message}</span>
         </div>

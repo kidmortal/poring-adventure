@@ -4,6 +4,7 @@ type Props = {
   currentHealth: number;
   maxHealth: number;
   minWidth?: string;
+  minHeight?: string;
 };
 
 export default function ManaBar(props: Props) {
@@ -12,7 +13,10 @@ export default function ManaBar(props: Props) {
   );
 
   return (
-    <div className={styles.container} style={{ minWidth: props.minWidth }}>
+    <div
+      className={styles.container}
+      style={{ minWidth: props.minWidth, minHeight: props.minHeight }}
+    >
       <span>
         MP {props.currentHealth}/{props.maxHealth}
       </span>

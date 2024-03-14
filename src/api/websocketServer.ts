@@ -44,6 +44,11 @@ export function useWebsocketApi() {
     return asyncEmit<Battle>(websocket, "battle_attack", "");
   }
 
+  async function requestBattleCast(skillId: number) {
+    if (!websocket) return undefined;
+    return asyncEmit<Battle>(websocket, "battle_cast", skillId);
+  }
+
   async function cancelBattleInstance() {
     if (!websocket) return undefined;
     return asyncEmit<Battle>(websocket, "battle_reset", "");
@@ -175,6 +180,7 @@ export function useWebsocketApi() {
     battle: {
       createBattleInstance,
       requestBattleAttack,
+      requestBattleCast,
       cancelBattleInstance,
       getBattleInstance,
     },
