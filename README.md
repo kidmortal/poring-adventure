@@ -18,7 +18,7 @@ You can try it here
 ## Live preview https://poring-adventure.netlify.app
 
 
-## back-end service repository: [https://github.com/kidmortal/zenith-app](https://github.com/kidmortal/poring-adventure-api)
+## back-end service repository: https://github.com/kidmortal/poring-adventure-api
 
 ### How to run
 
