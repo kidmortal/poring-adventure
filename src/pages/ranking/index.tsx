@@ -38,13 +38,13 @@ export function RankingPage() {
           }
         >
           <CharacterInfo
-            costume={u.appearance.costume}
-            gender={u.appearance.gender}
-            head={u.appearance.head}
+            costume={u.appearance?.costume}
+            gender={u.appearance?.gender}
+            head={u.appearance?.head}
           />
           <div className={styles.characterInfo}>
             <span>
-              {u.name} - LV {u.stats?.level} {u.classname}
+              {u.name} - LV {u.stats?.level} {u?.profession?.name}
             </span>
             <Silver amount={u.silver} />
           </div>
