@@ -2,7 +2,6 @@ import { create } from "zustand";
 
 type UserConfigState = {
   open: boolean;
-  param?: string;
 };
 
 type InventoryItemState = {
@@ -32,6 +31,10 @@ type InteractUserState = {
   user?: User;
 };
 
+type SkillbookState = {
+  open?: boolean;
+};
+
 type FriendListState = {
   open?: boolean;
 };
@@ -51,6 +54,8 @@ export interface ModalState {
   setFriendlist: (v: FriendListState) => void;
   interactUser: InteractUserState;
   setInteractUser: (v: InteractUserState) => void;
+  skillbook: SkillbookState;
+  setSkillbook: (v: SkillbookState) => void;
 }
 
 export const useModalStore = create<ModalState>()((set) => ({
@@ -60,24 +65,23 @@ export const useModalStore = create<ModalState>()((set) => ({
   partyInfo: { open: false },
   friendlist: { open: false },
   interactUser: { open: false },
+  skillbook: { open: false },
   sellItem: {
     open: false,
     amount: 1,
     price: 5,
   },
+  setUserConfig: (v) => set(() => ({ userConfig: v })),
+  setSkillbook: (v) => set(() => ({ skillbook: v })),
   setInventoryItem: (v) =>
     set((state) => ({ inventoryItem: { ...state.inventoryItem, ...v } })),
-  setUserConfig: (v) =>
-    set((state) => ({ userConfig: { ...state.userConfig, ...v } })),
   setSellItem: (v) =>
     set((state) => ({ sellItem: { ...state.sellItem, ...v } })),
   setBuyItem: (v) => set((state) => ({ buyItem: { ...state.buyItem, ...v } })),
   setPartyInfo: (v) =>
     set((state) => ({ partyInfo: { ...state.partyInfo, ...v } })),
-
   setFriendlist: (v) =>
     set((state) => ({ friendlist: { ...state.friendlist, ...v } })),
-
   setInteractUser: (v) =>
     set((state) => ({ interactUser: { ...state.interactUser, ...v } })),
 }));

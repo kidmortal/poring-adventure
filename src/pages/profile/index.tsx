@@ -10,6 +10,7 @@ import { IconButton } from "@/components/IconButton";
 import { FriendList } from "@/assets/FriendList";
 import { PartyInfo } from "@/assets/PartyInfo";
 import { useModalStore } from "@/store/modal";
+import { Skillbook } from "@/assets/Skillboook";
 
 export function ProfilePage() {
   const navigate = useNavigate();
@@ -52,6 +53,10 @@ export function ProfilePage() {
             <IconButton
               label={<PartyInfo />}
               onClick={() => modal.setPartyInfo({ open: true })}
+            />
+            <IconButton
+              label={<Skillbook />}
+              onClick={() => modal.setSkillbook({ open: true })}
             />
           </div>
           <CharacterStatsInfo />

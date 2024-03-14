@@ -9,6 +9,7 @@ import { BuyItemModal } from "@/components/Modals/BuyItemModal";
 import { PartyInfoModal } from "@/components/Modals/PartyInfoModal";
 import { FriendListModal } from "@/components/Modals/FriendListModal";
 import { InteractUserModal } from "@/components/Modals/InteractUserModal";
+import { SkillbookModal } from "@/components/Modals/SkillbookModal";
 
 export function ModalLayout() {
   const modalStore = useModalStore();
@@ -47,6 +48,10 @@ export function ModalLayout() {
         onRequestClose={() => modalStore.setInteractUser({ open: false })}
         isOpen={modalStore.interactUser.open}
         user={modalStore.interactUser.user}
+      />
+      <SkillbookModal
+        onRequestClose={() => modalStore.setSkillbook({ open: false })}
+        isOpen={modalStore.skillbook.open}
       />
     </>
   );
