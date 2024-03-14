@@ -3,6 +3,8 @@ import { BaseModal } from "../BaseModal";
 
 import { useMainStore } from "@/store/main";
 import { Button } from "@/components/Button";
+import { useMutation } from "@tanstack/react-query";
+import { useWebsocketApi } from "@/api/websocketServer";
 
 type Props = {
   isOpen?: boolean;
@@ -10,8 +12,9 @@ type Props = {
 };
 
 export function SkillbookModal(props: Props) {
+  const api = useWebsocketApi();
   const store = useMainStore();
-  const allSkills = store.userCharacterData?.profession.skills;
+  const allSkills = store.userCharacterData?.profession?.skills;
   const learnedSkills = store.userCharacterData?.learnedSkills;
   const availableSkills = learnedSkills?.filter((l) => !l.equipped);
   const equippedSkills = learnedSkills?.filter((l) => l.equipped);
@@ -23,6 +26,17 @@ export function SkillbookModal(props: Props) {
         )
     ) || [];
 
+  const learnSkillMutation = useMutation({
+    mutationFn: (skillId: number) => api.skills.learnSkill(skillId),
+  });
+
+  const equipSkillMutation = useMutation({
+    mutationFn: (skillId: number) => api.skills.equipSkill(skillId),
+  });
+  const unequipSkillMutation = useMutation({
+    mutationFn: (skillId: number) => api.skills.unequipSkill(skillId),
+  });
+
   return (
     <BaseModal onRequestClose={props.onRequestClose} isOpen={props.isOpen}>
       <div>
@@ -33,6 +47,8 @@ export function SkillbookModal(props: Props) {
             <Button
               theme="secondary"
               key={equippedSkill.id}
+              disabled={unequipSkillMutation.isPending}
+              onClick={() => unequipSkillMutation.mutate(equippedSkill.skillId)}
               label={
                 <div>
                   <img src={equippedSkill.skill.image} />
@@ -50,6 +66,8 @@ export function SkillbookModal(props: Props) {
           render={(learnedSkill) => (
             <Button
               key={learnedSkill.id}
+              disabled={equipSkillMutation.isPending}
+              onClick={() => equipSkillMutation.mutate(learnedSkill.skillId)}
               label={
                 <div>
                   <img src={learnedSkill.skill.image} />
@@ -67,6 +85,8 @@ export function SkillbookModal(props: Props) {
           render={(skill) => (
             <Button
               key={skill.id}
+              disabled={learnSkillMutation.isPending}
+              onClick={() => learnSkillMutation.mutate(skill.id)}
               label={
                 <div>
                   <img src={skill.image} />
