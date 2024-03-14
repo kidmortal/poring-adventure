@@ -45,7 +45,10 @@ export function addToastListeners({
   websocket.on("market_update", (listings: MarketListing[]) =>
     store.setMarketListings(listings)
   );
-  websocket.on("user_update", (user: User) => store.setUserCharacterData(user));
+  websocket.on("user_update", (user: User) => {
+    console.log(user);
+    store.setUserCharacterData(user);
+  });
   websocket.on("party_data", (party: Party) => modal.setPartyInfo({ party }));
   websocket.on("party_data", (party: Party) => modal.setPartyInfo({ party }));
   websocket.on("notification", (msg: string) => {

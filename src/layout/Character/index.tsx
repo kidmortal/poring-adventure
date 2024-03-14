@@ -20,8 +20,7 @@ export function CharacterLayout() {
   const characterQuery = useQuery({
     queryKey: [Query.USER_CHARACTER],
     enabled: !!store.websocket && store.wsAuthenticated,
-    staleTime: 1000 * 2,
-    retry: 3,
+    staleTime: 1000 * 60, // 60 seconds
     queryFn: () => api.users.getUser(),
   });
 

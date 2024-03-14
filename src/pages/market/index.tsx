@@ -18,7 +18,7 @@ export function MarketPage() {
   const query = useQuery({
     queryKey: [Query.ALL_MARKET],
     enabled: !!store.websocket,
-    staleTime: 1000 * 2,
+    staleTime: 1000 * 60, // 60 seconds
     queryFn: () => api.market.getFirst10MarketListing(),
   });
 

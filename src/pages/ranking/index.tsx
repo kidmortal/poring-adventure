@@ -16,7 +16,7 @@ export function RankingPage() {
   const query = useQuery({
     queryKey: [Query.ALL_CHARACTERS],
     enabled: !!store.websocket,
-    staleTime: 1000 * 2,
+    staleTime: 1000 * 10, // 10 seconds
     queryFn: () => api.users.getFirst10Users(),
   });
 

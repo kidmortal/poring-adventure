@@ -21,7 +21,7 @@ export function BattlePage() {
   const query = useQuery({
     queryKey: [Query.BATTLE],
     enabled: !!store.websocket && !!store.loggedUserInfo.accessToken,
-    staleTime: 1000 * 2,
+    staleTime: 1000 * 60, // 60 seconds
     queryFn: () => api.battle.getBattleInstance(),
   });
 

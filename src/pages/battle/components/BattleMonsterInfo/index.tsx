@@ -1,18 +1,24 @@
 import { When } from "@/components/When";
 import styles from "./style.module.scss";
+import { RefObject, useRef } from "react";
 
 type Props = {
   monster?: Monster;
 };
 
-export function BattleMonsterInfo(props: Props) {
+export function BattleMonsterInfo({ monster }: Props) {
+  const monsterRef = useRef<RefObject<HTMLDivElement>>();
+
   return (
-    <When value={!!props.monster}>
-      <div className={styles.monsterContainer}>
-        <span>{props.monster?.name}</span>
-        <span>HP {props.monster?.health}</span>
-        <span>attack {props.monster?.attack}</span>
-        <img src={props.monster?.image} />
+    <When value={!!monster}>
+      <div ref={monsterRef.current} className={styles.monsterContainer}>
+        <When value={false}>
+          <span className={styles.animatedDamage}>-6</span>
+        </When>
+        <span>{monster?.name}</span>
+        <span>HP {monster?.health}</span>
+        <span>attack {monster?.attack}</span>
+        <img src={monster?.image} />
       </div>
     </When>
   );
