@@ -3,6 +3,7 @@ declare type CreateUserPayload = {
   name: string;
   classname: string;
   gender: string;
+  professionId: number;
 };
 declare type CreateMarketListingPayload = {
   stack: number;

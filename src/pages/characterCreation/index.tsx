@@ -111,11 +111,12 @@ export function CharacterCreationPage() {
   const store = useCharacterCreationStore();
   const { loggedUserInfo } = useMainStore();
 
-  const newUserData = {
+  const newUserData: CreateUserPayload = {
     email: loggedUserInfo.email,
     name: store.characterName,
     classname: store.selectedCharacterClass,
     gender: store.gender,
+    professionId: 2,
   };
 
   const newCharacterMutation = useMutation({
