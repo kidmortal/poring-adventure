@@ -11,6 +11,22 @@
   }
 }
 
+.levelContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.statsContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .animatedDamage {
   position: absolute;
   top: 100%; /* Start from the bottom of the container */
