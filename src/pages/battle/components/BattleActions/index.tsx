@@ -30,6 +30,7 @@ export function BattleActions({ api, isYourTurn, battleEnded, user }: Props) {
     mutationFn: () => api.battle.cancelBattleInstance(),
   });
 
+  const currentMana = user?.stats?.mana ?? 0;
   return (
     <div className={styles.actions}>
       <When value={battleEnded}>
@@ -84,10 +85,14 @@ export function BattleActions({ api, isYourTurn, battleEnded, user }: Props) {
                 onClick={() => {
                   castMutation.mutate(equippedSkill.skillId);
                   setIsCasting(false);
+                  console.log({
+                    mana: user?.stats?.mana,
+                    cost: equippedSkill.skill.manaCost,
+                  });
                 }}
                 disabled={
                   castMutation.isPending ||
-                  (user?.stats?.mana ?? 0) < equippedSkill.skill.manaCost
+                  currentMana < equippedSkill.skill.manaCost
                 }
               />
             )}

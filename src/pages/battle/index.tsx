@@ -35,10 +35,14 @@ export function BattlePage() {
   const userIsInBattle = !!battleStore.battle;
   const battleIsFinished = battleStore.battle?.battleFinished || false;
 
+  const userEmail = store.userCharacterData?.email ?? "";
   const userName = store.userCharacterData?.name ?? "";
   const turnIndex = battleStore.battle?.attackerTurn ?? 0;
   const turnName = battleStore.battle?.attackerList[turnIndex ?? 0];
   const isYourTurn = userName === turnName;
+  const battleUser = battleStore.battle?.users.find(
+    (u) => u.email === userEmail
+  );
 
   return (
     <div className={styles.container}>
@@ -94,7 +98,7 @@ export function BattlePage() {
           />
         </div>
         <BattleActions
-          user={store.userCharacterData}
+          user={battleUser}
           api={api}
           isYourTurn={isYourTurn}
           battleEnded={battleIsFinished}
