@@ -11,6 +11,7 @@ import { FriendList } from "@/assets/FriendList";
 import { PartyInfo } from "@/assets/PartyInfo";
 import { useModalStore } from "@/store/modal";
 import { Skillbook } from "@/assets/Skillboook";
+import ExperienceBar from "@/components/ExperienceBar";
 
 export function ProfilePage() {
   const navigate = useNavigate();
@@ -26,10 +27,12 @@ export function ProfilePage() {
         <div className={styles.userCharacterInfoContainer}>
           <div className={styles.nameContainer}>
             <h2>{store.userCharacterData?.name}</h2>
-            <span>
-              Level {store.userCharacterData?.stats?.level}{" "}
-              {store.userCharacterData?.classname}
-            </span>
+            <span>Level {store.userCharacterData?.stats?.level}</span>
+            <span>{store.userCharacterData?.profession?.name}</span>
+            <ExperienceBar
+              currentExp={store.userCharacterData?.stats?.experience}
+              level={store.userCharacterData?.stats?.level}
+            />
           </div>
 
           <CharacterInfo

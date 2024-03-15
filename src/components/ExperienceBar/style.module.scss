@@ -1,0 +1,27 @@
+.container {
+  position: relative;
+  border-radius: 4px;
+  min-width: 8rem;
+  display: flex;
+  font-size: 10px;
+  height: 0.8rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: gray;
+  transition: 400ms;
+
+  span {
+    z-index: 2;
+  }
+}
+
+.fillColor {
+  top: 0;
+  left: 0;
+  bottom: 0;
+  position: absolute;
+  background-color: #4caf50;
+  border-radius: 4px;
+  transition: 400ms;
+}
