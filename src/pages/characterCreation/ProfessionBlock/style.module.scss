@@ -30,3 +30,18 @@
   justify-content: center;
   align-items: center;
 }
+
+.professionStatsContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.professionStats {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

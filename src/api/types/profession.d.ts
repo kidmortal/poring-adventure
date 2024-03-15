@@ -3,6 +3,7 @@ declare type Profession = {
   name: string;
   costume: string;
   health: number;
+  attack: number;
   mana: number;
   str: number;
   agi: number;
