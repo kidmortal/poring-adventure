@@ -40,7 +40,7 @@ export function CharacterInfo({
         />
         <img
           className={styles.body}
-          src={`https://kidmortal.sirv.com/bodys/${costume}/${orientation}.png`}
+          src={`https://kidmortal.sirv.com/bodys/${gender}/${costume}/${orientation}.png`}
           onLoad={() => setAssetLoaded(true)}
         />
       </div>
