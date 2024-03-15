@@ -6,13 +6,22 @@ type Props = {
   minWidth?: string;
   minHeight?: string;
 };
+
 function calculateNextLevelExp(level: number) {
-  return level * 100 * 1.2;
+  let expNeeded = 0;
+  let currentExp = 0;
+
+  for (let i = 1; i < level; i++) {
+    expNeeded = i * 100;
+    currentExp += expNeeded;
+  }
+
+  return currentExp;
 }
 
 export default function ExperienceBar(props: Props) {
   const currentExp = props.currentExp ?? 0;
-  const nextLevelExp = calculateNextLevelExp(props.level ?? 0);
+  const nextLevelExp = calculateNextLevelExp((props.level ?? 0) + 1);
   const currentPercentage = Math.floor((currentExp / nextLevelExp) * 100);
 
   return (
