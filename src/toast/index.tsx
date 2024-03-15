@@ -12,12 +12,14 @@ export function addToastListeners({
   store,
   modal,
   battle,
+  pushToScreen,
 }: {
   websocket: Socket;
   api: WebsocketApi;
   store: MainStoreState;
   modal: ModalState;
   battle: BattleState;
+  pushToScreen: (s: string) => void;
 }) {
   websocket.on("party_invite", (party: Party) => {
     toast(
@@ -55,6 +57,9 @@ export function addToastListeners({
     toast(msg, { type: "info", autoClose: 3000, theme: "colored" });
   });
   websocket.on("battle_update", (b: Battle) => {
+    if (!window.location.pathname.includes("battle")) {
+      pushToScreen("/battle");
+    }
     console.log(b);
     battle.setBattle(b);
   });

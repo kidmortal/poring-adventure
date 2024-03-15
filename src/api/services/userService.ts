@@ -9,6 +9,11 @@ export function userService({ websocket }: { websocket?: Socket }) {
     return asyncEmit<User>(websocket, "create_user", payload);
   }
 
+  async function deleteUser(): Promise<User | undefined> {
+    if (!websocket) return undefined;
+    return asyncEmit<User>(websocket, "delete_user", "");
+  }
+
   async function getUser(): Promise<User | undefined> {
     if (!websocket) return undefined;
     return asyncEmit<User>(websocket, "get_user", "");
@@ -27,6 +32,7 @@ export function userService({ websocket }: { websocket?: Socket }) {
   return {
     createUser,
     getUser,
+    deleteUser,
     getFirst10Users,
     getAllProfessions,
   };

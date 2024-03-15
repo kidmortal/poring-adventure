@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { Socket, io } from "socket.io-client";
 
 import { useEffect, useState } from "react";
@@ -16,6 +16,7 @@ export function WebsocketLayout() {
   const modal = useModalStore();
   const battleStore = useBattleStore();
   const api = useWebsocketApi();
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (
@@ -42,6 +43,7 @@ export function WebsocketLayout() {
         modal,
         battle: battleStore,
         store,
+        pushToScreen: (s) => navigate(s),
       });
     }
   }, [store.websocket]);

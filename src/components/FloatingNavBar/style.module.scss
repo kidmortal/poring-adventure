@@ -18,3 +18,9 @@
     user-select: none;
   }
 }
+
+.disabled {
+  opacity: 0.7;
+  color: gray;
+  cursor: not-allowed !important;
+}

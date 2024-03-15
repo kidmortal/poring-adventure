@@ -1,13 +1,12 @@
 import { BaseModal } from "../BaseModal";
 import { Button } from "@/components/Button";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { api } from "@/api/service";
-import { useMainStore } from "@/store/main";
 import { Query } from "@/store/query";
 import { auth } from "@/firebase";
 import SignOut from "@/assets/SignOut";
 import { When } from "@/components/When";
 import { FullscreenLoading } from "@/components/FullscreenLoading";
+import { useWebsocketApi } from "@/api/websocketServer";
 
 type Props = {
   isOpen?: boolean;
@@ -15,15 +14,11 @@ type Props = {
 };
 
 export function UserSettingsModal(props: Props) {
-  const store = useMainStore();
+  const api = useWebsocketApi();
   const queryClient = useQueryClient();
 
   const deleteUserMutation = useMutation({
-    mutationFn: () =>
-      api.deleteUser(
-        store.loggedUserInfo.email,
-        store.loggedUserInfo.accessToken
-      ),
+    mutationFn: () => api.users.deleteUser(),
     onSuccess: () =>
       queryClient.invalidateQueries({ queryKey: [Query.USER_CHARACTER] }),
   });

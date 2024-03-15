@@ -3,7 +3,7 @@ import { FullscreenLoading } from "@/components/FullscreenLoading";
 import { useMainStore } from "@/store/main";
 import styles from "./style.module.scss";
 import { Query } from "@/store/query";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/Button";
 import { BattleMonsterInfo } from "./components/BattleMonsterInfo";
 import { When } from "@/components/When";
@@ -16,20 +16,16 @@ import { BattleActions } from "./components/BattleActions";
 
 export function BattlePage() {
   const store = useMainStore();
+  const queryClient = useQueryClient();
   const battleStore = useBattleStore();
   const api = useWebsocketApi();
-  const query = useQuery({
-    queryKey: [Query.BATTLE],
-    enabled: !!store.websocket && !!store.loggedUserInfo.accessToken,
-    staleTime: 1000 * 60, // 60 seconds
-    queryFn: () => api.battle.getBattleInstance(),
-  });
+  const query = queryClient.getQueryState([Query.BATTLE]);
 
   const createBattleMutation = useMutation({
     mutationFn: () => api.battle.createBattleInstance(),
   });
 
-  if (query.isLoading) {
+  if (query?.status === "pending") {
     return <FullscreenLoading info="Battle Info" />;
   }
   const userIsInBattle = !!battleStore.battle;

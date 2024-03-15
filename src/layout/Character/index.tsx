@@ -23,6 +23,12 @@ export function CharacterLayout() {
     staleTime: Infinity,
     queryFn: () => api.users.getUser(),
   });
+  useQuery({
+    queryKey: [Query.BATTLE],
+    enabled: !!store.websocket && !!store.loggedUserInfo.accessToken,
+    staleTime: 1000 * 60, // 60 seconds
+    queryFn: () => api.battle.getBattleInstance(),
+  });
 
   useEffect(() => {
     if (characterQuery?.data) {
