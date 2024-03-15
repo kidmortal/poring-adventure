@@ -21,8 +21,12 @@ function calculateNextLevelExp(level: number) {
 
 export default function ExperienceBar(props: Props) {
   const currentExp = props.currentExp ?? 0;
+  const currentLevelExp = calculateNextLevelExp(props.level ?? 0);
+  const currentLevelExpDifference = currentExp - currentLevelExp;
   const nextLevelExp = calculateNextLevelExp((props.level ?? 0) + 1);
-  const currentPercentage = Math.floor((currentExp / nextLevelExp) * 100);
+  const currentPercentage = Math.floor(
+    (currentLevelExpDifference / nextLevelExp) * 100
+  );
 
   return (
     <div
