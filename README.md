@@ -4,9 +4,24 @@ Splash
 
 
 
-How it looks on mobile (it doesnt really have a desktop layout xd)
+Looks like this
 
-![image](https://github.com/kidmortal/poring-adventure/assets/18023467/d3579775-8599-47cf-9ef0-949aa4a91b0c)
+![image](https://github.com/kidmortal/poring-adventure/assets/18023467/f6e5e517-4daa-4e4c-8e4e-4e2b79aa4f11)
+
+
+
+
+Turn based combat
+
+![image](https://github.com/kidmortal/poring-adventure/assets/18023467/4506729e-4fd0-474b-bb8a-13f732fef1cc)
+
+
+Also allows co-op
+
+![image](https://github.com/kidmortal/poring-adventure/assets/18023467/b0ddafc7-a114-4528-bb11-5526b397ae3d)
+
+
+
 
 
 Summary - RPG mini game with co-op features using websocket.
