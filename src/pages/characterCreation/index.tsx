@@ -79,7 +79,8 @@ export function CharacterCreationPage() {
         onChange={(e) => store.setCharacterName(e.target.value)}
       />
       <GenderRadioSelectors />
-      <div className={styles.container}>
+
+      <div className={styles.professionListContainer}>
         <ForEach
           items={query.data}
           render={(pro) => (
@@ -92,12 +93,13 @@ export function CharacterCreationPage() {
             />
           )}
         />
-        <Button
-          label="Create Character"
-          onClick={() => newCharacterMutation.mutate()}
-          disabled={!store.selectedProfession || !store.characterName}
-        />
       </div>
+
+      <Button
+        label="Create Character"
+        onClick={() => newCharacterMutation.mutate()}
+        disabled={!store.selectedProfession || !store.characterName}
+      />
     </div>
   );
 }
