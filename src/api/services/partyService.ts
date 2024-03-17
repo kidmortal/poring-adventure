@@ -21,6 +21,10 @@ export function partyService({ websocket }: { websocket?: Socket }) {
     if (!websocket) return false;
     return asyncEmit<boolean>(websocket, "remove_party", "");
   }
+  async function quitParty(): Promise<boolean> {
+    if (!websocket) return false;
+    return asyncEmit<boolean>(websocket, "quit_party", "");
+  }
 
   async function inviteToParty(email: string): Promise<boolean> {
     if (!websocket) return false;
@@ -37,6 +41,7 @@ export function partyService({ websocket }: { websocket?: Socket }) {
     createParty,
     removeParty,
     inviteToParty,
+    quitParty,
     joinParty,
     removeFromParty,
   };

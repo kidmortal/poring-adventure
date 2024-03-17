@@ -17,7 +17,7 @@ export function Button({
   disabled,
 }: Props) {
   return (
-    <div
+    <button
       onClick={() => {
         if (!disabled) {
           onClick?.();
@@ -28,6 +28,6 @@ export function Button({
       })}
     >
       {label}
-    </div>
+    </button>
   );
 }

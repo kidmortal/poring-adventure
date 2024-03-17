@@ -18,6 +18,7 @@ type Props = {
 export function PartyInfoModal(props: Props) {
   const api = useWebsocketApi();
   const store = useMainStore();
+  const user = store.userCharacterData;
   const query = useQuery({
     queryKey: [Query.PARTY],
     enabled: !!store.websocket,
@@ -35,6 +36,9 @@ export function PartyInfoModal(props: Props) {
 
   const deletePartyMutation = useMutation({
     mutationFn: () => api.party.removeParty(),
+  });
+  const quitPartyMutation = useMutation({
+    mutationFn: () => api.party.quitParty(),
   });
 
   console.log(props.party);
@@ -66,11 +70,20 @@ export function PartyInfoModal(props: Props) {
                 </div>
               )}
             />
-            <Button
-              label="Disband party"
-              onClick={() => deletePartyMutation.mutate()}
-              disabled={deletePartyMutation.isPending}
-            />
+            <When value={user?.email !== props.party?.leaderEmail}>
+              <Button
+                label="Leave party"
+                onClick={() => quitPartyMutation.mutate()}
+                disabled={quitPartyMutation.isPending}
+              />
+            </When>
+            <When value={user?.email === props.party?.leaderEmail}>
+              <Button
+                label="Disband party"
+                onClick={() => deletePartyMutation.mutate()}
+                disabled={deletePartyMutation.isPending}
+              />
+            </When>
           </When>
         </When>
       </div>

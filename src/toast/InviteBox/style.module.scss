@@ -6,6 +6,9 @@
   align-items: center;
   gap: 1rem;
   background-color: #3498db;
+  strong {
+    font-size: 14px;
+  }
 }
 
 .optionsContainer {
@@ -15,4 +18,10 @@
   justify-content: center;
   align-items: center;
   gap: 1rem;
+}
+
+.warning {
+  color: black;
+  font-size: 18px;
+  font-weight: 600;
 }

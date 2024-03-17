@@ -2,14 +2,14 @@ import { Outlet } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 
 import { useModalStore } from "@/store/modal";
-import { UserSettingsModal } from "@/components/Modals/UserSettingsModal";
-import { ItemMenuModal } from "@/components/Modals/ItemMenuModal";
-import { SellItemModal } from "@/components/Modals/SellItemModal";
-import { BuyItemModal } from "@/components/Modals/BuyItemModal";
-import { PartyInfoModal } from "@/components/Modals/PartyInfoModal";
-import { FriendListModal } from "@/components/Modals/FriendListModal";
-import { InteractUserModal } from "@/components/Modals/InteractUserModal";
-import { SkillbookModal } from "@/components/Modals/SkillbookModal";
+import { UserSettingsModal } from "@/layout/Modal/Modals/UserSettingsModal";
+import { ItemMenuModal } from "@/layout/Modal/Modals/ItemMenuModal";
+import { SellItemModal } from "@/layout/Modal/Modals/SellItemModal";
+import { BuyItemModal } from "@/layout/Modal/Modals/BuyItemModal";
+import { PartyInfoModal } from "@/layout/Modal/Modals/PartyInfoModal";
+import { FriendListModal } from "@/layout/Modal/Modals/FriendListModal";
+import { InteractUserModal } from "@/layout/Modal/Modals/InteractUserModal";
+import { SkillbookModal } from "@/layout/Modal/Modals/SkillbookModal";
 
 export function ModalLayout() {
   const modalStore = useModalStore();
