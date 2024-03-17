@@ -38,7 +38,7 @@ export function PartyInfoModal(props: Props) {
     mutationFn: () => api.party.removeParty(),
   });
   const quitPartyMutation = useMutation({
-    mutationFn: () => api.party.quitParty(),
+    mutationFn: (partyId: number) => api.party.quitParty(partyId),
   });
 
   console.log(props.party);
@@ -73,7 +73,7 @@ export function PartyInfoModal(props: Props) {
             <When value={user?.email !== props.party?.leaderEmail}>
               <Button
                 label="Leave party"
-                onClick={() => quitPartyMutation.mutate()}
+                onClick={() => quitPartyMutation.mutate(props.party?.id ?? 0)}
                 disabled={quitPartyMutation.isPending}
               />
             </When>
