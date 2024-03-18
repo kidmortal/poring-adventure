@@ -4,6 +4,8 @@ import { CharacterInfo } from "@/components/CharacterInfo";
 import HealthBar from "@/components/HealthBar";
 import { When } from "@/components/When";
 import ManaBar from "../ManaBar";
+import { CharacterPose } from "../CharacterPose";
+import BuffList from "../BuffList";
 
 type Props = {
   user?: User;
@@ -16,9 +18,12 @@ export function CharacterWithHealthBar({
   user,
   classInfo = false,
 }: Props) {
+  const buffPose = user?.buffs?.find((b) => b.buff.pose);
   return (
     <When value={!!user}>
       <div className={styles.userContainer}>
+        <CharacterPose pose={buffPose?.buff.pose} />
+        <BuffList buffs={user?.buffs} />
         <span>{user?.name}</span>
         <When value={classInfo}>
           <span className={styles.classinfo}>
