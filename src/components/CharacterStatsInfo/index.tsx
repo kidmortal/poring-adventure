@@ -1,3 +1,4 @@
+import BuffList from "../BuffList";
 import HealthBar from "../HealthBar";
 import ManaBar from "../ManaBar";
 import styles from "./style.module.scss";
@@ -22,6 +23,8 @@ export function CharacterStatsInfo() {
   let bonusAgi = 0;
   let bonusInt = 0;
   const equippedItems = store.userCharacterData?.equipment;
+  const user = store.userCharacterData;
+  const stats = user?.stats;
   if (equippedItems) {
     equippedItems.forEach((equip) => {
       if (equip?.item?.health) {
@@ -44,13 +47,12 @@ export function CharacterStatsInfo() {
       }
     });
   }
-  const rawHealth =
-    (store.userCharacterData?.stats?.maxHealth || 0) - bonusHealth;
-  const rawMana = (store.userCharacterData?.stats?.maxMana || 0) - bonusMana;
-  const rawAtk = (store.userCharacterData?.stats?.attack || 0) - bonusAttack;
-  const rawStr = (store.userCharacterData?.stats?.str || 0) - bonusStr;
-  const rawAgi = (store.userCharacterData?.stats?.agi || 0) - bonusAgi;
-  const rawInt = (store.userCharacterData?.stats?.int || 0) - bonusInt;
+  const rawHealth = (stats?.maxHealth || 0) - bonusHealth;
+  const rawMana = (stats?.maxMana || 0) - bonusMana;
+  const rawAtk = (stats?.attack || 0) - bonusAttack;
+  const rawStr = (stats?.str || 0) - bonusStr;
+  const rawAgi = (stats?.agi || 0) - bonusAgi;
+  const rawInt = (stats?.int || 0) - bonusInt;
 
   return (
     <div className={styles.container}>
@@ -64,7 +66,7 @@ export function CharacterStatsInfo() {
           maxHealth={store.userCharacterData?.stats?.maxMana ?? 0}
         />
       </div>
-
+      <BuffList buffs={user?.buffs} />
       <Stat assetName="health" label={`HP: ${rawHealth} +${bonusHealth}`} />
       <Stat assetName="mana" label={`MP: ${rawMana} +${bonusMana}`} />
       <Stat assetName="attack" label={`ATK: ${rawAtk} +${bonusAttack}`} />

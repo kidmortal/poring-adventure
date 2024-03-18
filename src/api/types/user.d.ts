@@ -10,6 +10,7 @@ declare type User = {
   inventory: InventoryItem[];
   equipment: Equipment[];
   learnedSkills: LearnedSkill[];
+  buffs?: UserBuff[];
   profession?: Profession;
 };
 
@@ -40,4 +41,22 @@ declare type Party = {
   id?: number;
   leaderEmail?: string;
   members?: User[];
+};
+
+declare type UserBuff = {
+  id: number;
+  buffId: number;
+  userId: number;
+  duration: number;
+  buff: Buff;
+};
+
+declare type Buff = {
+  id: number;
+  name: string;
+  duration: number;
+  image: string;
+  pose: string;
+  persist: boolean;
+  maxStack: number;
 };

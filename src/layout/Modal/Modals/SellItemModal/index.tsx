@@ -12,6 +12,8 @@ import { InventoryItem } from "@/components/InventoryItem";
 import { Button } from "@/components/Button";
 import { useWebsocketApi } from "@/api/websocketServer";
 import { useModalStore } from "@/store/modal";
+import Input from "@/components/Input";
+import { ItemStats } from "@/components/EquipedItem";
 
 type Props = {
   isOpen?: boolean;
@@ -58,21 +60,27 @@ export function SellItemModal(props: Props) {
     <BaseModal onRequestClose={props.onRequestClose} isOpen={props.isOpen}>
       <div className={styles.itemInfoContainer}>
         <InventoryItem inventoryItem={props.item} />
+        <ItemStats item={props.item} />
       </div>
       <div className={styles.buttonsContainer}>
-        <input
-          placeholder={`price - ${sellPrice}`}
+        <Input
+          placeholder={`price`}
           type="number"
           min={1}
           onChange={(e) => modalStore.setSellItem({ price: +e.target.value })}
         />
-        <input
-          placeholder={`amount - ${sellAmount}`}
+        <Input
+          placeholder={`amount`}
           type="number"
           min={0}
           onChange={(e) => modalStore.setSellItem({ amount: +e.target.value })}
         />
-        <Silver amount={sellAmount * sellPrice} />
+        <div className={styles.totalPriceContainer}>
+          <span>{sellAmount}x</span>
+          <Silver amount={sellPrice} />
+          <span>=</span>
+          <Silver amount={sellAmount * sellPrice} />
+        </div>
         <When value={hasRemainingStock}>
           <Button
             label="Sell item"
