@@ -10,7 +10,7 @@ import { IconButton } from "@/components/IconButton";
 import { FriendList } from "@/assets/FriendList";
 import { PartyInfo } from "@/assets/PartyInfo";
 import { useModalStore } from "@/store/modal";
-import { Skillbook } from "@/assets/Skillboook";
+
 import ExperienceBar from "@/components/ExperienceBar";
 
 export function ProfilePage() {
@@ -58,7 +58,13 @@ export function ProfilePage() {
               onClick={() => modal.setPartyInfo({ open: true })}
             />
             <IconButton
-              label={<Skillbook />}
+              label={
+                <img
+                  width={20}
+                  height={20}
+                  src="https://kidmortal.sirv.com/misc/skillbook.webp?w=20&h=20"
+                />
+              }
               onClick={() => modal.setSkillbook({ open: true })}
             />
           </div>

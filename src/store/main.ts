@@ -7,6 +7,8 @@ type LoggedUserInfo = {
   email: string;
 };
 
+export type InventoryFilters = "all" | "equip" | "consumable" | "material";
+
 export interface MainStoreState {
   loggedUserInfo: LoggedUserInfo;
   isLoading: boolean;
@@ -14,6 +16,8 @@ export interface MainStoreState {
   websocket?: Socket;
   wsAuthenticated: boolean;
   marketListings: MarketListing[];
+  inventoryFilter: InventoryFilters;
+  setInventoryFilter: (v: InventoryFilters) => void;
   clearUserData: () => void;
   setIsLoading: (v: boolean) => void;
   setMarketListings: (v: MarketListing[]) => void;
@@ -33,7 +37,9 @@ export const useMainStore = create<MainStoreState>()((set) => ({
   websocket: undefined,
   wsAuthenticated: false,
   userCharacterData: undefined,
+  inventoryFilter: "all",
   marketListings: [],
+  setInventoryFilter: (v) => set(() => ({ inventoryFilter: v })),
   setMarketListings: (v) => set(() => ({ marketListings: v })),
   clearUserData: () =>
     set(() => ({
