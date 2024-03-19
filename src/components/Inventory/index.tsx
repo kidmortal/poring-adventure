@@ -116,7 +116,7 @@ function InventoryFilter({
           width={20}
           src="https://kidmortal.sirv.com/misc/equip.webp?w=20&h=20"
         />
-        <span>Equips.</span>
+        <span>Equipments</span>
       </div>
       <div
         onClick={() => onClick("consumable")}
@@ -129,7 +129,7 @@ function InventoryFilter({
           width={20}
           src="https://kidmortal.sirv.com/misc/consumable.webp?w=20&h=20"
         />
-        <span>Consum.</span>
+        <span>Consumables</span>
       </div>
       <div
         onClick={() => onClick("material")}
@@ -142,7 +142,7 @@ function InventoryFilter({
           width={20}
           src="https://kidmortal.sirv.com/misc/material.webp?w=20&h=20"
         />
-        <span>Mats.</span>
+        <span>Materials</span>
       </div>
     </div>
   );
