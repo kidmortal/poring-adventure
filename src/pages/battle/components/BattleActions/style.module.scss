@@ -11,7 +11,7 @@
 
 .skillsContainer {
   height: fit-content;
-  top: -60%;
+  top: -70%;
   bottom: 0;
   left: 0;
   right: 0;
@@ -39,12 +39,25 @@
   gap: 0.5rem;
 }
 
+.skillInfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.skillInfoRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  svg {
+    margin-right: 4px;
+  }
+}
+
 .skillButton {
   width: fit-content;
   padding: 0.5rem;
   border-radius: 8px;
-  img {
-    width: 32px;
-    height: 32px;
-  }
 }

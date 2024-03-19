@@ -6,6 +6,7 @@ import { useState } from "react";
 import cn from "classnames";
 import { When } from "@/components/When";
 import ForEach from "@/components/ForEach";
+import Clock from "@/assets/Clock";
 
 type Props = {
   api: WebsocketApi;
@@ -76,12 +77,7 @@ export function BattleActions({ api, isYourTurn, battleEnded, user }: Props) {
                 key={equippedSkill.skillId}
                 className={styles.skillButton}
                 theme="secondary"
-                label={
-                  <SkillText
-                    asset={equippedSkill.skill.image}
-                    name={equippedSkill.skill.name}
-                  />
-                }
+                label={<SkillText skill={equippedSkill.skill} />}
                 onClick={() => {
                   castMutation.mutate(equippedSkill.skillId);
                   setIsCasting(false);
@@ -103,11 +99,24 @@ export function BattleActions({ api, isYourTurn, battleEnded, user }: Props) {
   );
 }
 
-function SkillText(args: { name: string; asset: string }) {
+function SkillText(args: { skill: Skill }) {
   return (
     <div className={styles.skillText}>
-      <img width={20} height={20} src={args.asset} />
-      {/* <span>{args.name}</span> */}
+      <img height={30} width={30} src={args.skill.image} />
+      <div className={styles.skillInfo}>
+        <div className={styles.skillInfoRow}>
+          <img
+            width={20}
+            height={20}
+            src="https://kidmortal.sirv.com/misc/mana.webp"
+          />
+          <span>{args.skill.manaCost}</span>
+        </div>
+        <div className={styles.skillInfoRow}>
+          <Clock />
+          <span>0</span>
+        </div>
+      </div>
     </div>
   );
 }
