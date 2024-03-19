@@ -8,7 +8,7 @@ import { CharacterPose } from "../CharacterPose";
 import BuffList from "../BuffList";
 
 type Props = {
-  user?: User;
+  user?: BattleUser;
   classInfo?: boolean;
   orientation?: "front" | "back";
 };
@@ -24,7 +24,9 @@ export function CharacterWithHealthBar({
       <div className={styles.userContainer}>
         <CharacterPose pose={buffPose?.buff.pose} />
         <BuffList buffs={user?.buffs} />
+
         <span>{user?.name}</span>
+        <span className={styles.aggroText}>Aggro: {user?.aggro}</span>
         <When value={classInfo}>
           <span className={styles.classinfo}>
             LV {user?.stats?.level} {user?.profession?.name}

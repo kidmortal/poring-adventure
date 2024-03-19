@@ -14,6 +14,11 @@ declare type User = {
   profession?: Profession;
 };
 
+declare type BattleUser = User & {
+  isDead?: boolean;
+  aggro?: number;
+};
+
 declare type Stats = {
   id: number;
   level: number;
