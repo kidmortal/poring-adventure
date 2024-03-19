@@ -1,4 +1,5 @@
 import ForEach from "@/components/ForEach";
+import styles from "./style.module.scss";
 import { When } from "@/components/When";
 
 type Props = {
@@ -7,16 +8,18 @@ type Props = {
 
 export function BattleLogs({ logs }: Props) {
   return (
-    <ForEach
-      items={logs}
-      render={(log) => (
-        <div key={`${log.message}${crypto.randomUUID()}`}>
-          <When value={!!log.icon}>
-            <img width={20} height={20} src={log.icon} />
-          </When>
-          <span key={`${log}${crypto.randomUUID()}`}>{log.message}</span>
-        </div>
-      )}
-    />
+    <div className={styles.logContainer}>
+      <ForEach
+        items={logs}
+        render={(log) => (
+          <div key={`${log.message}${crypto.randomUUID()}`}>
+            <When value={!!log.icon}>
+              <img width={20} height={20} src={log.icon} />
+            </When>
+            <span key={`${log}${crypto.randomUUID()}`}>{log.message}</span>
+          </div>
+        )}
+      />
+    </div>
   );
 }
