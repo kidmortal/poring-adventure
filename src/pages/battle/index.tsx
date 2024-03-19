@@ -14,6 +14,18 @@ import { CharacterWithHealthBar } from "@/components/CharacterWithHealthBar";
 import { BattleLogs } from "./components/BattleLogs";
 import { BattleActions } from "./components/BattleActions";
 
+function highestAggroUser(users: BattleUser[]) {
+  let highestAggro = users[0];
+  users.forEach((u) => {
+    if (u.aggro && highestAggro.aggro) {
+      if (u?.aggro > highestAggro?.aggro) {
+        highestAggro = u;
+      }
+    }
+  });
+  return highestAggro;
+}
+
 export function BattlePage() {
   const store = useMainStore();
   const queryClient = useQueryClient();
@@ -28,17 +40,17 @@ export function BattlePage() {
   if (query?.status === "pending") {
     return <FullscreenLoading info="Battle Info" />;
   }
-  const userIsInBattle = !!battleStore.battle;
-  const battleIsFinished = battleStore.battle?.battleFinished || false;
+  const battle = battleStore.battle;
+  const userIsInBattle = !!battle;
+  const battleIsFinished = battle?.battleFinished || false;
 
   const userEmail = store.userCharacterData?.email ?? "";
   const userName = store.userCharacterData?.name ?? "";
-  const turnIndex = battleStore.battle?.attackerTurn ?? 0;
-  const turnName = battleStore.battle?.attackerList[turnIndex ?? 0];
+  const turnIndex = battle?.attackerTurn ?? 0;
+  const turnName = battle?.attackerList[turnIndex ?? 0];
   const isYourTurn = userName === turnName;
-  const battleUser = battleStore.battle?.users.find(
-    (u) => u.email === userEmail
-  );
+  const battleUser = battle?.users.find((u) => u.email === userEmail);
+  const highestAggroPlayer = highestAggroUser(battle?.users ?? []);
 
   return (
     <div className={styles.container}>
@@ -89,6 +101,7 @@ export function BattlePage() {
                 orientation="back"
                 key={u.email}
                 user={u}
+                highestAggro={highestAggroPlayer.name === u.name}
               />
             )}
           />

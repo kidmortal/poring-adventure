@@ -9,6 +9,7 @@ import BuffList from "../BuffList";
 
 type Props = {
   user?: BattleUser;
+  highestAggro?: boolean;
   classInfo?: boolean;
   orientation?: "front" | "back";
 };
@@ -17,6 +18,7 @@ export function CharacterWithHealthBar({
   orientation = "front",
   user,
   classInfo = false,
+  highestAggro,
 }: Props) {
   const buffPose = user?.buffs?.find((b) => b.buff.pose);
   return (
@@ -26,7 +28,16 @@ export function CharacterWithHealthBar({
         <BuffList buffs={user?.buffs} />
 
         <span>{user?.name}</span>
-        <span className={styles.aggroText}>Aggro: {user?.aggro}</span>
+        <div className={styles.aggroContainer}>
+          <img
+            width={25}
+            height={25}
+            src={`https://kidmortal.sirv.com/misc/${
+              highestAggro ? "bossrage" : "boss"
+            }.webp?w=25&h=25`}
+          />
+          <span>{user?.aggro}</span>
+        </div>
         <When value={classInfo}>
           <span className={styles.classinfo}>
             LV {user?.stats?.level} {user?.profession?.name}

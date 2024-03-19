@@ -1,5 +1,5 @@
 declare type Battle = {
-  users: User[];
+  users: BattleUser[];
   monsters: Monster[];
   attackerTurn: number;
   attackerList: string[];
