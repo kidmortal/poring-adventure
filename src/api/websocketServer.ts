@@ -7,6 +7,7 @@ import { battleService } from "./services/battleService";
 import { itemService } from "./services/itemService";
 import { adminService } from "./services/adminService";
 import { skillService } from "./services/skillService";
+import { monsterService } from "./services/monsterService";
 
 export async function asyncEmit<T>(
   ws: Socket,
@@ -30,6 +31,7 @@ export function useWebsocketApi() {
     battle: battleService({ websocket }),
     admin: adminService({ websocket }),
     items: itemService({ websocket }),
+    monsters: monsterService({ websocket }),
     skills: skillService({ websocket }),
   };
 }

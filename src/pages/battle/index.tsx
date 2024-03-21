@@ -32,10 +32,13 @@ export function BattlePage() {
   const battleStore = useBattleStore();
   const api = useWebsocketApi();
   const query = queryClient.getQueryState([Query.BATTLE]);
+  const maps = queryClient.getQueryState<MonsterMap[]>([Query.MAPS]);
 
   const createBattleMutation = useMutation({
-    mutationFn: () => api.battle.createBattleInstance(),
+    mutationFn: (mapId: number) => api.battle.createBattleInstance(mapId),
   });
+
+  console.log(maps?.data);
 
   if (query?.status === "pending") {
     return <FullscreenLoading info="Battle Info" />;
@@ -56,11 +59,24 @@ export function BattlePage() {
     <div className={styles.container}>
       <When value={!userIsInBattle}>
         <div className={styles.noBattleContainer}>
-          <Button
-            label="Search monster"
-            onClick={() => createBattleMutation.mutate()}
-            disabled={createBattleMutation.isPending}
-          />
+          <div>
+            <h2>Select map</h2>
+            <ForEach
+              items={maps?.data}
+              render={(m) => (
+                <Button
+                  label={
+                    <div className={styles.mapOptionContailer} key={m.id}>
+                      <img src={m.image} width={25} height={25} />
+                      <span>{m.name}</span>
+                    </div>
+                  }
+                  onClick={() => createBattleMutation.mutate(m.id)}
+                  disabled={createBattleMutation.isPending}
+                />
+              )}
+            />
+          </div>
         </div>
       </When>
       <When value={userIsInBattle}>

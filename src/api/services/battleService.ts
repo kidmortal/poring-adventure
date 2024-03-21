@@ -7,9 +7,9 @@ export function battleService({ websocket }: { websocket?: Socket }) {
     return asyncEmit<Battle>(websocket, "battle_update", "");
   }
 
-  async function createBattleInstance() {
+  async function createBattleInstance(mapId: number) {
     if (!websocket) return undefined;
-    return asyncEmit<Battle>(websocket, "battle_create", "");
+    return asyncEmit<Battle>(websocket, "battle_create", mapId);
   }
 
   async function requestBattleAttack() {

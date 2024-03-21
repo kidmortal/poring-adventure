@@ -7,3 +7,10 @@ declare type Monster = {
   attack: number;
   health: number;
 };
+
+declare type MonsterMap = {
+  id: number;
+  name: string;
+  image: string;
+  monster: Monster[];
+};

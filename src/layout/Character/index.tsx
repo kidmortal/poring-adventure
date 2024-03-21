@@ -30,6 +30,13 @@ export function CharacterLayout() {
     queryFn: () => api.battle.getBattleInstance(),
   });
 
+  useQuery({
+    queryKey: [Query.MAPS],
+    enabled: !!store.websocket && !!store.loggedUserInfo.accessToken,
+    staleTime: 1000 * 60, // 60 seconds
+    queryFn: () => api.monsters.getAllMaps(),
+  });
+
   useEffect(() => {
     if (characterQuery?.data) {
       store.setUserCharacterData(characterQuery?.data);

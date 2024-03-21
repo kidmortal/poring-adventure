@@ -4,4 +4,5 @@ export enum Query {
   ALL_MARKET = "all_market",
   PARTY = "party",
   BATTLE = "battle",
+  MAPS = "maps",
 }

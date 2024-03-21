@@ -1,3 +1,5 @@
+@import "@/styles/variables";
+
 .container {
   width: 100%;
   height: 100%;
@@ -68,4 +70,13 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.mapOptionContailer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 0.5rem;
+  gap: 0.5rem;
 }
