@@ -15,9 +15,11 @@ declare type Skill = {
   id: number;
   requiredLevel: number;
   manaCost: number;
+  cooldown: number;
   category: string;
   effect: string;
   name: string;
+  description: string;
   image: string;
   attribute: string;
   multiplier: number;
@@ -31,4 +33,5 @@ declare type LearnedSkill = {
   masteryLevel: number;
   equipped: boolean;
   skill: Skill;
+  cooldown: number;
 };

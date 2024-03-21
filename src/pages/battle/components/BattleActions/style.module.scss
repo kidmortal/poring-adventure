@@ -54,6 +54,19 @@
   svg {
     margin-right: 4px;
   }
+
+  &.skillOnCooldown {
+    svg {
+      path {
+        stroke: red;
+        stroke-width: 3px;
+      }
+      circle {
+        stroke-width: 3px;
+        stroke: red;
+      }
+    }
+  }
 }
 
 .skillButton {
