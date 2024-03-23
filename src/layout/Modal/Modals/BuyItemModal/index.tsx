@@ -33,7 +33,7 @@ export function BuyItemModal(props: Props) {
       }),
     onSuccess: () => {
       props.onRequestClose();
-      toast("Purchase successful", { type: "success" });
+      toast("Purchase successful", { type: "success", autoClose: 1000 });
       queryClient.refetchQueries({
         queryKey: [Query.ALL_MARKET],
       });

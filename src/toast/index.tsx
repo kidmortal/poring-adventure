@@ -56,6 +56,9 @@ export function addToastListeners({
   websocket.on("notification", (msg: string) => {
     toast(msg, { type: "info", autoClose: 3000, theme: "colored" });
   });
+  websocket.on("error_notification", (msg: string) => {
+    toast(msg, { type: "error", autoClose: 3000, theme: "colored" });
+  });
   websocket.on("battle_update", (b: Battle) => {
     if (!window.location.pathname.includes("battle")) {
       pushToScreen("/battle");

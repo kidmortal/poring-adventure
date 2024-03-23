@@ -72,7 +72,7 @@ export function ItemMenuModal(props: Props) {
   const consumeItemMutation = useMutation({
     mutationFn: (itemId: number) => api.items.consumeItem(itemId),
     onSuccess: () => {
-      toast("Item consumed", { type: "success" });
+      toast("Item consumed", { type: "success", autoClose: 1000 });
     },
     onSettled: () => {
       props.onRequestClose();
