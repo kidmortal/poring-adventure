@@ -125,12 +125,12 @@ function SkillText(args: { learnedSkill: LearnedSkill }) {
   const skill = args.learnedSkill?.skill;
   return (
     <div className={styles.skillText}>
-      <img height={30} width={30} src={skill.image} />
+      <img height={25} width={25} src={skill.image} />
       <div className={styles.skillInfo}>
         <div className={styles.skillInfoRow}>
           <img
-            width={20}
-            height={20}
+            width={15}
+            height={15}
             src="https://kidmortal.sirv.com/misc/mana.webp"
           />
           <span>{skill?.manaCost}</span>
