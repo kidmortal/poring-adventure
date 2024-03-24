@@ -56,6 +56,8 @@ export function BattleActions({ api, isYourTurn, battleEnded, user }: Props) {
           theme={battleStore.isCasting ? "danger" : "secondary"}
           onClick={() => {
             battleStore.setIsCasting(!battleStore.isCasting);
+            battleStore.setIsTargetingSkill(false);
+            battleStore.setSkillId(undefined);
           }}
           disabled={cancelBattleMutation.isPending || !isYourTurn}
         />
@@ -110,7 +112,9 @@ export function BattleActions({ api, isYourTurn, battleEnded, user }: Props) {
                 disabled={
                   castMutation.isPending ||
                   currentMana < equippedSkill.skill.manaCost ||
-                  equippedSkill.cooldown > 0
+                  equippedSkill.cooldown > 0 ||
+                  (battleStore.skillId != undefined &&
+                    battleStore.skillId != equippedSkill.skillId)
                 }
               />
             )}
