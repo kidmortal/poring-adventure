@@ -8,6 +8,9 @@
   justify-content: flex-start;
   align-items: center;
   color: white;
+  background-image: url("grass.png");
+  background-repeat: repeat;
+  border-radius: 6px;
 }
 .monsterSection {
   width: 100%;
@@ -88,4 +91,9 @@
   padding: 0.5rem;
   border-radius: 8px;
   z-index: 5;
+}
+
+.grass {
+  background-image: url("grass.png");
+  background-repeat: repeat;
 }

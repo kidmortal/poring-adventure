@@ -11,6 +11,7 @@ import { FriendListModal } from "@/layout/Modal/Modals/FriendListModal";
 import { InteractUserModal } from "@/layout/Modal/Modals/InteractUserModal";
 import { SkillbookModal } from "@/layout/Modal/Modals/SkillbookModal";
 import { UserEditCharacterModal } from "./Modals/UserEditCharacterModal";
+import { DeleteCharConfirmationModal } from "./Modals/DeleteCharConfirmation";
 
 export function ModalLayout() {
   const modalStore = useModalStore();
@@ -57,6 +58,12 @@ export function ModalLayout() {
       <SkillbookModal
         onRequestClose={() => modalStore.setSkillbook({ open: false })}
         isOpen={modalStore.skillbook.open}
+      />
+      <DeleteCharConfirmationModal
+        onRequestClose={() =>
+          modalStore.setConfirmDeleteCharacter({ open: false })
+        }
+        isOpen={modalStore.confirmDeleteCharacter.open}
       />
     </>
   );

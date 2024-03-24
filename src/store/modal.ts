@@ -62,6 +62,8 @@ export interface ModalState {
   setSkillbook: (v: SkillbookState) => void;
   editCharacter: EditCharacterState;
   setEditCharacter: (v: EditCharacterState) => void;
+  confirmDeleteCharacter: { open: boolean };
+  setConfirmDeleteCharacter: (v: { open: boolean }) => void;
 }
 
 export const useModalStore = create<ModalState>()((set) => ({
@@ -72,6 +74,7 @@ export const useModalStore = create<ModalState>()((set) => ({
   friendlist: { open: false },
   interactUser: { open: false },
   skillbook: { open: false },
+  confirmDeleteCharacter: { open: false },
   sellItem: {
     open: false,
     amount: 1,
@@ -82,6 +85,7 @@ export const useModalStore = create<ModalState>()((set) => ({
   },
   setEditCharacter: (v) => set(() => ({ editCharacter: v })),
   setUserConfig: (v) => set(() => ({ userConfig: v })),
+  setConfirmDeleteCharacter: (v) => set(() => ({ confirmDeleteCharacter: v })),
   setSkillbook: (v) => set(() => ({ skillbook: v })),
   setInventoryItem: (v) =>
     set((state) => ({ inventoryItem: { ...state.inventoryItem, ...v } })),

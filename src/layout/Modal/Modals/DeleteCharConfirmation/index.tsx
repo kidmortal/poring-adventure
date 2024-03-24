@@ -6,8 +6,7 @@ import { FullscreenLoading } from "@/components/FullscreenLoading";
 import { useWebsocketApi } from "@/api/websocketServer";
 import { CharacterWithHealthBar } from "@/components/CharacterWithHealthBar";
 import { useMainStore } from "@/store/main";
-import { useState } from "react";
-import Input from "@/components/Input";
+
 import { Button } from "@/components/Button";
 
 type Props = {
@@ -15,35 +14,32 @@ type Props = {
   onRequestClose: (i?: InventoryItem) => void;
 };
 
-export function UserEditCharacterModal(props: Props) {
-  const [newName, setNewName] = useState("");
+export function DeleteCharConfirmationModal(props: Props) {
   const store = useMainStore();
+
   const api = useWebsocketApi();
   const queryClient = useQueryClient();
 
-  const changeNameMutation = useMutation({
-    mutationFn: () => api.users.updateUserName(newName),
-    onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: [Query.USER_CHARACTER] }),
+  const deleteUserMutation = useMutation({
+    mutationFn: () => api.users.deleteUser(),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [Query.USER_CHARACTER] });
+      props.onRequestClose();
+    },
   });
-
-  const validName = newName.length > 3;
 
   return (
     <BaseModal onRequestClose={props.onRequestClose} isOpen={props.isOpen}>
-      <When value={changeNameMutation.isPending}>
-        <FullscreenLoading info="Update user Name" />
+      <When value={deleteUserMutation.isPending}>
+        <FullscreenLoading info="User Deletion" />
       </When>
       <CharacterWithHealthBar user={store.userCharacterData} />
-      <Input
-        placeholder="New name"
-        value={newName}
-        onChange={(e) => setNewName(e.target.value)}
-      />
+      <h2>Are you sure? There is no coming back</h2>
       <Button
-        label="Change name"
-        onClick={() => changeNameMutation.mutate()}
-        disabled={changeNameMutation.isPending || !validName}
+        label="Yes, Delete my char"
+        onClick={() => {
+          deleteUserMutation.mutate();
+        }}
       />
     </BaseModal>
   );

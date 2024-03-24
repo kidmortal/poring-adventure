@@ -28,7 +28,7 @@ export function UserSettingsModal(props: Props) {
   return (
     <BaseModal onRequestClose={props.onRequestClose} isOpen={props.isOpen}>
       <When value={deleteUserMutation.isPending}>
-        <FullscreenLoading info="Updating user name" />
+        <FullscreenLoading info="Deleting character" />
       </When>
       <Button
         label="Edit Character"
@@ -57,7 +57,10 @@ export function UserSettingsModal(props: Props) {
       />
       <Button
         label="Delete my char"
-        onClick={() => deleteUserMutation.mutate()}
+        onClick={() => {
+          modalStore.setUserConfig({ open: false });
+          modalStore.setConfirmDeleteCharacter({ open: true });
+        }}
       />
     </BaseModal>
   );
