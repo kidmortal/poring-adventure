@@ -10,6 +10,7 @@ import { PartyInfoModal } from "@/layout/Modal/Modals/PartyInfoModal";
 import { FriendListModal } from "@/layout/Modal/Modals/FriendListModal";
 import { InteractUserModal } from "@/layout/Modal/Modals/InteractUserModal";
 import { SkillbookModal } from "@/layout/Modal/Modals/SkillbookModal";
+import { UserEditCharacterModal } from "./Modals/UserEditCharacterModal";
 
 export function ModalLayout() {
   const modalStore = useModalStore();
@@ -48,6 +49,10 @@ export function ModalLayout() {
         onRequestClose={() => modalStore.setInteractUser({ open: false })}
         isOpen={modalStore.interactUser.open}
         user={modalStore.interactUser.user}
+      />
+      <UserEditCharacterModal
+        onRequestClose={() => modalStore.setEditCharacter({ open: false })}
+        isOpen={modalStore.editCharacter.open}
       />
       <SkillbookModal
         onRequestClose={() => modalStore.setSkillbook({ open: false })}

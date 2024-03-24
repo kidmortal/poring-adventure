@@ -7,6 +7,7 @@ import SignOut from "@/assets/SignOut";
 import { When } from "@/components/When";
 import { FullscreenLoading } from "@/components/FullscreenLoading";
 import { useWebsocketApi } from "@/api/websocketServer";
+import { useModalStore } from "@/store/modal";
 
 type Props = {
   isOpen?: boolean;
@@ -14,6 +15,7 @@ type Props = {
 };
 
 export function UserSettingsModal(props: Props) {
+  const modalStore = useModalStore();
   const api = useWebsocketApi();
   const queryClient = useQueryClient();
 
@@ -26,8 +28,15 @@ export function UserSettingsModal(props: Props) {
   return (
     <BaseModal onRequestClose={props.onRequestClose} isOpen={props.isOpen}>
       <When value={deleteUserMutation.isPending}>
-        <FullscreenLoading info="User Deletion" />
+        <FullscreenLoading info="Updating user name" />
       </When>
+      <Button
+        label="Edit Character"
+        onClick={() => {
+          modalStore.setUserConfig({ open: false });
+          modalStore.setEditCharacter({ open: true });
+        }}
+      />
       <Button
         onClick={() => auth.signOut()}
         label={
