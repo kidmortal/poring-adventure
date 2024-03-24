@@ -12,6 +12,7 @@ type Props = {
   highestAggro?: boolean;
   classInfo?: boolean;
   orientation?: "front" | "back";
+  onClick?: () => void;
 };
 
 export function CharacterWithHealthBar({
@@ -19,11 +20,12 @@ export function CharacterWithHealthBar({
   user,
   classInfo = false,
   highestAggro,
+  onClick,
 }: Props) {
   const buffPose = user?.buffs?.find((b) => b.buff.pose);
   return (
     <When value={!!user}>
-      <div className={styles.userContainer}>
+      <div onClick={onClick} className={styles.userContainer}>
         <CharacterPose pose={buffPose?.buff.pose} />
         <BuffList buffs={user?.buffs} />
 

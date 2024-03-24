@@ -37,6 +37,10 @@ export function BattlePage() {
   const createBattleMutation = useMutation({
     mutationFn: (mapId: number) => api.battle.createBattleInstance(mapId),
   });
+  const castMutation = useMutation({
+    mutationFn: (params: { skillId: number; targetName?: string }) =>
+      api.battle.requestBattleCast(params),
+  });
 
   console.log(maps?.data);
 
@@ -110,6 +114,11 @@ export function BattlePage() {
           </When>
         </div>
         <div className={styles.userSection}>
+          <When value={battleStore.isTargetingSkill}>
+            <h2 className={styles.targetingSkillLabel}>
+              Click on Ally or press again to auto-choose
+            </h2>
+          </When>
           <ForEach
             items={battleStore.battle?.users}
             render={(u) => (
@@ -118,6 +127,19 @@ export function BattlePage() {
                 key={u.email}
                 user={u}
                 highestAggro={highestAggroPlayer.name === u.name}
+                onClick={() => {
+                  if (battleStore.isTargetingSkill) {
+                    if (battleStore.skillId) {
+                      castMutation.mutate({
+                        skillId: battleStore.skillId,
+                        targetName: u.name,
+                      });
+                    }
+                    battleStore.setIsTargetingSkill(false);
+                    battleStore.setIsCasting(false);
+                    battleStore.setSkillId(undefined);
+                  }
+                }}
               />
             )}
           />

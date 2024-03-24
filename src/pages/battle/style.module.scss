@@ -80,3 +80,12 @@
   padding: 0.5rem;
   gap: 0.5rem;
 }
+
+.targetingSkillLabel {
+  position: absolute;
+  top: 40%;
+  background-color: $primary;
+  padding: 0.5rem;
+  border-radius: 8px;
+  z-index: 5;
+}

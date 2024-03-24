@@ -2,11 +2,11 @@ import { Button } from "@/components/Button";
 import styles from "./style.module.scss";
 import { useMutation } from "@tanstack/react-query";
 import { WebsocketApi } from "@/api/websocketServer";
-import { useState } from "react";
 import cn from "classnames";
 import { When } from "@/components/When";
 import ForEach from "@/components/ForEach";
 import Clock from "@/assets/Clock";
+import { useBattleStore } from "@/store/battle";
 
 type Props = {
   api: WebsocketApi;
@@ -16,15 +16,16 @@ type Props = {
 };
 
 export function BattleActions({ api, isYourTurn, battleEnded, user }: Props) {
+  const battleStore = useBattleStore();
   const equippedSkills = user?.learnedSkills.filter((skill) => skill.equipped);
-  const [isCasting, setIsCasting] = useState(false);
 
   const attackMutation = useMutation({
     mutationFn: () => api.battle.requestBattleAttack(),
   });
 
   const castMutation = useMutation({
-    mutationFn: (skillId: number) => api.battle.requestBattleCast(skillId),
+    mutationFn: (params: { skillId: number; targetName?: string }) =>
+      api.battle.requestBattleCast(params),
   });
 
   const cancelBattleMutation = useMutation({
@@ -46,13 +47,15 @@ export function BattleActions({ api, isYourTurn, battleEnded, user }: Props) {
         <Button
           label="Attack"
           onClick={() => attackMutation.mutate()}
-          disabled={attackMutation.isPending || !isYourTurn || isCasting}
+          disabled={
+            attackMutation.isPending || !isYourTurn || battleStore.isCasting
+          }
         />
         <Button
-          label={isCasting ? "Cancel" : "Cast"}
-          theme={isCasting ? "danger" : "secondary"}
+          label={battleStore.isCasting ? "Cancel" : "Cast"}
+          theme={battleStore.isCasting ? "danger" : "secondary"}
           onClick={() => {
-            setIsCasting(!isCasting);
+            battleStore.setIsCasting(!battleStore.isCasting);
           }}
           disabled={cancelBattleMutation.isPending || !isYourTurn}
         />
@@ -60,11 +63,15 @@ export function BattleActions({ api, isYourTurn, battleEnded, user }: Props) {
           label="Run"
           theme="danger"
           onClick={() => cancelBattleMutation.mutate()}
-          disabled={cancelBattleMutation.isPending || !isYourTurn || isCasting}
+          disabled={
+            cancelBattleMutation.isPending ||
+            !isYourTurn ||
+            battleStore.isCasting
+          }
         />
         <div
           className={cn(styles.skillsContainer, {
-            [styles.visible]: isCasting,
+            [styles.visible]: battleStore.isCasting,
           })}
         >
           <When value={equippedSkills?.length === 0}>
@@ -79,12 +86,26 @@ export function BattleActions({ api, isYourTurn, battleEnded, user }: Props) {
                 theme="secondary"
                 label={<SkillText learnedSkill={equippedSkill} />}
                 onClick={() => {
-                  castMutation.mutate(equippedSkill.skillId);
-                  setIsCasting(false);
-                  console.log({
-                    mana: user?.stats?.mana,
-                    cost: equippedSkill.skill.manaCost,
+                  if (equippedSkill.skill.category === "target_ally") {
+                    if (battleStore.isTargetingSkill) {
+                      castMutation.mutate({
+                        skillId: equippedSkill.skillId,
+                      });
+                      battleStore.setIsCasting(false);
+                      battleStore.setIsTargetingSkill(false);
+                      battleStore.setSkillId(undefined);
+                      return;
+                    }
+
+                    battleStore.setIsTargetingSkill(true);
+                    battleStore.setSkillId(equippedSkill.skillId);
+                    return;
+                  }
+
+                  castMutation.mutate({
+                    skillId: equippedSkill.skillId,
                   });
+                  battleStore.setIsCasting(false);
                 }}
                 disabled={
                   castMutation.isPending ||

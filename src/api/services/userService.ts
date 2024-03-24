@@ -9,6 +9,11 @@ export function userService({ websocket }: { websocket?: Socket }) {
     return asyncEmit<User>(websocket, "create_user", payload);
   }
 
+  async function updateUserName(newName: string): Promise<User | undefined> {
+    if (!websocket) return undefined;
+    return asyncEmit<User>(websocket, "update_user_name", newName);
+  }
+
   async function deleteUser(): Promise<User | undefined> {
     if (!websocket) return undefined;
     return asyncEmit<User>(websocket, "delete_user", "");
@@ -29,11 +34,18 @@ export function userService({ websocket }: { websocket?: Socket }) {
     return asyncEmit<Profession[]>(websocket, "get_all_professions", "");
   }
 
+  async function getAllHeads(): Promise<Profession[] | undefined> {
+    if (!websocket) return undefined;
+    return asyncEmit<Profession[]>(websocket, "get_all_heads", "");
+  }
+
   return {
     createUser,
+    updateUserName,
     getUser,
     deleteUser,
     getFirst10Users,
     getAllProfessions,
+    getAllHeads,
   };
 }

@@ -17,9 +17,12 @@ export function battleService({ websocket }: { websocket?: Socket }) {
     return asyncEmit<Battle>(websocket, "battle_attack", "");
   }
 
-  async function requestBattleCast(skillId: number) {
+  async function requestBattleCast(params: {
+    skillId: number;
+    targetName?: string;
+  }) {
     if (!websocket) return undefined;
-    return asyncEmit<Battle>(websocket, "battle_cast", skillId);
+    return asyncEmit<Battle>(websocket, "battle_cast", params);
   }
 
   async function cancelBattleInstance() {
