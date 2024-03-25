@@ -4,7 +4,6 @@ import { useMainStore } from "@/store/main";
 import styles from "./style.module.scss";
 import { Query } from "@/store/query";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Button } from "@/components/Button";
 import { BattleMonsterInfo } from "./components/BattleMonsterInfo";
 import { When } from "@/components/When";
 import { BattleRewardBox } from "./components/BattleRewardsBox";
@@ -13,6 +12,7 @@ import ForEach from "@/components/ForEach";
 import { CharacterWithHealthBar } from "@/components/CharacterWithHealthBar";
 import { BattleLogs } from "./components/BattleLogs";
 import { BattleActions } from "./components/BattleActions";
+import MapInfo from "./components/MapInfo";
 
 function highestAggroUser(users: BattleUser[]) {
   let highestAggro = users[0];
@@ -34,9 +34,6 @@ export function BattlePage() {
   const query = queryClient.getQueryState([Query.BATTLE]);
   const maps = queryClient.getQueryState<MonsterMap[]>([Query.MAPS]);
 
-  const createBattleMutation = useMutation({
-    mutationFn: (mapId: number) => api.battle.createBattleInstance(mapId),
-  });
   const castMutation = useMutation({
     mutationFn: (params: { skillId: number; targetName?: string }) =>
       api.battle.requestBattleCast(params),
@@ -63,24 +60,8 @@ export function BattlePage() {
     <div className={styles.container}>
       <When value={!userIsInBattle}>
         <div className={styles.noBattleContainer}>
-          <div>
-            <h2>Select map</h2>
-            <ForEach
-              items={maps?.data}
-              render={(m) => (
-                <Button
-                  label={
-                    <div className={styles.mapOptionContailer} key={m.id}>
-                      <img src={m.image} width={25} height={25} />
-                      <span>{m.name}</span>
-                    </div>
-                  }
-                  onClick={() => createBattleMutation.mutate(m.id)}
-                  disabled={createBattleMutation.isPending}
-                />
-              )}
-            />
-          </div>
+          <h2>Select map</h2>
+          <ForEach items={maps?.data} render={(m) => <MapInfo map={m} />} />
         </div>
       </When>
       <When value={userIsInBattle}>
