@@ -30,16 +30,19 @@ export function CharacterWithHealthBar({
         <BuffList buffs={user?.buffs} />
 
         <span>{user?.name}</span>
-        <div className={styles.aggroContainer}>
-          <img
-            width={25}
-            height={25}
-            src={`https://kidmortal.sirv.com/misc/${
-              highestAggro ? "bossrage" : "boss"
-            }.webp?w=25&h=25`}
-          />
-          <span>{user?.aggro}</span>
-        </div>
+        <When value={user?.aggro != undefined}>
+          <div className={styles.aggroContainer}>
+            <img
+              width={25}
+              height={25}
+              src={`https://kidmortal.sirv.com/misc/${
+                highestAggro ? "bossrage" : "boss"
+              }.webp?w=25&h=25`}
+            />
+            <span>{user?.aggro}</span>
+          </div>
+        </When>
+
         <When value={classInfo}>
           <span className={styles.classinfo}>
             LV {user?.stats?.level} {user?.profession?.name}
