@@ -1,0 +1,52 @@
+@import "@/styles/variables";
+
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  color: white;
+}
+
+.guildLevelContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.internalMessageContainer {
+  height: 6rem;
+  width: 100%;
+  background-color: $neutral;
+  padding: 0.5rem;
+  border-radius: 6px;
+}
+
+.memberInfoContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  background-color: $neutral;
+  border-radius: 4px;
+}
+
+.memberInfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.membersList {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.5rem;
+}

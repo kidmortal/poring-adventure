@@ -14,6 +14,7 @@ import { UserEditCharacterModal } from "./Modals/UserEditCharacterModal";
 import { DeleteCharConfirmationModal } from "./Modals/DeleteCharConfirmation";
 import { useMainStore } from "@/store/main";
 import { MailBoxModal } from "./Modals/MailBoxModal";
+import { GuildInfoModal } from "./Modals/GuildInfoModal";
 
 export function ModalLayout() {
   const mainStore = useMainStore();
@@ -66,6 +67,11 @@ export function ModalLayout() {
         onRequestClose={() => modalStore.setMailBox({ open: false })}
         isOpen={modalStore.mailBox.open}
         mailBox={mainStore.mailBox}
+      />
+      <GuildInfoModal
+        onRequestClose={() => modalStore.setGuildInfo({ open: false })}
+        isOpen={modalStore.guildInfo.open}
+        guild={modalStore.guildInfo.guild}
       />
       <DeleteCharConfirmationModal
         onRequestClose={() =>

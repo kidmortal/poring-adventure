@@ -8,10 +8,10 @@ declare type Guild = {
   taskPoints: number;
   publicMessage: string;
   internalMessage: string;
-  members: Member[];
+  members: GuildMember[];
 };
 
-declare type Member = {
+declare type GuildMember = {
   id: number;
   role: string;
   contribution: number;

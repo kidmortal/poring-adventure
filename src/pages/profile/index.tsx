@@ -7,7 +7,6 @@ import { CharacterStatsInfo } from "@/components/CharacterStatsInfo";
 import { Equipments } from "@/components/Equipments";
 import { useNavigate } from "react-router-dom";
 import { IconButton } from "@/components/IconButton";
-import { FriendList } from "@/assets/FriendList";
 import { PartyInfo } from "@/assets/PartyInfo";
 import { useModalStore } from "@/store/modal";
 
@@ -50,8 +49,16 @@ export function ProfilePage() {
         <div>
           <div className={styles.extraMenus}>
             <IconButton
-              label={<FriendList />}
-              onClick={() => modal.setFriendlist({ open: true })}
+              label={
+                <img
+                  width={20}
+                  height={20}
+                  src="https://kidmortal.sirv.com/misc/guild_level.webp"
+                />
+              }
+              onClick={() => {
+                navigate("/guild");
+              }}
             />
             <IconButton
               label={<PartyInfo />}

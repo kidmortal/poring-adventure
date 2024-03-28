@@ -29,6 +29,7 @@ export function addWebsocketListeners({
   websocket.on("party_data", (party: Party) => modal.setPartyInfo({ party }));
   websocket.on("party_data", (party: Party) => modal.setPartyInfo({ party }));
   websocket.on("mailbox", (mailBox: Mail[]) => store.setMailBox(mailBox));
+  websocket.on("guild", (guild: Guild) => store.setGuild(guild));
   websocket.on("battle_update", (b: Battle) => {
     if (!window.location.pathname.includes("battle")) {
       pushToScreen("/battle");

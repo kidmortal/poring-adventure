@@ -17,8 +17,10 @@ export interface MainStoreState {
   wsAuthenticated: boolean;
   marketListings: MarketListing[];
   mailBox: Mail[];
+  guild?: Guild;
   inventoryFilter: InventoryFilters;
   setMailBox: (v: Mail[]) => void;
+  setGuild: (v: Guild) => void;
   setInventoryFilter: (v: InventoryFilters) => void;
   clearUserData: () => void;
   setIsLoading: (v: boolean) => void;
@@ -42,6 +44,8 @@ export const useMainStore = create<MainStoreState>()((set) => ({
   inventoryFilter: "all",
   marketListings: [],
   mailBox: [],
+  guild: undefined,
+  setGuild: (v) => set(() => ({ guild: v })),
   setMailBox: (v) => set(() => ({ mailBox: v })),
   setInventoryFilter: (v) => set(() => ({ inventoryFilter: v })),
   setMarketListings: (v) => set(() => ({ marketListings: v })),

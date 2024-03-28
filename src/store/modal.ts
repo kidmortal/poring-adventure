@@ -26,6 +26,11 @@ type PartyInfoState = {
   party?: Party;
 };
 
+type GuildInfoState = {
+  open?: boolean;
+  guild?: Guild;
+};
+
 type InteractUserState = {
   open?: boolean;
   user?: User;
@@ -50,6 +55,8 @@ type MailBoxState = {
 export interface ModalState {
   userConfig: UserConfigState;
   setUserConfig: (v: UserConfigState) => void;
+  guildInfo: GuildInfoState;
+  setGuildInfo: (v: GuildInfoState) => void;
   mailBox: MailBoxState;
   setMailBox: (v: MailBoxState) => void;
   inventoryItem: InventoryItemState;
@@ -81,6 +88,7 @@ export const useModalStore = create<ModalState>()((set) => ({
   interactUser: { open: false },
   skillbook: { open: false },
   confirmDeleteCharacter: { open: false },
+  guildInfo: { open: false },
   mailBox: { open: false },
   sellItem: {
     open: false,
@@ -91,6 +99,7 @@ export const useModalStore = create<ModalState>()((set) => ({
     open: false,
   },
   setMailBox: (v) => set(() => ({ mailBox: v })),
+  setGuildInfo: (v) => set(() => ({ guildInfo: v })),
   setEditCharacter: (v) => set(() => ({ editCharacter: v })),
   setUserConfig: (v) => set(() => ({ userConfig: v })),
   setConfirmDeleteCharacter: (v) => set(() => ({ confirmDeleteCharacter: v })),

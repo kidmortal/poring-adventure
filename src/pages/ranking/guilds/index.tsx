@@ -1,3 +1,4 @@
+import { useModalStore } from "@/store/modal";
 import styles from "./style.module.scss";
 import ForEach from "@/components/ForEach";
 
@@ -17,10 +18,14 @@ export function GuildRankingPage(props: Props) {
 }
 
 function GuildInfoBox({ guild }: { guild: Guild }) {
+  const modalStore = useModalStore();
   const owner = guild.members.find((m) => m.role === "owner");
   const memberCount = guild.members.length;
   return (
-    <div className={styles.guildBoxContainer}>
+    <div
+      className={styles.guildBoxContainer}
+      onClick={() => modalStore.setGuildInfo({ guild, open: true })}
+    >
       <img width={80} height={80} src={guild.imageUrl} />
       <div className={styles.guildInfoColumn}>
         <h2>{guild.name}</h2>
