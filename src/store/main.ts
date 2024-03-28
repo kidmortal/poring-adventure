@@ -16,7 +16,9 @@ export interface MainStoreState {
   websocket?: Socket;
   wsAuthenticated: boolean;
   marketListings: MarketListing[];
+  notifications: UserNotification[];
   inventoryFilter: InventoryFilters;
+  setNotifications: (v: UserNotification[]) => void;
   setInventoryFilter: (v: InventoryFilters) => void;
   clearUserData: () => void;
   setIsLoading: (v: boolean) => void;
@@ -39,6 +41,8 @@ export const useMainStore = create<MainStoreState>()((set) => ({
   userCharacterData: undefined,
   inventoryFilter: "all",
   marketListings: [],
+  notifications: [],
+  setNotifications: (v) => set(() => ({ notifications: v })),
   setInventoryFilter: (v) => set(() => ({ inventoryFilter: v })),
   setMarketListings: (v) => set(() => ({ marketListings: v })),
   clearUserData: () =>

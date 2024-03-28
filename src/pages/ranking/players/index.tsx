@@ -9,36 +9,40 @@ type Props = {
 };
 
 export function PlayersRankingPage(props: Props) {
-  const modal = useModalStore();
   return (
     <div className={styles.container}>
       <ForEach
         items={props.users}
-        render={(u) => (
-          <div
-            className={styles.characterContainer}
-            key={u.email}
-            onClick={() =>
-              modal.setInteractUser({
-                open: true,
-                user: u,
-              })
-            }
-          >
-            <CharacterInfo
-              costume={u.appearance?.costume}
-              gender={u.appearance?.gender}
-              head={u.appearance?.head}
-            />
-            <div className={styles.characterInfo}>
-              <span>
-                {u.name} - LV {u.stats?.level} {u?.profession?.name}
-              </span>
-              <Silver amount={u.silver} />
-            </div>
-          </div>
-        )}
+        render={(u) => <RankingPlayerBox key={u.id} user={u} />}
       />
+    </div>
+  );
+}
+
+function RankingPlayerBox(props: { user: User }) {
+  const modal = useModalStore();
+  return (
+    <div
+      className={styles.characterContainer}
+      onClick={() =>
+        modal.setInteractUser({
+          open: true,
+          user: props.user,
+        })
+      }
+    >
+      <CharacterInfo
+        costume={props.user.appearance?.costume}
+        gender={props.user.appearance?.gender}
+        head={props.user.appearance?.head}
+      />
+      <div className={styles.characterInfo}>
+        <span>
+          {props.user.name} - LV {props.user.stats?.level}{" "}
+          {props.user?.profession?.name}
+        </span>
+        <Silver amount={props.user.silver} />
+      </div>
     </div>
   );
 }

@@ -10,7 +10,7 @@ export function GuildRankingPage(props: Props) {
     <div className={styles.container}>
       <ForEach
         items={props.guilds}
-        render={(guild) => <GuildInfoBox guild={guild} />}
+        render={(guild) => <GuildInfoBox key={guild.id} guild={guild} />}
       />
     </div>
   );

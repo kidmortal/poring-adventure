@@ -35,8 +35,6 @@ export function RankingPage() {
     return <FullscreenLoading info="Player List" />;
   }
 
-  console.log(queryGuild.data);
-
   return (
     <div className={styles.container}>
       <div className={styles.rankingSwitch}>

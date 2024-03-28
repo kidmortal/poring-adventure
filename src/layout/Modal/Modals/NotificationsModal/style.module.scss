@@ -1,0 +1,50 @@
+.container {
+  min-width: 15rem;
+  min-height: 30rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.notificationContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-radius: 6px;
+  border: 1px solid white;
+  user-select: none;
+  cursor: pointer;
+  transition: 200ms;
+
+  &:hover {
+    border: 1px solid green;
+  }
+
+  &.visualized {
+    cursor: default;
+    border: 1px solid grey;
+    opacity: 0.5;
+  }
+}
+
+.notificationInfoContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  font-size: 14px;
+}
+
+.buttonsContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}

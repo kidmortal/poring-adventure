@@ -6,4 +6,5 @@ export enum Query {
   PARTY = "party",
   BATTLE = "battle",
   MAPS = "maps",
+  NOTIFICATIONS = "notifications",
 }

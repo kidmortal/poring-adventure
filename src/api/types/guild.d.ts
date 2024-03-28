@@ -6,6 +6,8 @@ declare type Guild = {
   level: number;
   experience: number;
   taskPoints: number;
+  publicMessage: string;
+  internalMessage: string;
   members: Member[];
 };
 

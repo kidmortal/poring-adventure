@@ -9,6 +9,7 @@ import { adminService } from "./services/adminService";
 import { skillService } from "./services/skillService";
 import { monsterService } from "./services/monsterService";
 import { guildService } from "./services/guildService";
+import { notificationService } from "./services/notificationService";
 
 export async function asyncEmit<T>(
   ws: Socket,
@@ -35,6 +36,7 @@ export function useWebsocketApi() {
     monsters: monsterService({ websocket }),
     skills: skillService({ websocket }),
     guild: guildService({ websocket }),
+    notification: notificationService({ websocket }),
   };
 }
 

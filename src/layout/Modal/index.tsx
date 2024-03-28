@@ -12,8 +12,11 @@ import { InteractUserModal } from "@/layout/Modal/Modals/InteractUserModal";
 import { SkillbookModal } from "@/layout/Modal/Modals/SkillbookModal";
 import { UserEditCharacterModal } from "./Modals/UserEditCharacterModal";
 import { DeleteCharConfirmationModal } from "./Modals/DeleteCharConfirmation";
+import { NotificationsModal } from "./Modals/NotificationsModal";
+import { useMainStore } from "@/store/main";
 
 export function ModalLayout() {
+  const mainStore = useMainStore();
   const modalStore = useModalStore();
   return (
     <>
@@ -58,6 +61,11 @@ export function ModalLayout() {
       <SkillbookModal
         onRequestClose={() => modalStore.setSkillbook({ open: false })}
         isOpen={modalStore.skillbook.open}
+      />
+      <NotificationsModal
+        onRequestClose={() => modalStore.setNotifications({ open: false })}
+        isOpen={modalStore.notifications.open}
+        notifications={mainStore.notifications}
       />
       <DeleteCharConfirmationModal
         onRequestClose={() =>

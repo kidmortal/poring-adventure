@@ -26,3 +26,17 @@ declare type InventoryItem = {
   item: Item;
   marketListing?: MarketListing;
 };
+
+declare type UserNotification = {
+  id: number;
+  sender: string;
+  content: string;
+  claimed: boolean;
+  silver: number;
+  itemId: number;
+  itemStack: number;
+  visualized: boolean;
+  userEmail: string;
+  createdAt: string;
+  item: Item;
+};

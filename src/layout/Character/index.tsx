@@ -37,6 +37,13 @@ export function CharacterLayout() {
     queryFn: () => api.monsters.getAllMaps(),
   });
 
+  useQuery({
+    queryKey: [Query.NOTIFICATIONS],
+    enabled: !!store.websocket && !!store.loggedUserInfo.accessToken,
+    staleTime: 1000 * 60 * 10, // 10 minutes
+    queryFn: () => api.notification.getAllNotifications(),
+  });
+
   useEffect(() => {
     if (characterQuery?.data) {
       store.setUserCharacterData(characterQuery?.data);

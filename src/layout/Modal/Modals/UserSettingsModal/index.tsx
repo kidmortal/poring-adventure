@@ -38,6 +38,13 @@ export function UserSettingsModal(props: Props) {
         }}
       />
       <Button
+        label="Notification"
+        onClick={() => {
+          modalStore.setUserConfig({ open: false });
+          modalStore.setNotifications({ open: true });
+        }}
+      />
+      <Button
         onClick={() => auth.signOut()}
         label={
           <div

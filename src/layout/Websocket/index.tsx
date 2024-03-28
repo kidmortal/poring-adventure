@@ -8,7 +8,8 @@ import { useBattleStore } from "@/store/battle";
 import { FullscreenLoading } from "@/components/FullscreenLoading";
 import { useModalStore } from "@/store/modal";
 import { useWebsocketApi } from "@/api/websocketServer";
-import { addToastListeners } from "@/toast";
+import { addWebsocketListeners } from "./listeners";
+import { addToastListeners } from "./toastListener";
 
 export function WebsocketLayout() {
   const [temporarySocket, setTemporarySocket] = useState<Socket | undefined>();
@@ -37,14 +38,17 @@ export function WebsocketLayout() {
 
   useEffect(() => {
     if (store.websocket) {
-      addToastListeners({
+      const params = {
         websocket: store.websocket,
         api,
         modal,
         battle: battleStore,
         store,
-        pushToScreen: (s) => navigate(s),
-      });
+        pushToScreen: (s: string) => navigate(s),
+      };
+
+      addWebsocketListeners(params);
+      addToastListeners(params);
     }
   }, [store.websocket]);
 
