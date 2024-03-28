@@ -38,10 +38,10 @@ export function UserSettingsModal(props: Props) {
         }}
       />
       <Button
-        label="Notification"
+        label="Mail box"
         onClick={() => {
           modalStore.setUserConfig({ open: false });
-          modalStore.setNotifications({ open: true });
+          modalStore.setMailBox({ open: true });
         }}
       />
       <Button

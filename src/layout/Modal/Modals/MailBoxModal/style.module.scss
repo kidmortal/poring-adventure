@@ -1,15 +1,19 @@
+@import "@/styles/variables";
+
 .container {
-  min-width: 15rem;
-  min-height: 30rem;
+  width: 18rem;
+  height: 30rem;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
   gap: 0.5rem;
+  overflow-y: auto;
 }
 
-.notificationContainer {
+.mailContainer {
   width: 100%;
+  min-width: 18rem;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -40,6 +44,21 @@
   font-size: 14px;
 }
 
+.messageContainer {
+  padding: 0.5rem;
+  border-radius: 4px;
+  width: 10rem;
+  background-color: $primary;
+}
+
+.rewardsContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  font-size: 12px;
+}
+
 .buttonsContainer {
   width: 100%;
   display: flex;
@@ -47,4 +66,5 @@
   justify-content: space-between;
   align-items: center;
   gap: 1rem;
+  margin-top: 1rem;
 }

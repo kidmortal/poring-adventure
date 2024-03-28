@@ -43,15 +43,15 @@ type FriendListState = {
   open?: boolean;
 };
 
-type NotificationState = {
+type MailBoxState = {
   open?: boolean;
 };
 
 export interface ModalState {
   userConfig: UserConfigState;
   setUserConfig: (v: UserConfigState) => void;
-  notifications: NotificationState;
-  setNotifications: (v: NotificationState) => void;
+  mailBox: MailBoxState;
+  setMailBox: (v: MailBoxState) => void;
   inventoryItem: InventoryItemState;
   setInventoryItem: (v: InventoryItemState) => void;
   sellItem: SellItemState;
@@ -81,7 +81,7 @@ export const useModalStore = create<ModalState>()((set) => ({
   interactUser: { open: false },
   skillbook: { open: false },
   confirmDeleteCharacter: { open: false },
-  notifications: { open: false },
+  mailBox: { open: false },
   sellItem: {
     open: false,
     amount: 1,
@@ -90,7 +90,7 @@ export const useModalStore = create<ModalState>()((set) => ({
   editCharacter: {
     open: false,
   },
-  setNotifications: (v) => set(() => ({ notifications: v })),
+  setMailBox: (v) => set(() => ({ mailBox: v })),
   setEditCharacter: (v) => set(() => ({ editCharacter: v })),
   setUserConfig: (v) => set(() => ({ userConfig: v })),
   setConfirmDeleteCharacter: (v) => set(() => ({ confirmDeleteCharacter: v })),

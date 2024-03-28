@@ -27,7 +27,7 @@ declare type InventoryItem = {
   marketListing?: MarketListing;
 };
 
-declare type UserNotification = {
+declare type Mail = {
   id: number;
   sender: string;
   content: string;

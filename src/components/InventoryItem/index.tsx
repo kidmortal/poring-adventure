@@ -11,10 +11,11 @@ type Props = {
   toolTip?: React.ReactNode;
   toolTipDirection?: ToolTipDirection;
   stack?: number;
+  customSize?: number;
   onClick?: () => void;
 };
 
-export function InventoryItem(args: Props) {
+export function InventoryItem({ customSize = 26, ...args }: Props) {
   const inventoryItem = args.inventoryItem;
   const item = args.inventoryItem?.item;
   let isOnSale = false;
@@ -48,7 +49,7 @@ export function InventoryItem(args: Props) {
       style={{ backgroundColor: args.backgroundColor }}
       className={cn(styles.inventoryItemContainer)}
     >
-      <img width={26} height={26} src={item.image} />
+      <img width={customSize} height={customSize} src={item.image} />
       <When value={stack > 1}>
         <span className={styles.stackAmount}>{stack}</span>
       </When>

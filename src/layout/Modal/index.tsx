@@ -12,8 +12,8 @@ import { InteractUserModal } from "@/layout/Modal/Modals/InteractUserModal";
 import { SkillbookModal } from "@/layout/Modal/Modals/SkillbookModal";
 import { UserEditCharacterModal } from "./Modals/UserEditCharacterModal";
 import { DeleteCharConfirmationModal } from "./Modals/DeleteCharConfirmation";
-import { NotificationsModal } from "./Modals/NotificationsModal";
 import { useMainStore } from "@/store/main";
+import { MailBoxModal } from "./Modals/MailBoxModal";
 
 export function ModalLayout() {
   const mainStore = useMainStore();
@@ -62,10 +62,10 @@ export function ModalLayout() {
         onRequestClose={() => modalStore.setSkillbook({ open: false })}
         isOpen={modalStore.skillbook.open}
       />
-      <NotificationsModal
-        onRequestClose={() => modalStore.setNotifications({ open: false })}
-        isOpen={modalStore.notifications.open}
-        notifications={mainStore.notifications}
+      <MailBoxModal
+        onRequestClose={() => modalStore.setMailBox({ open: false })}
+        isOpen={modalStore.mailBox.open}
+        mailBox={mainStore.mailBox}
       />
       <DeleteCharConfirmationModal
         onRequestClose={() =>

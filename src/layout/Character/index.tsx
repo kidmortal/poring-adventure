@@ -41,7 +41,7 @@ export function CharacterLayout() {
     queryKey: [Query.NOTIFICATIONS],
     enabled: !!store.websocket && !!store.loggedUserInfo.accessToken,
     staleTime: 1000 * 60 * 10, // 10 minutes
-    queryFn: () => api.notification.getAllNotifications(),
+    queryFn: () => api.mail.getAllMail(),
   });
 
   useEffect(() => {
