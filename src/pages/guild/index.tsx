@@ -43,7 +43,13 @@ export function GuildPage() {
         </div>
 
         <div className={styles.membersList}>
-          <h2>Members: {guild?.members.length}/10</h2>
+          <h3>Members: {guild?.members.length}/10</h3>
+          <ForEach
+            items={guild?.members}
+            render={(member) => (
+              <GuidMemberInfo key={member.id} member={member} />
+            )}
+          />
           <ForEach
             items={guild?.members}
             render={(member) => (
