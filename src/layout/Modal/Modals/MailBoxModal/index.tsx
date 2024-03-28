@@ -27,6 +27,10 @@ export function MailBoxModal(props: Props) {
     mutationFn: () => api.mail.deleteAll(),
   });
 
+  const viewAllMutation = useMutation({
+    mutationFn: () => api.mail.viewAll(),
+  });
+
   return (
     <BaseModal onRequestClose={props.onRequestClose} isOpen={props.isOpen}>
       <div className={styles.container}>
@@ -42,7 +46,11 @@ export function MailBoxModal(props: Props) {
         />
       </div>
       <div className={styles.buttonsContainer}>
-        <Button label="View All" />
+        <Button
+          label="View All"
+          onClick={() => viewAllMutation.mutate()}
+          disabled={viewAllMutation.isPending}
+        />
         <Button
           label="Claim All"
           onClick={() => claimAllMutation.mutate()}
@@ -54,6 +62,8 @@ export function MailBoxModal(props: Props) {
 }
 
 function MailContainer({ mail }: { mail: Mail }) {
+  const hasItem = !!mail.item;
+  const hasSilver = mail?.silver > 0;
   return (
     <div
       className={cn(styles.mailContainer, {
@@ -68,21 +78,25 @@ function MailContainer({ mail }: { mail: Mail }) {
         </div>
       </div>
       <div className={styles.rewardsContainer}>
-        <When value={!mail.claimed}>Not claimed</When>
-        <When value={mail.claimed}>Claimed</When>
-        <When value={mail.silver > 0}>
-          <SilverStack amount={mail.silver} />
+        <When value={hasItem || hasSilver}>
+          <When value={!mail.claimed}>Not claimed</When>
+          <When value={mail?.claimed}>Claimed</When>
+          <When value={hasSilver}>
+            <SilverStack amount={mail.silver} />
+          </When>
+          <When value={hasItem}>
+            <InventoryItem
+              stack={mail.itemStack}
+              customSize={32}
+              inventoryItem={{
+                id: 0,
+                itemId: mail.item?.id,
+                userEmail: "",
+                item: mail.item,
+              }}
+            />
+          </When>
         </When>
-        <InventoryItem
-          stack={mail.itemStack}
-          customSize={32}
-          inventoryItem={{
-            id: 0,
-            itemId: mail.item.id,
-            userEmail: "",
-            item: mail.item,
-          }}
-        />
       </div>
     </div>
   );

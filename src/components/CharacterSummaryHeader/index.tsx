@@ -6,6 +6,7 @@ import { useMainStore } from "@/store/main";
 import { Button } from "../Button";
 import { useModalStore } from "@/store/modal";
 import { Settings } from "@/assets/Settings";
+import MailBoxButton from "../MailBoxButton";
 
 export function CharacterSummaryHeader() {
   const store = useMainStore();
@@ -29,7 +30,8 @@ export function CharacterSummaryHeader() {
         <Silver amount={store.userCharacterData.silver} />
       </div>
 
-      <div>
+      <div className={styles.buttons}>
+        <MailBoxButton />
         <When value={store.loggedUserInfo.loggedIn}>
           <Button
             onClick={() => {

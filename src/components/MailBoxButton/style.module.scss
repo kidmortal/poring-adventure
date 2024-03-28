@@ -1,0 +1,18 @@
+.container {
+  display: flex;
+  position: relative;
+}
+
+.mailCounter {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 1.2rem;
+  height: 1.2rem;
+  top: -4px;
+  right: -4px;
+  background-color: red;
+  border-radius: 6px;
+  font-size: 14px !important;
+}

@@ -37,13 +37,7 @@ export function UserSettingsModal(props: Props) {
           modalStore.setEditCharacter({ open: true });
         }}
       />
-      <Button
-        label="Mail box"
-        onClick={() => {
-          modalStore.setUserConfig({ open: false });
-          modalStore.setMailBox({ open: true });
-        }}
-      />
+
       <Button
         onClick={() => auth.signOut()}
         label={

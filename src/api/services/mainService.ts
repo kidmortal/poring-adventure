@@ -17,9 +17,15 @@ export function mailService({ websocket }: { websocket?: Socket }) {
     return asyncEmit<Battle>(websocket, "delete_all_mail", "");
   }
 
+  async function viewAll() {
+    if (!websocket) return undefined;
+    return asyncEmit<Battle>(websocket, "view_all_mail", "");
+  }
+
   return {
     getAllMail,
     deleteAll,
     claimAll,
+    viewAll,
   };
 }

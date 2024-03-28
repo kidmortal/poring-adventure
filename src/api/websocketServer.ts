@@ -9,7 +9,7 @@ import { adminService } from "./services/adminService";
 import { skillService } from "./services/skillService";
 import { monsterService } from "./services/monsterService";
 import { guildService } from "./services/guildService";
-import { mailService } from "./services/notificationService";
+import { mailService } from "./services/mainService";
 
 export async function asyncEmit<T>(
   ws: Socket,
