@@ -50,12 +50,6 @@ export function GuildPage() {
               <GuidMemberInfo key={member.id} member={member} />
             )}
           />
-          <ForEach
-            items={guild?.members}
-            render={(member) => (
-              <GuidMemberInfo key={member.id} member={member} />
-            )}
-          />
         </div>
       </When>
     </div>
