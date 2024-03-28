@@ -8,7 +8,25 @@ declare type Guild = {
   taskPoints: number;
   publicMessage: string;
   internalMessage: string;
+  currentGuildTask?: CurrentGuildTask;
   members: GuildMember[];
+};
+
+declare type CurrentGuildTask = {
+  id: number;
+  guildTaskId: number;
+  remainingKills: number;
+  guildId: number;
+  task: GuildTask;
+};
+
+declare type GuildTask = {
+  id: number;
+  name: string;
+  mapId: number;
+  killCount: number;
+  taskPoints: number;
+  target: MonsterMap;
 };
 
 declare type GuildMember = {

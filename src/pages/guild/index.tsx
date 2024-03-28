@@ -25,6 +25,10 @@ export function GuildPage() {
     return <FullscreenLoading info="Fetching guild info" />;
   }
   const guild = store.guild;
+  const guildTask = guild?.currentGuildTask;
+  const taskTotalKils = guild?.currentGuildTask?.task.killCount ?? 0;
+  const remainingKills = guildTask?.remainingKills ?? 0;
+  const killedMonsters = (remainingKills - taskTotalKils) * -1;
 
   return (
     <div className={styles.container}>
@@ -32,14 +36,34 @@ export function GuildPage() {
         <h1>You have no guild</h1>
       </When>
       <When value={!!guild}>
-        <div className={styles.guildLevelContainer}>
-          <h1>{guild?.name}</h1>
-          <img src={guild?.imageUrl} />
-          <span>Level: {guild?.level}</span>
-          <span>Experience: {guild?.experience}</span>
+        <div className={styles.topContainer}>
+          <img width={80} height={80} src={guild?.imageUrl} />
+          <div className={styles.guildLevelContainer}>
+            <h1>{guild?.name}</h1>
+
+            <span>Level: {guild?.level}</span>
+            <span>Experience: {guild?.experience}</span>
+          </div>
         </div>
+
         <div className={styles.internalMessageContainer}>
           {guild?.internalMessage}
+        </div>
+
+        <div className={styles.guildTaskContainer}>
+          <h3>Current Task</h3>
+          <div className={styles.guildTaskDetails}>
+            <div>
+              {guild?.currentGuildTask?.task?.name}
+              <div>Map: {guild?.currentGuildTask?.task.target.name}</div>
+            </div>
+            <div>
+              <img src={guild?.currentGuildTask?.task.target.image} />
+              <span>
+                {killedMonsters}/{taskTotalKils}
+              </span>
+            </div>
+          </div>
         </div>
 
         <div className={styles.membersList}>
