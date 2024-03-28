@@ -20,12 +20,21 @@ export default function AdminSocketManager() {
       api.admin.sendWebsocketNotification(args),
   });
 
+  const clearCacheMutation = useMutation({
+    mutationFn: () => api.admin.clearCache(),
+  });
+
   if (query.isLoading) {
     return <FullscreenLoading info="Admin socket" />;
   }
 
   return (
     <div className={styles.container}>
+      <Button
+        label="Clear Cache"
+        onClick={() => clearCacheMutation.mutate()}
+        disabled={clearCacheMutation.isPending}
+      />
       {query.data?.map((socket) => (
         <div className={styles.row}>
           <div>
