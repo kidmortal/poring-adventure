@@ -1,7 +1,6 @@
 apply plugin: 'com.android.application'
 
 android {
-    namespace "com.kidmortal.poringadventure"
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
         applicationId "com.kidmortal.poringadventure"

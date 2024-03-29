@@ -29,3 +29,8 @@ dev-dist
 
 # Local Netlify folder
 .netlify
+
+
+
+# firebase stuff
+google-services.json

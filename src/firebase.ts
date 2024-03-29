@@ -2,6 +2,7 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
+import { GoogleAuth } from "@codetrix-studio/capacitor-google-auth";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -16,6 +17,12 @@ const firebaseConfig = {
   appId: "1:596344810334:web:f63eb8d84f44b1df90bdcf",
   measurementId: "G-20YVCZZSMC",
 };
+GoogleAuth.initialize({
+  clientId:
+    "596344810334-tbejurdcnnc90h7ctrh2emj1j9pha93s.apps.googleusercontent.com",
+  scopes: ["profile", "email"],
+  grantOfflineAccess: true,
+});
 
 // Initialize Firebase
 export const app = initializeApp(firebaseConfig);

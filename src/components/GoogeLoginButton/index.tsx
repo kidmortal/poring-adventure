@@ -2,9 +2,16 @@ import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import styles from "./style.module.scss";
 import { auth } from "../../firebase";
 import { GoogleIcon } from "../../assets/Google";
+import { GoogleAuth } from "@codetrix-studio/capacitor-google-auth";
 
 export function GoogleLoginButton() {
   function handleClick() {
+    GoogleAuth.signIn()
+      .then((r) => {
+        alert(r.email);
+      })
+      .catch((e) => alert(e));
+    return;
     const provider = new GoogleAuthProvider();
     provider.addScope("profile");
     provider.addScope("email");
