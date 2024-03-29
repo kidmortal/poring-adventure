@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite --host",
     "mobile": "cap run android -l --external",
+    "build:local": "tsc && vite build",
     "build": "tsc && vite build && echo '/* /index.html  200' | cat >dist/_redirects ",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
@@ -13,6 +14,7 @@
   "dependencies": {
     "@capacitor-firebase/authentication": "^5.4.1",
     "@capacitor/android": "^5.7.4",
+    "@capacitor/assets": "^3.0.5",
     "@capacitor/core": "^5.7.4",
     "@tanstack/react-query": "^5.25.0",
     "axios": "^1.6.7",
@@ -26,7 +28,6 @@
     "react-use-websocket": "^4.8.1",
     "sass": "^1.71.1",
     "socket.io-client": "^4.7.4",
-    "vite-plugin-pwa": "^0.19.2",
     "zustand": "^4.5.2"
   },
   "devDependencies": {

@@ -30,7 +30,7 @@ dev-dist
 # Local Netlify folder
 .netlify
 
-
+poringadventure.keystore
 
 # firebase stuff
 google-services.json
