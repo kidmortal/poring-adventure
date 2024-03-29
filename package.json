@@ -1,15 +1,18 @@
 {
-  "name": "zenith-web",
+  "name": "poring-adventure",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "mobile": "cap run android -l --external",
     "build": "tsc && vite build && echo '/* /index.html  200' | cat >dist/_redirects ",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
   "dependencies": {
+    "@capacitor/android": "^5.7.4",
+    "@capacitor/core": "^5.7.4",
     "@tanstack/react-query": "^5.25.0",
     "axios": "^1.6.7",
     "dayjs": "^1.11.10",
@@ -26,6 +29,7 @@
     "zustand": "^4.5.2"
   },
   "devDependencies": {
+    "@capacitor/cli": "^5.7.4",
     "@tanstack/react-query-devtools": "^5.25.0",
     "@types/react": "^18.2.56",
     "@types/react-dom": "^18.2.19",
