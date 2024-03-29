@@ -1,6 +1,7 @@
 import { CapacitorConfig } from "@capacitor/cli";
 
 const config: CapacitorConfig = {
+  bundledWebRuntime: true,
   appId: "com.kidmortal.poringadventure",
   appName: "Poring Adventure",
   webDir: "dist",
