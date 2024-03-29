@@ -45,6 +45,7 @@ export function UserSettingsModal(props: Props) {
         onClick={() =>
           PlataformAuth.SignOut({
             onSuccess: () => {
+              modalStore.setUserConfig({ open: false });
               store.setUserLoggedInfo({
                 accessToken: "",
                 email: "",

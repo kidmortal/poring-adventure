@@ -29,7 +29,7 @@ export function useAuth() {
           setIsFetching(false);
           setIsAuthenticated(true);
         })
-        .catch((e) => {
+        .catch(() => {
           setIsFetching(false);
           setIsAuthenticated(false);
         });
