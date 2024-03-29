@@ -69,9 +69,27 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: $secondary;
+  background-color: $orange;
   padding: 0.5rem;
   border-radius: 4px;
+
+  &.completed {
+    background-color: $success;
+    cursor: pointer;
+  }
+  &.selectNewTask {
+    background-color: $primary;
+    cursor: pointer;
+  }
+}
+
+.taskMapContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 18px;
 }
 
 .guildTaskDetails {

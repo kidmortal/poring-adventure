@@ -9,6 +9,8 @@ import { FullscreenLoading } from "@/components/FullscreenLoading";
 import { When } from "@/components/When";
 import ForEach from "@/components/ForEach";
 import { CharacterHead } from "@/components/CharacterInfo";
+import cn from "classnames";
+import { useModalStore } from "@/store/modal";
 
 export function GuildPage() {
   const store = useMainStore();
@@ -25,10 +27,6 @@ export function GuildPage() {
     return <FullscreenLoading info="Fetching guild info" />;
   }
   const guild = store.guild;
-  const guildTask = guild?.currentGuildTask;
-  const taskTotalKils = guild?.currentGuildTask?.task.killCount ?? 0;
-  const remainingKills = guildTask?.remainingKills ?? 0;
-  const killedMonsters = (remainingKills - taskTotalKils) * -1;
 
   return (
     <div className={styles.container}>
@@ -50,21 +48,7 @@ export function GuildPage() {
           {guild?.internalMessage}
         </div>
 
-        <div className={styles.guildTaskContainer}>
-          <h3>Current Task</h3>
-          <div className={styles.guildTaskDetails}>
-            <div>
-              {guild?.currentGuildTask?.task?.name}
-              <div>Map: {guild?.currentGuildTask?.task.target.name}</div>
-            </div>
-            <div>
-              <img src={guild?.currentGuildTask?.task.target.image} />
-              <span>
-                {killedMonsters}/{taskTotalKils}
-              </span>
-            </div>
-          </div>
-        </div>
+        <TaskInfo guildTask={guild?.currentGuildTask} />
 
         <div className={styles.membersList}>
           <h3>Members: {guild?.members.length}/10</h3>
@@ -77,6 +61,52 @@ export function GuildPage() {
         </div>
       </When>
     </div>
+  );
+}
+
+function TaskInfo(props: { guildTask?: CurrentGuildTask }) {
+  const modalStore = useModalStore();
+  const hasTask = !!props.guildTask;
+  const taskTotalKils = props.guildTask?.task.killCount ?? 0;
+  const remainingKills = props.guildTask?.remainingKills ?? 0;
+  const killedMonsters = (remainingKills - taskTotalKils) * -1;
+  const taskCompleted = remainingKills <= 0;
+  return (
+    <>
+      <When value={hasTask}>
+        <div
+          className={cn(styles.guildTaskContainer, {
+            [styles.completed]: taskCompleted,
+          })}
+        >
+          <h3>Current Task</h3>
+          <div className={styles.guildTaskDetails}>
+            <div>
+              {props.guildTask?.task?.name}
+              <div>Map: {props.guildTask?.task.target.name}</div>
+            </div>
+            <div className={styles.taskMapContainer}>
+              <img src={props.guildTask?.task.target.image} />
+              <span>
+                {killedMonsters}/{taskTotalKils}
+              </span>
+            </div>
+          </div>
+        </div>
+      </When>
+      <When value={!hasTask}>
+        <div
+          onClick={() => {
+            modalStore.setGuildTaskSelect({ open: true });
+          }}
+          className={cn(styles.guildTaskContainer, {
+            [styles.selectNewTask]: true,
+          })}
+        >
+          <h3>Click here to select a new task</h3>
+        </div>
+      </When>
+    </>
   );
 }
 

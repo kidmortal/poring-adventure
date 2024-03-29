@@ -10,9 +10,14 @@ export function guildService({ websocket }: { websocket?: Socket }) {
     if (!websocket) return undefined;
     return asyncEmit<Guild[]>(websocket, "find_all_guild", "");
   }
+  async function getGuildAvailableTasks() {
+    if (!websocket) return undefined;
+    return asyncEmit<GuildTask[]>(websocket, "get_available_guild_tasks", "");
+  }
 
   return {
     getGuild,
+    getGuildAvailableTasks,
     getAllGuilds,
   };
 }

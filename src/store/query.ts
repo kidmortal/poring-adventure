@@ -4,6 +4,7 @@ export enum Query {
   ALL_GUILDS = "all_guilds",
   ALL_MARKET = "all_market",
   PARTY = "party",
+  ALL_GUILD_TASK = "all_guild_task",
   GUILD = "guild",
   BATTLE = "battle",
   MAPS = "maps",

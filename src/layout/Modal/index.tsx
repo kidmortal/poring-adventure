@@ -15,6 +15,7 @@ import { DeleteCharConfirmationModal } from "./Modals/DeleteCharConfirmation";
 import { useMainStore } from "@/store/main";
 import { MailBoxModal } from "./Modals/MailBoxModal";
 import { GuildInfoModal } from "./Modals/GuildInfoModal";
+import { GuildTaskSelectModal } from "./Modals/GuildTaskSelectModal";
 
 export function ModalLayout() {
   const mainStore = useMainStore();
@@ -72,6 +73,10 @@ export function ModalLayout() {
         onRequestClose={() => modalStore.setGuildInfo({ open: false })}
         isOpen={modalStore.guildInfo.open}
         guild={modalStore.guildInfo.guild}
+      />
+      <GuildTaskSelectModal
+        onRequestClose={() => modalStore.setGuildTaskSelect({ open: false })}
+        isOpen={modalStore.guildTaskSelect.open}
       />
       <DeleteCharConfirmationModal
         onRequestClose={() =>

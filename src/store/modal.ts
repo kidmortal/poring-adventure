@@ -52,6 +52,10 @@ type MailBoxState = {
   open?: boolean;
 };
 
+type GuildTaskSelectState = {
+  open?: boolean;
+};
+
 export interface ModalState {
   userConfig: UserConfigState;
   setUserConfig: (v: UserConfigState) => void;
@@ -59,6 +63,8 @@ export interface ModalState {
   setGuildInfo: (v: GuildInfoState) => void;
   mailBox: MailBoxState;
   setMailBox: (v: MailBoxState) => void;
+  guildTaskSelect: GuildTaskSelectState;
+  setGuildTaskSelect: (v: GuildTaskSelectState) => void;
   inventoryItem: InventoryItemState;
   setInventoryItem: (v: InventoryItemState) => void;
   sellItem: SellItemState;
@@ -89,6 +95,7 @@ export const useModalStore = create<ModalState>()((set) => ({
   skillbook: { open: false },
   confirmDeleteCharacter: { open: false },
   guildInfo: { open: false },
+  guildTaskSelect: { open: false },
   mailBox: { open: false },
   sellItem: {
     open: false,
@@ -99,6 +106,7 @@ export const useModalStore = create<ModalState>()((set) => ({
     open: false,
   },
   setMailBox: (v) => set(() => ({ mailBox: v })),
+  setGuildTaskSelect: (v) => set(() => ({ guildTaskSelect: v })),
   setGuildInfo: (v) => set(() => ({ guildInfo: v })),
   setEditCharacter: (v) => set(() => ({ editCharacter: v })),
   setUserConfig: (v) => set(() => ({ userConfig: v })),
