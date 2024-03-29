@@ -2,12 +2,14 @@ import { BaseModal } from "../BaseModal";
 import { Button } from "@/components/Button";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Query } from "@/store/query";
-import { auth } from "@/firebase";
+
 import SignOut from "@/assets/SignOut";
 import { When } from "@/components/When";
 import { FullscreenLoading } from "@/components/FullscreenLoading";
 import { useWebsocketApi } from "@/api/websocketServer";
 import { useModalStore } from "@/store/modal";
+import { PlataformAuth } from "@/auth";
+import { useMainStore } from "@/store/main";
 
 type Props = {
   isOpen?: boolean;
@@ -15,6 +17,7 @@ type Props = {
 };
 
 export function UserSettingsModal(props: Props) {
+  const store = useMainStore();
   const modalStore = useModalStore();
   const api = useWebsocketApi();
   const queryClient = useQueryClient();
@@ -39,7 +42,17 @@ export function UserSettingsModal(props: Props) {
       />
 
       <Button
-        onClick={() => auth.signOut()}
+        onClick={() =>
+          PlataformAuth.SignOut({
+            onSuccess: () => {
+              store.setUserLoggedInfo({
+                accessToken: "",
+                email: "",
+                loggedIn: false,
+              });
+            },
+          })
+        }
         label={
           <div
             style={{

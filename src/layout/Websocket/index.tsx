@@ -29,10 +29,18 @@ export function WebsocketLayout() {
         auth: { acessToken: store.loggedUserInfo.accessToken },
       });
 
-      socket.on("authenticated", () => store.setWsAuthenticated(true));
+      socket.on("authenticated", () => {
+        store.setWsAuthenticated(true);
+      });
 
       setTemporarySocket(socket);
-      socket.on("connect", () => store.setWebsocket(socket));
+      socket.on("connect", () => {
+        store.setWebsocket(socket);
+      });
+      socket.on("connect_error", (e) => {
+        store.setWebsocket(socket);
+        alert(e);
+      });
     }
   }, [store.loggedUserInfo.accessToken]);
 
