@@ -11,14 +11,14 @@ export function AuthLayout() {
   const navigate = useNavigate();
   const store = useMainStore();
   const { isAuthenticated, isFetching, user } = useAuth();
+  const loggedIn = store.loggedUserInfo.loggedIn;
 
   useEffect(() => {
     if (!isFetching) {
       if (isAuthenticated) {
         store.setUserLoggedInfo({
           loggedIn: isAuthenticated,
-          // @ts-expect-error idk man, should have it
-          accessToken: user?.accessToken,
+          accessToken: user?.accessToken || "",
           email: user?.email || "",
         });
       }
@@ -27,18 +27,17 @@ export function AuthLayout() {
   }, [isAuthenticated, isFetching]);
 
   useEffect(() => {
-    const loggedIn = store.loggedUserInfo.loggedIn;
     if (loggedIn) {
       // alert("should move to home");
       if (location.pathname.includes("login")) {
         // alert("moving to home");
-        navigate("/");
+        navigate("profile");
       }
     }
     if (!loggedIn) {
       if (!location.pathname.includes("login")) {
         // alert("moving to login");
-        navigate("/login");
+        navigate("login");
       }
       if (store.loggedUserInfo) {
         store.setUserLoggedInfo({
@@ -48,15 +47,14 @@ export function AuthLayout() {
         });
       }
     }
-  }, [store.loggedUserInfo.loggedIn]);
+  }, [loggedIn]);
 
   if (isFetching) {
     return <FullscreenLoading info="Login data" />;
   }
-
-  if (!isAuthenticated) {
-    return <LoginPage />;
+  if (loggedIn) {
+    return <Outlet />;
   }
 
-  return <Outlet />;
+  return <LoginPage />;
 }

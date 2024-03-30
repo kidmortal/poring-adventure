@@ -10,11 +10,13 @@ type Args = {
 function SignInWithGoogle(args: Args) {
   if (Capacitor.getPlatform() === "android") {
     FirebaseAuthentication.signInWithGoogle()
-      .then(({ credential, user }) => {
-        if (credential?.idToken && user?.email) {
-          args.onSuccess({
-            accessToken: credential.idToken,
-            email: user.email,
+      .then(({ user }) => {
+        if (user?.email) {
+          FirebaseAuthentication.getIdToken().then((token) => {
+            args.onSuccess({
+              accessToken: token.token,
+              email: user.email ?? "",
+            });
           });
         }
       })
