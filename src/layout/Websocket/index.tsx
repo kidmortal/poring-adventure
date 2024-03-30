@@ -12,7 +12,6 @@ import { addWebsocketListeners } from "./listeners";
 import { addToastListeners } from "./toastListener";
 
 export function WebsocketLayout() {
-  const [connectionLost, setConnectionLost] = useState(false);
   const [temporarySocket, setTemporarySocket] = useState<Socket | undefined>();
   const store = useMainStore();
   const modal = useModalStore();
