@@ -36,13 +36,17 @@ export default function MapInfo({ map }: Props) {
           <div className={styles.monstersRow}>
             <ForEach
               items={map.monster}
-              render={(m) => <img width={40} height={40} src={m.image} />}
+              render={(m) => (
+                <img key={m.id} width={40} height={40} src={m.image} />
+              )}
             />
           </div>
           <div className={styles.monstersRow}>
             <ForEach
               items={drops}
-              render={(drop) => <img width={40} height={40} src={drop.image} />}
+              render={(drop) => (
+                <img key={drop.id} width={40} height={40} src={drop.image} />
+              )}
             />
           </div>
         </div>

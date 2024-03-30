@@ -61,7 +61,10 @@ export function BattlePage() {
       <When value={!userIsInBattle}>
         <div className={styles.noBattleContainer}>
           <h2>Select map</h2>
-          <ForEach items={maps?.data} render={(m) => <MapInfo map={m} />} />
+          <ForEach
+            items={maps?.data}
+            render={(m) => <MapInfo key={m.id} map={m} />}
+          />
         </div>
       </When>
       <When value={userIsInBattle}>
@@ -77,11 +80,8 @@ export function BattlePage() {
             <When value={!battleIsFinished}>
               <ForEach
                 items={battleStore.battle?.monsters}
-                render={(m) => (
-                  <BattleMonsterInfo
-                    key={`${m.name}-${crypto.randomUUID()}`}
-                    monster={m}
-                  />
+                render={(m, idx) => (
+                  <BattleMonsterInfo key={`${m.name}-${idx}`} monster={m} />
                 )}
               />
             </When>

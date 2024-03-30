@@ -1,0 +1,9 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Poring Adventure</string>
+    <string name="title_activity_main">Poring Adventure</string>
+    <string name="package_name">com.kidmortal.poringadventure</string>
+    <string name="custom_url_scheme">com.kidmortal.poringadventure</string>
+    <string name="server_client_id">
+        596344810334-tbejurdcnnc90h7ctrh2emj1j9pha93s.apps.googleusercontent.com</string>
+</resources>

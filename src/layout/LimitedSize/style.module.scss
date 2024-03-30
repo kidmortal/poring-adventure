@@ -1,7 +1,7 @@
 @import "@/styles/variables";
 
 .container {
-  height: 100svh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -13,8 +13,6 @@
   position: relative;
   width: 100%;
   height: 100%;
-  max-width: 400px; // Iphone XR
-  max-height: 820px; // Iphone XR
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -25,7 +23,12 @@
   overflow-y: auto;
 }
 
+.limitSize {
+  max-width: 500px; // Iphone XR
+  max-height: 900px; // Iphone XR
+}
+
 .limitedDev {
-  max-width: 370px; // Iphone XR
+  max-width: 400px; // Iphone XR
   max-height: 800px; // Iphone XR
 }

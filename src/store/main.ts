@@ -1,7 +1,7 @@
 import { Socket } from "socket.io-client";
 import { create } from "zustand";
 
-type LoggedUserInfo = {
+export type LoggedUserInfo = {
   loggedIn: boolean;
   accessToken: string;
   email: string;

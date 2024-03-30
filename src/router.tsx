@@ -15,6 +15,7 @@ import { WebsocketLayout } from "./layout/Websocket/index.tsx";
 import AdminSocketManager from "./pages/adminSocketManager/index.tsx";
 import { AdminLayout } from "./layout/Admin/index.tsx";
 import { GuildPage } from "./pages/guild/index.tsx";
+import { LoginPage } from "./pages/login/index.tsx";
 
 export function Router() {
   return (
@@ -23,6 +24,7 @@ export function Router() {
         <Routes>
           <Route element={<LimitedSizeLayout />}>
             <Route element={<AuthLayout />}>
+              <Route path="/login" element={<LoginPage />} />
               <Route element={<WebsocketLayout />}>
                 <Route path="/create" element={<CharacterCreationPage />} />
                 <Route element={<PageLoadingLayout />}>

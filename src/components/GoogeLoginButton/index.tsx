@@ -1,32 +1,31 @@
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import styles from "./style.module.scss";
-import { auth } from "../../firebase";
+
 import { GoogleIcon } from "../../assets/Google";
+import { PlataformAuth } from "@/auth";
+import { useMainStore } from "@/store/main";
 
-export function GoogleLoginButton() {
-  function handleClick() {
-    const provider = new GoogleAuthProvider();
-    provider.addScope("profile");
-    provider.addScope("email");
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        const user = result.user;
-        console.log(user);
-      })
-      .catch((error) => {
-        console.log(error);
-        // The email of the user's account used.
-        const email = error.customData.email;
-        console.log(email);
-        // The AuthCredential type that was used.
-        const credential = GoogleAuthProvider.credentialFromError(error);
-        console.log(credential);
-        // ...
-      });
-  }
+type Props = {
+  onSuccess: () => void;
+};
 
+export function GoogleLoginButton(props: Props) {
+  const store = useMainStore();
   return (
-    <button className={styles.container} onClick={() => handleClick()}>
+    <button
+      className={styles.container}
+      onClick={() =>
+        PlataformAuth.SignInWithGoogle({
+          onSuccess: (info) => {
+            store.setUserLoggedInfo({
+              accessToken: info.accessToken,
+              email: info.email,
+              loggedIn: true,
+            });
+            props.onSuccess();
+          },
+        })
+      }
+    >
       <GoogleIcon size={24} />
       <span>Login with Google</span>
     </button>
