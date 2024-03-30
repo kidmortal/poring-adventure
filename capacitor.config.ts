@@ -4,13 +4,10 @@ const config: CapacitorConfig = {
   appId: "com.kidmortal.poringadventure",
   appName: "Poring Adventure",
   webDir: "dist",
-  server:
-    process.env.ENV === "development"
-      ? {
-          url: "http://192.168.0.93:3000",
-          cleartext: true,
-        }
-      : {},
+  server: {
+    // url: "http://192.168.0.93:3000",
+    // cleartext: true,
+  },
   plugins: {
     FirebaseAuthentication: {
       skipNativeAuth: false,
@@ -24,6 +21,7 @@ const config: CapacitorConfig = {
       keystoreAliasPassword: "poringadventure",
       keystorePassword: "poringadventure",
       releaseType: "APK",
+      signingType: "apksigner",
     },
   },
 };

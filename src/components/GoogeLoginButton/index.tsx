@@ -4,19 +4,25 @@ import { GoogleIcon } from "../../assets/Google";
 import { PlataformAuth } from "@/auth";
 import { useMainStore } from "@/store/main";
 
-export function GoogleLoginButton() {
+type Props = {
+  onSuccess: () => void;
+};
+
+export function GoogleLoginButton(props: Props) {
   const store = useMainStore();
   return (
     <button
       className={styles.container}
       onClick={() =>
         PlataformAuth.SignInWithGoogle({
-          onSuccess: (info) =>
+          onSuccess: (info) => {
             store.setUserLoggedInfo({
               accessToken: info.accessToken,
               email: info.email,
               loggedIn: true,
-            }),
+            });
+            props.onSuccess();
+          },
         })
       }
     >
