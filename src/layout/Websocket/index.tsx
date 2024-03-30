@@ -12,6 +12,7 @@ import { addWebsocketListeners } from "./listeners";
 import { addToastListeners } from "./toastListener";
 
 export function WebsocketLayout() {
+  const [connectionLost, setConnectionLost] = useState(false);
   const [temporarySocket, setTemporarySocket] = useState<Socket | undefined>();
   const store = useMainStore();
   const modal = useModalStore();
@@ -37,9 +38,8 @@ export function WebsocketLayout() {
       socket.on("connect", () => {
         store.setWebsocket(socket);
       });
-      socket.on("connect_error", (e) => {
-        store.setWebsocket(socket);
-        alert(e);
+      socket.on("connect_error", () => {
+        store.setWebsocket(undefined);
       });
     }
   }, [store.loggedUserInfo.accessToken]);
@@ -61,7 +61,11 @@ export function WebsocketLayout() {
   }, [store.websocket]);
 
   if (!store.websocket && !store.wsAuthenticated) {
-    return <FullscreenLoading info="Websocket connection" />;
+    return <FullscreenLoading info={"Server connection"} />;
+  }
+
+  if (!store.websocket) {
+    return <FullscreenLoading info={"Reconnecting to server"} />;
   }
 
   return <Outlet />;

@@ -11,12 +11,12 @@ export function BattleLogs({ logs }: Props) {
     <div className={styles.logContainer}>
       <ForEach
         items={logs}
-        render={(log) => (
-          <div key={`${log.message}${crypto.randomUUID()}`}>
+        render={(log, idx) => (
+          <div key={`${log.message}${idx}`}>
             <When value={!!log.icon}>
               <img width={20} height={20} src={log.icon} />
             </When>
-            <span key={`${log}${crypto.randomUUID()}`}>{log.message}</span>
+            <span key={`${log}${idx}`}>{log.message}</span>
           </div>
         )}
       />
