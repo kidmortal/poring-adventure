@@ -20,8 +20,7 @@ const config: CapacitorConfig = {
       keystoreAlias: "poringadventure",
       keystoreAliasPassword: "poringadventure",
       keystorePassword: "poringadventure",
-      releaseType: "APK",
-      signingType: "apksigner",
+      releaseType: "AAB",
     },
   },
 };
