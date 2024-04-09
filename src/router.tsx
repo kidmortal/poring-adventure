@@ -1,5 +1,4 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import "./firebase.ts";
 import "./styles/global.scss";
 import { LimitedSizeLayout } from "./layout/LimitedSize/index.tsx";
 import { AuthLayout } from "./layout/Auth/index.tsx";

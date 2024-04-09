@@ -3,7 +3,7 @@ import styles from "./style.module.scss";
 import { useBattleStore } from "@/store/battle";
 import cn from "classnames";
 
-export function FloatingNavBar() {
+export function BottomNavBar() {
   const battleStore = useBattleStore();
   const userIsInBattle = !!battleStore.battle;
   const navigate = useNavigate();

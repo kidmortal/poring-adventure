@@ -29,16 +29,21 @@ export function marketService({ websocket }: { websocket?: Socket }) {
     return asyncEmit<string>(websocket, "purchase_market_listing", args);
   }
 
-  async function getFirst10MarketListing(): Promise<
-    MarketListing[] | undefined
-  > {
+  async function getMarketListingPage(params: {
+    page: number;
+    category: ItemCategory;
+  }): Promise<MarketListing[] | undefined> {
     if (!websocket) return undefined;
-    return asyncEmit<MarketListing[]>(websocket, "get_all_market_listing", "");
+    return asyncEmit<MarketListing[]>(
+      websocket,
+      "get_all_market_listing",
+      params
+    );
   }
 
   return {
     createMarketListing,
-    getFirst10MarketListing,
+    getMarketListingPage,
     purchaseMarketListing,
     revokeMarketListing,
   };

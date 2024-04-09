@@ -1,6 +1,6 @@
 import { Query } from "@/store/query";
 import styles from "./style.module.scss";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { FullscreenLoading } from "@/components/FullscreenLoading";
 
 import { Button } from "@/components/Button";
@@ -10,17 +10,33 @@ import { useWebsocketApi } from "@/api/websocketServer";
 import { useMainStore } from "@/store/main";
 import { useEffect } from "react";
 import { useModalStore } from "@/store/modal";
+import ForEach from "@/components/ForEach";
+import { ItemCategoryFilter } from "@/components/ItemCategoryFilter";
+
+import { Pagination } from "@/components/Pagination";
 
 export function MarketPage() {
-  const modalStore = useModalStore();
+  const queryClient = useQueryClient();
   const store = useMainStore();
   const api = useWebsocketApi();
   const query = useQuery({
     queryKey: [Query.ALL_MARKET],
     enabled: !!store.websocket,
-    staleTime: 1000 * 60, // 60 seconds
-    queryFn: () => api.market.getFirst10MarketListing(),
+    staleTime: 1000 * 5, // 60 seconds
+    queryFn: () =>
+      api.market.getMarketListingPage({
+        page: store.marketFilters.page,
+        category: store.marketFilters.category,
+      }),
   });
+
+  function invalidateMarketQuery() {
+    queryClient.invalidateQueries({ queryKey: [Query.ALL_MARKET] });
+  }
+
+  useEffect(() => {
+    invalidateMarketQuery();
+  }, [store.marketFilters]);
 
   useEffect(() => {
     if (query.data) {
@@ -34,28 +50,74 @@ export function MarketPage() {
 
   return (
     <div className={styles.container}>
-      {store.marketListings.map((u) => (
-        <div className={styles.listingContainer} key={u.id}>
-          <span className={styles.sellerName}>{u.seller?.name} </span>
-          <InventoryItem
-            inventoryItem={u.inventory}
-            stack={u.stack}
-            toolTipDirection="right"
-          />
-          <Silver amount={u.price} />
-          <div>
-            <Button
-              onClick={() => {
-                modalStore.setBuyItem({
-                  open: true,
-                  marketListing: u,
-                });
-              }}
-              label="Buy"
-            />
-          </div>
-        </div>
-      ))}
+      <div className={styles.searchContainer}>
+        <ItemCategoryFilter
+          selected={store.marketFilters.category}
+          onClick={(category) => store.setMarketFilterCategory(category)}
+        />
+        {/* <PriceSortSwitch sort="desc" /> */}
+      </div>
+      <div className={styles.listContainer}>
+        <ForEach
+          items={store.marketListings}
+          render={(list) => (
+            <MarketListingContainer key={list.id} listing={list} />
+          )}
+        />
+      </div>
+
+      <Pagination
+        totalCount={100} // Total count of items
+        onPageChange={(page) => store.setMarketFilterPage(page)}
+      />
     </div>
   );
 }
+
+function MarketListingContainer({ listing }: { listing: MarketListing }) {
+  const modalStore = useModalStore();
+  return (
+    <div className={styles.listingContainer} key={listing.id}>
+      <span className={styles.sellerName}>{listing.seller?.name} </span>
+      <InventoryItem
+        inventoryItem={listing.inventory}
+        stack={listing.stack}
+        toolTipDirection="right"
+      />
+      <Silver amount={listing.price} />
+      <div>
+        <Button
+          onClick={() => {
+            modalStore.setBuyItem({
+              open: true,
+              marketListing: listing,
+            });
+          }}
+          label="Buy"
+        />
+      </div>
+    </div>
+  );
+}
+
+// function PriceSortSwitch(props: { sort: "asc" | "desc" }) {
+//   return (
+//     <div className={styles.priceSwitch}>
+//       <When value={props.sort === "asc"}>
+//         <img
+//           width={40}
+//           height={40}
+//           src="https://kidmortal.sirv.com/misc/arrow_up.png"
+//         />
+//       </When>
+//       <When value={props.sort === "desc"}>
+//         <img
+//           width={40}
+//           height={40}
+//           src="https://kidmortal.sirv.com/misc/arrow_down.png"
+//         />
+//       </When>
+//       <span>Price</span>
+//     </div>
+//   );
+// }

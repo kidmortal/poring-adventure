@@ -40,3 +40,7 @@ declare type Mail = {
   createdAt: string;
   item: Item;
 };
+
+const ITEM_CATEGORIES = ["all", "equipment", "consumable", "material"] as const;
+
+declare type ItemCategory = (typeof ITEM_CATEGORIES)[number];

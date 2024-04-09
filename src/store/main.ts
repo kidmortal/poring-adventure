@@ -7,7 +7,12 @@ export type LoggedUserInfo = {
   email: string;
 };
 
-export type InventoryFilters = "all" | "equip" | "consumable" | "material";
+type MarketFilter = {
+  page: number;
+  category: ItemCategory;
+};
+
+export type InventoryFilters = ItemCategory;
 
 export interface MainStoreState {
   loggedUserInfo: LoggedUserInfo;
@@ -16,11 +21,14 @@ export interface MainStoreState {
   websocket?: Socket;
   wsAuthenticated: boolean;
   marketListings: MarketListing[];
+  marketFilters: MarketFilter;
   mailBox: Mail[];
   guild?: Guild;
   inventoryFilter: InventoryFilters;
   setMailBox: (v: Mail[]) => void;
   setGuild: (v: Guild) => void;
+  setMarketFilterPage: (page: number) => void;
+  setMarketFilterCategory: (page: ItemCategory) => void;
   setInventoryFilter: (v: InventoryFilters) => void;
   clearUserData: () => void;
   setIsLoading: (v: boolean) => void;
@@ -38,6 +46,16 @@ export const useMainStore = create<MainStoreState>()((set) => ({
     accessToken: "",
     email: "",
   },
+  marketFilters: {
+    page: 1,
+    category: "all",
+  },
+  setMarketFilterPage: (v) =>
+    set((state) => ({ marketFilters: { ...state.marketFilters, page: v } })),
+  setMarketFilterCategory: (v) =>
+    set((state) => ({
+      marketFilters: { ...state.marketFilters, category: v },
+    })),
   websocket: undefined,
   wsAuthenticated: false,
   userCharacterData: undefined,
