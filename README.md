@@ -67,19 +67,21 @@ yarn run build:local
 
 1. **Create a Keystore**: Generate a keystore file named `poringadventure.keystore` and place it in the `android` folder.
 
-2. **Build React App**:
+2. **Google services**: Generate a google-services.json file named on firebase and place it in the `android/app` folder.
+
+3. **Build React App**:
 
 ```bash
 yarn run build:local
 ```
 
-3. **Sync with Capacitor**: Update dependencies and sync the React build with Capacitor:
+4. **Sync with Capacitor**: Update dependencies and sync the React build with Capacitor:
 
 ```bash
 yarn run sync:app
 ```
 
-4. **Generate APK or AAB File**: Update the version in `android/app/build.gradle`, then generate the APK or AAB file:
+5. **Generate APK or AAB File**: Update the version in `android/app/build.gradle`, then generate the APK or AAB file:
 
 ```bash
 yarn run build:app

@@ -5,20 +5,20 @@ import {
 } from "@capawesome/capacitor-app-update";
 
 const getCurrentAppVersion = async () => {
-  const result = await AppUpdate.getAppUpdateInfo();
   if (Capacitor.getPlatform() === "android") {
+    const result = await AppUpdate.getAppUpdateInfo();
     return result.currentVersionCode;
   } else {
-    return result.currentVersionName;
+    return undefined;
   }
 };
 
 const getAvailableAppVersion = async () => {
-  const result = await AppUpdate.getAppUpdateInfo();
   if (Capacitor.getPlatform() === "android") {
+    const result = await AppUpdate.getAppUpdateInfo();
     return result.availableVersionCode;
   } else {
-    return result.availableVersionName;
+    return undefined;
   }
 };
 

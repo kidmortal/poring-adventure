@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { auth } from "@/firebase";
+import { auth } from "@/config/firebase";
 import { Capacitor } from "@capacitor/core";
 import { FirebaseAuthentication } from "@capacitor-firebase/authentication";
 

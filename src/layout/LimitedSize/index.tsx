@@ -5,7 +5,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import cn from "classnames";
 import { useEffect, useState } from "react";
-import { Updater } from "@/updater";
+import { Updater } from "@/config/updater";
 import { UpdateAvailableMessage } from "@/components/UpdateAvailableMessage";
 import { When } from "@/components/When";
 

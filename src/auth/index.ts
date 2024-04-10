@@ -1,7 +1,7 @@
 import { Capacitor } from "@capacitor/core";
 import { FirebaseAuthentication } from "@capacitor-firebase/authentication";
 import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { auth } from "@/firebase";
+import { auth } from "@/config/firebase";
 
 type Args = {
   onSuccess: (info: { accessToken: string; email: string }) => void;

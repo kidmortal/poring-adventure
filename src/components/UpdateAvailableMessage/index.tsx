@@ -1,4 +1,4 @@
-import { Updater } from "@/updater";
+import { Updater } from "@/config/updater";
 import { Button } from "../Button";
 import styles from "./style.module.scss";
 
