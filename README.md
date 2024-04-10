@@ -1,61 +1,90 @@
-Splash
+Here's an improved version of your README:
 
-![image](https://github.com/kidmortal/poring-adventure/assets/18023467/28328c0b-eacd-4a00-bb0c-26a919fb0ffc)
+---
 
-Looks like this
+# Poring Adventure
 
-![image](https://github.com/kidmortal/poring-adventure/assets/18023467/f6e5e517-4daa-4e4c-8e4e-4e2b79aa4f11)
+Dive into the enchanting world of Poring Adventure! Experience turn-based combat, cooperative gameplay, and RPG elements set in a vibrant universe inspired by Ragnarok Online.
 
-Turn based combat
+## Features
 
-![image](https://github.com/kidmortal/poring-adventure/assets/18023467/4506729e-4fd0-474b-bb8a-13f732fef1cc)
+### Splash Screen
 
-Also allows co-op
+![Splash Screen](https://github.com/kidmortal/poring-adventure/assets/18023467/28328c0b-eacd-4a00-bb0c-26a919fb0ffc)
 
-![image](https://github.com/kidmortal/poring-adventure/assets/18023467/b0ddafc7-a114-4528-bb11-5526b397ae3d)
+### Turn-Based Combat
 
-Summary - RPG mini game with co-op features using websocket.
+![Turn-Based Combat](https://github.com/kidmortal/poring-adventure/assets/18023467/f6e5e517-4daa-4e4c-8e4e-4e2b79aa4f11)
 
-using sprites from ragnarok, and with RPG elements such as classes and stats.
+### Cooperative Play
 
-You can try it here
+![Cooperative Play](https://github.com/kidmortal/poring-adventure/assets/18023467/4506729e-4fd0-474b-bb8a-13f732fef1cc)
 
-## Live preview https://poring-adventure.netlify.app
+## Overview
 
-## back-end service repository: https://github.com/kidmortal/poring-adventure-api
+Poring Adventure is a dynamic RPG mini-game featuring cooperative multiplayer functionality via websockets. Immerse yourself in nostalgic sprites from Ragnarok Online, and explore an array of RPG elements including character classes and customizable stats.
 
-### How to run
+### Try It Now!
 
+**Live Preview**: [Poring Adventure](https://poring-adventure.netlify.app)
+
+## Getting Started
+
+### Prerequisites
+
+Make sure you have Node.js and Yarn installed on your machine.
+
+### Installation
+
+Clone the repository and navigate to the project directory:
+
+```bash
+git clone https://github.com/kidmortal/poring-adventure.git
+cd poring-adventure
 ```
+
+Install dependencies:
+
+```bash
+yarn install
+```
+
+### Running the App
+
+Start the development server:
+
+```bash
 yarn dev
 ```
 
-```
+Build the project locally:
+
+```bash
 yarn run build:local
 ```
 
-etc..., you know the drill. its just react
+### Building the App
 
-## Building app
+1. **Create a Keystore**: Generate a keystore file named `poringadventure.keystore` and place it in the `android` folder.
 
-first step: create a keystore to sign the apk, and drop it on android folder.
-name it as poringadventure.keystore
+2. **Build React App**:
 
-Creates react build
-
-```
+```bash
 yarn run build:local
 ```
 
-Sync react build with capacitor and update dependencies, etc
-(change apk version at android/app/build.gradle)
+3. **Sync with Capacitor**: Update dependencies and sync the React build with Capacitor:
 
-```
+```bash
 yarn run sync:app
 ```
 
-Generate apk or aab file, change it on capacitor config
+4. **Generate APK or AAB File**: Update the version in `android/app/build.gradle`, then generate the APK or AAB file:
 
+```bash
+yarn run build:app
 ```
-yarn run build:apk
-```
+
+---
+
+This README provides a brief overview of Poring Adventure, including its features, live preview link, setup instructions, and steps for building the app. Feel free to explore the repository and embark on an epic adventure with Poring Adventure!

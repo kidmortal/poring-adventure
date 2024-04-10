@@ -4,10 +4,13 @@ import { Capacitor } from "@capacitor/core";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import cn from "classnames";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Updater } from "@/updater";
+import { UpdateAvailableMessage } from "@/components/UpdateAvailableMessage";
+import { When } from "@/components/When";
 
 export function LimitedSizeLayout() {
+  const [isOudated, setIsOudated] = useState(false);
   const plataform = Capacitor.getPlatform();
 
   async function verifyAppVersion() {
@@ -15,8 +18,7 @@ export function LimitedSizeLayout() {
     const availableVersion = await Updater.getAvailableAppVersion();
 
     if (currentVersion !== availableVersion) {
-      alert("New version availabe");
-      Updater.openAppStore();
+      setIsOudated(true);
     }
   }
 
@@ -33,7 +35,12 @@ export function LimitedSizeLayout() {
         })}
       >
         <ToastContainer />
-        <Outlet />
+        <When value={isOudated}>
+          <UpdateAvailableMessage />
+        </When>
+        <When value={!isOudated}>
+          <Outlet />
+        </When>
       </div>
     </div>
   );
