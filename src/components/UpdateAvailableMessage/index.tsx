@@ -2,7 +2,7 @@ import { Updater } from "@/config/updater";
 import { Button } from "../Button";
 import styles from "./style.module.scss";
 
-export function UpdateAvailableMessage() {
+export function UpdateAvailableMessage(props: { onCancelUpdate: () => void }) {
   return (
     <div className={styles.container}>
       <div className={styles.imageMessageContainer}>
@@ -15,7 +15,15 @@ export function UpdateAvailableMessage() {
         </div>
       </div>
 
-      <Button label="Update" onClick={() => Updater.performImmediateUpdate()} />
+      <Button
+        label="Update Now"
+        onClick={() => Updater.performImmediateUpdate()}
+      />
+      <Button
+        theme="danger"
+        label="Update later (App might not work)"
+        onClick={() => props.onCancelUpdate()}
+      />
     </div>
   );
 }

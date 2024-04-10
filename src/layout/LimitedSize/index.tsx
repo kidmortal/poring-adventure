@@ -23,7 +23,9 @@ export function LimitedSizeLayout() {
   }
 
   useEffect(() => {
-    verifyAppVersion();
+    if (plataform === "android") {
+      verifyAppVersion();
+    }
   }, []);
 
   return (
@@ -36,7 +38,7 @@ export function LimitedSizeLayout() {
       >
         <ToastContainer />
         <When value={isOudated}>
-          <UpdateAvailableMessage />
+          <UpdateAvailableMessage onCancelUpdate={() => setIsOudated(false)} />
         </When>
         <When value={!isOudated}>
           <Outlet />

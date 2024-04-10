@@ -5,6 +5,7 @@ import cn from "classnames";
 export function Pagination(props: {
   totalCount: number;
   onPageChange: (page: number) => void;
+  className?: string;
 }) {
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -16,7 +17,7 @@ export function Pagination(props: {
   };
 
   return (
-    <div className={styles.container}>
+    <div className={cn(styles.container, props.className)}>
       {Array.from({ length: totalPages }, (_, index) => index + 1).map(
         (page) => (
           <button

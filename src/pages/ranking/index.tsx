@@ -1,27 +1,29 @@
 import { Query } from "@/store/query";
 import styles from "./style.module.scss";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 import { FullscreenLoading } from "@/components/FullscreenLoading";
 import { useMainStore } from "@/store/main";
 import { useWebsocketApi } from "@/api/websocketServer";
 import { Button } from "@/components/Button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { When } from "@/components/When";
 import { PlayersRankingPage } from "./players";
 import { GuildRankingPage } from "./guilds";
+import { Pagination } from "@/components/Pagination";
 
 export function RankingPage() {
   const [switchRanking, setSwitchRanking] = useState<"players" | "guild">(
     "players"
   );
   const api = useWebsocketApi();
+  const queryClient = useQueryClient();
   const store = useMainStore();
   const query = useQuery({
     queryKey: [Query.ALL_CHARACTERS],
     enabled: !!store.websocket,
     staleTime: 1000 * 10, // 10 seconds
-    queryFn: () => api.users.getFirst10Users(),
+    queryFn: () => api.users.getRankingUsers({ page: store.rankingPage }),
   });
 
   const queryGuild = useQuery({
@@ -30,6 +32,10 @@ export function RankingPage() {
     staleTime: 1000 * 60 * 5, // 5 minutes
     queryFn: () => api.guild.getAllGuilds(),
   });
+
+  useEffect(() => {
+    queryClient.invalidateQueries({ queryKey: [Query.ALL_CHARACTERS] });
+  }, [store.rankingPage]);
 
   if (query.isLoading) {
     return <FullscreenLoading info="Player List" />;
@@ -43,6 +49,13 @@ export function RankingPage() {
       </div>
       <When value={switchRanking === "players"}>
         <PlayersRankingPage users={query.data} />
+        <Pagination
+          className={styles.pagination}
+          totalCount={100}
+          onPageChange={(p) => {
+            store.setRankingPage(p);
+          }}
+        />
       </When>
       <When value={switchRanking === "guild"}>
         <GuildRankingPage guilds={queryGuild.data} />

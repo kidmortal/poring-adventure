@@ -25,6 +25,8 @@ export interface MainStoreState {
   mailBox: Mail[];
   guild?: Guild;
   inventoryFilter: InventoryFilters;
+  rankingPage: number;
+  setRankingPage: (v: number) => void;
   setMailBox: (v: Mail[]) => void;
   setGuild: (v: Guild) => void;
   setMarketFilterPage: (page: number) => void;
@@ -50,6 +52,8 @@ export const useMainStore = create<MainStoreState>()((set) => ({
     page: 1,
     category: "all",
   },
+  rankingPage: 1,
+  setRankingPage: (v) => set(() => ({ rankingPage: v })),
   setMarketFilterPage: (v) =>
     set((state) => ({ marketFilters: { ...state.marketFilters, page: v } })),
   setMarketFilterCategory: (v) =>
