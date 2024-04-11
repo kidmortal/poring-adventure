@@ -75,13 +75,19 @@ yarn run build:local
 yarn run build:local
 ```
 
-4. **Sync with Capacitor**: Update dependencies and sync the React build with Capacitor:
+4. **Generate assets**: (Optional) in case you changed something inside /resources
+
+```bash
+yarn run build:assets
+```
+
+5. **Sync with Capacitor**: Update dependencies and sync the React build with Capacitor:
 
 ```bash
 yarn run sync:app
 ```
 
-5. **Generate APK or AAB File**: Update the version in `android/app/build.gradle`, then generate the APK or AAB file:
+6. **Generate APK or AAB File**: Update the version in `android/app/build.gradle`, then generate the APK or AAB file:
 
 ```bash
 yarn run build:app
