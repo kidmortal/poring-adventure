@@ -11,10 +11,11 @@ import { MarketPage } from "./pages/market/index.tsx";
 import { ModalLayout } from "./layout/Modal/index.tsx";
 import { BattlePage } from "./pages/battle/index.tsx";
 import { WebsocketLayout } from "./layout/Websocket/index.tsx";
-import AdminSocketManager from "./pages/adminSocketManager/index.tsx";
+
 import { AdminLayout } from "./layout/Admin/index.tsx";
 import { GuildPage } from "./pages/guild/index.tsx";
 import { LoginPage } from "./pages/login/index.tsx";
+import { AdminPage } from "./pages/admin/index.tsx";
 
 export function Router() {
   return (
@@ -36,7 +37,7 @@ export function Router() {
                       <Route path="/battle" element={<BattlePage />} />
                       <Route path="/guild" element={<GuildPage />} />
                       <Route element={<AdminLayout />}>
-                        <Route path="/admin" element={<AdminSocketManager />} />
+                        <Route path="/admin" element={<AdminPage />} />
                       </Route>
                       <Route path="*" element={<ProfilePage />} />
                     </Route>

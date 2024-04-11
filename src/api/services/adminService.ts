@@ -17,6 +17,11 @@ export function adminService({ websocket }: { websocket?: Socket }) {
     return asyncEmit(websocket, "clear_all_cache", "");
   }
 
+  async function pushNotification(args: { message: string }) {
+    if (!websocket) return undefined;
+    return asyncEmit(websocket, "send_push_notification", args.message);
+  }
+
   async function sendWebsocketNotification(args: {
     to: string;
     message: string;
@@ -34,5 +39,6 @@ export function adminService({ websocket }: { websocket?: Socket }) {
     sendWebsocketNotification,
     getAllWebsockets,
     clearCache,
+    pushNotification,
   };
 }

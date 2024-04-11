@@ -5,7 +5,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import styles from "./style.module.scss";
 import { Button } from "@/components/Button";
 
-export default function AdminSocketManager() {
+export function AdminPage() {
   const store = useMainStore();
   const api = useWebsocketApi();
   const query = useQuery({
@@ -24,6 +24,10 @@ export default function AdminSocketManager() {
     mutationFn: () => api.admin.clearCache(),
   });
 
+  const pushNotificationMutation = useMutation({
+    mutationFn: () => api.admin.pushNotification({ message: "Test message" }),
+  });
+
   if (query.isLoading) {
     return <FullscreenLoading info="Admin socket" />;
   }
@@ -35,6 +39,12 @@ export default function AdminSocketManager() {
         onClick={() => clearCacheMutation.mutate()}
         disabled={clearCacheMutation.isPending}
       />
+      <Button
+        label="Send Push Notification"
+        onClick={() => pushNotificationMutation.mutate()}
+        disabled={pushNotificationMutation.isPending}
+      />
+
       {query.data?.map((socket) => (
         <div className={styles.row}>
           <div>
