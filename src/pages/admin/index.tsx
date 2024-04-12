@@ -10,6 +10,7 @@ import { MdOutlineCached } from "react-icons/md";
 import { IoIosSend } from "react-icons/io";
 import { VscDebugDisconnect } from "react-icons/vsc";
 import { FaGift } from "react-icons/fa6";
+import { MdMemory } from "react-icons/md";
 import { CharacterHead } from "@/components/CharacterInfo";
 import HealthBar from "@/components/HealthBar";
 import ManaBar from "@/components/ManaBar";
@@ -23,6 +24,12 @@ export function AdminPage() {
     staleTime: 1000 * 10, // 10 seconds
     queryFn: () => api.admin.getAllConnectedUsers(),
   });
+  const serverQuery = useQuery({
+    queryKey: ["server"],
+    enabled: !!store.websocket,
+    staleTime: 1000 * 10, // 10 seconds
+    queryFn: () => api.admin.getServerInfo(),
+  });
 
   const clearCacheMutation = useMutation({
     mutationFn: () => api.admin.clearCache(),
@@ -32,13 +39,15 @@ export function AdminPage() {
     mutationFn: () => api.admin.pushNotification({ message: "Test message" }),
   });
 
+  console.log(serverQuery.data);
+
   if (query.isLoading) {
     return <FullscreenLoading info="Admin socket" />;
   }
 
   return (
     <div className={styles.container}>
-      <div className={styles.row}>
+      <div className={styles.mainSectionRow}>
         <div className={styles.adminActions}>
           <Button
             label={
@@ -61,6 +70,15 @@ export function AdminPage() {
             onClick={() => pushNotificationMutation.mutate()}
             disabled={pushNotificationMutation.isPending}
           />
+        </div>
+        <div className={styles.serverInfoContainer}>
+          <span>Hash: {serverQuery.data?.branchHash.slice(0, 15)}</span>
+          <div className={styles.ramInfoContainer}>
+            <MdMemory size={20} />
+            <span>
+              {`${serverQuery.data?.memoryInfo.memoryUsage} / ${serverQuery.data?.memoryInfo.totalMemory}`}
+            </span>
+          </div>
         </div>
       </div>
       <div className={styles.socketList}>

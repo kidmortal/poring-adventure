@@ -1,6 +1,16 @@
 import { Socket } from "socket.io-client";
 import { asyncEmit } from "../websocketServer";
 
+type ServerInfo = {
+  branchHash: string;
+  memoryInfo: MemoryInfo;
+};
+
+type MemoryInfo = {
+  totalMemory: string;
+  memoryUsage: string;
+};
+
 export function adminService({ websocket }: { websocket?: Socket }) {
   async function getAllConnectedUsers() {
     if (!websocket) return undefined;
@@ -36,6 +46,11 @@ export function adminService({ websocket }: { websocket?: Socket }) {
     return asyncEmit(websocket, "send_push_notification_user", args);
   }
 
+  async function getServerInfo() {
+    if (!websocket) return undefined;
+    return asyncEmit<ServerInfo>(websocket, "get_server_info", "");
+  }
+
   async function sendWebsocketNotification(args: {
     to: string;
     message: string;
@@ -54,6 +69,7 @@ export function adminService({ websocket }: { websocket?: Socket }) {
     pushNotificationToUser,
     getAllConnectedUsers,
     clearCache,
+    getServerInfo,
     pushNotification,
     disconnectUser,
     sendGiftMail,
