@@ -11,6 +11,7 @@ apply from: "../capacitor-cordova-android-plugins/cordova.variables.gradle"
 dependencies {
     implementation project(':capacitor-firebase-authentication')
     implementation project(':capawesome-capacitor-app-update')
+    implementation "com.android.billingclient:billing:5.2.1"
     implementation "com.onesignal:OneSignal:4.8.8"
 }
 apply from: "../../node_modules/onesignal-cordova-plugin/build-extras-onesignal.gradle"

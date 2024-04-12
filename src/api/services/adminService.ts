@@ -2,14 +2,10 @@ import { Socket } from "socket.io-client";
 import { asyncEmit } from "../websocketServer";
 
 export function adminService({ websocket }: { websocket?: Socket }) {
-  async function getAllWebsockets() {
+  async function getAllConnectedUsers() {
     if (!websocket) return undefined;
 
-    return asyncEmit<{ id: string; email: string }[]>(
-      websocket,
-      "get_all_sockets",
-      ""
-    );
+    return asyncEmit<User[]>(websocket, "get_all_connected_users", "");
   }
 
   async function clearCache() {
@@ -25,6 +21,11 @@ export function adminService({ websocket }: { websocket?: Socket }) {
   async function disconnectUser(args: { email: string }) {
     if (!websocket) return undefined;
     return asyncEmit(websocket, "disconnect_user_websocket", args.email);
+  }
+
+  async function sendGiftMail(args: { email: string }) {
+    if (!websocket) return undefined;
+    return asyncEmit(websocket, "send_gift_mail", args.email);
   }
 
   async function pushNotificationToUser(args: {
@@ -51,9 +52,10 @@ export function adminService({ websocket }: { websocket?: Socket }) {
   return {
     sendWebsocketNotification,
     pushNotificationToUser,
-    getAllWebsockets,
+    getAllConnectedUsers,
     clearCache,
     pushNotification,
     disconnectUser,
+    sendGiftMail,
   };
 }

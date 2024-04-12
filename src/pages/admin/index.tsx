@@ -9,6 +9,10 @@ import { FaRegBell } from "react-icons/fa";
 import { MdOutlineCached } from "react-icons/md";
 import { IoIosSend } from "react-icons/io";
 import { VscDebugDisconnect } from "react-icons/vsc";
+import { FaGift } from "react-icons/fa6";
+import { CharacterHead } from "@/components/CharacterInfo";
+import HealthBar from "@/components/HealthBar";
+import ManaBar from "@/components/ManaBar";
 
 export function AdminPage() {
   const store = useMainStore();
@@ -16,8 +20,8 @@ export function AdminPage() {
   const query = useQuery({
     queryKey: ["sockets"],
     enabled: !!store.websocket,
-    staleTime: 1000 * 2,
-    queryFn: () => api.admin.getAllWebsockets(),
+    staleTime: 1000 * 10, // 10 seconds
+    queryFn: () => api.admin.getAllConnectedUsers(),
   });
 
   const clearCacheMutation = useMutation({
@@ -59,65 +63,97 @@ export function AdminPage() {
           />
         </div>
       </div>
-
-      <ForEach
-        items={query.data}
-        render={(socket) => <ManageUser key={socket.id} socket={socket} />}
-      />
+      <div className={styles.socketList}>
+        <ForEach
+          items={query.data}
+          render={(user) => <ManageUser key={user.id} user={user} />}
+        />
+      </div>
     </div>
   );
 }
 
-function ManageUser({
-  socket,
-}: {
-  socket: {
-    id: string;
-    email: string;
-  };
-}) {
+function ManageUser({ user }: { user: User }) {
   const api = useWebsocketApi();
   const notificationMutation = useMutation({
     mutationFn: () =>
       api.admin.sendWebsocketNotification({
-        to: socket.email,
+        to: user.email,
         message: "You have been hacked",
       }),
   });
   const disconnectMutation = useMutation({
     mutationFn: () =>
       api.admin.disconnectUser({
-        email: socket.email,
+        email: user.email,
+      }),
+  });
+
+  const sendGiftMutation = useMutation({
+    mutationFn: () =>
+      api.admin.sendGiftMail({
+        email: user.email,
       }),
   });
   const pushNotificationToUserMutation = useMutation({
     mutationFn: () =>
       api.admin.pushNotificationToUser({
         message: "Test message",
-        email: socket.email,
+        email: user.email,
       }),
   });
 
   return (
     <div className={styles.userSocketContainer}>
-      <span>{socket.email}</span>
-      <Button
-        label={<IoIosSend />}
-        onClick={() => notificationMutation.mutate()}
-        disabled={notificationMutation.isPending}
-      />
-      <Button
-        theme="secondary"
-        label={<FaRegBell />}
-        onClick={() => pushNotificationToUserMutation.mutate()}
-        disabled={notificationMutation.isPending}
-      />
-      <Button
-        theme="danger"
-        label={<VscDebugDisconnect />}
-        onClick={() => disconnectMutation.mutate()}
-        disabled={disconnectMutation.isPending}
-      />
+      <div className={styles.userInfoContainer}>
+        <CharacterHead
+          head={user.appearance.head}
+          gender={user.appearance.gender}
+          className={styles.userHead}
+        />
+
+        <div className={styles.generalInfoContainer}>
+          <span>{user.name}</span>
+          <span>{`LV ${user.stats?.level} ${user.profession?.name}`}</span>
+        </div>
+
+        <div className={styles.statsContainer}>
+          <HealthBar
+            currentHealth={user.stats?.health ?? 0}
+            maxHealth={user.stats?.maxHealth ?? 0}
+          />
+          <ManaBar
+            currentHealth={user.stats?.mana ?? 0}
+            maxHealth={user.stats?.maxMana ?? 0}
+          />
+        </div>
+      </div>
+
+      <div className={styles.socketActions}>
+        <Button
+          label={<IoIosSend />}
+          onClick={() => notificationMutation.mutate()}
+          disabled={notificationMutation.isPending}
+        />
+        <Button
+          theme="secondary"
+          label={<FaRegBell />}
+          onClick={() => pushNotificationToUserMutation.mutate()}
+          disabled={pushNotificationToUserMutation.isPending}
+        />
+        <Button
+          theme="secondary"
+          label={<FaGift />}
+          onClick={() => sendGiftMutation.mutate()}
+          disabled={sendGiftMutation.isPending}
+        />
+        <Button
+          theme="danger"
+          label={<VscDebugDisconnect />}
+          onClick={() => disconnectMutation.mutate()}
+          disabled={disconnectMutation.isPending}
+        />
+      </div>
     </div>
   );
 }

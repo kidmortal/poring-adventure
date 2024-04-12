@@ -5,13 +5,15 @@ import { useState } from "react";
 export function CharacterHead({
   gender,
   head,
+  className,
 }: {
   head: string;
   gender: "male" | "female";
+  className?: string;
 }) {
   return (
     <img
-      className={styles.isolatedHeadContainer}
+      className={cn(styles.isolatedHeadContainer, className)}
       src={`https://kidmortal.sirv.com/heads/${gender}/${head}/front.png`}
     />
   );

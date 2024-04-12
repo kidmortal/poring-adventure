@@ -2053,6 +2053,11 @@ convert-source-map@^2.0.0:
   resolved "https://registry.yarnpkg.com/convert-source-map/-/convert-source-map-2.0.0.tgz#4b560f649fc4e918dd0ab75cf4961e8bc882d82a"
   integrity sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==
 
+cordova-plugin-purchase@^13.10.1:
+  version "13.10.1"
+  resolved "https://registry.yarnpkg.com/cordova-plugin-purchase/-/cordova-plugin-purchase-13.10.1.tgz#4715f19c9fbea6df6dadefc0fd1faae7b691db12"
+  integrity sha512-6W7xc505N9cq0hkFR57CKmUsJdJtCkT5HdqfQdJRKmYmXkS/LDey4x2TsFVKYkHu6S/rWQSS4lHU7DvxGl0jxA==
+
 core-util-is@~1.0.0:
   version "1.0.3"
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.3.tgz#a6042d3634c2b27e9328f837b965fac83808db85"
