@@ -1,5 +1,5 @@
 import { Outlet, useNavigate } from "react-router-dom";
-import { Socket, io } from "socket.io-client";
+import { io } from "socket.io-client";
 
 import { useEffect, useState } from "react";
 import { useMainStore } from "@/store/main";
@@ -10,21 +10,20 @@ import { useModalStore } from "@/store/modal";
 import { useWebsocketApi } from "@/api/websocketServer";
 import { addWebsocketListeners } from "./listeners";
 import { addToastListeners } from "./toastListener";
+import { WebsocketDisconnectedMessageScreen } from "@/screens/WebsocketDisconnected";
 
 export function WebsocketLayout() {
-  const [temporarySocket, setTemporarySocket] = useState<Socket | undefined>();
+  const [disconnected, setDisconnected] = useState(false);
+
   const store = useMainStore();
   const modal = useModalStore();
   const battleStore = useBattleStore();
   const api = useWebsocketApi();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (
-      store.loggedUserInfo.accessToken &&
-      !temporarySocket &&
-      !store.websocket
-    ) {
+  function connectToWS() {
+    if (store.loggedUserInfo.accessToken && !store.websocket) {
+      setDisconnected(false);
       const socket = io(import.meta.env.VITE_API_URL, {
         auth: { acessToken: store.loggedUserInfo.accessToken },
       });
@@ -33,14 +32,21 @@ export function WebsocketLayout() {
         store.setWsAuthenticated(true);
       });
 
-      setTemporarySocket(socket);
       socket.on("connect", () => {
         store.setWebsocket(socket);
+      });
+      socket.on("disconnect", () => {
+        store.setWebsocket(undefined);
+        setDisconnected(true);
       });
       socket.on("connect_error", () => {
         store.setWebsocket(undefined);
       });
     }
+  }
+
+  useEffect(() => {
+    connectToWS();
   }, [store.loggedUserInfo.accessToken]);
 
   useEffect(() => {
@@ -58,6 +64,12 @@ export function WebsocketLayout() {
       addToastListeners(params);
     }
   }, [store.websocket]);
+
+  if (disconnected) {
+    return (
+      <WebsocketDisconnectedMessageScreen onReconnect={() => connectToWS()} />
+    );
+  }
 
   if (!store.websocket && !store.wsAuthenticated) {
     return <FullscreenLoading info={"Server connection"} />;

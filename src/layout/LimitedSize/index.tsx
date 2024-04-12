@@ -6,7 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import cn from "classnames";
 import { useEffect, useState } from "react";
 import { Updater } from "@/config/updater";
-import { UpdateAvailableMessage } from "@/components/UpdateAvailableMessage";
+import { UpdateAvailableMessageScreen } from "@/screens/UpdateAvailableMessage";
 import { When } from "@/components/When";
 
 export function LimitedSizeLayout() {
@@ -14,11 +14,15 @@ export function LimitedSizeLayout() {
   const plataform = Capacitor.getPlatform();
 
   async function verifyAppVersion() {
-    const currentVersion = await Updater.getCurrentAppVersion();
-    const availableVersion = await Updater.getAvailableAppVersion();
+    try {
+      const currentVersion = await Updater.getCurrentAppVersion();
+      const availableVersion = await Updater.getAvailableAppVersion();
 
-    if (currentVersion !== availableVersion) {
-      setIsOudated(true);
+      if (currentVersion !== availableVersion) {
+        setIsOudated(true);
+      }
+    } catch (error) {
+      console.log("cant update");
     }
   }
 
@@ -38,7 +42,9 @@ export function LimitedSizeLayout() {
       >
         <ToastContainer />
         <When value={isOudated}>
-          <UpdateAvailableMessage onCancelUpdate={() => setIsOudated(false)} />
+          <UpdateAvailableMessageScreen
+            onCancelUpdate={() => setIsOudated(false)}
+          />
         </When>
         <When value={!isOudated}>
           <Outlet />

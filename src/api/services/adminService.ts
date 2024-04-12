@@ -22,6 +22,19 @@ export function adminService({ websocket }: { websocket?: Socket }) {
     return asyncEmit(websocket, "send_push_notification", args.message);
   }
 
+  async function disconnectUser(args: { email: string }) {
+    if (!websocket) return undefined;
+    return asyncEmit(websocket, "disconnect_user_websocket", args.email);
+  }
+
+  async function pushNotificationToUser(args: {
+    email: string;
+    message: string;
+  }) {
+    if (!websocket) return undefined;
+    return asyncEmit(websocket, "send_push_notification_user", args);
+  }
+
   async function sendWebsocketNotification(args: {
     to: string;
     message: string;
@@ -37,8 +50,10 @@ export function adminService({ websocket }: { websocket?: Socket }) {
 
   return {
     sendWebsocketNotification,
+    pushNotificationToUser,
     getAllWebsockets,
     clearCache,
     pushNotification,
+    disconnectUser,
   };
 }

@@ -1,8 +1,10 @@
 import { Updater } from "@/config/updater";
-import { Button } from "../Button";
+import { Button } from "../../components/Button";
 import styles from "./style.module.scss";
 
-export function UpdateAvailableMessage(props: { onCancelUpdate: () => void }) {
+export function UpdateAvailableMessageScreen(props: {
+  onCancelUpdate: () => void;
+}) {
   return (
     <div className={styles.container}>
       <div className={styles.imageMessageContainer}>
