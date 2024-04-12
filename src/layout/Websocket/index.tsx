@@ -11,11 +11,14 @@ import { useWebsocketApi } from "@/api/websocketServer";
 import { addWebsocketListeners } from "./listeners";
 import { addToastListeners } from "./toastListener";
 import { WebsocketDisconnectedMessageScreen } from "@/screens/WebsocketDisconnected";
+import { addAdminWebsocketListeners } from "./adminListeners";
+import { useAdminStore } from "@/store/admin";
 
 export function WebsocketLayout() {
   const [disconnected, setDisconnected] = useState(false);
 
   const store = useMainStore();
+  const adminStore = useAdminStore();
   const modal = useModalStore();
   const battleStore = useBattleStore();
   const api = useWebsocketApi();
@@ -61,6 +64,10 @@ export function WebsocketLayout() {
       };
 
       addWebsocketListeners(params);
+      addAdminWebsocketListeners({
+        websocket: store.websocket,
+        store: adminStore,
+      });
       addToastListeners(params);
     }
   }, [store.websocket]);

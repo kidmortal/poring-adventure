@@ -1,14 +1,14 @@
 import { Socket } from "socket.io-client";
 import { asyncEmit } from "../websocketServer";
 
-type ServerInfo = {
+export type ServerInfo = {
   branchHash: string;
   memoryInfo: MemoryInfo;
 };
 
 type MemoryInfo = {
-  totalMemory: string;
-  memoryUsage: string;
+  totalMemory: number;
+  memoryUsage: number;
 };
 
 export function adminService({ websocket }: { websocket?: Socket }) {
@@ -21,6 +21,11 @@ export function adminService({ websocket }: { websocket?: Socket }) {
   async function clearCache() {
     if (!websocket) return undefined;
     return asyncEmit(websocket, "clear_all_cache", "");
+  }
+
+  async function restartServer() {
+    if (!websocket) return undefined;
+    return asyncEmit(websocket, "restart_server", "");
   }
 
   async function pushNotification(args: { message: string }) {
@@ -67,6 +72,7 @@ export function adminService({ websocket }: { websocket?: Socket }) {
   return {
     sendWebsocketNotification,
     pushNotificationToUser,
+    restartServer,
     getAllConnectedUsers,
     clearCache,
     getServerInfo,

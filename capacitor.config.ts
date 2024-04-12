@@ -5,8 +5,8 @@ const config: CapacitorConfig = {
   appName: "Poring Adventure",
   webDir: "dist",
   server: {
-    url: "http://192.168.0.93:3000",
-    cleartext: true,
+    // url: "http://192.168.0.93:3000",
+    // cleartext: true,
   },
   plugins: {
     FirebaseAuthentication: {

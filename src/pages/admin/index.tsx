@@ -11,39 +11,53 @@ import { IoIosSend } from "react-icons/io";
 import { VscDebugDisconnect } from "react-icons/vsc";
 import { FaGift } from "react-icons/fa6";
 import { MdMemory } from "react-icons/md";
+import { MdOutlineRestartAlt } from "react-icons/md";
+import { LiaCodeBranchSolid } from "react-icons/lia";
 import { CharacterHead } from "@/components/CharacterInfo";
 import HealthBar from "@/components/HealthBar";
 import ManaBar from "@/components/ManaBar";
+import { useAdminStore } from "@/store/admin";
+import cn from "classnames";
+import { Utils } from "@/utils";
 
 export function AdminPage() {
+  const adminStore = useAdminStore();
   const store = useMainStore();
   const api = useWebsocketApi();
-  const query = useQuery({
+  useQuery({
     queryKey: ["sockets"],
     enabled: !!store.websocket,
-    staleTime: 1000 * 10, // 10 seconds
     queryFn: () => api.admin.getAllConnectedUsers(),
+    refetchInterval: 4000,
   });
-  const serverQuery = useQuery({
+  useQuery({
     queryKey: ["server"],
     enabled: !!store.websocket,
-    staleTime: 1000 * 10, // 10 seconds
     queryFn: () => api.admin.getServerInfo(),
+    refetchInterval: 2000,
   });
 
   const clearCacheMutation = useMutation({
     mutationFn: () => api.admin.clearCache(),
   });
 
+  const restartServer = useMutation({
+    mutationFn: () => api.admin.restartServer(),
+  });
+
   const pushNotificationMutation = useMutation({
     mutationFn: () => api.admin.pushNotification({ message: "Test message" }),
   });
 
-  console.log(serverQuery.data);
-
-  if (query.isLoading) {
-    return <FullscreenLoading info="Admin socket" />;
+  if (!adminStore.serverInfo) {
+    return <FullscreenLoading info="Admin page" />;
   }
+
+  const memory = adminStore.serverInfo?.memoryInfo;
+
+  const memoryPercentage = Math.floor(
+    ((memory?.memoryUsage ?? 0) / (memory?.totalMemory ?? 0)) * 100
+  );
 
   return (
     <div className={styles.container}>
@@ -61,10 +75,21 @@ export function AdminPage() {
             theme="secondary"
           />
           <Button
+            theme="danger"
+            label={
+              <div>
+                <MdOutlineRestartAlt />
+                <span>Restart Server</span>
+              </div>
+            }
+            onClick={() => restartServer.mutate()}
+            disabled={restartServer.isPending}
+          />
+          <Button
             label={
               <div>
                 <FaRegBell />
-                <span>Push Notification</span>
+                <span>Push Notif</span>
               </div>
             }
             onClick={() => pushNotificationMutation.mutate()}
@@ -72,18 +97,29 @@ export function AdminPage() {
           />
         </div>
         <div className={styles.serverInfoContainer}>
-          <span>Hash: {serverQuery.data?.branchHash.slice(0, 15)}</span>
+          <div className={styles.branchContainer}>
+            <LiaCodeBranchSolid size={20} />
+            <span>{adminStore.serverInfo?.branchHash.slice(0, 15)}</span>
+          </div>
           <div className={styles.ramInfoContainer}>
             <MdMemory size={20} />
-            <span>
-              {`${serverQuery.data?.memoryInfo.memoryUsage} / ${serverQuery.data?.memoryInfo.totalMemory}`}
+            <span
+              className={cn({
+                [styles.lowMemory]: true,
+                [styles.mediumMemory]: memoryPercentage >= 40,
+                [styles.highMemory]: memoryPercentage >= 70,
+              })}
+            >
+              {`${Utils.formatMemory(
+                memory.memoryUsage
+              )} / ${Utils.formatMemory(memory.totalMemory)}`}
             </span>
           </div>
         </div>
       </div>
       <div className={styles.socketList}>
         <ForEach
-          items={query.data}
+          items={adminStore.connectedUsers}
           render={(user) => <ManageUser key={user.id} user={user} />}
         />
       </div>
