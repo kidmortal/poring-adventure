@@ -4,10 +4,12 @@ import { MainStoreState } from "@/store/main";
 import { ModalState } from "@/store/modal";
 import { BattleState } from "@/store/battle";
 import { WebsocketApi } from "@/api/websocketServer";
+import { UserStoreState } from "@/store/user";
 
 export function addWebsocketListeners({
   websocket,
   store,
+  userStore,
   modal,
   battle,
   pushToScreen,
@@ -15,6 +17,7 @@ export function addWebsocketListeners({
   websocket: Socket;
   api: WebsocketApi;
   store: MainStoreState;
+  userStore: UserStoreState;
   modal: ModalState;
   battle: BattleState;
   pushToScreen: (s: string) => void;
@@ -24,14 +27,14 @@ export function addWebsocketListeners({
   );
   websocket.on("user_update", (user: User) => {
     console.log(user);
-    store.setUserCharacterData(user);
+    userStore.setUser(user);
   });
   websocket.on("party_data", (party: Party) => modal.setPartyInfo({ party }));
   websocket.on("party_data", (party: Party) => modal.setPartyInfo({ party }));
-  websocket.on("mailbox", (mailBox: Mail[]) => store.setMailBox(mailBox));
+  websocket.on("mailbox", (mailBox: Mail[]) => userStore.setMailBox(mailBox));
   websocket.on("guild", (guild: Guild) => {
     console.log(guild);
-    store.setGuild(guild);
+    userStore.setGuild(guild);
   });
   websocket.on("battle_update", (b: Battle) => {
     if (!window.location.pathname.includes("battle")) {

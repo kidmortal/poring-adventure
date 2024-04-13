@@ -1,6 +1,5 @@
 import { useWebsocketApi } from "@/api/websocketServer";
 import { FullscreenLoading } from "@/components/FullscreenLoading";
-import { useMainStore } from "@/store/main";
 import styles from "./style.module.scss";
 import { Query } from "@/store/query";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -13,6 +12,7 @@ import { CharacterWithHealthBar } from "@/components/CharacterWithHealthBar";
 import { BattleLogs } from "./components/BattleLogs";
 import { BattleActions } from "./components/BattleActions";
 import MapInfo from "./components/MapInfo";
+import { useUserStore } from "@/store/user";
 
 function highestAggroUser(users: BattleUser[]) {
   let highestAggro = users[0];
@@ -27,7 +27,7 @@ function highestAggroUser(users: BattleUser[]) {
 }
 
 export function BattlePage() {
-  const store = useMainStore();
+  const userStore = useUserStore();
   const queryClient = useQueryClient();
   const battleStore = useBattleStore();
   const api = useWebsocketApi();
@@ -48,8 +48,8 @@ export function BattlePage() {
   const userIsInBattle = !!battle;
   const battleIsFinished = battle?.battleFinished || false;
 
-  const userEmail = store.userCharacterData?.email ?? "";
-  const userName = store.userCharacterData?.name ?? "";
+  const userEmail = userStore.user?.email ?? "";
+  const userName = userStore.user?.name ?? "";
   const turnIndex = battle?.attackerTurn ?? 0;
   const turnName = battle?.attackerList[turnIndex ?? 0];
   const isYourTurn = userName === turnName;

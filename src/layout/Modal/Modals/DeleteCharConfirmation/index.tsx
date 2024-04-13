@@ -5,9 +5,9 @@ import { When } from "@/components/When";
 import { FullscreenLoading } from "@/components/FullscreenLoading";
 import { useWebsocketApi } from "@/api/websocketServer";
 import { CharacterWithHealthBar } from "@/components/CharacterWithHealthBar";
-import { useMainStore } from "@/store/main";
 
 import { Button } from "@/components/Button";
+import { useUserStore } from "@/store/user";
 
 type Props = {
   isOpen?: boolean;
@@ -15,7 +15,7 @@ type Props = {
 };
 
 export function DeleteCharConfirmationModal(props: Props) {
-  const store = useMainStore();
+  const userStore = useUserStore();
 
   const api = useWebsocketApi();
   const queryClient = useQueryClient();
@@ -33,7 +33,7 @@ export function DeleteCharConfirmationModal(props: Props) {
       <When value={deleteUserMutation.isPending}>
         <FullscreenLoading info="User Deletion" />
       </When>
-      <CharacterWithHealthBar user={store.userCharacterData} />
+      <CharacterWithHealthBar user={userStore.user} />
       <h2>Are you sure? There is no coming back</h2>
       <Button
         label="Yes, Delete my char"

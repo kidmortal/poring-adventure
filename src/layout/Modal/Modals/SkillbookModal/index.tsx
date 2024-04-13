@@ -1,11 +1,11 @@
 import { BaseModal } from "../BaseModal";
 
-import { useMainStore } from "@/store/main";
 import { useMutation } from "@tanstack/react-query";
 import { useWebsocketApi } from "@/api/websocketServer";
 import EquippedSkills from "./components/EquippedSkills";
 import LearnedSkills from "./components/LearnedSkills";
 import NotLearnedSkills from "./components/NotLearnedSkills";
+import { useUserStore } from "@/store/user";
 
 type Props = {
   isOpen?: boolean;
@@ -14,9 +14,9 @@ type Props = {
 
 export function SkillbookModal(props: Props) {
   const api = useWebsocketApi();
-  const store = useMainStore();
-  const allSkills = store.userCharacterData?.profession?.skills;
-  const learnedSkills = store.userCharacterData?.learnedSkills;
+  const userStore = useUserStore();
+  const allSkills = userStore.user?.profession?.skills;
+  const learnedSkills = userStore.user?.learnedSkills;
   const availableSkills = learnedSkills?.filter((l) => !l.equipped);
   const equippedSkills = learnedSkills?.filter((l) => l.equipped);
   const notLearnedSkills =

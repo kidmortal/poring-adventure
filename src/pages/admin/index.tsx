@@ -19,6 +19,7 @@ import ManaBar from "@/components/ManaBar";
 import { useAdminStore } from "@/store/admin";
 import cn from "classnames";
 import { Utils } from "@/utils";
+import { ServerInfo } from "@/api/services/adminService";
 
 export function AdminPage() {
   const adminStore = useAdminStore();
@@ -52,12 +53,6 @@ export function AdminPage() {
   if (!adminStore.serverInfo) {
     return <FullscreenLoading info="Admin page" />;
   }
-
-  const memory = adminStore.serverInfo?.memoryInfo;
-
-  const memoryPercentage = Math.floor(
-    ((memory?.memoryUsage ?? 0) / (memory?.totalMemory ?? 0)) * 100
-  );
 
   return (
     <div className={styles.container}>
@@ -96,32 +91,43 @@ export function AdminPage() {
             disabled={pushNotificationMutation.isPending}
           />
         </div>
-        <div className={styles.serverInfoContainer}>
-          <div className={styles.branchContainer}>
-            <LiaCodeBranchSolid size={20} />
-            <span>{adminStore.serverInfo?.branchHash.slice(0, 15)}</span>
-          </div>
-          <div className={styles.ramInfoContainer}>
-            <MdMemory size={20} />
-            <span
-              className={cn({
-                [styles.lowMemory]: true,
-                [styles.mediumMemory]: memoryPercentage >= 40,
-                [styles.highMemory]: memoryPercentage >= 70,
-              })}
-            >
-              {`${Utils.formatMemory(
-                memory.memoryUsage
-              )} / ${Utils.formatMemory(memory.totalMemory)}`}
-            </span>
-          </div>
-        </div>
+        <ServerInfoBox serverInfo={adminStore.serverInfo} />
       </div>
       <div className={styles.socketList}>
         <ForEach
           items={adminStore.connectedUsers}
           render={(user) => <ManageUser key={user.id} user={user} />}
         />
+      </div>
+    </div>
+  );
+}
+
+function ServerInfoBox({ serverInfo }: { serverInfo: ServerInfo }) {
+  const memory = serverInfo?.memoryInfo;
+
+  const memoryPercentage = Math.floor(
+    ((memory?.memoryUsage ?? 0) / (memory?.totalMemory ?? 0)) * 100
+  );
+  return (
+    <div className={styles.serverInfoContainer}>
+      <div className={styles.branchContainer}>
+        <LiaCodeBranchSolid size={20} />
+        <span>{serverInfo?.branchHash.slice(0, 15)}</span>
+      </div>
+      <div className={styles.ramInfoContainer}>
+        <MdMemory size={20} />
+        <span
+          className={cn({
+            [styles.lowMemory]: true,
+            [styles.mediumMemory]: memoryPercentage >= 40,
+            [styles.highMemory]: memoryPercentage >= 70,
+          })}
+        >
+          {`${Utils.formatMemory(memory.memoryUsage)} / ${Utils.formatMemory(
+            memory.totalMemory
+          )}`}
+        </span>
       </div>
     </div>
   );

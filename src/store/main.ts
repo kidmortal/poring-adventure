@@ -17,7 +17,6 @@ export type InventoryFilters = ItemCategory;
 export interface MainStoreState {
   loggedUserInfo: LoggedUserInfo;
   isLoading: boolean;
-  userCharacterData?: User;
   websocket?: Socket;
   wsAuthenticated: boolean;
   marketListings: MarketListing[];
@@ -37,7 +36,6 @@ export interface MainStoreState {
   setMarketListings: (v: MarketListing[]) => void;
   setWebsocket: (v?: Socket) => void;
   setWsAuthenticated: (v?: boolean) => void;
-  setUserCharacterData: (v?: User) => void;
   setUserLoggedInfo: (v: LoggedUserInfo) => void;
 }
 
@@ -62,7 +60,6 @@ export const useMainStore = create<MainStoreState>()((set) => ({
     })),
   websocket: undefined,
   wsAuthenticated: false,
-  userCharacterData: undefined,
   inventoryFilter: "all",
   marketListings: [],
   mailBox: [],
@@ -78,6 +75,5 @@ export const useMainStore = create<MainStoreState>()((set) => ({
   setWebsocket: (v) => set(() => ({ websocket: v })),
   setWsAuthenticated: (v) => set(() => ({ wsAuthenticated: v })),
   setUserLoggedInfo: (v) => set(() => ({ loggedUserInfo: v })),
-  setUserCharacterData: (v) => set(() => ({ userCharacterData: v })),
   setIsLoading: (v) => set(() => ({ isLoading: v })),
 }));

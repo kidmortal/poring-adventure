@@ -8,6 +8,7 @@ import { When } from "@/components/When";
 import { Button } from "@/components/Button";
 import ForEach from "@/components/ForEach";
 import { CharacterWithHealthBar } from "@/components/CharacterWithHealthBar";
+import { useUserStore } from "@/store/user";
 
 type Props = {
   isOpen?: boolean;
@@ -18,7 +19,8 @@ type Props = {
 export function PartyInfoModal(props: Props) {
   const api = useWebsocketApi();
   const store = useMainStore();
-  const user = store.userCharacterData;
+  const userStore = useUserStore();
+  const user = userStore.user;
   const query = useQuery({
     queryKey: [Query.PARTY],
     enabled: !!store.websocket,

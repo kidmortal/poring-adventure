@@ -11,15 +11,26 @@
   gap: 1rem;
 }
 
-.topContainer {
+.guildInfoContainer {
+  width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-between;
+  padding: 0.5rem;
   align-items: center;
   gap: 1rem;
 }
 
 .guildLevelContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  gap: 0.2rem;
+}
+
+.guildResourcesContainer {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -80,6 +91,7 @@
   &.selectNewTask {
     background-color: $primary;
     cursor: pointer;
+    padding: 2rem 1rem;
   }
 }
 
@@ -98,4 +110,22 @@
   flex-direction: row;
   justify-content: space-evenly;
   align-items: flex-start;
+}
+
+.memberViewSwitch {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+}
+
+.row {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
 }

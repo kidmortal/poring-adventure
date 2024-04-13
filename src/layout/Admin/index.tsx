@@ -1,13 +1,13 @@
 import { Outlet } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 
-import { useMainStore } from "@/store/main";
 import { ProfilePage } from "@/pages/profile";
+import { useUserStore } from "@/store/user";
 
 export function AdminLayout() {
-  const store = useMainStore();
+  const userStore = useUserStore();
 
-  if (!store.userCharacterData?.admin) {
+  if (!userStore.user?.admin) {
     return <ProfilePage />;
   }
 

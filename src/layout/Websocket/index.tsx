@@ -13,11 +13,13 @@ import { addToastListeners } from "./toastListener";
 import { WebsocketDisconnectedMessageScreen } from "@/screens/WebsocketDisconnected";
 import { addAdminWebsocketListeners } from "./adminListeners";
 import { useAdminStore } from "@/store/admin";
+import { useUserStore } from "@/store/user";
 
 export function WebsocketLayout() {
   const [disconnected, setDisconnected] = useState(false);
 
   const store = useMainStore();
+  const userStore = useUserStore();
   const adminStore = useAdminStore();
   const modal = useModalStore();
   const battleStore = useBattleStore();
@@ -60,6 +62,7 @@ export function WebsocketLayout() {
         modal,
         battle: battleStore,
         store,
+        userStore: userStore,
         pushToScreen: (s: string) => navigate(s),
       };
 

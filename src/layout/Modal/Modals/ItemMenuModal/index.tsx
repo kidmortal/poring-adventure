@@ -12,8 +12,8 @@ import { InventoryItem } from "@/components/InventoryItem";
 import { Button } from "@/components/Button";
 import { useModalStore } from "@/store/modal";
 import { useWebsocketApi } from "@/api/websocketServer";
-import { useMainStore } from "@/store/main";
 import { ItemStats } from "@/components/EquipedItem";
+import { useUserStore } from "@/store/user";
 
 type Props = {
   isOpen?: boolean;
@@ -47,7 +47,7 @@ function ItemDetails({ item }: { item?: InventoryItem | Equipment }) {
 }
 
 export function ItemMenuModal(props: Props) {
-  const store = useMainStore();
+  const userStore = useUserStore();
   const api = useWebsocketApi();
   const modalStore = useModalStore();
   const queryClient = useQueryClient();
@@ -120,7 +120,7 @@ export function ItemMenuModal(props: Props) {
   const isOnSale = !!listingId;
   const isConsumable = props.item?.item?.category === "consumable";
 
-  const isAlreadyEquipped = !!store.userCharacterData?.equipment.find(
+  const isAlreadyEquipped = !!userStore.user?.equipment.find(
     (equip) => equip.itemId === item?.itemId
   );
 

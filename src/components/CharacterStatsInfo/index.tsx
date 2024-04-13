@@ -1,8 +1,8 @@
+import { useUserStore } from "@/store/user";
 import BuffList from "../BuffList";
 import HealthBar from "../HealthBar";
 import ManaBar from "../ManaBar";
 import styles from "./style.module.scss";
-import { useMainStore } from "@/store/main";
 
 export function Stat(props: { label: string; assetName: string }) {
   return (
@@ -14,7 +14,7 @@ export function Stat(props: { label: string; assetName: string }) {
 }
 
 export function CharacterStatsInfo() {
-  const store = useMainStore();
+  const userStore = useUserStore();
 
   let bonusHealth = 0;
   let bonusMana = 0;
@@ -22,8 +22,8 @@ export function CharacterStatsInfo() {
   let bonusStr = 0;
   let bonusAgi = 0;
   let bonusInt = 0;
-  const equippedItems = store.userCharacterData?.equipment;
-  const user = store.userCharacterData;
+  const equippedItems = userStore.user?.equipment;
+  const user = userStore.user;
   const stats = user?.stats;
   if (equippedItems) {
     equippedItems.forEach((equip) => {
@@ -58,12 +58,12 @@ export function CharacterStatsInfo() {
     <div className={styles.container}>
       <div className={styles.healthContainer}>
         <HealthBar
-          currentHealth={store.userCharacterData?.stats?.health ?? 0}
-          maxHealth={store.userCharacterData?.stats?.maxHealth ?? 0}
+          currentHealth={userStore.user?.stats?.health ?? 0}
+          maxHealth={userStore.user?.stats?.maxHealth ?? 0}
         />
         <ManaBar
-          currentHealth={store.userCharacterData?.stats?.mana ?? 0}
-          maxHealth={store.userCharacterData?.stats?.maxMana ?? 0}
+          currentHealth={userStore.user?.stats?.mana ?? 0}
+          maxHealth={userStore.user?.stats?.maxMana ?? 0}
         />
       </div>
       <BuffList buffs={user?.buffs} />

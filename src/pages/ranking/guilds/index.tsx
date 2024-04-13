@@ -1,6 +1,9 @@
 import { useModalStore } from "@/store/modal";
 import styles from "./style.module.scss";
 import ForEach from "@/components/ForEach";
+import { useMutation } from "@tanstack/react-query";
+import { useWebsocketApi } from "@/api/websocketServer";
+import { Button } from "@/components/Button";
 
 type Props = {
   guilds?: Guild[];
@@ -18,6 +21,10 @@ export function GuildRankingPage(props: Props) {
 }
 
 function GuildInfoBox({ guild }: { guild: Guild }) {
+  const api = useWebsocketApi();
+  const applyToGuildMutation = useMutation({
+    mutationFn: () => api.guild.applyToGuild({ guildId: guild.id }),
+  });
   const modalStore = useModalStore();
   const owner = guild.members.find((m) => m.role === "owner");
   const memberCount = guild.members.length;
@@ -33,6 +40,11 @@ function GuildInfoBox({ guild }: { guild: Guild }) {
         <span>owner: {owner?.user.name}</span>
         <span>Members {memberCount}/10</span>
       </div>
+      <Button
+        label="Apply"
+        onClick={() => applyToGuildMutation.mutate()}
+        disabled={applyToGuildMutation.isPending}
+      />
     </div>
   );
 }

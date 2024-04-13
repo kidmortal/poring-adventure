@@ -5,10 +5,10 @@ import { When } from "@/components/When";
 import { FullscreenLoading } from "@/components/FullscreenLoading";
 import { useWebsocketApi } from "@/api/websocketServer";
 import { CharacterWithHealthBar } from "@/components/CharacterWithHealthBar";
-import { useMainStore } from "@/store/main";
 import { useState } from "react";
 import Input from "@/components/Input";
 import { Button } from "@/components/Button";
+import { useUserStore } from "@/store/user";
 
 type Props = {
   isOpen?: boolean;
@@ -17,7 +17,7 @@ type Props = {
 
 export function UserEditCharacterModal(props: Props) {
   const [newName, setNewName] = useState("");
-  const store = useMainStore();
+  const userStore = useUserStore();
   const api = useWebsocketApi();
   const queryClient = useQueryClient();
 
@@ -34,7 +34,7 @@ export function UserEditCharacterModal(props: Props) {
       <When value={changeNameMutation.isPending}>
         <FullscreenLoading info="Update user Name" />
       </When>
-      <CharacterWithHealthBar user={store.userCharacterData} />
+      <CharacterWithHealthBar user={userStore.user} />
       <Input
         placeholder="New name"
         value={newName}

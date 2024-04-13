@@ -6,14 +6,15 @@ import { useQuery } from "@tanstack/react-query";
 import { Query } from "@/store/query";
 import { FullscreenLoading } from "@/components/FullscreenLoading";
 import { CharacterSummaryHeader } from "@/components/CharacterSummaryHeader";
-import { useEffect } from "react";
 import { CharacterCreationPage } from "@/pages/characterCreation";
 import { ErrorMessage } from "@/components/ErrorMessage";
 import { useWebsocketApi } from "@/api/websocketServer";
 import styles from "./style.module.scss";
 import { BottomNavBar } from "@/components/BottomNavBar";
+import { useUserStore } from "@/store/user";
 
 export function CharacterLayout() {
+  const userStore = useUserStore();
   const store = useMainStore();
   const api = useWebsocketApi();
 
@@ -44,12 +45,6 @@ export function CharacterLayout() {
     queryFn: () => api.mail.getAllMail(),
   });
 
-  useEffect(() => {
-    if (characterQuery?.data) {
-      store.setUserCharacterData(characterQuery?.data);
-    }
-  }, [characterQuery?.data]);
-
   if (characterQuery.isLoading) {
     return <FullscreenLoading info="Fetching character info" />;
   }
@@ -59,7 +54,7 @@ export function CharacterLayout() {
   if (characterQuery.isFetched && !characterQuery.data) {
     return <CharacterCreationPage />;
   }
-  if (!store.userCharacterData?.id) {
+  if (!userStore.user?.id) {
     return <FullscreenLoading info="Fetching character info" />;
   }
 

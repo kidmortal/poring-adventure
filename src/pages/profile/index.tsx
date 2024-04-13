@@ -11,13 +11,15 @@ import { PartyInfo } from "@/assets/PartyInfo";
 import { useModalStore } from "@/store/modal";
 
 import ExperienceBar from "@/components/ExperienceBar";
+import { useUserStore } from "@/store/user";
 
 export function ProfilePage() {
   const navigate = useNavigate();
   const store = useMainStore();
+  const userStore = useUserStore();
   const modal = useModalStore();
 
-  const equippedItems = store.userCharacterData?.equipment ?? [];
+  const equippedItems = userStore.user?.equipment ?? [];
 
   return (
     <div className={styles.container}>
@@ -25,22 +27,22 @@ export function ProfilePage() {
         <Equipments equips={equippedItems} />
         <div className={styles.userCharacterInfoContainer}>
           <div className={styles.nameContainer}>
-            <h2>{store.userCharacterData?.name}</h2>
-            <span>Level {store.userCharacterData?.stats?.level}</span>
-            <span>{store.userCharacterData?.profession?.name}</span>
+            <h2>{userStore.user?.name}</h2>
+            <span>Level {userStore.user?.stats?.level}</span>
+            <span>{userStore.user?.profession?.name}</span>
             <ExperienceBar
-              currentExp={store.userCharacterData?.stats?.experience}
-              level={store.userCharacterData?.stats?.level}
+              currentExp={userStore.user?.stats?.experience}
+              level={userStore.user?.stats?.level}
             />
           </div>
 
           <CharacterInfo
-            costume={store.userCharacterData?.appearance?.costume ?? ""}
-            gender={store.userCharacterData?.appearance?.gender ?? "female"}
-            head={store.userCharacterData?.appearance?.head ?? ""}
+            costume={userStore.user?.appearance?.costume ?? ""}
+            gender={userStore.user?.appearance?.gender ?? "female"}
+            head={userStore.user?.appearance?.head ?? ""}
             onClick={() => {
               console.log(store.loggedUserInfo.accessToken);
-              if (store.userCharacterData?.admin) {
+              if (userStore.user?.admin) {
                 navigate("/admin");
               }
             }}
@@ -79,7 +81,7 @@ export function ProfilePage() {
         </div>
       </div>
 
-      <Inventory items={store.userCharacterData?.inventory} />
+      <Inventory items={userStore.user?.inventory} />
     </div>
   );
 }
