@@ -11,55 +11,12 @@
   gap: 1rem;
 }
 
-.guildInfoContainer {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  padding: 0.5rem;
-  align-items: center;
-  gap: 1rem;
-}
-
-.guildLevelContainer {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  font-size: 14px;
-  gap: 0.2rem;
-}
-
-.guildResourcesContainer {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
 .internalMessageContainer {
   height: 6rem;
   width: 100%;
   background-color: $neutral;
   padding: 0.5rem;
   border-radius: 6px;
-}
-
-.memberInfoContainer {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  background-color: $neutral;
-  border-radius: 4px;
-}
-
-.memberInfo {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
 }
 
 .membersList {
@@ -93,23 +50,6 @@
     cursor: pointer;
     padding: 2rem 1rem;
   }
-}
-
-.taskMapContainer {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 0.5rem;
-  font-size: 18px;
-}
-
-.guildTaskDetails {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
-  align-items: flex-start;
 }
 
 .memberViewSwitch {

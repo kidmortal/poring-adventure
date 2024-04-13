@@ -12,6 +12,7 @@ declare type User = {
   learnedSkills: LearnedSkill[];
   buffs?: UserBuff[];
   profession?: Profession;
+  guildMember?: GuildMember;
 };
 
 declare type BattleUser = User & {

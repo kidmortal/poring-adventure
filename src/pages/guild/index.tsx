@@ -8,16 +8,21 @@ import { Query } from "@/store/query";
 import { FullscreenLoading } from "@/components/FullscreenLoading";
 import { When } from "@/components/When";
 import ForEach from "@/components/ForEach";
-import { CharacterHead } from "@/components/CharacterInfo";
+
 import cn from "classnames";
 import { useModalStore } from "@/store/modal";
 import { GuildTaskInfo } from "@/components/GuildTaskInfo";
-import ExperienceBar from "@/components/ExperienceBar";
 import { Button } from "@/components/Button";
-import { FaStoreAlt } from "react-icons/fa";
+import { useUserStore } from "@/store/user";
+import { useState } from "react";
+import { GuildApplicationInfo } from "./components/GuildApplicationInfo";
+import { GuildInfo } from "./components/GuildInfo";
+import { GuidMemberInfo } from "./components/GuildMemberInfo";
 
 export function GuildPage() {
+  const [showing, setShowing] = useState<"members" | "applications">("members");
   const store = useMainStore();
+  const userStore = useUserStore();
   const modalStore = useModalStore();
   const api = useWebsocketApi();
 
@@ -35,7 +40,7 @@ export function GuildPage() {
   if (guildQuery.isLoading) {
     return <FullscreenLoading info="Fetching guild info" />;
   }
-  const guild = store.guild;
+  const guild = userStore.guild;
   const guildTask = guild?.currentGuildTask;
   const remainingKills = guildTask?.remainingKills ?? 0;
   const taskCompleted = remainingKills <= 0;
@@ -77,58 +82,39 @@ export function GuildPage() {
         </When>
 
         <div className={styles.memberViewSwitch}>
-          <Button label="Members" />
-          <Button label="Requests" />
+          <Button label="Members" onClick={() => setShowing("members")} />
+          <Button label="Requests" onClick={() => setShowing("applications")} />
         </div>
-        <div className={styles.membersList}>
-          <h3>Members: {guild?.members.length}/10</h3>
-          <ForEach
-            items={guild?.members}
-            render={(member) => (
-              <GuidMemberInfo key={member.id} member={member} />
-            )}
-          />
-        </div>
-      </When>
-    </div>
-  );
-}
 
-function GuidMemberInfo({ member }: { member: GuildMember }) {
-  const appearance = member.user?.appearance;
-  return (
-    <div className={styles.memberInfoContainer}>
-      <When value={!!appearance}>
-        <CharacterHead head={appearance?.head} gender={appearance?.gender} />
-      </When>
-      <div className={styles.memberInfo}>
-        <span>
-          {member.user.name} - {member.role}
-        </span>
-        <span>Contribution: {member.contribution}</span>
-      </div>
-    </div>
-  );
-}
+        <When value={showing === "members"}>
+          <div className={styles.membersList}>
+            <span>Members: {guild?.members.length}/10</span>
+            <ForEach
+              items={guild?.members}
+              render={(member) => (
+                <GuidMemberInfo key={member.id} member={member} />
+              )}
+            />
+          </div>
+        </When>
 
-function GuildInfo({ guild }: { guild?: Guild }) {
-  return (
-    <div className={styles.guildInfoContainer}>
-      <img width={80} height={80} src={guild?.imageUrl} />
-      <div className={styles.guildLevelContainer}>
-        <h3>{guild?.name}</h3>
-        <span>LVL: {guild?.level}</span>
-        <ExperienceBar currentExp={guild?.experience} level={guild?.level} />
-      </div>
-      <div className={styles.guildResourcesContainer}>
-        <div className={styles.row}>
-          <img src="https://kidmortal.sirv.com/misc/soulshard.webp?w=20&h=20" />
-          <span>{guild?.taskPoints}</span>
-        </div>
-      </div>
-      <div>
-        <Button label={<FaStoreAlt size={24} />} />
-      </div>
+        <When value={showing === "applications"}>
+          <div className={styles.membersList}>
+            <ForEach
+              items={guild?.guildApplications}
+              render={(application) => (
+                <GuildApplicationInfo
+                  key={application.id}
+                  application={application}
+                  permissionLevel={
+                    userStore.user?.guildMember?.permissionLevel ?? 0
+                  }
+                />
+              )}
+            />
+          </div>
+        </When>
+      </When>
     </div>
   );
 }

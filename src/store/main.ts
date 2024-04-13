@@ -21,13 +21,9 @@ export interface MainStoreState {
   wsAuthenticated: boolean;
   marketListings: MarketListing[];
   marketFilters: MarketFilter;
-  mailBox: Mail[];
-  guild?: Guild;
   inventoryFilter: InventoryFilters;
   rankingPage: number;
   setRankingPage: (v: number) => void;
-  setMailBox: (v: Mail[]) => void;
-  setGuild: (v: Guild) => void;
   setMarketFilterPage: (page: number) => void;
   setMarketFilterCategory: (page: ItemCategory) => void;
   setInventoryFilter: (v: InventoryFilters) => void;
@@ -62,10 +58,6 @@ export const useMainStore = create<MainStoreState>()((set) => ({
   wsAuthenticated: false,
   inventoryFilter: "all",
   marketListings: [],
-  mailBox: [],
-  guild: undefined,
-  setGuild: (v) => set(() => ({ guild: v })),
-  setMailBox: (v) => set(() => ({ mailBox: v })),
   setInventoryFilter: (v) => set(() => ({ inventoryFilter: v })),
   setMarketListings: (v) => set(() => ({ marketListings: v })),
   clearUserData: () =>

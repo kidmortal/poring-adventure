@@ -10,6 +10,7 @@ declare type Guild = {
   internalMessage: string;
   currentGuildTask?: CurrentGuildTask;
   members: GuildMember[];
+  guildApplications: GuildApplication[];
 };
 
 declare type CurrentGuildTask = {
@@ -32,9 +33,17 @@ declare type GuildTask = {
 declare type GuildMember = {
   id: number;
   role: string;
+  permissionLevel: number;
   contribution: number;
   guildTokens: number;
   userEmail: string;
   guildId: number;
   user: User;
 };
+
+declare interface GuildApplication {
+  id: number;
+  userEmail: string;
+  guildId: number;
+  user: User;
+}

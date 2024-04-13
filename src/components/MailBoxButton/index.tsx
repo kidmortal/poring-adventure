@@ -1,14 +1,14 @@
 import { Button } from "../Button";
 import { useModalStore } from "@/store/modal";
-import { useMainStore } from "@/store/main";
 import MailIcon from "@/assets/Mail";
 import styles from "./style.module.scss";
 import { When } from "../When";
+import { useUserStore } from "@/store/user";
 
 export default function MailBoxButton() {
   const modalStore = useModalStore();
-  const store = useMainStore();
-  const notViewedMailCount = store.mailBox.filter((m) => !m.visualized);
+  const userStore = useUserStore();
+  const notViewedMailCount = userStore.mailBox.filter((m) => !m.visualized);
   return (
     <div className={styles.container}>
       <Button

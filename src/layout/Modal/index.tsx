@@ -12,13 +12,13 @@ import { InteractUserModal } from "@/layout/Modal/Modals/InteractUserModal";
 import { SkillbookModal } from "@/layout/Modal/Modals/SkillbookModal";
 import { UserEditCharacterModal } from "./Modals/UserEditCharacterModal";
 import { DeleteCharConfirmationModal } from "./Modals/DeleteCharConfirmation";
-import { useMainStore } from "@/store/main";
 import { MailBoxModal } from "./Modals/MailBoxModal";
 import { GuildInfoModal } from "./Modals/GuildInfoModal";
 import { GuildTaskSelectModal } from "./Modals/GuildTaskSelectModal";
+import { useUserStore } from "@/store/user";
 
 export function ModalLayout() {
-  const mainStore = useMainStore();
+  const userStore = useUserStore();
   const modalStore = useModalStore();
   return (
     <>
@@ -67,7 +67,7 @@ export function ModalLayout() {
       <MailBoxModal
         onRequestClose={() => modalStore.setMailBox({ open: false })}
         isOpen={modalStore.mailBox.open}
-        mailBox={mainStore.mailBox}
+        mailBox={userStore.mailBox}
       />
       <GuildInfoModal
         onRequestClose={() => modalStore.setGuildInfo({ open: false })}
