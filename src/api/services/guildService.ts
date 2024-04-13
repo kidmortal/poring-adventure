@@ -30,6 +30,23 @@ export function guildService({ websocket }: { websocket?: Socket }) {
     if (!websocket) return undefined;
     return asyncEmit<boolean>(websocket, "apply_to_guild", args.guildId);
   }
+  async function acceptGuildApplication(args: { applicationId: number }) {
+    if (!websocket) return undefined;
+    return asyncEmit<boolean>(
+      websocket,
+      "accept_guild_application",
+      args.applicationId
+    );
+  }
+
+  async function refuseGuildApplication(args: { applicationId: number }) {
+    if (!websocket) return undefined;
+    return asyncEmit<boolean>(
+      websocket,
+      "refuse_guild_application",
+      args.applicationId
+    );
+  }
 
   return {
     getGuild,
@@ -39,5 +56,7 @@ export function guildService({ websocket }: { websocket?: Socket }) {
     cancelCurrentTask,
     finishGuildTask,
     applyToGuild,
+    acceptGuildApplication,
+    refuseGuildApplication,
   };
 }

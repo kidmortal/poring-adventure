@@ -2,6 +2,8 @@ import { CharacterHead } from "@/components/CharacterInfo";
 import { When } from "@/components/When";
 import styles from "./style.module.scss";
 import { Button } from "@/components/Button";
+import { useMutation } from "@tanstack/react-query";
+import { useWebsocketApi } from "@/api/websocketServer";
 
 export function GuildApplicationInfo({
   application,
@@ -10,6 +12,17 @@ export function GuildApplicationInfo({
   application: GuildApplication;
   permissionLevel: number;
 }) {
+  const api = useWebsocketApi();
+  const acceptApplicationMutation = useMutation({
+    mutationFn: () =>
+      api.guild.acceptGuildApplication({ applicationId: application.id }),
+  });
+
+  const refuseApplicationMutation = useMutation({
+    mutationFn: () =>
+      api.guild.refuseGuildApplication({ applicationId: application.id }),
+  });
+
   const appearance = application.user?.appearance;
   return (
     <div className={styles.applicationInfoContainer}>
@@ -25,8 +38,18 @@ export function GuildApplicationInfo({
 
       <When value={permissionLevel > 0}>
         <div className={styles.applicationActions}>
-          <Button label="Accept" theme="success" />
-          <Button label="Reject" theme="danger" />
+          <Button
+            label="Accept"
+            theme="success"
+            onClick={() => acceptApplicationMutation.mutate()}
+            disabled={acceptApplicationMutation.isPending}
+          />
+          <Button
+            label="Reject"
+            theme="danger"
+            onClick={() => refuseApplicationMutation.mutate()}
+            disabled={refuseApplicationMutation.isPending}
+          />
         </div>
       </When>
     </div>
