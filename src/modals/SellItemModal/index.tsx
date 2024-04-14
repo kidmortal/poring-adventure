@@ -3,7 +3,6 @@ import styles from "./style.module.scss";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 import { Query } from "@/store/query";
-import { toast } from "react-toastify";
 
 import { BaseModal } from "../BaseModal";
 import { When } from "@/components/When";
@@ -32,9 +31,6 @@ export function SellItemModal(props: Props) {
         price: args.price,
         stack: args.stack,
       }),
-    onSuccess: () => {
-      toast("Market Listing successful", { type: "success" });
-    },
     onSettled: () => {
       props.onRequestClose();
       queryClient.refetchQueries({

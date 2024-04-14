@@ -55,9 +55,6 @@ export function ItemMenuModal(props: Props) {
   const revokeMarketListingMutation = useMutation({
     mutationFn: (listingId: number) =>
       api.market.revokeMarketListing(listingId),
-    onSuccess: () => {
-      toast("Listing removed", { type: "success" });
-    },
     onSettled: () => {
       props.onRequestClose();
       queryClient.refetchQueries({

@@ -13,15 +13,20 @@ import { FaGift } from "react-icons/fa6";
 import { MdMemory } from "react-icons/md";
 import { MdOutlineRestartAlt } from "react-icons/md";
 import { LiaCodeBranchSolid } from "react-icons/lia";
+import { FaBug } from "react-icons/fa6";
 import { CharacterHead } from "@/components/CharacterInfo";
 import HealthBar from "@/components/HealthBar";
 import ManaBar from "@/components/ManaBar";
 import { useAdminStore } from "@/store/admin";
+import { InAppPurchase2 } from "@awesome-cordova-plugins/in-app-purchase-2";
 import cn from "classnames";
 import { Utils } from "@/utils";
 import { ServerInfo } from "@/api/services/adminService";
+import { Capacitor } from "@capacitor/core";
+import { useEffect } from "react";
 
 export function AdminPage() {
+  const plataform = Capacitor.getPlatform();
   const adminStore = useAdminStore();
   const store = useMainStore();
   const api = useWebsocketApi();
@@ -49,9 +54,33 @@ export function AdminPage() {
   const pushNotificationMutation = useMutation({
     mutationFn: () => api.admin.pushNotification({ message: "Test message" }),
   });
+  useEffect(() => {
+    if (plataform === "android") {
+      const name = InAppPurchase2.getApplicationUsername();
+      // @ts-expect-error shitty lib
+      if (name.error) {
+        adminStore.setNativeServices({ purchase: false });
+      } else {
+        adminStore.setNativeServices({ purchase: true });
+      }
+    }
+  }, []);
 
   if (!adminStore.serverInfo) {
     return <FullscreenLoading info="Admin page" />;
+  }
+
+  function showNativeServices() {
+    if (plataform === "android") {
+      let servicesString = "";
+      for (const [key, value] of Object.entries(adminStore.nativeServices)) {
+        servicesString += `${key} - ${value} \n`;
+      }
+
+      alert(servicesString);
+    } else {
+      alert("Not on a native device");
+    }
   }
 
   return (
@@ -89,6 +118,15 @@ export function AdminPage() {
             }
             onClick={() => pushNotificationMutation.mutate()}
             disabled={pushNotificationMutation.isPending}
+          />
+          <Button
+            label={
+              <div>
+                <FaBug />
+                <span>Debug Native</span>
+              </div>
+            }
+            onClick={() => showNativeServices()}
           />
         </div>
         <ServerInfoBox serverInfo={adminStore.serverInfo} />
