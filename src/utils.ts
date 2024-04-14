@@ -1,4 +1,5 @@
-function formatMemory(memory: number) {
+function formatMemory(memory?: number) {
+  if (!memory) return "";
   const units = ["B", "KB", "MB", "GB", "TB"];
 
   let index = 0;

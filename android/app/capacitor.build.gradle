@@ -12,6 +12,7 @@ dependencies {
     implementation project(':capacitor-firebase-authentication')
     implementation project(':capacitor-screen-orientation')
     implementation project(':capawesome-capacitor-app-update')
+    implementation project(':revenuecat-purchases-capacitor')
     implementation "com.android.billingclient:billing:5.2.1"
     implementation "com.onesignal:OneSignal:4.8.8"
 }

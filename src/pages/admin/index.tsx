@@ -18,12 +18,12 @@ import { CharacterHead } from "@/components/CharacterInfo";
 import HealthBar from "@/components/HealthBar";
 import ManaBar from "@/components/ManaBar";
 import { useAdminStore } from "@/store/admin";
-import { InAppPurchase2 } from "@awesome-cordova-plugins/in-app-purchase-2";
 import cn from "classnames";
 import { Utils } from "@/utils";
 import { ServerInfo } from "@/api/services/adminService";
 import { Capacitor } from "@capacitor/core";
 import { useEffect } from "react";
+import * as RevenueCat from "@revenuecat/purchases-capacitor";
 
 export function AdminPage() {
   const plataform = Capacitor.getPlatform();
@@ -54,16 +54,30 @@ export function AdminPage() {
   const pushNotificationMutation = useMutation({
     mutationFn: () => api.admin.pushNotification({ message: "Test message" }),
   });
-  useEffect(() => {
+
+  async function getProducts() {
     if (plataform === "android") {
-      const name = InAppPurchase2.getApplicationUsername();
-      // @ts-expect-error shitty lib
-      if (name.error) {
-        adminStore.setNativeServices({ purchase: false });
-      } else {
-        adminStore.setNativeServices({ purchase: true });
+      RevenueCat.Purchases.configure({
+        apiKey: "goog_huUHSmNjtsDLoYvPRsuONchkVxC",
+      });
+
+      try {
+        const offerings = await RevenueCat.Purchases.getOfferings();
+
+        if (offerings.current !== null) {
+          adminStore.setNativeServices({ purchase: true });
+          alert(JSON.stringify(offerings.current));
+          // Display current offering with offerings.current
+        }
+      } catch (error) {
+        alert("No products");
+        // Handle error
       }
     }
+  }
+
+  useEffect(() => {
+    getProducts();
   }, []);
 
   if (!adminStore.serverInfo) {
@@ -85,87 +99,108 @@ export function AdminPage() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.mainSectionRow}>
-        <div className={styles.adminActions}>
-          <Button
-            label={
-              <div>
-                <MdOutlineCached />
-                <span>Clear Cache</span>
-              </div>
-            }
-            onClick={() => clearCacheMutation.mutate()}
-            disabled={clearCacheMutation.isPending}
-            theme="secondary"
-          />
-          <Button
-            theme="danger"
-            label={
-              <div>
-                <MdOutlineRestartAlt />
-                <span>Restart Server</span>
-              </div>
-            }
-            onClick={() => restartServer.mutate()}
-            disabled={restartServer.isPending}
-          />
-          <Button
-            label={
-              <div>
-                <FaRegBell />
-                <span>Push Notif</span>
-              </div>
-            }
-            onClick={() => pushNotificationMutation.mutate()}
-            disabled={pushNotificationMutation.isPending}
-          />
-          <Button
-            label={
-              <div>
-                <FaBug />
-                <span>Debug Native</span>
-              </div>
-            }
-            onClick={() => showNativeServices()}
-          />
-        </div>
-        <ServerInfoBox serverInfo={adminStore.serverInfo} />
+      <ServerInfoBox
+        serverInfo={adminStore.serverInfo}
+        sockets={adminStore.connectedSockets}
+      />
+
+      <div className={styles.adminActions}>
+        <Button
+          label={
+            <div>
+              <MdOutlineCached />
+              <span>Clear Cache</span>
+            </div>
+          }
+          onClick={() => clearCacheMutation.mutate()}
+          disabled={clearCacheMutation.isPending}
+          theme="secondary"
+        />
+        <Button
+          theme="danger"
+          label={
+            <div>
+              <MdOutlineRestartAlt />
+              <span>Restart Server</span>
+            </div>
+          }
+          onClick={() => restartServer.mutate()}
+          disabled={restartServer.isPending}
+        />
+        <Button
+          label={
+            <div>
+              <FaRegBell />
+              <span>Push Notif</span>
+            </div>
+          }
+          onClick={() => pushNotificationMutation.mutate()}
+          disabled={pushNotificationMutation.isPending}
+        />
+        <Button
+          label={
+            <div>
+              <FaBug />
+              <span>Debug Native</span>
+            </div>
+          }
+          onClick={() => showNativeServices()}
+        />
       </div>
       <div className={styles.socketList}>
         <ForEach
           items={adminStore.connectedUsers}
-          render={(user) => <ManageUser key={user.id} user={user} />}
+          render={(user) => <ManageUser key={user?.id} user={user} />}
         />
       </div>
     </div>
   );
 }
 
-function ServerInfoBox({ serverInfo }: { serverInfo: ServerInfo }) {
+function ServerInfoBox({
+  serverInfo,
+  sockets,
+}: {
+  serverInfo: ServerInfo;
+  sockets: number;
+}) {
   const memory = serverInfo?.memoryInfo;
 
   const memoryPercentage = Math.floor(
-    ((memory?.memoryUsage ?? 0) / (memory?.totalMemory ?? 0)) * 100
+    ((memory?.totalMemoryUsage ?? 0) / (memory?.totalMemory ?? 0)) * 100
   );
   return (
     <div className={styles.serverInfoContainer}>
       <div className={styles.branchContainer}>
-        <LiaCodeBranchSolid size={20} />
-        <span>{serverInfo?.branchHash.slice(0, 15)}</span>
+        <div className={styles.row}>
+          <LiaCodeBranchSolid size={20} color="lightblue" />
+          <span>{serverInfo?.branchHash.slice(0, 15)}</span>
+        </div>
+
+        <div className={styles.row}>
+          <VscDebugDisconnect size={20} color="pink" />
+          <span>{sockets}</span>
+        </div>
       </div>
       <div className={styles.ramInfoContainer}>
-        <MdMemory size={20} />
-        <span
-          className={cn({
-            [styles.lowMemory]: true,
-            [styles.mediumMemory]: memoryPercentage >= 40,
-            [styles.highMemory]: memoryPercentage >= 70,
-          })}
-        >
-          {`${Utils.formatMemory(memory.memoryUsage)} / ${Utils.formatMemory(
-            memory.totalMemory
-          )}`}
-        </span>
+        <div className={styles.totalRamInfo}>
+          <MdMemory size={20} />
+          <span
+            className={cn({
+              [styles.lowMemory]: true,
+              [styles.mediumMemory]: memoryPercentage >= 40,
+              [styles.highMemory]: memoryPercentage >= 70,
+            })}
+          >
+            {`${Utils.formatMemory(
+              memory?.totalMemoryUsage
+            )} / ${Utils.formatMemory(memory?.totalMemory)}`}
+          </span>
+        </div>
+        <div className={styles.appMemoryUsage}>
+          <MdMemory size={20} />
+          <span>{`${Utils.formatMemory(memory?.appMemoryUsage)}`}</span>
+        </div>
       </div>
     </div>
   );

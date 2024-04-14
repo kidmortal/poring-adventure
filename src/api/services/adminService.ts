@@ -8,7 +8,8 @@ export type ServerInfo = {
 
 type MemoryInfo = {
   totalMemory: number;
-  memoryUsage: number;
+  appMemoryUsage: number;
+  totalMemoryUsage: number;
 };
 
 export function adminService({ websocket }: { websocket?: Socket }) {

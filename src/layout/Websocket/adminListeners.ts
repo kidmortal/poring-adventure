@@ -10,10 +10,14 @@ export function addAdminWebsocketListeners({
   websocket: Socket;
   store: AdminStoreState;
 }) {
-  websocket.on("connected_users", (users: User[]) =>
-    store.setConnectedUsers(users)
+  websocket.on(
+    "connected_users",
+    (sockets: { users: User[]; connectedSockets: number }) => {
+      store.setConnectedUsers(sockets.users);
+      store.setConnectedSockets(sockets.connectedSockets);
+    }
   );
-  websocket.on("server_info", (server: ServerInfo) =>
-    store.setServerInfo(server)
-  );
+  websocket.on("server_info", (server: ServerInfo) => {
+    store.setServerInfo(server);
+  });
 }

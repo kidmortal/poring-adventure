@@ -17,14 +17,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@awesome-cordova-plugins/core": "^6.6.0",
-    "@awesome-cordova-plugins/in-app-purchase-2": "^6.6.0",
     "@capacitor-firebase/authentication": "^5.4.1",
     "@capacitor/android": "^5.7.4",
     "@capacitor/assets": "^3.0.5",
     "@capacitor/core": "^5.7.4",
     "@capacitor/screen-orientation": "^5.0.7",
     "@capawesome/capacitor-app-update": "^5.1.0",
+    "@revenuecat/purchases-capacitor": "^7.5.7",
     "@tanstack/react-query": "^5.25.0",
     "axios": "^1.6.7",
     "cordova-plugin-purchase": "^13.10.1",
@@ -38,7 +37,6 @@
     "react-router-dom": "^6.22.2",
     "react-toastify": "^10.0.4",
     "react-use-websocket": "^4.8.1",
-    "rxjs": "^7.8.1",
     "sass": "^1.71.1",
     "socket.io-client": "^4.7.4",
     "zustand": "^4.5.2"

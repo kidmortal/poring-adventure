@@ -9,17 +9,21 @@ type NativeServices = {
 
 export interface AdminStoreState {
   connectedUsers: User[];
+  connectedSockets: number;
   nativeServices: NativeServices;
   serverInfo?: ServerInfo;
   setNativeServices: (v: NativeServices) => void;
   setConnectedUsers: (v: User[]) => void;
   setServerInfo: (v: ServerInfo) => void;
+  setConnectedSockets: (v: number) => void;
 }
 
 export const useAdminStore = create<AdminStoreState>()((set) => ({
   connectedUsers: [],
   serverInfo: undefined,
   nativeServices: {},
+  connectedSockets: 0,
+  setConnectedSockets: (v) => set(() => ({ connectedSockets: v })),
   setNativeServices: (v) =>
     set((s) => ({ nativeServices: { ...s.nativeServices, ...v } })),
   setServerInfo: (v) => set(() => ({ serverInfo: v })),
