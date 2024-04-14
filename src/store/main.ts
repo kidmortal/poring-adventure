@@ -33,6 +33,7 @@ export interface MainStoreState {
   setWebsocket: (v?: Socket) => void;
   setWsAuthenticated: (v?: boolean) => void;
   setUserLoggedInfo: (v: LoggedUserInfo) => void;
+  resetStore: () => void;
 }
 
 export const useMainStore = create<MainStoreState>()((set) => ({
@@ -68,4 +69,10 @@ export const useMainStore = create<MainStoreState>()((set) => ({
   setWsAuthenticated: (v) => set(() => ({ wsAuthenticated: v })),
   setUserLoggedInfo: (v) => set(() => ({ loggedUserInfo: v })),
   setIsLoading: (v) => set(() => ({ isLoading: v })),
+  resetStore: () =>
+    set(() => ({
+      websocket: undefined,
+      wsAuthenticated: undefined,
+      loggedUserInfo: { loggedIn: false, accessToken: "", email: "" },
+    })),
 }));

@@ -10,6 +10,7 @@ import { useWebsocketApi } from "@/api/websocketServer";
 import { useModalStore } from "@/store/modal";
 import { PlataformAuth } from "@/auth";
 import { useMainStore } from "@/store/main";
+import { useUserStore } from "@/store/user";
 
 type Props = {
   isOpen?: boolean;
@@ -17,6 +18,7 @@ type Props = {
 };
 
 export function UserSettingsModal(props: Props) {
+  const userStore = useUserStore();
   const store = useMainStore();
   const modalStore = useModalStore();
   const api = useWebsocketApi();
@@ -46,11 +48,9 @@ export function UserSettingsModal(props: Props) {
           PlataformAuth.SignOut({
             onSuccess: () => {
               modalStore.setUserConfig({ open: false });
-              store.setUserLoggedInfo({
-                accessToken: "",
-                email: "",
-                loggedIn: false,
-              });
+              store.resetStore();
+              userStore.resetStore();
+              queryClient.clear();
             },
           })
         }
