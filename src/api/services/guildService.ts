@@ -22,6 +22,15 @@ export function guildService({ websocket }: { websocket?: Socket }) {
     if (!websocket) return undefined;
     return asyncEmit<boolean>(websocket, "cancel_guild_task", "");
   }
+  async function quitFromGuild() {
+    if (!websocket) return undefined;
+    return asyncEmit<boolean>(websocket, "quit_from_guild", "");
+  }
+  async function kickFromGuild(args: { kickEmail: string }) {
+    if (!websocket) return undefined;
+    return asyncEmit<boolean>(websocket, "kick_from_guild", args.kickEmail);
+  }
+
   async function acceptGuildTask(args: { taskId: number }) {
     if (!websocket) return undefined;
     return asyncEmit<boolean>(websocket, "accept_guild_task", args.taskId);
@@ -58,5 +67,7 @@ export function guildService({ websocket }: { websocket?: Socket }) {
     applyToGuild,
     acceptGuildApplication,
     refuseGuildApplication,
+    quitFromGuild,
+    kickFromGuild,
   };
 }

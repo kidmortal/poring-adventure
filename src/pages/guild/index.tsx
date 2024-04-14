@@ -1,45 +1,32 @@
 import styles from "./style.module.scss";
 
-import { useMainStore } from "@/store/main";
-
 import { useWebsocketApi } from "@/api/websocketServer";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { Query } from "@/store/query";
-import { FullscreenLoading } from "@/components/FullscreenLoading";
+import { useMutation } from "@tanstack/react-query";
+
 import { When } from "@/components/When";
 import ForEach from "@/components/ForEach";
 
 import cn from "classnames";
 import { useModalStore } from "@/store/modal";
 import { GuildTaskInfo } from "@/components/GuildTaskInfo";
-import { Button } from "@/components/Button";
 import { useUserStore } from "@/store/user";
 import { useState } from "react";
 import { GuildApplicationInfo } from "./components/GuildApplicationInfo";
 import { GuildInfo } from "./components/GuildInfo";
 import { GuidMemberInfo } from "./components/GuildMemberInfo";
+import { GuildMenu } from "./components/GuildMenu";
+import Switch from "@/components/Switch";
 
 export function GuildPage() {
   const [showing, setShowing] = useState<"members" | "applications">("members");
-  const store = useMainStore();
   const userStore = useUserStore();
   const modalStore = useModalStore();
   const api = useWebsocketApi();
-
-  const guildQuery = useQuery({
-    queryKey: [Query.GUILD],
-    enabled: !!store.websocket && store.wsAuthenticated,
-    staleTime: Infinity,
-    queryFn: () => api.guild.getGuild(),
-  });
 
   const finishTaskMutation = useMutation({
     mutationFn: () => api.guild.finishGuildTask(),
   });
 
-  if (guildQuery.isLoading) {
-    return <FullscreenLoading info="Fetching guild info" />;
-  }
   const guild = userStore.guild;
   const guildTask = guild?.currentGuildTask;
   const remainingKills = guildTask?.remainingKills ?? 0;
@@ -57,7 +44,7 @@ export function GuildPage() {
           {guild?.internalMessage}
         </div>
         <When value={!!guildTask}>
-          <h3>Current Task</h3>
+          <GuildMenu />
           <GuildTaskInfo
             guildTask={guildTask}
             finished={taskCompleted}
@@ -82,13 +69,29 @@ export function GuildPage() {
         </When>
 
         <div className={styles.memberViewSwitch}>
-          <Button label="Members" onClick={() => setShowing("members")} />
-          <Button label="Requests" onClick={() => setShowing("applications")} />
+          <Switch
+            leftLabel="Members"
+            rightLabel="Requests"
+            selected={showing === "members" ? "left" : "right"}
+            onSelect={(value) => {
+              switch (value) {
+                case "left":
+                  setShowing("members");
+                  break;
+                case "right":
+                  setShowing("applications");
+                  break;
+
+                default:
+                  break;
+              }
+            }}
+          />
         </div>
 
         <When value={showing === "members"}>
           <div className={styles.membersList}>
-            <span>Members: {guild?.members.length}/10</span>
+            <span>Members: {guild?.members?.length}/10</span>
             <ForEach
               items={guild?.members}
               render={(member) => (

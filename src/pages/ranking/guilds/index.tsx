@@ -34,10 +34,7 @@ function GuildInfoBox({ guild }: { guild: Guild }) {
 
   const alreadyHaveGuild = userStore.user?.guildMember?.guildId;
   return (
-    <div
-      className={styles.guildBoxContainer}
-      onClick={() => modalStore.setGuildInfo({ guild, open: true })}
-    >
+    <div className={styles.guildBoxContainer}>
       <img width={80} height={80} src={guild.imageUrl} />
       <div className={styles.guildInfoColumn}>
         <h2>{guild.name}</h2>
@@ -50,6 +47,10 @@ function GuildInfoBox({ guild }: { guild: Guild }) {
           label="Apply"
           onClick={() => applyToGuildMutation.mutate()}
           disabled={applyToGuildMutation.isPending}
+        />
+        <Button
+          label="View"
+          onClick={() => modalStore.setGuildInfo({ guild, open: true })}
         />
       </When>
     </div>

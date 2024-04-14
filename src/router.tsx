@@ -16,6 +16,8 @@ import { AdminLayout } from "./layout/Admin/index.tsx";
 import { GuildPage } from "./pages/guild/index.tsx";
 import { LoginPage } from "./pages/login/index.tsx";
 import { AdminPage } from "./pages/admin/index.tsx";
+import { GuildLayout } from "./layout/Guild/index.tsx";
+import { GuildStorePage } from "./pages/guildstore/index.tsx";
 
 export function Router() {
   return (
@@ -35,7 +37,13 @@ export function Router() {
                       <Route path="/market" element={<MarketPage />} />
                       <Route path="/profile" element={<ProfilePage />} />
                       <Route path="/battle" element={<BattlePage />} />
-                      <Route path="/guild" element={<GuildPage />} />
+                      <Route element={<GuildLayout />}>
+                        <Route path="/guild" element={<GuildPage />} />
+                        <Route
+                          path="/guildstore"
+                          element={<GuildStorePage />}
+                        />
+                      </Route>
                       <Route element={<AdminLayout />}>
                         <Route path="/admin" element={<AdminPage />} />
                       </Route>

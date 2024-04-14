@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-type UserConfigState = {
+type GenericModalState = {
   open: boolean;
 };
 
@@ -36,35 +36,17 @@ type InteractUserState = {
   user?: User;
 };
 
-type EditCharacterState = {
-  open?: boolean;
-};
-
-type SkillbookState = {
-  open?: boolean;
-};
-
-type FriendListState = {
-  open?: boolean;
-};
-
-type MailBoxState = {
-  open?: boolean;
-};
-
-type GuildTaskSelectState = {
-  open?: boolean;
-};
-
 export interface ModalState {
-  userConfig: UserConfigState;
-  setUserConfig: (v: UserConfigState) => void;
+  userConfig: GenericModalState;
+  setUserConfig: (v: GenericModalState) => void;
+  guildBlessing: GenericModalState;
+  setGuildBlessing: (v: GenericModalState) => void;
   guildInfo: GuildInfoState;
   setGuildInfo: (v: GuildInfoState) => void;
-  mailBox: MailBoxState;
-  setMailBox: (v: MailBoxState) => void;
-  guildTaskSelect: GuildTaskSelectState;
-  setGuildTaskSelect: (v: GuildTaskSelectState) => void;
+  mailBox: GenericModalState;
+  setMailBox: (v: GenericModalState) => void;
+  guildTaskSelect: GenericModalState;
+  setGuildTaskSelect: (v: GenericModalState) => void;
   inventoryItem: InventoryItemState;
   setInventoryItem: (v: InventoryItemState) => void;
   sellItem: SellItemState;
@@ -73,20 +55,25 @@ export interface ModalState {
   setBuyItem: (v: BuyItemState) => void;
   partyInfo: PartyInfoState;
   setPartyInfo: (v: PartyInfoState) => void;
-  friendlist: FriendListState;
-  setFriendlist: (v: FriendListState) => void;
+  friendlist: GenericModalState;
+  setFriendlist: (v: GenericModalState) => void;
   interactUser: InteractUserState;
   setInteractUser: (v: InteractUserState) => void;
-  skillbook: SkillbookState;
-  setSkillbook: (v: SkillbookState) => void;
-  editCharacter: EditCharacterState;
-  setEditCharacter: (v: EditCharacterState) => void;
+  skillbook: GenericModalState;
+  setSkillbook: (v: GenericModalState) => void;
+  editCharacter: GenericModalState;
+  setEditCharacter: (v: GenericModalState) => void;
   confirmDeleteCharacter: { open: boolean };
   setConfirmDeleteCharacter: (v: { open: boolean }) => void;
 }
 
 export const useModalStore = create<ModalState>()((set) => ({
   userConfig: { open: false },
+  setUserConfig: (v) => set(() => ({ userConfig: v })),
+
+  guildBlessing: { open: false },
+  setGuildBlessing: (v) => set(() => ({ guildBlessing: v })),
+
   inventoryItem: { open: false },
   buyItem: { amount: 1 },
   partyInfo: { open: false },
@@ -109,7 +96,6 @@ export const useModalStore = create<ModalState>()((set) => ({
   setGuildTaskSelect: (v) => set(() => ({ guildTaskSelect: v })),
   setGuildInfo: (v) => set(() => ({ guildInfo: v })),
   setEditCharacter: (v) => set(() => ({ editCharacter: v })),
-  setUserConfig: (v) => set(() => ({ userConfig: v })),
   setConfirmDeleteCharacter: (v) => set(() => ({ confirmDeleteCharacter: v })),
   setSkillbook: (v) => set(() => ({ skillbook: v })),
   setInventoryItem: (v) =>

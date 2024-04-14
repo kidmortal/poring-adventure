@@ -1,3 +1,5 @@
+@import "@/styles/variables";
+
 .container {
   width: 100%;
   display: flex;
@@ -16,27 +18,27 @@
 }
 
 .primary {
-  background-color: #1565c0;
+  background-color: $primary;
   &:hover {
-    background-color: darken($color: #1565c0, $amount: 5);
+    background-color: darken($color: $primary, $amount: 5);
   }
 }
 .secondary {
-  background-color: #4caf50;
+  background-color: $secondary;
   &:hover {
-    background-color: darken($color: #4caf50, $amount: 5);
+    background-color: darken($color: $secondary, $amount: 5);
   }
 }
 .success {
-  background-color: #4caf50;
+  background-color: $secondary;
   &:hover {
-    background-color: darken($color: #4caf50, $amount: 5);
+    background-color: darken($color: $secondary, $amount: 5);
   }
 }
 .danger {
-  background-color: #d37676;
+  background-color: $error;
   &:hover {
-    background-color: darken($color: #d37676, $amount: 5);
+    background-color: darken($color: $error, $amount: 5);
   }
 }
 

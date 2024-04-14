@@ -2,20 +2,21 @@ import { Outlet } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
 
 import { useModalStore } from "@/store/modal";
-import { UserSettingsModal } from "@/layout/Modal/Modals/UserSettingsModal";
-import { ItemMenuModal } from "@/layout/Modal/Modals/ItemMenuModal";
-import { SellItemModal } from "@/layout/Modal/Modals/SellItemModal";
-import { BuyItemModal } from "@/layout/Modal/Modals/BuyItemModal";
-import { PartyInfoModal } from "@/layout/Modal/Modals/PartyInfoModal";
-import { FriendListModal } from "@/layout/Modal/Modals/FriendListModal";
-import { InteractUserModal } from "@/layout/Modal/Modals/InteractUserModal";
-import { SkillbookModal } from "@/layout/Modal/Modals/SkillbookModal";
-import { UserEditCharacterModal } from "./Modals/UserEditCharacterModal";
-import { DeleteCharConfirmationModal } from "./Modals/DeleteCharConfirmation";
-import { MailBoxModal } from "./Modals/MailBoxModal";
-import { GuildInfoModal } from "./Modals/GuildInfoModal";
-import { GuildTaskSelectModal } from "./Modals/GuildTaskSelectModal";
+import { UserSettingsModal } from "@/modals/UserSettingsModal";
+import { ItemMenuModal } from "@/modals/ItemMenuModal";
+import { SellItemModal } from "@/modals/SellItemModal";
+import { BuyItemModal } from "@/modals/BuyItemModal";
+import { PartyInfoModal } from "@/modals/PartyInfoModal";
+import { FriendListModal } from "@/modals/FriendListModal";
+import { InteractUserModal } from "@/modals/InteractUserModal";
+import { SkillbookModal } from "@/modals/SkillbookModal";
+import { UserEditCharacterModal } from "@/modals/UserEditCharacterModal";
+import { DeleteCharConfirmationModal } from "@/modals/DeleteCharConfirmation";
+import { MailBoxModal } from "@/modals/MailBoxModal";
+import { GuildInfoModal } from "@/modals/GuildInfoModal";
+import { GuildTaskSelectModal } from "@/modals/GuildTaskSelectModal";
 import { useUserStore } from "@/store/user";
+import { GuildBlessingModal } from "@/modals/GuildBlessingModal";
 
 export function ModalLayout() {
   const userStore = useUserStore();
@@ -77,6 +78,10 @@ export function ModalLayout() {
       <GuildTaskSelectModal
         onRequestClose={() => modalStore.setGuildTaskSelect({ open: false })}
         isOpen={modalStore.guildTaskSelect.open}
+      />
+      <GuildBlessingModal
+        onRequestClose={() => modalStore.setGuildBlessing({ open: false })}
+        isOpen={modalStore.guildBlessing.open}
       />
       <DeleteCharConfirmationModal
         onRequestClose={() =>
