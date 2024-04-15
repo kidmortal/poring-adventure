@@ -17,5 +17,7 @@
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  gap: 1rem;
+  > *:not(:first-child) {
+    margin: 0.5rem;
+  }
 }

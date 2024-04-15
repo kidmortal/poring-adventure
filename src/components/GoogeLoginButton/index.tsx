@@ -5,6 +5,7 @@ import { PlataformAuth } from "@/auth";
 import { useMainStore } from "@/store/main";
 import OneSignal from "onesignal-cordova-plugin";
 import { Capacitor } from "@capacitor/core";
+import * as RevenueCat from "@revenuecat/purchases-capacitor";
 
 type Props = {
   onSuccess: () => void;
@@ -25,6 +26,7 @@ export function GoogleLoginButton(props: Props) {
             });
             if (Capacitor.getPlatform() === "android") {
               OneSignal.setExternalUserId(info.email);
+              RevenueCat.Purchases.setEmail({ email: info.email });
             }
             props.onSuccess();
           },

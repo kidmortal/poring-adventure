@@ -4,6 +4,8 @@ export interface UserStoreState {
   mailBox: Mail[];
   guild?: Guild;
   user?: User;
+  purchases?: UserPurchase[];
+  setPurchases: (v?: UserPurchase[]) => void;
   setMailBox: (v: Mail[]) => void;
   setGuild: (v?: Guild) => void;
   setUser: (v?: User) => void;
@@ -12,8 +14,10 @@ export interface UserStoreState {
 
 export const useUserStore = create<UserStoreState>()((set) => ({
   mailBox: [],
+  purchases: [],
   guild: undefined,
   user: undefined,
+  setPurchases: (v) => set(() => ({ purchases: v })),
   setUser: (v) => set(() => ({ user: v })),
   setGuild: (v) => set(() => ({ guild: v })),
   setMailBox: (v) => set(() => ({ mailBox: v })),

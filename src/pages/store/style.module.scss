@@ -1,0 +1,43 @@
+@import "@/styles/variables";
+
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  color: white;
+  margin-top: 1rem;
+}
+
+.purchaseInfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  > *:not(:first-child) {
+    margin-top: 0.5rem;
+  }
+}
+
+.purchaseActions {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  > *:not(:first-child) {
+    margin-top: 1rem;
+  }
+}
+
+.purchaseInfoContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  background-color: $dark-neutral;
+  padding: 1rem;
+  border-radius: 0.5rem;
+}

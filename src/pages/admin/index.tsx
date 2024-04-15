@@ -22,10 +22,11 @@ import cn from "classnames";
 import { Utils } from "@/utils";
 import { ServerInfo } from "@/api/services/adminService";
 import { Capacitor } from "@capacitor/core";
-import { useEffect } from "react";
 import * as RevenueCat from "@revenuecat/purchases-capacitor";
+import { useNavigate } from "react-router-dom";
 
 export function AdminPage() {
+  const navigate = useNavigate();
   const plataform = Capacitor.getPlatform();
   const adminStore = useAdminStore();
   const store = useMainStore();
@@ -55,19 +56,29 @@ export function AdminPage() {
     mutationFn: () => api.admin.pushNotification({ message: "Test message" }),
   });
 
+  async function purchaseProduct(product: RevenueCat.PurchasesStoreProduct) {
+    try {
+      const result = await RevenueCat.Purchases.purchaseStoreProduct({
+        product,
+      });
+      alert(JSON.stringify(result));
+    } catch (error) {
+      alert("Purchase canceled");
+    }
+  }
+
   async function getProducts() {
     if (plataform === "android") {
       RevenueCat.Purchases.configure({
-        apiKey: "goog_huUHSmNjtsDLoYvPRsuONchkVxC",
+        apiKey: import.meta.env.VITE_REVENUE_CAT_API_KEY ?? "",
       });
 
       try {
-        const offerings = await RevenueCat.Purchases.getOfferings();
-
-        if (offerings.current !== null) {
-          adminStore.setNativeServices({ purchase: true });
-          alert(JSON.stringify(offerings.current));
-          // Display current offering with offerings.current
+        const offers = await RevenueCat.Purchases.getOfferings();
+        adminStore.setNativeServices({ purchase: true });
+        const product = offers.current?.availablePackages[0].product;
+        if (product) {
+          purchaseProduct(product);
         }
       } catch (error) {
         alert("No products");
@@ -75,10 +86,6 @@ export function AdminPage() {
       }
     }
   }
-
-  useEffect(() => {
-    getProducts();
-  }, []);
 
   if (!adminStore.serverInfo) {
     return <FullscreenLoading info="Admin page" />;
@@ -92,6 +99,7 @@ export function AdminPage() {
       }
 
       alert(servicesString);
+      getProducts();
     } else {
       alert("Not on a native device");
     }
@@ -145,6 +153,15 @@ export function AdminPage() {
             </div>
           }
           onClick={() => showNativeServices()}
+        />
+        <Button
+          label={
+            <div>
+              <FaBug />
+              <span>Cash Store</span>
+            </div>
+          }
+          onClick={() => navigate("/store")}
         />
       </div>
       <div className={styles.socketList}>
@@ -206,35 +223,37 @@ function ServerInfoBox({
   );
 }
 
-function ManageUser({ user }: { user: User }) {
+function ManageUser({ user }: { user?: User }) {
   const api = useWebsocketApi();
   const notificationMutation = useMutation({
     mutationFn: () =>
       api.admin.sendWebsocketNotification({
-        to: user.email,
+        to: user?.email ?? "",
         message: "You have been hacked",
       }),
   });
   const disconnectMutation = useMutation({
     mutationFn: () =>
       api.admin.disconnectUser({
-        email: user.email,
+        email: user?.email ?? "",
       }),
   });
 
   const sendGiftMutation = useMutation({
     mutationFn: () =>
       api.admin.sendGiftMail({
-        email: user.email,
+        email: user?.email ?? "",
       }),
   });
   const pushNotificationToUserMutation = useMutation({
     mutationFn: () =>
       api.admin.pushNotificationToUser({
         message: "Test message",
-        email: user.email,
+        email: user?.email ?? "",
       }),
   });
+
+  if (!user) return <></>;
 
   return (
     <div className={styles.userSocketContainer}>

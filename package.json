@@ -10,6 +10,8 @@
     "build:local": "tsc && vite build",
     "sync:app": "cap update && cap sync",
     "build:apk": "cap build android --androidreleasetype APK",
+    "zipalign": "zipalign -v 4 ./android/app/build/outputs/apk/release/app-release-unsigned.apk ./android/app/build/outputs/apk/release/zipped.apk",
+    "signapk": "apksigner sign --ks-key-alias poringadventure --ks ./android/poringadventure.keystore ./android/app/build/outputs/apk/release/zipped.apk",
     "build:app": "cap build android",
     "build:all": "yarn build:local && yarn sync:app && yarn build:app",
     "build:assets": "capacitor-assets generate",
