@@ -22,7 +22,6 @@ import cn from "classnames";
 import { Utils } from "@/utils";
 import { ServerInfo } from "@/api/services/adminService";
 import { Capacitor } from "@capacitor/core";
-import * as RevenueCat from "@revenuecat/purchases-capacitor";
 import { useNavigate } from "react-router-dom";
 
 export function AdminPage() {
@@ -56,37 +55,6 @@ export function AdminPage() {
     mutationFn: () => api.admin.pushNotification({ message: "Test message" }),
   });
 
-  async function purchaseProduct(product: RevenueCat.PurchasesStoreProduct) {
-    try {
-      const result = await RevenueCat.Purchases.purchaseStoreProduct({
-        product,
-      });
-      alert(JSON.stringify(result));
-    } catch (error) {
-      alert("Purchase canceled");
-    }
-  }
-
-  async function getProducts() {
-    if (plataform === "android") {
-      RevenueCat.Purchases.configure({
-        apiKey: import.meta.env.VITE_REVENUE_CAT_API_KEY ?? "",
-      });
-
-      try {
-        const offers = await RevenueCat.Purchases.getOfferings();
-        adminStore.setNativeServices({ purchase: true });
-        const product = offers.current?.availablePackages[0].product;
-        if (product) {
-          purchaseProduct(product);
-        }
-      } catch (error) {
-        alert("No products");
-        // Handle error
-      }
-    }
-  }
-
   if (!adminStore.serverInfo) {
     return <FullscreenLoading info="Admin page" />;
   }
@@ -99,7 +67,6 @@ export function AdminPage() {
       }
 
       alert(servicesString);
-      getProducts();
     } else {
       alert("Not on a native device");
     }

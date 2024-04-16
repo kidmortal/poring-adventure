@@ -1,71 +1,39 @@
 import styles from "./style.module.scss";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { Query } from "@/store/query";
-import { useMainStore } from "@/store/main";
-import { useWebsocketApi } from "@/api/websocketServer";
-import ForEach from "@/components/ForEach";
-import { useUserStore } from "@/store/user";
+
+import { PurchasedStoreProducts } from "./purchasedProducts";
 import { Button } from "@/components/Button";
+import { Capacitor } from "@capacitor/core";
+import { useState } from "react";
+import { When } from "@/components/When";
+import { AvailableStoreProducts } from "./availableProducts";
 
 export function StorePage() {
-  const api = useWebsocketApi();
-  const store = useMainStore();
-  const userStore = useUserStore();
-
-  useQuery({
-    queryKey: [Query.ALL_PURCHASES],
-    enabled: !!store.websocket,
-    staleTime: 1000 * 10, // 10 seconds
-    queryFn: () => api.store.getPurchases(),
-  });
+  const plataform = Capacitor.getPlatform();
+  const onWeb = plataform === "web";
+  const [storeView, setStoreView] = useState<"store" | "purchases">(
+    onWeb ? "store" : "store"
+  );
 
   return (
     <div className={styles.container}>
-      <ForEach
-        items={userStore.purchases}
-        render={(purchase) => (
-          <PurchaseInfo key={purchase.id} purchase={purchase} />
-        )}
-      />
-    </div>
-  );
-}
-
-function PurchaseInfo({ purchase }: { purchase: UserPurchase }) {
-  const api = useWebsocketApi();
-
-  const claimPurchaseMutation = useMutation({
-    mutationFn: () => api.store.claimPurchase({ purchaseId: purchase.id }),
-  });
-
-  const refundPurchaseMutation = useMutation({
-    mutationFn: () => api.store.requestRefund({ purchaseId: purchase.id }),
-  });
-
-  return (
-    <div className={styles.purchaseInfoContainer}>
-      <div className={styles.purchaseInfo}>
-        <img src="https://kidmortal.sirv.com/misc/beginner_gift.png?w=60&h=60" />
-        <span>{purchase.product.displayName}</span>
-        <span>Claimed: {purchase.received ? "Yes" : "No"}</span>
+      <div className={styles.storeSwitch}>
+        <Button
+          label={`Store ${onWeb ? "not available on web" : ""}`}
+          disabled={onWeb}
+          onClick={() => setStoreView("store")}
+        />
+        <Button
+          label="My Purchases"
+          onClick={() => setStoreView("purchases")}
+        />
       </div>
-
-      <div className={styles.purchaseActions}>
-        <Button
-          label="Claim"
-          onClick={() => claimPurchaseMutation.mutate()}
-          disabled={
-            claimPurchaseMutation.isPending || refundPurchaseMutation.isPending
-          }
-        />
-        <Button
-          label="Refund"
-          theme="danger"
-          onClick={() => refundPurchaseMutation.mutate()}
-          disabled={
-            claimPurchaseMutation.isPending || refundPurchaseMutation.isPending
-          }
-        />
+      <div className={styles.scrollList}>
+        <When value={storeView === "store"}>
+          <AvailableStoreProducts />
+        </When>
+        <When value={storeView === "purchases"}>
+          <PurchasedStoreProducts />
+        </When>
       </div>
     </div>
   );

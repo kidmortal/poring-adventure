@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import cn from "classnames";
 import { useEffect, useState } from "react";
 import { Updater } from "@/config/updater";
+import * as RevenueCat from "@revenuecat/purchases-capacitor";
 import { UpdateAvailableMessageScreen } from "@/screens/UpdateAvailableMessage";
 import { When } from "@/components/When";
 import { useAdminStore } from "@/store/admin";
@@ -38,11 +39,22 @@ export function LimitedSizeLayout() {
       adminStore.setNativeServices({ lockPortrait: false });
     }
   }
+  async function configureRevenueCat() {
+    try {
+      RevenueCat.Purchases.configure({
+        apiKey: import.meta.env.VITE_REVENUE_CAT_API_KEY ?? "",
+      });
+      adminStore.setNativeServices({ purchase: true });
+    } catch (error) {
+      adminStore.setNativeServices({ purchase: false });
+    }
+  }
 
   useEffect(() => {
     if (plataform === "android") {
       verifyAppVersion();
       lockScreenToPortrait();
+      configureRevenueCat();
     }
   }, []);
 

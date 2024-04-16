@@ -23,7 +23,7 @@ export function BottomNavBar() {
           if (!userIsInBattle) navigate("/ranking");
         }}
       >
-        Ranking
+        Rank
       </span>
       <span
         className={cn({ [styles.disabled]: userIsInBattle })}
@@ -34,6 +34,7 @@ export function BottomNavBar() {
         Market
       </span>
       <span onClick={() => navigate("/battle")}>Battle</span>
+      <span onClick={() => navigate("/store")}>Store</span>
     </div>
   );
 }

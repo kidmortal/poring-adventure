@@ -31,9 +31,10 @@ export function addWebsocketListeners({
   });
   websocket.on("party_data", (party: Party) => modal.setPartyInfo({ party }));
   websocket.on("party_data", (party: Party) => modal.setPartyInfo({ party }));
-  websocket.on("purchases", (purchases: UserPurchase[]) =>
-    userStore.setPurchases(purchases)
-  );
+  websocket.on("purchases", (purchases: UserPurchase[]) => {
+    console.log(purchases);
+    userStore.setPurchases(purchases);
+  });
   websocket.on("mailbox", (mailBox: Mail[]) => userStore.setMailBox(mailBox));
   websocket.on("guild", (guild: Guild) => {
     console.log(guild);
