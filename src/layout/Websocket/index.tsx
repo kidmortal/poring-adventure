@@ -39,6 +39,7 @@ export function WebsocketLayout() {
 
       socket.on("connect", () => {
         store.setWebsocket(socket);
+        setDisconnected(false);
       });
       socket.on("disconnect", () => {
         store.setWebsocket(undefined);

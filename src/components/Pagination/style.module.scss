@@ -2,15 +2,22 @@
   width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  align-items: flex-start;
+  justify-content: center;
+  align-items: center;
+}
+
+.buttonsContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
 
   > *:not(:first-child) {
     margin-left: 0.2rem;
   }
   button {
     border-radius: 3px;
-    width: 2.5rem;
+    min-width: 2.5rem;
     height: 2rem;
   }
 }

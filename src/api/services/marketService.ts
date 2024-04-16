@@ -32,9 +32,9 @@ export function marketService({ websocket }: { websocket?: Socket }) {
   async function getMarketListingPage(params: {
     page: number;
     category: ItemCategory;
-  }): Promise<MarketListing[] | undefined> {
+  }) {
     if (!websocket) return undefined;
-    return asyncEmit<MarketListing[]>(
+    return asyncEmit<{ listings: MarketListing[]; count: number }>(
       websocket,
       "get_all_market_listing",
       params

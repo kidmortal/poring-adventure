@@ -39,8 +39,8 @@ export function MarketPage() {
   }, [store.marketFilters]);
 
   useEffect(() => {
-    if (query.data) {
-      store.setMarketListings(query.data);
+    if (query.data?.listings) {
+      store.setMarketListings(query.data.listings);
     }
   }, [query.data]);
 
@@ -67,7 +67,7 @@ export function MarketPage() {
       </div>
 
       <Pagination
-        totalCount={100} // Total count of items
+        totalCount={query.data?.count ?? 10} // Total count of items
         onPageChange={(page) => store.setMarketFilterPage(page)}
       />
     </div>
@@ -99,25 +99,3 @@ function MarketListingContainer({ listing }: { listing: MarketListing }) {
     </div>
   );
 }
-
-// function PriceSortSwitch(props: { sort: "asc" | "desc" }) {
-//   return (
-//     <div className={styles.priceSwitch}>
-//       <When value={props.sort === "asc"}>
-//         <img
-//           width={40}
-//           height={40}
-//           src="https://kidmortal.sirv.com/misc/arrow_up.png"
-//         />
-//       </When>
-//       <When value={props.sort === "desc"}>
-//         <img
-//           width={40}
-//           height={40}
-//           src="https://kidmortal.sirv.com/misc/arrow_down.png"
-//         />
-//       </When>
-//       <span>Price</span>
-//     </div>
-//   );
-// }

@@ -43,7 +43,6 @@ export function PartyInfoModal(props: Props) {
     mutationFn: (partyId: number) => api.party.quitParty(partyId),
   });
 
-  console.log(props.party);
   return (
     <BaseModal onRequestClose={props.onRequestClose} isOpen={props.isOpen}>
       <div className={styles.container}>

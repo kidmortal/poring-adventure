@@ -18,7 +18,6 @@ type Props = {
 
 export function MailBoxModal(props: Props) {
   const api = useWebsocketApi();
-  console.log(props.mailBox);
 
   const claimAllMutation = useMutation({
     mutationFn: () => api.mail.claimAll(),

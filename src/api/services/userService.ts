@@ -24,11 +24,13 @@ export function userService({ websocket }: { websocket?: Socket }) {
     return asyncEmit<User>(websocket, "get_user", "");
   }
 
-  async function getRankingUsers(params: {
-    page: number;
-  }): Promise<User[] | undefined> {
+  async function getRankingUsers(params: { page: number }) {
     if (!websocket) return undefined;
-    return asyncEmit<User[]>(websocket, "get_all_user", params);
+    return asyncEmit<{ users: User[]; count: number }>(
+      websocket,
+      "get_all_user",
+      params
+    );
   }
 
   async function getAllProfessions(): Promise<Profession[] | undefined> {

@@ -48,10 +48,10 @@ export function RankingPage() {
         <Button label="Guild" onClick={() => setSwitchRanking("guild")} />
       </div>
       <When value={switchRanking === "players"}>
-        <PlayersRankingPage users={query.data} />
+        <PlayersRankingPage users={query.data?.users} />
         <Pagination
           className={styles.pagination}
-          totalCount={100}
+          totalCount={query.data?.count ?? 10}
           onPageChange={(p) => {
             store.setRankingPage(p);
           }}
