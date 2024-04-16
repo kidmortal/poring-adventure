@@ -1,4 +1,4 @@
-import { create } from "zustand";
+import { create } from 'zustand';
 
 type GenericModalState = {
   open: boolean;
@@ -39,6 +39,8 @@ type InteractUserState = {
 export interface ModalState {
   userConfig: GenericModalState;
   setUserConfig: (v: GenericModalState) => void;
+  discordIntegration: GenericModalState;
+  setDiscordIntegration: (v: GenericModalState) => void;
   guildBlessing: GenericModalState;
   setGuildBlessing: (v: GenericModalState) => void;
   guildInfo: GuildInfoState;
@@ -70,10 +72,10 @@ export interface ModalState {
 export const useModalStore = create<ModalState>()((set) => ({
   userConfig: { open: false },
   setUserConfig: (v) => set(() => ({ userConfig: v })),
-
+  discordIntegration: { open: false },
+  setDiscordIntegration: (v) => set(() => ({ discordIntegration: v })),
   guildBlessing: { open: false },
   setGuildBlessing: (v) => set(() => ({ guildBlessing: v })),
-
   inventoryItem: { open: false },
   buyItem: { amount: 1 },
   partyInfo: { open: false },
@@ -98,15 +100,10 @@ export const useModalStore = create<ModalState>()((set) => ({
   setEditCharacter: (v) => set(() => ({ editCharacter: v })),
   setConfirmDeleteCharacter: (v) => set(() => ({ confirmDeleteCharacter: v })),
   setSkillbook: (v) => set(() => ({ skillbook: v })),
-  setInventoryItem: (v) =>
-    set((state) => ({ inventoryItem: { ...state.inventoryItem, ...v } })),
-  setSellItem: (v) =>
-    set((state) => ({ sellItem: { ...state.sellItem, ...v } })),
+  setInventoryItem: (v) => set((state) => ({ inventoryItem: { ...state.inventoryItem, ...v } })),
+  setSellItem: (v) => set((state) => ({ sellItem: { ...state.sellItem, ...v } })),
   setBuyItem: (v) => set((state) => ({ buyItem: { ...state.buyItem, ...v } })),
-  setPartyInfo: (v) =>
-    set((state) => ({ partyInfo: { ...state.partyInfo, ...v } })),
-  setFriendlist: (v) =>
-    set((state) => ({ friendlist: { ...state.friendlist, ...v } })),
-  setInteractUser: (v) =>
-    set((state) => ({ interactUser: { ...state.interactUser, ...v } })),
+  setPartyInfo: (v) => set((state) => ({ partyInfo: { ...state.partyInfo, ...v } })),
+  setFriendlist: (v) => set((state) => ({ friendlist: { ...state.friendlist, ...v } })),
+  setInteractUser: (v) => set((state) => ({ interactUser: { ...state.interactUser, ...v } })),
 }));

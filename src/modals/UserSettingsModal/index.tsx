@@ -1,16 +1,17 @@
-import { BaseModal } from "../BaseModal";
-import { Button } from "@/components/Button";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Query } from "@/store/query";
+import { BaseModal } from '../BaseModal';
+import { Button } from '@/components/Button';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { Query } from '@/store/query';
 
-import SignOut from "@/assets/SignOut";
-import { When } from "@/components/When";
-import { FullscreenLoading } from "@/components/FullscreenLoading";
-import { useWebsocketApi } from "@/api/websocketServer";
-import { useModalStore } from "@/store/modal";
-import { PlataformAuth } from "@/auth";
-import { useMainStore } from "@/store/main";
-import { useUserStore } from "@/store/user";
+import SignOut from '@/assets/SignOut';
+import { FaDiscord } from 'react-icons/fa';
+import { When } from '@/components/When';
+import { FullscreenLoading } from '@/components/FullscreenLoading';
+import { useWebsocketApi } from '@/api/websocketServer';
+import { useModalStore } from '@/store/modal';
+import { PlataformAuth } from '@/auth';
+import { useMainStore } from '@/store/main';
+import { useUserStore } from '@/store/user';
 
 type Props = {
   isOpen?: boolean;
@@ -26,8 +27,7 @@ export function UserSettingsModal(props: Props) {
 
   const deleteUserMutation = useMutation({
     mutationFn: () => api.users.deleteUser(),
-    onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: [Query.USER_CHARACTER] }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: [Query.USER_CHARACTER] }),
   });
 
   return (
@@ -40,6 +40,27 @@ export function UserSettingsModal(props: Props) {
         onClick={() => {
           modalStore.setUserConfig({ open: false });
           modalStore.setEditCharacter({ open: true });
+        }}
+      />
+      <Button
+        label={
+          <div
+            style={{
+              width: '100%',
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-evenly',
+              alignItems: 'center',
+            }}
+          >
+            <FaDiscord />
+            <span>Discord Integration</span>
+          </div>
+        }
+        theme="secondary"
+        onClick={() => {
+          modalStore.setUserConfig({ open: false });
+          modalStore.setDiscordIntegration({ open: true });
         }}
       />
 
@@ -57,12 +78,12 @@ export function UserSettingsModal(props: Props) {
         label={
           <div
             style={{
-              width: "100%",
-              padding: "0 1.5rem",
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "center",
+              width: '100%',
+              padding: '0 1.5rem',
+              display: 'flex',
+              flexDirection: 'row',
+              justifyContent: 'space-between',
+              alignItems: 'center',
             }}
           >
             <SignOut /> Sign out

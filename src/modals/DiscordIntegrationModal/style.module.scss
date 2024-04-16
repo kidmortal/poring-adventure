@@ -1,0 +1,23 @@
+@import '@/styles/variables';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+  > *:not(:first-child) {
+    margin-top: 1rem;
+  }
+}
+
+.codeDisplay {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  background-color: $dark-neutral;
+  border-radius: 6px;
+  font-size: 12px;
+}

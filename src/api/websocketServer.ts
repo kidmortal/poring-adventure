@@ -1,22 +1,19 @@
-import { useMainStore } from "@/store/main";
-import { Socket } from "socket.io-client";
-import { userService } from "./services/userService";
-import { partyService } from "./services/partyService";
-import { marketService } from "./services/marketService";
-import { battleService } from "./services/battleService";
-import { itemService } from "./services/itemService";
-import { adminService } from "./services/adminService";
-import { skillService } from "./services/skillService";
-import { monsterService } from "./services/monsterService";
-import { guildService } from "./services/guildService";
-import { mailService } from "./services/mailService";
-import { storeService } from "./services/storeService";
+import { useMainStore } from '@/store/main';
+import { Socket } from 'socket.io-client';
+import { userService } from './services/userService';
+import { partyService } from './services/partyService';
+import { marketService } from './services/marketService';
+import { battleService } from './services/battleService';
+import { itemService } from './services/itemService';
+import { adminService } from './services/adminService';
+import { skillService } from './services/skillService';
+import { monsterService } from './services/monsterService';
+import { guildService } from './services/guildService';
+import { mailService } from './services/mailService';
+import { storeService } from './services/storeService';
+import { discordService } from './services/discordService';
 
-export async function asyncEmit<T>(
-  ws: Socket,
-  event: string,
-  args: number | string | object
-): Promise<T> {
+export async function asyncEmit<T>(ws: Socket, event: string, args: number | string | object): Promise<T> {
   return new Promise(function (resolve) {
     ws.emit(event, args, (response: T) => {
       resolve(response);
@@ -39,6 +36,7 @@ export function useWebsocketApi() {
     guild: guildService({ websocket }),
     mail: mailService({ websocket }),
     store: storeService({ websocket }),
+    discord: discordService({ websocket }),
   };
 }
 

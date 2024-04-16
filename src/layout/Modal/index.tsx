@@ -1,22 +1,23 @@
-import { Outlet } from "react-router-dom";
-import "react-toastify/dist/ReactToastify.css";
+import { Outlet } from 'react-router-dom';
+import 'react-toastify/dist/ReactToastify.css';
 
-import { useModalStore } from "@/store/modal";
-import { UserSettingsModal } from "@/modals/UserSettingsModal";
-import { ItemMenuModal } from "@/modals/ItemMenuModal";
-import { SellItemModal } from "@/modals/SellItemModal";
-import { BuyItemModal } from "@/modals/BuyItemModal";
-import { PartyInfoModal } from "@/modals/PartyInfoModal";
-import { FriendListModal } from "@/modals/FriendListModal";
-import { InteractUserModal } from "@/modals/InteractUserModal";
-import { SkillbookModal } from "@/modals/SkillbookModal";
-import { UserEditCharacterModal } from "@/modals/UserEditCharacterModal";
-import { DeleteCharConfirmationModal } from "@/modals/DeleteCharConfirmation";
-import { MailBoxModal } from "@/modals/MailBoxModal";
-import { GuildInfoModal } from "@/modals/GuildInfoModal";
-import { GuildTaskSelectModal } from "@/modals/GuildTaskSelectModal";
-import { useUserStore } from "@/store/user";
-import { GuildBlessingModal } from "@/modals/GuildBlessingModal";
+import { useModalStore } from '@/store/modal';
+import { UserSettingsModal } from '@/modals/UserSettingsModal';
+import { ItemMenuModal } from '@/modals/ItemMenuModal';
+import { SellItemModal } from '@/modals/SellItemModal';
+import { BuyItemModal } from '@/modals/BuyItemModal';
+import { PartyInfoModal } from '@/modals/PartyInfoModal';
+import { FriendListModal } from '@/modals/FriendListModal';
+import { InteractUserModal } from '@/modals/InteractUserModal';
+import { SkillbookModal } from '@/modals/SkillbookModal';
+import { UserEditCharacterModal } from '@/modals/UserEditCharacterModal';
+import { DeleteCharConfirmationModal } from '@/modals/DeleteCharConfirmation';
+import { MailBoxModal } from '@/modals/MailBoxModal';
+import { GuildInfoModal } from '@/modals/GuildInfoModal';
+import { GuildTaskSelectModal } from '@/modals/GuildTaskSelectModal';
+import { useUserStore } from '@/store/user';
+import { GuildBlessingModal } from '@/modals/GuildBlessingModal';
+import { DiscordIntegrationModal } from '@/modals/DiscordIntegrationModal';
 
 export function ModalLayout() {
   const userStore = useUserStore();
@@ -83,10 +84,12 @@ export function ModalLayout() {
         onRequestClose={() => modalStore.setGuildBlessing({ open: false })}
         isOpen={modalStore.guildBlessing.open}
       />
+      <DiscordIntegrationModal
+        onRequestClose={() => modalStore.setDiscordIntegration({ open: false })}
+        isOpen={modalStore.discordIntegration.open}
+      />
       <DeleteCharConfirmationModal
-        onRequestClose={() =>
-          modalStore.setConfirmDeleteCharacter({ open: false })
-        }
+        onRequestClose={() => modalStore.setConfirmDeleteCharacter({ open: false })}
         isOpen={modalStore.confirmDeleteCharacter.open}
       />
     </>
