@@ -43,6 +43,14 @@ export function adminService({ websocket }: { websocket?: Socket }) {
     if (!websocket) return undefined;
     return asyncEmit(websocket, "send_gift_mail", args.email);
   }
+  async function fullHealUser(args: { email: string }) {
+    if (!websocket) return undefined;
+    return asyncEmit(websocket, "full_heal_user", args.email);
+  }
+  async function killUser(args: { email: string }) {
+    if (!websocket) return undefined;
+    return asyncEmit(websocket, "kill_user", args.email);
+  }
 
   async function pushNotificationToUser(args: {
     email: string;
@@ -80,5 +88,7 @@ export function adminService({ websocket }: { websocket?: Socket }) {
     pushNotification,
     disconnectUser,
     sendGiftMail,
+    fullHealUser,
+    killUser,
   };
 }

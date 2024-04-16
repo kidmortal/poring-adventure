@@ -1,28 +1,30 @@
-import { useWebsocketApi } from "@/api/websocketServer";
-import { FullscreenLoading } from "@/components/FullscreenLoading";
-import { useMainStore } from "@/store/main";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import styles from "./style.module.scss";
-import { Button } from "@/components/Button";
-import ForEach from "@/components/ForEach";
-import { FaRegBell } from "react-icons/fa";
-import { MdOutlineCached } from "react-icons/md";
-import { IoIosSend } from "react-icons/io";
-import { VscDebugDisconnect } from "react-icons/vsc";
-import { FaGift } from "react-icons/fa6";
-import { MdMemory } from "react-icons/md";
-import { MdOutlineRestartAlt } from "react-icons/md";
-import { LiaCodeBranchSolid } from "react-icons/lia";
-import { FaBug } from "react-icons/fa6";
-import { CharacterHead } from "@/components/CharacterInfo";
-import HealthBar from "@/components/HealthBar";
-import ManaBar from "@/components/ManaBar";
-import { useAdminStore } from "@/store/admin";
-import cn from "classnames";
-import { Utils } from "@/utils";
-import { ServerInfo } from "@/api/services/adminService";
-import { Capacitor } from "@capacitor/core";
-import { useNavigate } from "react-router-dom";
+import { useWebsocketApi } from '@/api/websocketServer';
+import { FullscreenLoading } from '@/components/FullscreenLoading';
+import { useMainStore } from '@/store/main';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import styles from './style.module.scss';
+import { Button } from '@/components/Button';
+import ForEach from '@/components/ForEach';
+import { FaRegBell } from 'react-icons/fa';
+import { MdOutlineCached } from 'react-icons/md';
+import { IoIosSend } from 'react-icons/io';
+import { VscDebugDisconnect } from 'react-icons/vsc';
+import { FaGift } from 'react-icons/fa6';
+import { MdMemory } from 'react-icons/md';
+import { MdOutlineRestartAlt } from 'react-icons/md';
+import { FaSkull } from 'react-icons/fa';
+import { MdOutlineLocalHospital } from 'react-icons/md';
+import { LiaCodeBranchSolid } from 'react-icons/lia';
+import { FaBug } from 'react-icons/fa6';
+import { CharacterHead } from '@/components/CharacterInfo';
+import HealthBar from '@/components/HealthBar';
+import ManaBar from '@/components/ManaBar';
+import { useAdminStore } from '@/store/admin';
+import cn from 'classnames';
+import { Utils } from '@/utils';
+import { ServerInfo } from '@/api/services/adminService';
+import { Capacitor } from '@capacitor/core';
+import { useNavigate } from 'react-router-dom';
 
 export function AdminPage() {
   const navigate = useNavigate();
@@ -31,13 +33,13 @@ export function AdminPage() {
   const store = useMainStore();
   const api = useWebsocketApi();
   useQuery({
-    queryKey: ["sockets"],
+    queryKey: ['sockets'],
     enabled: !!store.websocket,
     queryFn: () => api.admin.getAllConnectedUsers(),
     refetchInterval: 4000,
   });
   useQuery({
-    queryKey: ["server"],
+    queryKey: ['server'],
     enabled: !!store.websocket,
     queryFn: () => api.admin.getServerInfo(),
     refetchInterval: 2000,
@@ -52,7 +54,7 @@ export function AdminPage() {
   });
 
   const pushNotificationMutation = useMutation({
-    mutationFn: () => api.admin.pushNotification({ message: "Test message" }),
+    mutationFn: () => api.admin.pushNotification({ message: 'Test message' }),
   });
 
   if (!adminStore.serverInfo) {
@@ -60,24 +62,21 @@ export function AdminPage() {
   }
 
   function showNativeServices() {
-    if (plataform === "android") {
-      let servicesString = "";
+    if (plataform === 'android') {
+      let servicesString = '';
       for (const [key, value] of Object.entries(adminStore.nativeServices)) {
         servicesString += `${key} - ${value} \n`;
       }
 
       alert(servicesString);
     } else {
-      alert("Not on a native device");
+      alert('Not on a native device');
     }
   }
 
   return (
     <div className={styles.container}>
-      <ServerInfoBox
-        serverInfo={adminStore.serverInfo}
-        sockets={adminStore.connectedSockets}
-      />
+      <ServerInfoBox serverInfo={adminStore.serverInfo} sockets={adminStore.connectedSockets} />
 
       <div className={styles.adminActions}>
         <Button
@@ -128,31 +127,20 @@ export function AdminPage() {
               <span>Cash Store</span>
             </div>
           }
-          onClick={() => navigate("/store")}
+          onClick={() => navigate('/store')}
         />
       </div>
       <div className={styles.socketList}>
-        <ForEach
-          items={adminStore.connectedUsers}
-          render={(user) => <ManageUser key={user?.id} user={user} />}
-        />
+        <ForEach items={adminStore.connectedUsers} render={(user) => <ManageUser key={user?.id} user={user} />} />
       </div>
     </div>
   );
 }
 
-function ServerInfoBox({
-  serverInfo,
-  sockets,
-}: {
-  serverInfo: ServerInfo;
-  sockets: number;
-}) {
+function ServerInfoBox({ serverInfo, sockets }: { serverInfo: ServerInfo; sockets: number }) {
   const memory = serverInfo?.memoryInfo;
 
-  const memoryPercentage = Math.floor(
-    ((memory?.totalMemoryUsage ?? 0) / (memory?.totalMemory ?? 0)) * 100
-  );
+  const memoryPercentage = Math.floor(((memory?.totalMemoryUsage ?? 0) / (memory?.totalMemory ?? 0)) * 100);
   return (
     <div className={styles.serverInfoContainer}>
       <div className={styles.branchContainer}>
@@ -176,9 +164,7 @@ function ServerInfoBox({
               [styles.highMemory]: memoryPercentage >= 70,
             })}
           >
-            {`${Utils.formatMemory(
-              memory?.totalMemoryUsage
-            )} / ${Utils.formatMemory(memory?.totalMemory)}`}
+            {`${Utils.formatMemory(memory?.totalMemoryUsage)} / ${Utils.formatMemory(memory?.totalMemory)}`}
           </span>
         </div>
         <div className={styles.appMemoryUsage}>
@@ -193,31 +179,26 @@ function ServerInfoBox({
 function ManageUser({ user }: { user?: User }) {
   const api = useWebsocketApi();
   const notificationMutation = useMutation({
-    mutationFn: () =>
-      api.admin.sendWebsocketNotification({
-        to: user?.email ?? "",
-        message: "You have been hacked",
-      }),
+    mutationFn: () => api.admin.sendWebsocketNotification({ to: user?.email ?? '', message: 'You have been hacked' }),
   });
   const disconnectMutation = useMutation({
-    mutationFn: () =>
-      api.admin.disconnectUser({
-        email: user?.email ?? "",
-      }),
+    mutationFn: () => api.admin.disconnectUser({ email: user?.email ?? '' }),
   });
 
   const sendGiftMutation = useMutation({
-    mutationFn: () =>
-      api.admin.sendGiftMail({
-        email: user?.email ?? "",
-      }),
+    mutationFn: () => api.admin.sendGiftMail({ email: user?.email ?? '' }),
   });
+
+  const fullHealMutation = useMutation({
+    mutationFn: () => api.admin.fullHealUser({ email: user?.email ?? '' }),
+  });
+
+  const killUserMutation = useMutation({
+    mutationFn: () => api.admin.killUser({ email: user?.email ?? '' }),
+  });
+
   const pushNotificationToUserMutation = useMutation({
-    mutationFn: () =>
-      api.admin.pushNotificationToUser({
-        message: "Test message",
-        email: user?.email ?? "",
-      }),
+    mutationFn: () => api.admin.pushNotificationToUser({ message: 'Test message', email: user?.email ?? '' }),
   });
 
   if (!user) return <></>;
@@ -225,11 +206,7 @@ function ManageUser({ user }: { user?: User }) {
   return (
     <div className={styles.userSocketContainer}>
       <div className={styles.userInfoContainer}>
-        <CharacterHead
-          head={user.appearance.head}
-          gender={user.appearance.gender}
-          className={styles.userHead}
-        />
+        <CharacterHead head={user.appearance.head} gender={user.appearance.gender} className={styles.userHead} />
 
         <div className={styles.generalInfoContainer}>
           <span>{user.name}</span>
@@ -237,14 +214,8 @@ function ManageUser({ user }: { user?: User }) {
         </div>
 
         <div className={styles.statsContainer}>
-          <HealthBar
-            currentHealth={user.stats?.health ?? 0}
-            maxHealth={user.stats?.maxHealth ?? 0}
-          />
-          <ManaBar
-            currentHealth={user.stats?.mana ?? 0}
-            maxHealth={user.stats?.maxMana ?? 0}
-          />
+          <HealthBar currentHealth={user.stats?.health ?? 0} maxHealth={user.stats?.maxHealth ?? 0} />
+          <ManaBar currentHealth={user.stats?.mana ?? 0} maxHealth={user.stats?.maxMana ?? 0} />
         </div>
       </div>
 
@@ -271,6 +242,18 @@ function ManageUser({ user }: { user?: User }) {
           label={<VscDebugDisconnect />}
           onClick={() => disconnectMutation.mutate()}
           disabled={disconnectMutation.isPending}
+        />
+        <Button
+          theme="danger"
+          label={<FaSkull />}
+          onClick={() => killUserMutation.mutate()}
+          disabled={killUserMutation.isPending}
+        />
+        <Button
+          theme="success"
+          label={<MdOutlineLocalHospital />}
+          onClick={() => fullHealMutation.mutate()}
+          disabled={fullHealMutation.isPending}
         />
       </div>
     </div>
