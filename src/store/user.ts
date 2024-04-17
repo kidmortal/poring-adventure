@@ -1,4 +1,4 @@
-import { create } from "zustand";
+import { create } from 'zustand';
 
 export interface UserStoreState {
   mailBox: Mail[];
@@ -21,6 +21,5 @@ export const useUserStore = create<UserStoreState>()((set) => ({
   setUser: (v) => set(() => ({ user: v })),
   setGuild: (v) => set(() => ({ guild: v })),
   setMailBox: (v) => set(() => ({ mailBox: v })),
-  resetStore: () =>
-    set(() => ({ user: undefined, guild: undefined, mailBox: [] })),
+  resetStore: () => set(() => ({ user: undefined, guild: undefined, mailBox: [] })),
 }));
