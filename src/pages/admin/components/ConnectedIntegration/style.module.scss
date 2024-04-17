@@ -1,0 +1,14 @@
+@import '@/styles/variables';
+
+.integrationContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  background-color: $secondary;
+  padding: 0.5rem;
+  border-radius: 6px;
+  > *:not(:first-child) {
+    margin-left: 0.5rem;
+  }
+}

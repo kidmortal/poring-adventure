@@ -23,10 +23,10 @@ export function DiscordIntegrationModal(props: Props) {
     queryKey: [Query.DISCORD],
     enabled: !!store.websocket,
     queryFn: () => api.discord.getProfile(),
-    staleTime: 1000 * 60,
+    staleTime: 1000 * 5,
   });
 
-  const purchaseMutation = useMutation({
+  const createTokenMutation = useMutation({
     mutationFn: () => api.discord.createToken(),
     onSuccess: (value) => {
       setToken(value);
@@ -62,8 +62,8 @@ export function DiscordIntegrationModal(props: Props) {
           <When value={token === ''}>
             <Button
               label="Generate code"
-              onClick={() => purchaseMutation.mutate()}
-              disabled={purchaseMutation.isPending}
+              onClick={() => createTokenMutation.mutate()}
+              disabled={createTokenMutation.isPending}
             />
           </When>
         </When>

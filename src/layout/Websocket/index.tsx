@@ -30,7 +30,7 @@ export function WebsocketLayout() {
     if (store.loggedUserInfo.accessToken && !store.websocket) {
       setDisconnected(false);
       const socket = io(import.meta.env.VITE_API_URL, {
-        auth: { acessToken: store.loggedUserInfo.accessToken },
+        auth: { accessToken: store.loggedUserInfo.accessToken },
       });
 
       socket.on("authenticated", () => {

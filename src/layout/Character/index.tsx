@@ -1,17 +1,17 @@
-import { Outlet } from "react-router-dom";
+import { Outlet } from 'react-router-dom';
 
-import { useMainStore } from "@/store/main";
-import { useQuery } from "@tanstack/react-query";
+import { useMainStore } from '@/store/main';
+import { useQuery } from '@tanstack/react-query';
 
-import { Query } from "@/store/query";
-import { FullscreenLoading } from "@/components/FullscreenLoading";
-import { CharacterSummaryHeader } from "@/components/CharacterSummaryHeader";
-import { CharacterCreationPage } from "@/pages/characterCreation";
-import { ErrorMessage } from "@/components/ErrorMessage";
-import { useWebsocketApi } from "@/api/websocketServer";
-import styles from "./style.module.scss";
-import { BottomNavBar } from "@/components/BottomNavBar";
-import { useUserStore } from "@/store/user";
+import { Query } from '@/store/query';
+import { FullscreenLoading } from '@/components/FullscreenLoading';
+import { CharacterSummaryHeader } from '@/components/CharacterSummaryHeader';
+import { CharacterCreationPage } from '@/pages/characterCreation';
+import { ErrorMessage } from '@/components/ErrorMessage';
+import { useWebsocketApi } from '@/api/websocketServer';
+import styles from './style.module.scss';
+import { BottomNavBar } from '@/components/BottomNavBar';
+import { useUserStore } from '@/store/user';
 
 export function CharacterLayout() {
   const userStore = useUserStore();
@@ -26,7 +26,7 @@ export function CharacterLayout() {
   });
   useQuery({
     queryKey: [Query.BATTLE],
-    enabled: !!store.websocket && !!store.loggedUserInfo.accessToken,
+    enabled: !!store.websocket && !!store.wsAuthenticated && !!store.loggedUserInfo.accessToken,
     staleTime: 1000 * 60, // 60 seconds
     queryFn: () => api.battle.getBattleInstance(),
   });
