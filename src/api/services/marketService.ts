@@ -1,50 +1,32 @@
-import { Socket } from "socket.io-client";
-import { asyncEmit } from "../websocketServer";
+import { Socket } from 'socket.io-client';
+import { asyncEmit } from '../websocketServer';
 
 export function marketService({ websocket }: { websocket?: Socket }) {
-  async function createMarketListing(args: {
-    price: number;
-    stack: number;
-    itemId: number;
-  }) {
+  async function createMarketListing(dto: CreateMarketListingDto) {
     if (!websocket) return undefined;
-    return new Promise(function (resolve) {
-      websocket.emit("create_market_listing", args, (msg: string) => {
-        resolve(msg);
-      });
-    });
+    return asyncEmit<string>(websocket, 'create_market_listing', dto);
   }
 
-  async function revokeMarketListing(listingId: number) {
+  async function removeMarketListing(dto: RemoveMarketListingDto) {
     if (!websocket) return undefined;
 
-    return asyncEmit<string>(websocket, "remove_market_listing", listingId);
+    return asyncEmit<string>(websocket, 'remove_market_listing', dto);
   }
 
-  async function purchaseMarketListing(args: {
-    stack: number;
-    marketListingId: number;
-  }) {
+  async function purchaseMarketListing(dto: PuchaseMarketListingDto) {
     if (!websocket) return undefined;
-    return asyncEmit<string>(websocket, "purchase_market_listing", args);
+    return asyncEmit<string>(websocket, 'purchase_market_listing', dto);
   }
 
-  async function getMarketListingPage(params: {
-    page: number;
-    category: ItemCategory;
-  }) {
+  async function getMarketListingPage(dto: GetAllMarketListingDto) {
     if (!websocket) return undefined;
-    return asyncEmit<{ listings: MarketListing[]; count: number }>(
-      websocket,
-      "get_all_market_listing",
-      params
-    );
+    return asyncEmit<{ listings: MarketListing[]; count: number }>(websocket, 'get_all_market_listing', dto);
   }
 
   return {
     createMarketListing,
     getMarketListingPage,
     purchaseMarketListing,
-    revokeMarketListing,
+    removeMarketListing,
   };
 }

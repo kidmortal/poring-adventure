@@ -1,14 +1,14 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
-import styles from "./style.module.scss";
-import { BaseModal } from "../BaseModal";
-import { Query } from "@/store/query";
-import { useMainStore } from "@/store/main";
-import { useWebsocketApi } from "@/api/websocketServer";
-import { When } from "@/components/When";
-import { Button } from "@/components/Button";
-import ForEach from "@/components/ForEach";
-import { CharacterWithHealthBar } from "@/components/CharacterWithHealthBar";
-import { useUserStore } from "@/store/user";
+import { useMutation, useQuery } from '@tanstack/react-query';
+import styles from './style.module.scss';
+import { BaseModal } from '../BaseModal';
+import { Query } from '@/store/query';
+import { useMainStore } from '@/store/main';
+import { useWebsocketApi } from '@/api/websocketServer';
+import { When } from '@/components/When';
+import { Button } from '@/components/Button';
+import ForEach from '@/components/ForEach';
+import { CharacterWithHealthBar } from '@/components/CharacterWithHealthBar';
+import { useUserStore } from '@/store/user';
 
 type Props = {
   isOpen?: boolean;
@@ -21,26 +21,27 @@ export function PartyInfoModal(props: Props) {
   const store = useMainStore();
   const userStore = useUserStore();
   const user = userStore.user;
+  const partyId = user?.partyId ?? 0;
   const query = useQuery({
     queryKey: [Query.PARTY],
-    enabled: !!store.websocket,
+    enabled: !!store.websocket && !!userStore.user?.partyId,
     staleTime: Infinity,
-    queryFn: () => api.party.getParty(),
+    queryFn: () => api.party.getParty({ partyId }),
   });
 
   const createPartyMutation = useMutation({
     mutationFn: () => api.party.createParty(),
   });
-
-  const removeFromPartyMutation = useMutation({
-    mutationFn: (email: string) => api.party.removeFromParty(email),
-  });
-
   const deletePartyMutation = useMutation({
     mutationFn: () => api.party.removeParty(),
   });
+
+  const removeFromPartyMutation = useMutation({
+    mutationFn: (email: string) => api.party.kickFromParty({ kickedEmail: email, partyId }),
+  });
+
   const quitPartyMutation = useMutation({
-    mutationFn: (partyId: number) => api.party.quitParty(partyId),
+    mutationFn: (partyId: number) => api.party.quitParty({ partyId }),
   });
 
   return (

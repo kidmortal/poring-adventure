@@ -1,24 +1,24 @@
-import styles from "./style.module.scss";
+import styles from './style.module.scss';
 
-import { useWebsocketApi } from "@/api/websocketServer";
-import { useMutation } from "@tanstack/react-query";
+import { useWebsocketApi } from '@/api/websocketServer';
+import { useMutation } from '@tanstack/react-query';
 
-import { When } from "@/components/When";
-import ForEach from "@/components/ForEach";
+import { When } from '@/components/When';
+import ForEach from '@/components/ForEach';
 
-import cn from "classnames";
-import { useModalStore } from "@/store/modal";
-import { GuildTaskInfo } from "@/components/GuildTaskInfo";
-import { useUserStore } from "@/store/user";
-import { useState } from "react";
-import { GuildApplicationInfo } from "./components/GuildApplicationInfo";
-import { GuildInfo } from "./components/GuildInfo";
-import { GuidMemberInfo } from "./components/GuildMemberInfo";
-import { GuildMenu } from "./components/GuildMenu";
-import Switch from "@/components/Switch";
+import cn from 'classnames';
+import { useModalStore } from '@/store/modal';
+import { GuildTaskInfo } from '@/components/GuildTaskInfo';
+import { useUserStore } from '@/store/user';
+import { useState } from 'react';
+import { GuildApplicationInfo } from './components/GuildApplicationInfo';
+import { GuildInfo } from './components/GuildInfo';
+import { GuidMemberInfo } from './components/GuildMemberInfo';
+import { GuildMenu } from './components/GuildMenu';
+import Switch from '@/components/Switch';
 
 export function GuildPage() {
-  const [showing, setShowing] = useState<"members" | "applications">("members");
+  const [showing, setShowing] = useState<'members' | 'applications'>('members');
   const userStore = useUserStore();
   const modalStore = useModalStore();
   const api = useWebsocketApi();
@@ -40,11 +40,9 @@ export function GuildPage() {
       <When value={!!guild}>
         <GuildInfo guild={guild} />
 
-        <div className={styles.internalMessageContainer}>
-          {guild?.internalMessage}
-        </div>
+        <div className={styles.internalMessageContainer}>{guild?.internalMessage}</div>
+        <GuildMenu />
         <When value={!!guildTask}>
-          <GuildMenu />
           <GuildTaskInfo
             guildTask={guildTask}
             finished={taskCompleted}
@@ -72,14 +70,14 @@ export function GuildPage() {
           <Switch
             leftLabel="Members"
             rightLabel="Requests"
-            selected={showing === "members" ? "left" : "right"}
+            selected={showing === 'members' ? 'left' : 'right'}
             onSelect={(value) => {
               switch (value) {
-                case "left":
-                  setShowing("members");
+                case 'left':
+                  setShowing('members');
                   break;
-                case "right":
-                  setShowing("applications");
+                case 'right':
+                  setShowing('applications');
                   break;
 
                 default:
@@ -89,19 +87,14 @@ export function GuildPage() {
           />
         </div>
 
-        <When value={showing === "members"}>
+        <When value={showing === 'members'}>
           <div className={styles.membersList}>
             <span>Members: {guild?.members?.length}/10</span>
-            <ForEach
-              items={guild?.members}
-              render={(member) => (
-                <GuidMemberInfo key={member.id} member={member} />
-              )}
-            />
+            <ForEach items={guild?.members} render={(member) => <GuidMemberInfo key={member.id} member={member} />} />
           </div>
         </When>
 
-        <When value={showing === "applications"}>
+        <When value={showing === 'applications'}>
           <div className={styles.membersList}>
             <ForEach
               items={guild?.guildApplications}
@@ -109,9 +102,7 @@ export function GuildPage() {
                 <GuildApplicationInfo
                   key={application.id}
                   application={application}
-                  permissionLevel={
-                    userStore.user?.guildMember?.permissionLevel ?? 0
-                  }
+                  permissionLevel={userStore.user?.guildMember?.permissionLevel ?? 0}
                 />
               )}
             />

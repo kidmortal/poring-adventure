@@ -13,6 +13,7 @@ declare type User = {
   buffs?: UserBuff[];
   profession?: Profession;
   guildMember?: GuildMember;
+  partyId: number;
 };
 
 declare type BattleUser = User & {
@@ -38,7 +39,7 @@ declare type Stats = {
 declare type Appearance = {
   id: number;
   head: string;
-  gender: "male" | "female";
+  gender: 'male' | 'female';
   costume: string;
   userEmail: string;
 };

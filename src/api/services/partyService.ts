@@ -1,39 +1,38 @@
-import { Socket } from "socket.io-client";
-import { asyncEmit } from "../websocketServer";
+import { Socket } from 'socket.io-client';
+import { asyncEmit } from '../websocketServer';
 
 export function partyService({ websocket }: { websocket?: Socket }) {
-  async function getParty(): Promise<boolean> {
-    if (!websocket) return false;
-    return asyncEmit<boolean>(websocket, "get_party", "");
-  }
-
-  async function removeFromParty(userEmail: string): Promise<boolean> {
-    if (!websocket) return false;
-    return asyncEmit<boolean>(websocket, "kick_from_party", userEmail);
-  }
-
   async function createParty(): Promise<boolean> {
     if (!websocket) return false;
-    return asyncEmit<boolean>(websocket, "create_party", "");
+    return asyncEmit<boolean>(websocket, 'create_party', '');
   }
-
   async function removeParty(): Promise<boolean> {
     if (!websocket) return false;
-    return asyncEmit<boolean>(websocket, "remove_party", "");
+    return asyncEmit<boolean>(websocket, 'remove_party', '');
   }
-  async function quitParty(partyId: number): Promise<boolean> {
+  async function getParty(dto: GetPartyDto): Promise<boolean> {
     if (!websocket) return false;
-    return asyncEmit<boolean>(websocket, "quit_party", partyId);
-  }
-
-  async function inviteToParty(email: string): Promise<boolean> {
-    if (!websocket) return false;
-    return asyncEmit<boolean>(websocket, "invite_to_party", email);
+    return asyncEmit<boolean>(websocket, 'get_party', dto);
   }
 
-  async function joinParty(partyId: number): Promise<boolean> {
+  async function kickFromParty(dto: KickFromPartyDto): Promise<boolean> {
     if (!websocket) return false;
-    return asyncEmit<boolean>(websocket, "join_party", partyId);
+    return asyncEmit<boolean>(websocket, 'kick_from_party', dto);
+  }
+
+  async function quitParty(dto: QuitPartyDto): Promise<boolean> {
+    if (!websocket) return false;
+    return asyncEmit<boolean>(websocket, 'quit_party', dto);
+  }
+
+  async function inviteToParty(dto: InviteToPartyDto): Promise<boolean> {
+    if (!websocket) return false;
+    return asyncEmit<boolean>(websocket, 'invite_to_party', dto);
+  }
+
+  async function joinParty(dto: JoinPartyDto): Promise<boolean> {
+    if (!websocket) return false;
+    return asyncEmit<boolean>(websocket, 'join_party', dto);
   }
 
   return {
@@ -43,6 +42,6 @@ export function partyService({ websocket }: { websocket?: Socket }) {
     inviteToParty,
     quitParty,
     joinParty,
-    removeFromParty,
+    kickFromParty,
   };
 }

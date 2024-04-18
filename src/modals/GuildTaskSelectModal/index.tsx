@@ -1,12 +1,12 @@
-import styles from "./style.module.scss";
-import { BaseModal } from "../BaseModal";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { Query } from "@/store/query";
-import { useMainStore } from "@/store/main";
-import { useWebsocketApi } from "@/api/websocketServer";
-import { FullscreenLoading } from "@/components/FullscreenLoading";
-import ForEach from "@/components/ForEach";
-import { GuildTaskInfo } from "@/components/GuildTaskInfo";
+import styles from './style.module.scss';
+import { BaseModal } from '../BaseModal';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { Query } from '@/store/query';
+import { useMainStore } from '@/store/main';
+import { useWebsocketApi } from '@/api/websocketServer';
+import { FullscreenLoading } from '@/components/FullscreenLoading';
+import ForEach from '@/components/ForEach';
+import { GuildTaskInfo } from '@/components/GuildTaskInfo';
 
 type Props = {
   isOpen?: boolean;
@@ -26,9 +26,10 @@ export function GuildTaskSelectModal({ isOpen, onRequestClose }: Props) {
 
   const acceptGuildTask = useMutation({
     mutationFn: (args: { taskId: number }) => api.guild.acceptGuildTask(args),
+    onSuccess: () => onRequestClose(),
   });
 
-  if (query?.status === "pending") {
+  if (query?.status === 'pending') {
     return <FullscreenLoading info="Guild tasks" />;
   }
 

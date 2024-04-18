@@ -1,6 +1,4 @@
-Here's an improved version of your README:
-
----
+[![wakatime](https://wakatime.com/badge/user/df445858-58a6-4172-a4be-3b67be4d426e/project/018e89e8-f099-4de1-af7a-ba0ee730144d.svg)](https://wakatime.com/badge/user/df445858-58a6-4172-a4be-3b67be4d426e/project/018e89e8-f099-4de1-af7a-ba0ee730144d)
 
 # Poring Adventure
 
