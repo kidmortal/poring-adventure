@@ -1,19 +1,19 @@
-import styles from "./style.module.scss";
+import styles from './style.module.scss';
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { Query } from "@/store/query";
-import { toast } from "react-toastify";
+import { Query } from '@/store/query';
+import { toast } from 'react-toastify';
 
-import { BaseModal } from "../BaseModal";
-import { When } from "@/components/When";
-import { Silver } from "@/components/Silver";
-import { InventoryItem } from "@/components/InventoryItem";
-import { Button } from "@/components/Button";
-import { useModalStore } from "@/store/modal";
-import { useWebsocketApi } from "@/api/websocketServer";
-import { ItemStats } from "@/components/EquipedItem";
-import { useUserStore } from "@/store/user";
+import { BaseModal } from '../BaseModal';
+import { When } from '@/components/When';
+import { Silver } from '@/components/Silver';
+import { InventoryItem } from '@/components/InventoryItem';
+import { Button } from '@/components/Button';
+import { useModalStore } from '@/store/modal';
+import { useWebsocketApi } from '@/api/websocketServer';
+import { ItemStats } from '@/components/EquipedItem';
+import { useUserStore } from '@/store/user';
 
 type Props = {
   isOpen?: boolean;
@@ -25,11 +25,10 @@ function ItemDetails({ item }: { item?: InventoryItem | Equipment }) {
   let isOnSale = false;
   let stack = 0;
   let totalPrice = 0;
-  if (item && "marketListing" in item) {
+  if (item && 'marketListing' in item) {
     isOnSale = !!item?.marketListing;
     stack = item?.marketListing?.stack ?? 0;
-    totalPrice =
-      (item.marketListing?.price ?? 0) * (item.marketListing?.stack ?? 1);
+    totalPrice = (item.marketListing?.price ?? 0) * (item.marketListing?.stack ?? 1);
   }
 
   return (
@@ -53,8 +52,7 @@ export function ItemMenuModal(props: Props) {
   const queryClient = useQueryClient();
 
   const revokeMarketListingMutation = useMutation({
-    mutationFn: (listingId: number) =>
-      api.market.revokeMarketListing(listingId),
+    mutationFn: (listingId: number) => api.market.removeMarketListing({ marketListingId: listingId }),
     onSettled: () => {
       props.onRequestClose();
       queryClient.refetchQueries({
@@ -69,7 +67,7 @@ export function ItemMenuModal(props: Props) {
   const consumeItemMutation = useMutation({
     mutationFn: (itemId: number) => api.items.consumeItem(itemId),
     onSuccess: () => {
-      toast("Item consumed", { type: "success", autoClose: 1000 });
+      toast('Item consumed', { type: 'success', autoClose: 1000 });
     },
     onSettled: () => {
       props.onRequestClose();
@@ -82,7 +80,7 @@ export function ItemMenuModal(props: Props) {
   const unequipItemMutation = useMutation({
     mutationFn: (itemId: number) => api.items.unequipItem(itemId),
     onSuccess: () => {
-      toast("Item unequipped", { type: "success" });
+      toast('Item unequipped', { type: 'success' });
     },
     onSettled: () => {
       props.onRequestClose();
@@ -95,7 +93,7 @@ export function ItemMenuModal(props: Props) {
   const equipItemMutation = useMutation({
     mutationFn: (itemId: number) => api.items.equipItem(itemId),
     onSuccess: () => {
-      toast("Item equipped", { type: "success" });
+      toast('Item equipped', { type: 'success' });
     },
     onSettled: () => {
       props.onRequestClose();
@@ -109,17 +107,15 @@ export function ItemMenuModal(props: Props) {
   let listingId = 0;
   let hasRemainingStock = false;
 
-  if (item && "marketListing" in item) {
+  if (item && 'marketListing' in item) {
     listingId = item.marketListing?.id ?? 0;
     hasRemainingStock = (item.stack || 0) > (item.marketListing?.stack || 0);
   }
 
   const isOnSale = !!listingId;
-  const isConsumable = props.item?.item?.category === "consumable";
+  const isConsumable = props.item?.item?.category === 'consumable';
 
-  const isAlreadyEquipped = !!userStore.user?.equipment.find(
-    (equip) => equip.itemId === item?.itemId
-  );
+  const isAlreadyEquipped = !!userStore.user?.equipment.find((equip) => equip.itemId === item?.itemId);
 
   return (
     <BaseModal onRequestClose={props.onRequestClose} isOpen={props.isOpen}>

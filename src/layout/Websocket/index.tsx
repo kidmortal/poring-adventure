@@ -1,19 +1,18 @@
-import { Outlet, useNavigate } from "react-router-dom";
-import { io } from "socket.io-client";
+import { Outlet, useNavigate } from 'react-router-dom';
+import { io } from 'socket.io-client';
 
-import { useEffect, useState } from "react";
-import { useMainStore } from "@/store/main";
+import { useEffect, useState } from 'react';
+import { useMainStore } from '@/store/main';
 
-import { useBattleStore } from "@/store/battle";
-import { FullscreenLoading } from "@/components/FullscreenLoading";
-import { useModalStore } from "@/store/modal";
-import { useWebsocketApi } from "@/api/websocketServer";
-import { addWebsocketListeners } from "./listeners";
-import { addToastListeners } from "./toastListener";
-import { WebsocketDisconnectedMessageScreen } from "@/screens/WebsocketDisconnected";
-import { addAdminWebsocketListeners } from "./adminListeners";
-import { useAdminStore } from "@/store/admin";
-import { useUserStore } from "@/store/user";
+import { useBattleStore } from '@/store/battle';
+import { FullscreenLoading } from '@/components/FullscreenLoading';
+import { useWebsocketApi } from '@/api/websocketServer';
+import { addWebsocketListeners } from './listeners';
+import { addToastListeners } from './toastListener';
+import { WebsocketDisconnectedMessageScreen } from '@/screens/WebsocketDisconnected';
+import { addAdminWebsocketListeners } from './adminListeners';
+import { useAdminStore } from '@/store/admin';
+import { useUserStore } from '@/store/user';
 
 export function WebsocketLayout() {
   const [disconnected, setDisconnected] = useState(false);
@@ -21,7 +20,6 @@ export function WebsocketLayout() {
   const store = useMainStore();
   const userStore = useUserStore();
   const adminStore = useAdminStore();
-  const modal = useModalStore();
   const battleStore = useBattleStore();
   const api = useWebsocketApi();
   const navigate = useNavigate();
@@ -33,19 +31,19 @@ export function WebsocketLayout() {
         auth: { accessToken: store.loggedUserInfo.accessToken },
       });
 
-      socket.on("authenticated", () => {
+      socket.on('authenticated', () => {
         store.setWsAuthenticated(true);
       });
 
-      socket.on("connect", () => {
+      socket.on('connect', () => {
         store.setWebsocket(socket);
         setDisconnected(false);
       });
-      socket.on("disconnect", () => {
+      socket.on('disconnect', () => {
         store.setWebsocket(undefined);
         setDisconnected(true);
       });
-      socket.on("connect_error", () => {
+      socket.on('connect_error', () => {
         store.setWebsocket(undefined);
       });
     }
@@ -60,7 +58,6 @@ export function WebsocketLayout() {
       const params = {
         websocket: store.websocket,
         api,
-        modal,
         battle: battleStore,
         store,
         userStore: userStore,
@@ -77,17 +74,15 @@ export function WebsocketLayout() {
   }, [store.websocket]);
 
   if (disconnected) {
-    return (
-      <WebsocketDisconnectedMessageScreen onReconnect={() => connectToWS()} />
-    );
+    return <WebsocketDisconnectedMessageScreen onReconnect={() => connectToWS()} />;
   }
 
   if (!store.websocket && !store.wsAuthenticated) {
-    return <FullscreenLoading info={"Server connection"} />;
+    return <FullscreenLoading info={'Server connection'} />;
   }
 
   if (!store.websocket) {
-    return <FullscreenLoading info={"Reconnecting to server"} />;
+    return <FullscreenLoading info={'Reconnecting to server'} />;
   }
 
   return <Outlet />;

@@ -6,7 +6,6 @@ import { UserSettingsModal } from '@/modals/UserSettingsModal';
 import { ItemMenuModal } from '@/modals/ItemMenuModal';
 import { SellItemModal } from '@/modals/SellItemModal';
 import { BuyItemModal } from '@/modals/BuyItemModal';
-import { PartyInfoModal } from '@/modals/PartyInfoModal';
 import { FriendListModal } from '@/modals/FriendListModal';
 import { InteractUserModal } from '@/modals/InteractUserModal';
 import { SkillbookModal } from '@/modals/SkillbookModal';
@@ -43,11 +42,6 @@ export function ModalLayout() {
       <UserSettingsModal
         onRequestClose={() => modalStore.setUserConfig({ open: false })}
         isOpen={modalStore.userConfig.open}
-      />
-      <PartyInfoModal
-        onRequestClose={() => modalStore.setPartyInfo({ open: false })}
-        isOpen={modalStore.partyInfo.open}
-        party={modalStore.partyInfo.party}
       />
       <FriendListModal
         onRequestClose={() => modalStore.setFriendlist({ open: false })}

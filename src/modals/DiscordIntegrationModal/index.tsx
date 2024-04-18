@@ -21,7 +21,7 @@ export function DiscordIntegrationModal(props: Props) {
 
   const discordProfile = useQuery({
     queryKey: [Query.DISCORD],
-    enabled: !!store.websocket,
+    enabled: !!store.websocket && props.isOpen,
     queryFn: () => api.discord.getProfile(),
     staleTime: 1000 * 5,
   });
@@ -35,39 +35,41 @@ export function DiscordIntegrationModal(props: Props) {
 
   return (
     <BaseModal onRequestClose={props.onRequestClose} isOpen={props.isOpen}>
-      <div className={styles.container}>
-        <When value={!!discordProfile.data?.discordId}>
-          <img src={discordProfile.data?.url} />
-          <span>ID: {discordProfile.data?.discordId}</span>
-          <span>username: {discordProfile.data?.name}</span>
-          <Button label="Unlink Discord" theme="danger" />
-        </When>
-        <When value={!discordProfile.data?.discordId}>
-          <span>Invite the bot to your server</span>
-          <span>and use /login {`{code}`}</span>
-          <When value={token !== ''}>
-            <span>Click to copy</span>
-            <div
-              className={styles.codeDisplay}
-              onClick={() => {
-                if (token) {
-                  navigator.clipboard.writeText(token);
-                }
-                toast('Token copied to clipboard', { autoClose: 1000 });
-              }}
-            >
-              <span>{token}</span>
-            </div>
+      <When value={!discordProfile.isFetching}>
+        <div className={styles.container}>
+          <When value={!!discordProfile.data?.discordId}>
+            <img src={discordProfile.data?.url} />
+            <span>ID: {discordProfile.data?.discordId}</span>
+            <span>username: {discordProfile.data?.name}</span>
+            <Button label="Unlink Discord" theme="danger" />
           </When>
-          <When value={token === ''}>
-            <Button
-              label="Generate code"
-              onClick={() => createTokenMutation.mutate()}
-              disabled={createTokenMutation.isPending}
-            />
+          <When value={!discordProfile.data?.discordId}>
+            <span>Invite the bot to your server</span>
+            <span>and use /login {`{code}`}</span>
+            <When value={token !== ''}>
+              <span>Click to copy</span>
+              <div
+                className={styles.codeDisplay}
+                onClick={() => {
+                  if (token) {
+                    navigator.clipboard.writeText(token);
+                  }
+                  toast('Token copied to clipboard', { autoClose: 1000 });
+                }}
+              >
+                <span>{token}</span>
+              </div>
+            </When>
+            <When value={token === ''}>
+              <Button
+                label="Generate code"
+                onClick={() => createTokenMutation.mutate()}
+                disabled={createTokenMutation.isPending}
+              />
+            </When>
           </When>
-        </When>
-      </div>
+        </div>
+      </When>
     </BaseModal>
   );
 }

@@ -50,6 +50,11 @@ declare type Party = {
   members?: User[];
 };
 
+declare type PartyStatus = {
+  chat: string[];
+  isPartyOpen: boolean;
+};
+
 declare type UserBuff = {
   id: number;
   buffId: number;
