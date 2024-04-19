@@ -12,10 +12,10 @@
 
 .memberContainer {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 1rem;
+  margin-top: 1rem;
 }
 
 .leaderActions {

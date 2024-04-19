@@ -9,6 +9,7 @@ import { Button } from '@/components/Button';
 import ForEach from '@/components/ForEach';
 import { CharacterWithHealthBar } from '@/components/CharacterWithHealthBar';
 import { useEffect, useRef, useState } from 'react';
+import { FaChessPawn, FaCrown } from 'react-icons/fa';
 
 export function PartyInfo() {
   const listRef = useRef(null);
@@ -17,11 +18,12 @@ export function PartyInfo() {
   const store = useMainStore();
   const userStore = useUserStore();
   const user = userStore.user;
+  const party = userStore.party;
   const partyId = user?.partyId ?? 0;
   const query = useQuery({
     queryKey: [Query.PARTY],
     enabled: !!store.websocket && !!userStore.user?.partyId,
-    staleTime: Infinity,
+    staleTime: 1000 * 30, // 30 seconds
     queryFn: () => api.party.getParty({ partyId }),
   });
 
@@ -40,7 +42,7 @@ export function PartyInfo() {
     mutationFn: (partyId: number) => api.party.quitParty({ partyId }),
   });
   const deletePartyMutation = useMutation({
-    mutationFn: () => api.party.removeParty(),
+    mutationFn: () => api.party.removeParty({ partyId }),
   });
 
   const openPartyMutation = useMutation({
@@ -63,14 +65,14 @@ export function PartyInfo() {
         <span>Loading</span>
       </When>
       <When value={!query.isLoading}>
-        <When value={!query.data}>
+        <When value={!party?.id}>
           <Button
             label="Create a new party"
             onClick={() => createPartyMutation.mutate()}
             disabled={createPartyMutation.isPending}
           />
         </When>
-        <When value={!!userStore.party?.id}>
+        <When value={!!party?.id}>
           <When value={userIsLeader}>
             <div className={styles.leaderActions}>
               <When value={!userStore.partyStatus?.isPartyOpen}>
@@ -133,8 +135,15 @@ export function PartyInfo() {
 }
 
 function PartyMemberInfo(props: { user: User; party?: Party }) {
+  const isLeader = props.party?.leaderEmail === props.user.email;
   return (
     <div className={styles.memberContainer}>
+      <When value={isLeader}>
+        <FaCrown size={16} color="gold" />
+      </When>
+      <When value={!isLeader}>
+        <FaChessPawn size={16} color="white" />
+      </When>
       <CharacterWithHealthBar user={props.user} classInfo />
     </div>
   );

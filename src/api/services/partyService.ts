@@ -6,13 +6,17 @@ export function partyService({ websocket }: { websocket?: Socket }) {
     if (!websocket) return false;
     return asyncEmit<boolean>(websocket, 'create_party', '');
   }
-  async function removeParty(): Promise<boolean> {
+  async function removeParty(dto: RemovePartyDto): Promise<boolean> {
     if (!websocket) return false;
-    return asyncEmit<boolean>(websocket, 'remove_party', '');
+    return asyncEmit<boolean>(websocket, 'remove_party', dto);
   }
   async function getParty(dto: GetPartyDto): Promise<boolean> {
     if (!websocket) return false;
     return asyncEmit<boolean>(websocket, 'get_party', dto);
+  }
+  async function getAllOpenParties(): Promise<Party[] | undefined> {
+    if (!websocket) return;
+    return asyncEmit<Party[]>(websocket, 'get_open_parties', '');
   }
   async function sendChatMessage(dto: SendPartyChatMessageDto): Promise<boolean> {
     if (!websocket) return false;
@@ -54,5 +58,6 @@ export function partyService({ websocket }: { websocket?: Socket }) {
     kickFromParty,
     openParty,
     closeParty,
+    getAllOpenParties,
   };
 }

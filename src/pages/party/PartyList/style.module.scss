@@ -1,4 +1,4 @@
-@import "@/styles/variables";
+@import '@/styles/variables';
 
 .container {
   width: 100%;
@@ -8,4 +8,36 @@
   justify-content: flex-start;
   align-items: center;
   color: white;
+}
+
+.partyMemberHeadInfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.partyMemberList {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  > *:not(:first-child) {
+    margin-left: 0.5rem;
+  }
+  span {
+    font-size: 10px;
+  }
+}
+
+.party {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  button {
+    width: fit-content;
+  }
 }
