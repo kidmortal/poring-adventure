@@ -4,7 +4,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { FullscreenLoading } from '@/layout/PageLoading/FullscreenLoading';
 
 import { Button } from '@/components/shared/Button';
-import { Silver } from '@/components/Silver';
+import { Silver } from '@/components/StatsComponents/Silver';
 import { InventoryItem } from '@/components/Items/InventoryItem';
 import { useWebsocketApi } from '@/api/websocketServer';
 import { useMainStore } from '@/store/main';

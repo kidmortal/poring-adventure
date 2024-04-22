@@ -2,7 +2,7 @@ import { useModalStore } from '@/store/modal';
 import styles from './style.module.scss';
 import ForEach from '@/components/shared/ForEach';
 import { CharacterInfo } from '@/components/Character/CharacterInfo';
-import { Silver } from '@/components/Silver';
+import { Silver } from '@/components/StatsComponents/Silver';
 
 type Props = {
   users?: User[];

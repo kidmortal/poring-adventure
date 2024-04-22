@@ -1,7 +1,7 @@
 import { useUserStore } from '@/store/user';
-import BuffList from '../BuffList';
-import HealthBar from '../../HealthBar';
-import ManaBar from '../../ManaBar';
+import BuffList from '../../StatsComponents/BuffList';
+import HealthBar from '../../StatsComponents/HealthBar';
+import ManaBar from '../../StatsComponents/ManaBar';
 import styles from './style.module.scss';
 
 export function Stat(props: { label: string; assetName: string }) {

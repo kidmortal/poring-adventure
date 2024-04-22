@@ -1,5 +1,5 @@
-import styles from "./style.module.scss";
-import ExperienceBar from "@/components/ExperienceBar";
+import styles from './style.module.scss';
+import ExperienceBar from '@/components/StatsComponents/ExperienceBar';
 
 export function GuildInfo({ guild }: { guild?: Guild }) {
   return (

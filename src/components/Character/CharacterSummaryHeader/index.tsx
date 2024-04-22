@@ -1,6 +1,6 @@
 import styles from './style.module.scss';
 import { CharacterHead } from '../CharacterInfo';
-import { Silver } from '../../Silver';
+import { Silver } from '../../StatsComponents/Silver';
 import { When } from '../../shared/When';
 import { useMainStore } from '@/store/main';
 import { Button } from '../../shared/Button';

@@ -1,11 +1,11 @@
 import styles from './style.module.scss';
 
 import { CharacterInfo } from '@/components/Character/CharacterInfo';
-import HealthBar from '@/components/HealthBar';
+import HealthBar from '@/components/StatsComponents/HealthBar';
 import { When } from '@/components/shared/When';
-import ManaBar from '../../ManaBar';
+import ManaBar from '../../StatsComponents/ManaBar';
 import { CharacterPose } from '../CharacterPose';
-import BuffList from '../BuffList';
+import BuffList from '../../StatsComponents/BuffList';
 
 type Props = {
   user?: BattleUser;

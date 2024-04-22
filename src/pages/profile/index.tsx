@@ -10,7 +10,7 @@ import { IconButton } from '@/components/shared/IconButton';
 import { PartyInfo } from '@/assets/PartyInfo';
 import { useModalStore } from '@/store/modal';
 
-import ExperienceBar from '@/components/ExperienceBar';
+import ExperienceBar from '@/components/StatsComponents/ExperienceBar';
 import { useUserStore } from '@/store/user';
 
 export function ProfilePage() {

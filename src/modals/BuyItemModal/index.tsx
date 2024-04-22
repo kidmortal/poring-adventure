@@ -6,7 +6,7 @@ import { Query } from '@/store/query';
 import { toast } from 'react-toastify';
 
 import { BaseModal } from '../BaseModal';
-import { Silver } from '@/components/Silver';
+import { Silver } from '@/components/StatsComponents/Silver';
 import { InventoryItem } from '@/components/Items/InventoryItem';
 import { Button } from '@/components/shared/Button';
 import { useWebsocketApi } from '@/api/websocketServer';

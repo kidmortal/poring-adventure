@@ -1,7 +1,7 @@
 import ForEach from '@/components/shared/ForEach';
 import styles from './style.module.scss';
 import { BaseModal } from '../BaseModal';
-import { SilverStack } from '@/components/SilverStack';
+import { SilverStack } from '@/components/StatsComponents/SilverStack';
 import { InventoryItem } from '@/components/Items/InventoryItem';
 import dayjs from 'dayjs';
 import cn from 'classnames';

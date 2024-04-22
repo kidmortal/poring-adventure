@@ -1,8 +1,8 @@
 import ForEach from '@/components/shared/ForEach';
 import styles from './style.module.scss';
 import { InventoryItem } from '@/components/Items/InventoryItem';
-import { SilverStack } from '@/components/SilverStack';
-import { ExpStack } from '@/components/ExpStack';
+import { SilverStack } from '@/components/StatsComponents/SilverStack';
+import { ExpStack } from '@/components/StatsComponents/ExpStack';
 import { Tooltip } from '@/components/shared/Tooltip';
 
 type Props = {
