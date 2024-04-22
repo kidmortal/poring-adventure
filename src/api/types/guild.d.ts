@@ -11,6 +11,17 @@ declare type Guild = {
   currentGuildTask?: CurrentGuildTask;
   members: GuildMember[];
   guildApplications: GuildApplication[];
+  blessing?: GuildBlessing;
+};
+
+declare type GuildBlessing = {
+  id: number;
+  guildId: number;
+  health: number;
+  mana: number;
+  str: number;
+  int: number;
+  agi: number;
 };
 
 declare type CurrentGuildTask = {

@@ -24,7 +24,7 @@ export function GuildPage() {
   const api = useWebsocketApi();
 
   const finishTaskMutation = useMutation({
-    mutationFn: () => api.guild.finishGuildTask(),
+    mutationFn: () => api.guild.finishQuest(),
   });
 
   const guild = userStore.guild;

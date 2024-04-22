@@ -1,73 +1,85 @@
-import { Socket } from "socket.io-client";
-import { asyncEmit } from "../websocketServer";
+import { Socket } from 'socket.io-client';
+import { asyncEmit } from '../websocketServer';
 
 export function guildService({ websocket }: { websocket?: Socket }) {
   async function getGuild() {
     if (!websocket) return undefined;
-    return asyncEmit<Guild[]>(websocket, "get_guild", "");
+    return asyncEmit<Guild[]>(websocket, 'get_guild', '');
   }
-  async function finishGuildTask() {
-    if (!websocket) return undefined;
-    return asyncEmit<Guild[]>(websocket, "finish_current_task", "");
-  }
+
   async function getAllGuilds() {
     if (!websocket) return undefined;
-    return asyncEmit<Guild[]>(websocket, "find_all_guild", "");
+    return asyncEmit<Guild[]>(websocket, 'find_all_guild', '');
   }
+
   async function getGuildAvailableTasks() {
     if (!websocket) return undefined;
-    return asyncEmit<GuildTask[]>(websocket, "get_available_guild_tasks", "");
+    return asyncEmit<GuildTask[]>(websocket, 'get_available_guild_tasks', '');
   }
-  async function cancelCurrentTask() {
+
+  async function applyToGuild(dto: ApplyToGuildDto) {
     if (!websocket) return undefined;
-    return asyncEmit<boolean>(websocket, "cancel_guild_task", "");
+    return asyncEmit<void>(websocket, 'apply_to_guild', dto);
   }
+
+  async function kickFromGuild(dto: KickFromGuildDto) {
+    if (!websocket) return undefined;
+    return asyncEmit<void>(websocket, 'kick_from_guild', dto);
+  }
+
   async function quitFromGuild() {
     if (!websocket) return undefined;
-    return asyncEmit<boolean>(websocket, "quit_from_guild", "");
-  }
-  async function kickFromGuild(args: { kickEmail: string }) {
-    if (!websocket) return undefined;
-    return asyncEmit<boolean>(websocket, "kick_from_guild", args.kickEmail);
+    return asyncEmit<void>(websocket, 'quit_from_guild', '');
   }
 
-  async function acceptGuildTask(args: { taskId: number }) {
+  async function acceptGuildApplication(dto: AcceptGuildApplicationDto) {
     if (!websocket) return undefined;
-    return asyncEmit<boolean>(websocket, "accept_guild_task", args.taskId);
-  }
-  async function applyToGuild(args: { guildId: number }) {
-    if (!websocket) return undefined;
-    return asyncEmit<boolean>(websocket, "apply_to_guild", args.guildId);
-  }
-  async function acceptGuildApplication(args: { applicationId: number }) {
-    if (!websocket) return undefined;
-    return asyncEmit<boolean>(
-      websocket,
-      "accept_guild_application",
-      args.applicationId
-    );
+    return asyncEmit<void>(websocket, 'accept_guild_application', dto);
   }
 
-  async function refuseGuildApplication(args: { applicationId: number }) {
+  async function refuseGuildApplication(dto: RefuseGuildApplicationDto) {
     if (!websocket) return undefined;
-    return asyncEmit<boolean>(
-      websocket,
-      "refuse_guild_application",
-      args.applicationId
-    );
+    return asyncEmit<void>(websocket, 'refuse_guild_application', dto);
+  }
+
+  async function finishQuest() {
+    if (!websocket) return undefined;
+    return asyncEmit<void>(websocket, 'finish_current_task', '');
+  }
+
+  async function acceptGuildTask(dto: AcceptGuildTaskDto) {
+    if (!websocket) return undefined;
+    return asyncEmit<void>(websocket, 'accept_guild_task', dto);
+  }
+
+  async function cancelGuildTask(dto: CancelGuildTaskDto) {
+    if (!websocket) return undefined;
+    return asyncEmit<void>(websocket, 'cancel_guild_task', dto);
+  }
+
+  async function unlockBlessing(dto: UnlockBlessingsDto) {
+    if (!websocket) return undefined;
+    return asyncEmit<void>(websocket, 'unlock_blessing', dto);
+  }
+
+  async function upgradeBlessing(dto: UpgradeBlessingsDto) {
+    if (!websocket) return undefined;
+    return asyncEmit<void>(websocket, 'upgrade_blessing', dto);
   }
 
   return {
     getGuild,
-    getGuildAvailableTasks,
     getAllGuilds,
-    acceptGuildTask,
-    cancelCurrentTask,
-    finishGuildTask,
+    getGuildAvailableTasks,
     applyToGuild,
+    kickFromGuild,
+    quitFromGuild,
     acceptGuildApplication,
     refuseGuildApplication,
-    quitFromGuild,
-    kickFromGuild,
+    finishQuest,
+    acceptGuildTask,
+    cancelGuildTask,
+    unlockBlessing,
+    upgradeBlessing,
   };
 }
