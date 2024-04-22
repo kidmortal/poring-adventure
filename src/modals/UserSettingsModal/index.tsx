@@ -1,12 +1,12 @@
 import { BaseModal } from '../BaseModal';
-import { Button } from '@/components/Button';
+import { Button } from '@/components/shared/Button';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Query } from '@/store/query';
 
 import SignOut from '@/assets/SignOut';
 import { FaDiscord } from 'react-icons/fa';
-import { When } from '@/components/When';
-import { FullscreenLoading } from '@/components/FullscreenLoading';
+import { When } from '@/components/shared/When';
+import { FullscreenLoading } from '@/layout/PageLoading/FullscreenLoading';
 import { useWebsocketApi } from '@/api/websocketServer';
 import { useModalStore } from '@/store/modal';
 import { PlataformAuth } from '@/auth';

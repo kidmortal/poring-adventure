@@ -1,7 +1,7 @@
-import { Stat } from "../CharacterStatsInfo";
-import { When } from "../When";
-import styles from "./style.module.scss";
-import cn from "classnames";
+import { Stat } from '../../Character/CharacterStatsInfo';
+import { When } from '../../shared/When';
+import styles from './style.module.scss';
+import cn from 'classnames';
 
 type Props = {
   equip?: Equipment;

@@ -1,10 +1,10 @@
 import { useWebsocketApi } from '@/api/websocketServer';
-import { FullscreenLoading } from '@/components/FullscreenLoading';
+import { FullscreenLoading } from '@/layout/PageLoading/FullscreenLoading';
 import { useMainStore } from '@/store/main';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import styles from './style.module.scss';
-import { Button } from '@/components/Button';
-import ForEach from '@/components/ForEach';
+import { Button } from '@/components/shared/Button';
+import ForEach from '@/components/shared/ForEach';
 import { FaRegBell } from 'react-icons/fa';
 import { MdOutlineCached } from 'react-icons/md';
 import { MdOutlineRestartAlt } from 'react-icons/md';

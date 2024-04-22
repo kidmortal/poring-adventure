@@ -1,4 +1,4 @@
-import { Button } from '@/components/Button';
+import { Button } from '@/components/shared/Button';
 import styles from './style.module.scss';
 import { FaStoreAlt } from 'react-icons/fa';
 import { VscSignOut } from 'react-icons/vsc';

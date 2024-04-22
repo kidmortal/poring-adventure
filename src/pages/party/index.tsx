@@ -1,9 +1,9 @@
 import styles from './style.module.scss';
 
 import { PartyInfo } from './PartyInfo';
-import Switch from '@/components/Switch';
+import Switch from '@/components/shared/Switch';
 import { useState } from 'react';
-import { When } from '@/components/When';
+import { When } from '@/components/shared/When';
 import { PartyList } from './PartyList';
 
 export function PartyPage() {

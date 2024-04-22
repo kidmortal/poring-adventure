@@ -1,18 +1,18 @@
-import styles from "./style.module.scss";
+import styles from './style.module.scss';
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { Query } from "@/store/query";
+import { Query } from '@/store/query';
 
-import { BaseModal } from "../BaseModal";
-import { When } from "@/components/When";
-import { Silver } from "@/components/Silver";
-import { InventoryItem } from "@/components/InventoryItem";
-import { Button } from "@/components/Button";
-import { useWebsocketApi } from "@/api/websocketServer";
-import { useModalStore } from "@/store/modal";
-import Input from "@/components/Input";
-import { ItemStats } from "@/components/EquipedItem";
+import { BaseModal } from '../BaseModal';
+import { When } from '@/components/shared/When';
+import { Silver } from '@/components/Silver';
+import { InventoryItem } from '@/components/Items/InventoryItem';
+import { Button } from '@/components/shared/Button';
+import { useWebsocketApi } from '@/api/websocketServer';
+import { useModalStore } from '@/store/modal';
+import Input from '@/components/shared/Input';
+import { ItemStats } from '@/components/Items/EquipedItem';
 
 type Props = {
   isOpen?: boolean;
@@ -48,7 +48,7 @@ export function SellItemModal(props: Props) {
   const sellPrice = modalStore.sellItem.price ?? 0;
   const sellAmount = modalStore.sellItem.amount ?? 0;
 
-  if (item && "marketListing" in item) {
+  if (item && 'marketListing' in item) {
     hasRemainingStock = (item.stack || 0) > (item.marketListing?.stack || 0);
   }
 
@@ -90,9 +90,7 @@ export function SellItemModal(props: Props) {
                 });
               }
             }}
-            disabled={
-              !hasRemainingStock || createMarketListingMutation.isPending
-            }
+            disabled={!hasRemainingStock || createMarketListingMutation.isPending}
           />
         </When>
       </div>

@@ -1,5 +1,5 @@
-import ForEach from "../ForEach";
-import styles from "./style.module.scss";
+import ForEach from '../../shared/ForEach';
+import styles from './style.module.scss';
 
 type Props = {
   buffs?: UserBuff[];

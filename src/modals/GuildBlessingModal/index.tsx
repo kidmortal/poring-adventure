@@ -1,8 +1,8 @@
 import styles from './style.module.scss';
 import { BaseModal } from '../BaseModal';
-import { Button } from '@/components/Button';
+import { Button } from '@/components/shared/Button';
 import { useUserStore } from '@/store/user';
-import { When } from '@/components/When';
+import { When } from '@/components/shared/When';
 import { useWebsocketApi } from '@/api/websocketServer';
 import { useMutation } from '@tanstack/react-query';
 

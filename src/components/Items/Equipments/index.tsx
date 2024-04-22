@@ -1,13 +1,10 @@
-import styles from "./style.module.scss";
+import styles from './style.module.scss';
 
-import { EquippedItem } from "../EquipedItem";
-import { useModalStore } from "@/store/modal";
-import { useEffect, useState } from "react";
+import { EquippedItem } from '../EquipedItem';
+import { useModalStore } from '@/store/modal';
+import { useEffect, useState } from 'react';
 
-export function Equipments(props: {
-  equips: Equipment[];
-  onClick?: (i: Item) => void;
-}) {
+export function Equipments(props: { equips: Equipment[]; onClick?: (i: Item) => void }) {
   const modalStore = useModalStore();
   const [equippedItems, setEquippedItems] = useState<{
     weapon?: Equipment;
@@ -28,16 +25,16 @@ export function Equipments(props: {
       boots?: Equipment;
     } = {};
     props.equips.forEach((equip) => {
-      if (equip.item.category === "weapon") {
+      if (equip.item.category === 'weapon') {
         newEquips.weapon = equip;
       }
-      if (equip.item.category === "armor") {
+      if (equip.item.category === 'armor') {
         newEquips.armor = equip;
       }
-      if (equip.item.category === "legs") {
+      if (equip.item.category === 'legs') {
         newEquips.legs = equip;
       }
-      if (equip.item.category === "boots") {
+      if (equip.item.category === 'boots') {
         newEquips.boots = equip;
       }
     });

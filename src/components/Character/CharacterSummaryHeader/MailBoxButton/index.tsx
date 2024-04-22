@@ -1,9 +1,9 @@
-import { Button } from "../Button";
-import { useModalStore } from "@/store/modal";
-import MailIcon from "@/assets/Mail";
-import styles from "./style.module.scss";
-import { When } from "../When";
-import { useUserStore } from "@/store/user";
+import { Button } from '../../../shared/Button';
+import { useModalStore } from '@/store/modal';
+import MailIcon from '@/assets/Mail';
+import styles from './style.module.scss';
+import { When } from '../../../shared/When';
+import { useUserStore } from '@/store/user';
 
 export default function MailBoxButton() {
   const modalStore = useModalStore();

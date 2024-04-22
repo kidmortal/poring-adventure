@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { useMainStore } from '@/store/main';
 
 import { useBattleStore } from '@/store/battle';
-import { FullscreenLoading } from '@/components/FullscreenLoading';
+import { FullscreenLoading } from '@/layout/PageLoading/FullscreenLoading';
 import { useWebsocketApi } from '@/api/websocketServer';
 import { addWebsocketListeners } from './listeners';
 import { addToastListeners } from './toastListener';

@@ -1,16 +1,16 @@
-import { Outlet } from "react-router-dom";
+import { Outlet } from 'react-router-dom';
 
-import { useMainStore } from "@/store/main";
-import { useQuery } from "@tanstack/react-query";
+import { useMainStore } from '@/store/main';
+import { useQuery } from '@tanstack/react-query';
 
-import { Query } from "@/store/query";
-import { FullscreenLoading } from "@/components/FullscreenLoading";
+import { Query } from '@/store/query';
+import { FullscreenLoading } from '@/layout/PageLoading/FullscreenLoading';
 
-import { useWebsocketApi } from "@/api/websocketServer";
-import styles from "./style.module.scss";
+import { useWebsocketApi } from '@/api/websocketServer';
+import styles from './style.module.scss';
 
-import { useUserStore } from "@/store/user";
-import { When } from "@/components/When";
+import { useUserStore } from '@/store/user';
+import { When } from '@/components/shared/When';
 
 export function GuildLayout() {
   const userStore = useUserStore();

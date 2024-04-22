@@ -1,14 +1,14 @@
-import { useCharacterCreationStore } from "@/store/characterCreation";
-import styles from "./style.module.scss";
-import { Button } from "@/components/Button";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useMainStore } from "@/store/main";
-import { Query } from "@/store/query";
-import { FullscreenLoading } from "@/components/FullscreenLoading";
-import { useWebsocketApi } from "@/api/websocketServer";
-import ForEach from "@/components/ForEach";
-import { ProfessionBlock } from "./ProfessionBlock";
-import Input from "@/components/Input";
+import { useCharacterCreationStore } from '@/store/characterCreation';
+import styles from './style.module.scss';
+import { Button } from '@/components/shared/Button';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMainStore } from '@/store/main';
+import { Query } from '@/store/query';
+import { FullscreenLoading } from '@/layout/PageLoading/FullscreenLoading';
+import { useWebsocketApi } from '@/api/websocketServer';
+import ForEach from '@/components/shared/ForEach';
+import { ProfessionBlock } from './ProfessionBlock';
+import Input from '@/components/shared/Input';
 
 function GenderRadioSelectors() {
   const store = useCharacterCreationStore();
@@ -21,8 +21,8 @@ function GenderRadioSelectors() {
           id="male"
           name="male"
           value="male"
-          onChange={() => store.setGender("male")}
-          checked={store.gender === "male"}
+          onChange={() => store.setGender('male')}
+          checked={store.gender === 'male'}
         />
         <label htmlFor="male">male</label>
       </div>
@@ -32,8 +32,8 @@ function GenderRadioSelectors() {
           id="female"
           name="female"
           value="female"
-          onChange={() => store.setGender("female")}
-          checked={store.gender === "female"}
+          onChange={() => store.setGender('female')}
+          checked={store.gender === 'female'}
         />
         <label htmlFor="female">female</label>
       </div>
@@ -63,8 +63,7 @@ export function CharacterCreationPage() {
 
   const newCharacterMutation = useMutation({
     mutationFn: () => api.users.createUser(newUserData),
-    onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: [Query.USER_CHARACTER] }),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: [Query.USER_CHARACTER] }),
   });
 
   if (newCharacterMutation.isPending) {
@@ -74,10 +73,7 @@ export function CharacterCreationPage() {
   return (
     <div className={styles.container}>
       <h1>Create your character</h1>
-      <Input
-        placeholder="Character name"
-        onChange={(e) => store.setCharacterName(e.target.value)}
-      />
+      <Input placeholder="Character name" onChange={(e) => store.setCharacterName(e.target.value)} />
       <GenderRadioSelectors />
 
       <div className={styles.professionListContainer}>

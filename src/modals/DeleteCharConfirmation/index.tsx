@@ -1,13 +1,13 @@
-import { BaseModal } from "../BaseModal";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { Query } from "@/store/query";
-import { When } from "@/components/When";
-import { FullscreenLoading } from "@/components/FullscreenLoading";
-import { useWebsocketApi } from "@/api/websocketServer";
-import { CharacterWithHealthBar } from "@/components/CharacterWithHealthBar";
+import { BaseModal } from '../BaseModal';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { Query } from '@/store/query';
+import { When } from '@/components/shared/When';
+import { FullscreenLoading } from '@/layout/PageLoading/FullscreenLoading';
+import { useWebsocketApi } from '@/api/websocketServer';
+import { CharacterWithHealthBar } from '@/components/Character/CharacterWithHealthBar';
 
-import { Button } from "@/components/Button";
-import { useUserStore } from "@/store/user";
+import { Button } from '@/components/shared/Button';
+import { useUserStore } from '@/store/user';
 
 type Props = {
   isOpen?: boolean;

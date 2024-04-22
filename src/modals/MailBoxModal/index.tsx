@@ -1,14 +1,14 @@
-import ForEach from "@/components/ForEach";
-import styles from "./style.module.scss";
-import { BaseModal } from "../BaseModal";
-import { SilverStack } from "@/components/SilverStack";
-import { InventoryItem } from "@/components/InventoryItem";
-import dayjs from "dayjs";
-import cn from "classnames";
-import { Button } from "@/components/Button";
-import { useMutation } from "@tanstack/react-query";
-import { useWebsocketApi } from "@/api/websocketServer";
-import { When } from "@/components/When";
+import ForEach from '@/components/shared/ForEach';
+import styles from './style.module.scss';
+import { BaseModal } from '../BaseModal';
+import { SilverStack } from '@/components/SilverStack';
+import { InventoryItem } from '@/components/Items/InventoryItem';
+import dayjs from 'dayjs';
+import cn from 'classnames';
+import { Button } from '@/components/shared/Button';
+import { useMutation } from '@tanstack/react-query';
+import { useWebsocketApi } from '@/api/websocketServer';
+import { When } from '@/components/shared/When';
 
 type Props = {
   isOpen?: boolean;
@@ -39,22 +39,11 @@ export function MailBoxModal(props: Props) {
           onClick={() => deleteAllMutation.mutate()}
           disabled={deleteAllMutation.isPending}
         />
-        <ForEach
-          items={props.mailBox}
-          render={(mail) => <MailContainer key={mail.id} mail={mail} />}
-        />
+        <ForEach items={props.mailBox} render={(mail) => <MailContainer key={mail.id} mail={mail} />} />
       </div>
       <div className={styles.buttonsContainer}>
-        <Button
-          label="View All"
-          onClick={() => viewAllMutation.mutate()}
-          disabled={viewAllMutation.isPending}
-        />
-        <Button
-          label="Claim All"
-          onClick={() => claimAllMutation.mutate()}
-          disabled={claimAllMutation.isPending}
-        />
+        <Button label="View All" onClick={() => viewAllMutation.mutate()} disabled={viewAllMutation.isPending} />
+        <Button label="Claim All" onClick={() => claimAllMutation.mutate()} disabled={claimAllMutation.isPending} />
       </div>
     </BaseModal>
   );
@@ -70,7 +59,7 @@ function MailContainer({ mail }: { mail: Mail }) {
       })}
     >
       <div className={styles.notificationInfoContainer}>
-        <span>{dayjs(mail.createdAt).format("DD/MM/YYYY")}</span>
+        <span>{dayjs(mail.createdAt).format('DD/MM/YYYY')}</span>
         <span>Sender: {mail.sender}</span>
         <div className={styles.messageContainer}>
           <span>{mail.content}</span>
@@ -90,7 +79,7 @@ function MailContainer({ mail }: { mail: Mail }) {
               inventoryItem={{
                 id: 0,
                 itemId: mail.item?.id,
-                userEmail: "",
+                userEmail: '',
                 item: mail.item,
               }}
             />

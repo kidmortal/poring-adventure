@@ -4,10 +4,10 @@ import { useMainStore } from '@/store/main';
 import { useUserStore } from '@/store/user';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { Query } from '@/store/query';
-import { When } from '@/components/When';
-import { Button } from '@/components/Button';
-import ForEach from '@/components/ForEach';
-import { CharacterWithHealthBar } from '@/components/CharacterWithHealthBar';
+import { When } from '@/components/shared/When';
+import { Button } from '@/components/shared/Button';
+import ForEach from '@/components/shared/ForEach';
+import { CharacterWithHealthBar } from '@/components/Character/CharacterWithHealthBar';
 import { useEffect, useRef, useState } from 'react';
 import { FaChessPawn, FaCrown } from 'react-icons/fa';
 

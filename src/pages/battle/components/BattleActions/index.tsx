@@ -1,12 +1,12 @@
-import { Button } from "@/components/Button";
-import styles from "./style.module.scss";
-import { useMutation } from "@tanstack/react-query";
-import { WebsocketApi } from "@/api/websocketServer";
-import cn from "classnames";
-import { When } from "@/components/When";
-import ForEach from "@/components/ForEach";
-import Clock from "@/assets/Clock";
-import { useBattleStore } from "@/store/battle";
+import { Button } from '@/components/shared/Button';
+import styles from './style.module.scss';
+import { useMutation } from '@tanstack/react-query';
+import { WebsocketApi } from '@/api/websocketServer';
+import cn from 'classnames';
+import { When } from '@/components/shared/When';
+import ForEach from '@/components/shared/ForEach';
+import Clock from '@/assets/Clock';
+import { useBattleStore } from '@/store/battle';
 
 type Props = {
   api: WebsocketApi;
@@ -24,8 +24,7 @@ export function BattleActions({ api, isYourTurn, battleEnded, user }: Props) {
   });
 
   const castMutation = useMutation({
-    mutationFn: (params: { skillId: number; targetName?: string }) =>
-      api.battle.requestBattleCast(params),
+    mutationFn: (params: { skillId: number; targetName?: string }) => api.battle.requestBattleCast(params),
   });
 
   const cancelBattleMutation = useMutation({
@@ -47,13 +46,11 @@ export function BattleActions({ api, isYourTurn, battleEnded, user }: Props) {
         <Button
           label="Attack"
           onClick={() => attackMutation.mutate()}
-          disabled={
-            attackMutation.isPending || !isYourTurn || battleStore.isCasting
-          }
+          disabled={attackMutation.isPending || !isYourTurn || battleStore.isCasting}
         />
         <Button
-          label={battleStore.isCasting ? "Cancel" : "Cast"}
-          theme={battleStore.isCasting ? "danger" : "secondary"}
+          label={battleStore.isCasting ? 'Cancel' : 'Cast'}
+          theme={battleStore.isCasting ? 'danger' : 'secondary'}
           onClick={() => {
             battleStore.setIsCasting(!battleStore.isCasting);
             battleStore.setIsTargetingSkill(false);
@@ -65,11 +62,7 @@ export function BattleActions({ api, isYourTurn, battleEnded, user }: Props) {
           label="Run"
           theme="danger"
           onClick={() => cancelBattleMutation.mutate()}
-          disabled={
-            cancelBattleMutation.isPending ||
-            !isYourTurn ||
-            battleStore.isCasting
-          }
+          disabled={cancelBattleMutation.isPending || !isYourTurn || battleStore.isCasting}
         />
         <div
           className={cn(styles.skillsContainer, {
@@ -88,7 +81,7 @@ export function BattleActions({ api, isYourTurn, battleEnded, user }: Props) {
                 theme="secondary"
                 label={<SkillText learnedSkill={equippedSkill} />}
                 onClick={() => {
-                  if (equippedSkill.skill.category === "target_ally") {
+                  if (equippedSkill.skill.category === 'target_ally') {
                     if (battleStore.isTargetingSkill) {
                       castMutation.mutate({
                         skillId: equippedSkill.skillId,
@@ -113,8 +106,7 @@ export function BattleActions({ api, isYourTurn, battleEnded, user }: Props) {
                   castMutation.isPending ||
                   currentMana < equippedSkill.skill.manaCost ||
                   equippedSkill.cooldown > 0 ||
-                  (battleStore.skillId != undefined &&
-                    battleStore.skillId != equippedSkill.skillId)
+                  (battleStore.skillId != undefined && battleStore.skillId != equippedSkill.skillId)
                 }
               />
             )}
@@ -132,11 +124,7 @@ function SkillText(args: { learnedSkill: LearnedSkill }) {
       <img height={25} width={25} src={skill.image} />
       <div className={styles.skillInfo}>
         <div className={styles.skillInfoRow}>
-          <img
-            width={15}
-            height={15}
-            src="https://kidmortal.sirv.com/misc/mana.webp"
-          />
+          <img width={15} height={15} src="https://kidmortal.sirv.com/misc/mana.webp" />
           <span>{skill?.manaCost}</span>
         </div>
         <div

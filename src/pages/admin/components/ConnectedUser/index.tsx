@@ -4,10 +4,10 @@ import { VscDebugDisconnect } from 'react-icons/vsc';
 
 import { useWebsocketApi } from '@/api/websocketServer';
 import { useMutation } from '@tanstack/react-query';
-import { CharacterHead } from '@/components/CharacterInfo';
+import { CharacterHead } from '@/components/Character/CharacterInfo';
 import HealthBar from '@/components/HealthBar';
 import ManaBar from '@/components/ManaBar';
-import { Button } from '@/components/Button';
+import { Button } from '@/components/shared/Button';
 import { IoIosSend } from 'react-icons/io';
 import { FaGift, FaRegBell, FaSkull } from 'react-icons/fa';
 import { MdOutlineLocalHospital } from 'react-icons/md';

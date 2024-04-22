@@ -2,8 +2,8 @@ import { BaseModal } from '../BaseModal';
 
 import { useMutation } from '@tanstack/react-query';
 
-import { CharacterInfo } from '@/components/CharacterInfo';
-import { Button } from '@/components/Button';
+import { CharacterInfo } from '@/components/Character/CharacterInfo';
+import { Button } from '@/components/shared/Button';
 import { useWebsocketApi } from '@/api/websocketServer';
 import { useUserStore } from '@/store/user';
 

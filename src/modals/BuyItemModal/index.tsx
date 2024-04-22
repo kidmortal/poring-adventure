@@ -1,18 +1,18 @@
-import styles from "./style.module.scss";
+import styles from './style.module.scss';
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { Query } from "@/store/query";
-import { toast } from "react-toastify";
+import { Query } from '@/store/query';
+import { toast } from 'react-toastify';
 
-import { BaseModal } from "../BaseModal";
-import { Silver } from "@/components/Silver";
-import { InventoryItem } from "@/components/InventoryItem";
-import { Button } from "@/components/Button";
-import { useWebsocketApi } from "@/api/websocketServer";
-import { useModalStore } from "@/store/modal";
-import Input from "@/components/Input";
-import { ItemStats } from "@/components/EquipedItem";
+import { BaseModal } from '../BaseModal';
+import { Silver } from '@/components/Silver';
+import { InventoryItem } from '@/components/Items/InventoryItem';
+import { Button } from '@/components/shared/Button';
+import { useWebsocketApi } from '@/api/websocketServer';
+import { useModalStore } from '@/store/modal';
+import Input from '@/components/shared/Input';
+import { ItemStats } from '@/components/Items/EquipedItem';
 
 type Props = {
   isOpen?: boolean;
@@ -33,7 +33,7 @@ export function BuyItemModal(props: Props) {
       }),
     onSuccess: () => {
       props.onRequestClose();
-      toast("Purchase successful", { type: "success", autoClose: 1000 });
+      toast('Purchase successful', { type: 'success', autoClose: 1000 });
       queryClient.refetchQueries({
         queryKey: [Query.ALL_MARKET],
       });

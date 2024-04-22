@@ -3,8 +3,8 @@ import styles from './style.module.scss';
 import { useWebsocketApi } from '@/api/websocketServer';
 import { useMutation } from '@tanstack/react-query';
 
-import { When } from '@/components/When';
-import ForEach from '@/components/ForEach';
+import { When } from '@/components/shared/When';
+import ForEach from '@/components/shared/ForEach';
 
 import cn from 'classnames';
 import { useModalStore } from '@/store/modal';
@@ -15,7 +15,7 @@ import { GuildApplicationInfo } from './components/GuildApplicationInfo';
 import { GuildInfo } from './components/GuildInfo';
 import { GuidMemberInfo } from './components/GuildMemberInfo';
 import { GuildMenu } from './components/GuildMenu';
-import Switch from '@/components/Switch';
+import Switch from '@/components/shared/Switch';
 
 export function GuildPage() {
   const [showing, setShowing] = useState<'members' | 'applications'>('members');

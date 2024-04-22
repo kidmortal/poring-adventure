@@ -1,4 +1,4 @@
-import { When } from '@/components/When';
+import { When } from '@/components/shared/When';
 import styles from './style.module.scss';
 import { FaDiscord } from 'react-icons/fa';
 import { VscDebugDisconnect } from 'react-icons/vsc';

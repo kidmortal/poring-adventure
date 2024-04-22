@@ -1,10 +1,10 @@
-import { Button } from '@/components/Button';
+import { Button } from '@/components/shared/Button';
 import styles from './style.module.scss';
 import { BaseModal } from '../BaseModal';
 import { useWebsocketApi } from '@/api/websocketServer';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
-import { When } from '@/components/When';
+import { When } from '@/components/shared/When';
 import { toast } from 'react-toastify';
 import { Query } from '@/store/query';
 import { useMainStore } from '@/store/main';

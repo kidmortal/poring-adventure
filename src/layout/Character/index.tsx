@@ -4,13 +4,13 @@ import { useMainStore } from '@/store/main';
 import { useQuery } from '@tanstack/react-query';
 
 import { Query } from '@/store/query';
-import { FullscreenLoading } from '@/components/FullscreenLoading';
-import { CharacterSummaryHeader } from '@/components/CharacterSummaryHeader';
+import { FullscreenLoading } from '@/layout/PageLoading/FullscreenLoading';
+import { CharacterSummaryHeader } from '@/components/Character/CharacterSummaryHeader';
 import { CharacterCreationPage } from '@/pages/characterCreation';
 import { ErrorMessage } from '@/components/ErrorMessage';
 import { useWebsocketApi } from '@/api/websocketServer';
 import styles from './style.module.scss';
-import { BottomNavBar } from '@/components/BottomNavBar';
+import { BottomNavBar } from '@/layout/LimitedSize/BottomNavBar';
 import { useUserStore } from '@/store/user';
 
 export function CharacterLayout() {

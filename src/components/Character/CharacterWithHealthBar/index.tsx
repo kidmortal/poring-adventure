@@ -1,9 +1,9 @@
 import styles from './style.module.scss';
 
-import { CharacterInfo } from '@/components/CharacterInfo';
+import { CharacterInfo } from '@/components/Character/CharacterInfo';
 import HealthBar from '@/components/HealthBar';
-import { When } from '@/components/When';
-import ManaBar from '../ManaBar';
+import { When } from '@/components/shared/When';
+import ManaBar from '../../ManaBar';
 import { CharacterPose } from '../CharacterPose';
 import BuffList from '../BuffList';
 

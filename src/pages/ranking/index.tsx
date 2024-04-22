@@ -1,21 +1,19 @@
-import { Query } from "@/store/query";
-import styles from "./style.module.scss";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { Query } from '@/store/query';
+import styles from './style.module.scss';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 
-import { FullscreenLoading } from "@/components/FullscreenLoading";
-import { useMainStore } from "@/store/main";
-import { useWebsocketApi } from "@/api/websocketServer";
-import { Button } from "@/components/Button";
-import { useEffect, useState } from "react";
-import { When } from "@/components/When";
-import { PlayersRankingPage } from "./players";
-import { GuildRankingPage } from "./guilds";
-import { Pagination } from "@/components/Pagination";
+import { FullscreenLoading } from '@/layout/PageLoading/FullscreenLoading';
+import { useMainStore } from '@/store/main';
+import { useWebsocketApi } from '@/api/websocketServer';
+import { Button } from '@/components/shared/Button';
+import { useEffect, useState } from 'react';
+import { When } from '@/components/shared/When';
+import { PlayersRankingPage } from './players';
+import { GuildRankingPage } from './guilds';
+import { Pagination } from '@/components/shared/Pagination';
 
 export function RankingPage() {
-  const [switchRanking, setSwitchRanking] = useState<"players" | "guild">(
-    "players"
-  );
+  const [switchRanking, setSwitchRanking] = useState<'players' | 'guild'>('players');
   const api = useWebsocketApi();
   const queryClient = useQueryClient();
   const store = useMainStore();
@@ -44,10 +42,10 @@ export function RankingPage() {
   return (
     <div className={styles.container}>
       <div className={styles.rankingSwitch}>
-        <Button label="Players" onClick={() => setSwitchRanking("players")} />
-        <Button label="Guild" onClick={() => setSwitchRanking("guild")} />
+        <Button label="Players" onClick={() => setSwitchRanking('players')} />
+        <Button label="Guild" onClick={() => setSwitchRanking('guild')} />
       </div>
-      <When value={switchRanking === "players"}>
+      <When value={switchRanking === 'players'}>
         <PlayersRankingPage users={query.data?.users} />
         <Pagination
           className={styles.pagination}
@@ -57,7 +55,7 @@ export function RankingPage() {
           }}
         />
       </When>
-      <When value={switchRanking === "guild"}>
+      <When value={switchRanking === 'guild'}>
         <GuildRankingPage guilds={queryGuild.data} />
       </When>
     </div>

@@ -1,9 +1,9 @@
-import { CharacterHead } from "@/components/CharacterInfo";
-import { When } from "@/components/When";
-import styles from "./style.module.scss";
-import { Button } from "@/components/Button";
-import { useMutation } from "@tanstack/react-query";
-import { useWebsocketApi } from "@/api/websocketServer";
+import { CharacterHead } from '@/components/Character/CharacterInfo';
+import { When } from '@/components/shared/When';
+import styles from './style.module.scss';
+import { Button } from '@/components/shared/Button';
+import { useMutation } from '@tanstack/react-query';
+import { useWebsocketApi } from '@/api/websocketServer';
 
 export function GuildApplicationInfo({
   application,
@@ -14,13 +14,11 @@ export function GuildApplicationInfo({
 }) {
   const api = useWebsocketApi();
   const acceptApplicationMutation = useMutation({
-    mutationFn: () =>
-      api.guild.acceptGuildApplication({ applicationId: application.id }),
+    mutationFn: () => api.guild.acceptGuildApplication({ applicationId: application.id }),
   });
 
   const refuseApplicationMutation = useMutation({
-    mutationFn: () =>
-      api.guild.refuseGuildApplication({ applicationId: application.id }),
+    mutationFn: () => api.guild.refuseGuildApplication({ applicationId: application.id }),
   });
 
   const appearance = application.user?.appearance;

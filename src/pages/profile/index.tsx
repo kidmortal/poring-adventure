@@ -1,12 +1,12 @@
 import { useMainStore } from '@/store/main';
 import styles from './style.module.scss';
-import { CharacterInfo } from '@/components/CharacterInfo';
-import { Inventory } from '@/components/Inventory';
-import { CharacterStatsInfo } from '@/components/CharacterStatsInfo';
+import { CharacterInfo } from '@/components/Character/CharacterInfo';
+import { Inventory } from '@/components/Items/Inventory';
+import { CharacterStatsInfo } from '@/components/Character/CharacterStatsInfo';
 
-import { Equipments } from '@/components/Equipments';
+import { Equipments } from '@/components/Items/Equipments';
 import { useNavigate } from 'react-router-dom';
-import { IconButton } from '@/components/IconButton';
+import { IconButton } from '@/components/shared/IconButton';
 import { PartyInfo } from '@/assets/PartyInfo';
 import { useModalStore } from '@/store/modal';
 

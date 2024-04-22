@@ -1,9 +1,9 @@
-import ForEach from "@/components/ForEach";
-import styles from "./style.module.scss";
-import { InventoryItem } from "@/components/InventoryItem";
-import { SilverStack } from "@/components/SilverStack";
-import { ExpStack } from "@/components/ExpStack";
-import { Tooltip } from "@/components/Tooltip";
+import ForEach from '@/components/shared/ForEach';
+import styles from './style.module.scss';
+import { InventoryItem } from '@/components/Items/InventoryItem';
+import { SilverStack } from '@/components/SilverStack';
+import { ExpStack } from '@/components/ExpStack';
+import { Tooltip } from '@/components/shared/Tooltip';
 
 type Props = {
   members?: User[];
@@ -22,12 +22,10 @@ export function BattleRewardBox({ drops, userLost, members }: Props) {
       <ForEach
         items={drops}
         render={(drop) => {
-          let username = "";
+          let username = '';
           if (members) {
-            const user = members.find(
-              (member) => member.email === drop.userEmail
-            );
-            username = user?.name ?? "";
+            const user = members.find((member) => member.email === drop.userEmail);
+            username = user?.name ?? '';
           }
           const items = drop?.dropedItems;
           return (
@@ -46,13 +44,7 @@ export function BattleRewardBox({ drops, userLost, members }: Props) {
   );
 }
 
-function RenderDropedItems({
-  items,
-  email,
-}: {
-  email: string;
-  items: BattleUserDropedItem[];
-}) {
+function RenderDropedItems({ items, email }: { email: string; items: BattleUserDropedItem[] }) {
   return (
     <ForEach
       items={items}
@@ -63,7 +55,7 @@ function RenderDropedItems({
             item: item,
             id: 0,
             itemId: itemId,
-            userEmail: "",
+            userEmail: '',
             stack: stack,
           }}
         />

@@ -2,11 +2,11 @@ import { useWebsocketApi } from '@/api/websocketServer';
 import styles from './style.module.scss';
 import { useMainStore } from '@/store/main';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import ForEach from '@/components/ForEach';
+import ForEach from '@/components/shared/ForEach';
 import { FaCrown, FaChessPawn } from 'react-icons/fa6';
-import { CharacterHead } from '@/components/CharacterInfo';
-import { When } from '@/components/When';
-import { Button } from '@/components/Button';
+import { CharacterHead } from '@/components/Character/CharacterInfo';
+import { When } from '@/components/shared/When';
+import { Button } from '@/components/shared/Button';
 import { useUserStore } from '@/store/user';
 
 export function PartyList() {

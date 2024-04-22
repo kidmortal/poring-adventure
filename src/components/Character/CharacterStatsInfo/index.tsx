@@ -1,8 +1,8 @@
-import { useUserStore } from "@/store/user";
-import BuffList from "../BuffList";
-import HealthBar from "../HealthBar";
-import ManaBar from "../ManaBar";
-import styles from "./style.module.scss";
+import { useUserStore } from '@/store/user';
+import BuffList from '../BuffList';
+import HealthBar from '../../HealthBar';
+import ManaBar from '../../ManaBar';
+import styles from './style.module.scss';
 
 export function Stat(props: { label: string; assetName: string }) {
   return (
@@ -61,10 +61,7 @@ export function CharacterStatsInfo() {
           currentHealth={userStore.user?.stats?.health ?? 0}
           maxHealth={userStore.user?.stats?.maxHealth ?? 0}
         />
-        <ManaBar
-          currentHealth={userStore.user?.stats?.mana ?? 0}
-          maxHealth={userStore.user?.stats?.maxMana ?? 0}
-        />
+        <ManaBar currentHealth={userStore.user?.stats?.mana ?? 0} maxHealth={userStore.user?.stats?.maxMana ?? 0} />
       </div>
       <BuffList buffs={user?.buffs} />
       <Stat assetName="health" label={`HP: ${rawHealth} +${bonusHealth}`} />

@@ -1,7 +1,7 @@
-import { useDetectClickOutsideElement } from "@/hooks/useDetectClickOutsideElement";
-import styles from "./style.module.scss";
-import React from "react";
-import { When } from "@/components/When";
+import { useDetectClickOutsideElement } from '@/hooks/useDetectClickOutsideElement';
+import styles from './style.module.scss';
+import React from 'react';
+import { When } from '@/components/shared/When';
 
 type Props = {
   isOpen?: boolean;

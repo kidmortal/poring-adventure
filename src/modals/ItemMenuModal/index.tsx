@@ -6,13 +6,13 @@ import { Query } from '@/store/query';
 import { toast } from 'react-toastify';
 
 import { BaseModal } from '../BaseModal';
-import { When } from '@/components/When';
+import { When } from '@/components/shared/When';
 import { Silver } from '@/components/Silver';
-import { InventoryItem } from '@/components/InventoryItem';
-import { Button } from '@/components/Button';
+import { InventoryItem } from '@/components/Items/InventoryItem';
+import { Button } from '@/components/shared/Button';
 import { useModalStore } from '@/store/modal';
 import { useWebsocketApi } from '@/api/websocketServer';
-import { ItemStats } from '@/components/EquipedItem';
+import { ItemStats } from '@/components/Items/EquipedItem';
 import { useUserStore } from '@/store/user';
 
 type Props = {

@@ -1,10 +1,10 @@
-import { useEffect } from "react";
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { useEffect } from 'react';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
-import { useMainStore } from "@/store/main";
-import { useAuth } from "@/hooks/useAuth";
-import { FullscreenLoading } from "@/components/FullscreenLoading";
-import { LoginPage } from "@/pages/login";
+import { useMainStore } from '@/store/main';
+import { useAuth } from '@/hooks/useAuth';
+import { FullscreenLoading } from '@/layout/PageLoading/FullscreenLoading';
+import { LoginPage } from '@/pages/login';
 
 export function AuthLayout() {
   const location = useLocation();
@@ -18,8 +18,8 @@ export function AuthLayout() {
       if (isAuthenticated) {
         store.setUserLoggedInfo({
           loggedIn: isAuthenticated,
-          accessToken: user?.accessToken || "",
-          email: user?.email || "",
+          accessToken: user?.accessToken || '',
+          email: user?.email || '',
         });
       }
     }
@@ -29,21 +29,21 @@ export function AuthLayout() {
   useEffect(() => {
     if (loggedIn) {
       // alert("should move to home");
-      if (location.pathname.includes("login")) {
+      if (location.pathname.includes('login')) {
         // alert("moving to home");
-        navigate("profile");
+        navigate('profile');
       }
     }
     if (!loggedIn) {
-      if (!location.pathname.includes("login")) {
+      if (!location.pathname.includes('login')) {
         // alert("moving to login");
-        navigate("login");
+        navigate('login');
       }
       if (store.loggedUserInfo) {
         store.setUserLoggedInfo({
           loggedIn: false,
-          accessToken: "",
-          email: "",
+          accessToken: '',
+          email: '',
         });
       }
     }

@@ -1,8 +1,8 @@
-import { useModalStore } from "@/store/modal";
-import styles from "./style.module.scss";
-import ForEach from "@/components/ForEach";
-import { CharacterInfo } from "@/components/CharacterInfo";
-import { Silver } from "@/components/Silver";
+import { useModalStore } from '@/store/modal';
+import styles from './style.module.scss';
+import ForEach from '@/components/shared/ForEach';
+import { CharacterInfo } from '@/components/Character/CharacterInfo';
+import { Silver } from '@/components/Silver';
 
 type Props = {
   users?: User[];
@@ -11,10 +11,7 @@ type Props = {
 export function PlayersRankingPage(props: Props) {
   return (
     <div className={styles.container}>
-      <ForEach
-        items={props.users}
-        render={(u) => <RankingPlayerBox key={u.id} user={u} />}
-      />
+      <ForEach items={props.users} render={(u) => <RankingPlayerBox key={u.id} user={u} />} />
     </div>
   );
 }
@@ -38,8 +35,7 @@ function RankingPlayerBox(props: { user: User }) {
       />
       <div className={styles.characterInfo}>
         <span>
-          {props.user.name} - LV {props.user.stats?.level}{" "}
-          {props.user?.profession?.name}
+          {props.user.name} - LV {props.user.stats?.level} {props.user?.profession?.name}
         </span>
         <Silver amount={props.user.silver} />
       </div>

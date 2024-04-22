@@ -1,6 +1,6 @@
-import styles from "./style.module.scss";
-import { When } from "../When";
-import cn from "classnames";
+import styles from './style.module.scss';
+import { When } from '../shared/When';
+import cn from 'classnames';
 
 type Props = {
   guildTask?: CurrentGuildTask;
@@ -27,11 +27,7 @@ export function GuildTaskInfo(props: Props) {
             <div>Map: {props.guildTask?.task.target.name}</div>
           </div>
           <div className={styles.taskMapContainer}>
-            <img
-              height={50}
-              width={50}
-              src={props.guildTask?.task.target.image}
-            />
+            <img height={50} width={50} src={props.guildTask?.task.target.image} />
             <div className={styles.column}>
               <When value={props.finished ?? false}>
                 <strong className={styles.completedLabel}>Finished</strong>

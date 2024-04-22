@@ -1,7 +1,7 @@
-import { useMainStore } from "@/store/main";
-import styles from "./style.module.scss";
-import { GoogleLoginButton } from "@/components/GoogeLoginButton";
-import { When } from "@/components/When";
+import { useMainStore } from '@/store/main';
+import styles from './style.module.scss';
+import { GoogleLoginButton } from '@/components/GoogeLoginButton';
+import { When } from '@/components/shared/When';
 
 export function LoginPage() {
   const store = useMainStore();

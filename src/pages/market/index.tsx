@@ -1,19 +1,19 @@
-import { Query } from "@/store/query";
-import styles from "./style.module.scss";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
-import { FullscreenLoading } from "@/components/FullscreenLoading";
+import { Query } from '@/store/query';
+import styles from './style.module.scss';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { FullscreenLoading } from '@/layout/PageLoading/FullscreenLoading';
 
-import { Button } from "@/components/Button";
-import { Silver } from "@/components/Silver";
-import { InventoryItem } from "@/components/InventoryItem";
-import { useWebsocketApi } from "@/api/websocketServer";
-import { useMainStore } from "@/store/main";
-import { useEffect } from "react";
-import { useModalStore } from "@/store/modal";
-import ForEach from "@/components/ForEach";
-import { ItemCategoryFilter } from "@/components/ItemCategoryFilter";
+import { Button } from '@/components/shared/Button';
+import { Silver } from '@/components/Silver';
+import { InventoryItem } from '@/components/Items/InventoryItem';
+import { useWebsocketApi } from '@/api/websocketServer';
+import { useMainStore } from '@/store/main';
+import { useEffect } from 'react';
+import { useModalStore } from '@/store/modal';
+import ForEach from '@/components/shared/ForEach';
+import { ItemCategoryFilter } from '@/components/Items/ItemCategoryFilter';
 
-import { Pagination } from "@/components/Pagination";
+import { Pagination } from '@/components/shared/Pagination';
 
 export function MarketPage() {
   const queryClient = useQueryClient();
@@ -60,9 +60,7 @@ export function MarketPage() {
       <div className={styles.listContainer}>
         <ForEach
           items={store.marketListings}
-          render={(list) => (
-            <MarketListingContainer key={list.id} listing={list} />
-          )}
+          render={(list) => <MarketListingContainer key={list.id} listing={list} />}
         />
       </div>
 
@@ -79,11 +77,7 @@ function MarketListingContainer({ listing }: { listing: MarketListing }) {
   return (
     <div className={styles.listingContainer} key={listing.id}>
       <span className={styles.sellerName}>{listing.seller?.name} </span>
-      <InventoryItem
-        inventoryItem={listing.inventory}
-        stack={listing.stack}
-        toolTipDirection="right"
-      />
+      <InventoryItem inventoryItem={listing.inventory} stack={listing.stack} toolTipDirection="right" />
       <Silver amount={listing.price} />
       <div>
         <Button

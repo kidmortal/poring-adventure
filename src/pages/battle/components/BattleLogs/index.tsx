@@ -1,6 +1,6 @@
-import ForEach from "@/components/ForEach";
-import styles from "./style.module.scss";
-import { When } from "@/components/When";
+import ForEach from '@/components/shared/ForEach';
+import styles from './style.module.scss';
+import { When } from '@/components/shared/When';
 
 type Props = {
   logs?: BattleLog[];

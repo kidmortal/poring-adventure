@@ -4,8 +4,8 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { Query } from '@/store/query';
 import { useMainStore } from '@/store/main';
 import { useWebsocketApi } from '@/api/websocketServer';
-import { FullscreenLoading } from '@/components/FullscreenLoading';
-import ForEach from '@/components/ForEach';
+import { FullscreenLoading } from '@/layout/PageLoading/FullscreenLoading';
+import ForEach from '@/components/shared/ForEach';
 import { GuildTaskInfo } from '@/components/GuildTaskInfo';
 
 type Props = {

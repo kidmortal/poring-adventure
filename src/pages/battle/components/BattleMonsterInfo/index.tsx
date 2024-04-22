@@ -1,6 +1,6 @@
-import { When } from "@/components/When";
-import styles from "./style.module.scss";
-import { RefObject, useRef } from "react";
+import { When } from '@/components/shared/When';
+import styles from './style.module.scss';
+import { RefObject, useRef } from 'react';
 
 type Props = {
   monster?: Monster;
@@ -17,11 +17,7 @@ export function BattleMonsterInfo({ monster }: Props) {
         </When>
         <div className={styles.levelContainer}>
           <When value={monster?.boss ?? false}>
-            <img
-              width={25}
-              height={25}
-              src="https://kidmortal.sirv.com/misc/boss.webp"
-            />
+            <img width={25} height={25} src="https://kidmortal.sirv.com/misc/boss.webp" />
           </When>
           <span>LV {monster?.level}</span>
         </div>

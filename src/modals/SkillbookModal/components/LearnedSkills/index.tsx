@@ -1,7 +1,7 @@
-import ForEach from "@/components/ForEach";
-import styles from "./style.module.scss";
-import { Button } from "@/components/Button";
-import Clock from "@/assets/Clock";
+import ForEach from '@/components/shared/ForEach';
+import styles from './style.module.scss';
+import { Button } from '@/components/shared/Button';
+import Clock from '@/assets/Clock';
 
 type Props = {
   skills?: LearnedSkill[];
@@ -31,11 +31,7 @@ export default function LearnedSkills({ skills, onClick, disabled }: Props) {
                   <div>
                     <Clock />
                     <span>Cooldown {learnedSkill.skill.cooldown}</span>
-                    <img
-                      width={25}
-                      height={25}
-                      src="https://kidmortal.sirv.com/misc/mana.webp"
-                    />
+                    <img width={25} height={25} src="https://kidmortal.sirv.com/misc/mana.webp" />
                     <span>Mana {learnedSkill.skill?.manaCost}</span>
                   </div>
                 </div>

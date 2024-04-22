@@ -1,9 +1,9 @@
-import { Broker } from "@/assets/Broker";
-import { ToolTipDirection } from "../Tooltip";
-import styles from "./style.module.scss";
-import cn from "classnames";
-import { When } from "../When";
-import React from "react";
+import { Broker } from '@/assets/Broker';
+import { ToolTipDirection } from '../../shared/Tooltip';
+import styles from './style.module.scss';
+import cn from 'classnames';
+import { When } from '../../shared/When';
+import React from 'react';
 
 type Props = {
   inventoryItem?: InventoryItem | Equipment;
@@ -20,7 +20,7 @@ export function InventoryItem({ customSize = 26, ...args }: Props) {
   const item = args.inventoryItem?.item;
   let isOnSale = false;
   let stack = args.stack ?? 0;
-  if (inventoryItem && "marketListing" in inventoryItem) {
+  if (inventoryItem && 'marketListing' in inventoryItem) {
     isOnSale = !!inventoryItem?.marketListing;
     stack = args.stack || inventoryItem?.stack || 0;
   }

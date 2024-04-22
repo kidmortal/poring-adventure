@@ -1,13 +1,13 @@
-import styles from "./style.module.scss";
-import { CharacterHead } from "../CharacterInfo";
-import { Silver } from "../Silver";
-import { When } from "../When";
-import { useMainStore } from "@/store/main";
-import { Button } from "../Button";
-import { useModalStore } from "@/store/modal";
-import { Settings } from "@/assets/Settings";
-import MailBoxButton from "../MailBoxButton";
-import { useUserStore } from "@/store/user";
+import styles from './style.module.scss';
+import { CharacterHead } from '../CharacterInfo';
+import { Silver } from '../../Silver';
+import { When } from '../../shared/When';
+import { useMainStore } from '@/store/main';
+import { Button } from '../../shared/Button';
+import { useModalStore } from '@/store/modal';
+import { Settings } from '@/assets/Settings';
+import MailBoxButton from './MailBoxButton';
+import { useUserStore } from '@/store/user';
 
 export function CharacterSummaryHeader() {
   const store = useMainStore();
@@ -23,8 +23,8 @@ export function CharacterSummaryHeader() {
       <div className={styles.characterInfo}>
         <div className={styles.nameContainer}>
           <CharacterHead
-            gender={userStore.user.appearance?.gender ?? "female"}
-            head={userStore.user.appearance?.head ?? ""}
+            gender={userStore.user.appearance?.gender ?? 'female'}
+            head={userStore.user.appearance?.head ?? ''}
           />
           <h2>{userStore.user.name}</h2>
         </div>

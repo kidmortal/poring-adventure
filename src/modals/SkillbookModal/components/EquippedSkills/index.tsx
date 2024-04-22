@@ -1,6 +1,6 @@
-import ForEach from "@/components/ForEach";
-import styles from "./style.module.scss";
-import { Button } from "@/components/Button";
+import ForEach from '@/components/shared/ForEach';
+import styles from './style.module.scss';
+import { Button } from '@/components/shared/Button';
 
 type Props = {
   skills?: LearnedSkill[];
