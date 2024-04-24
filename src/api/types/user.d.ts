@@ -8,7 +8,6 @@ declare type User = {
   admin?: boolean;
   stats?: Stats;
   inventory: InventoryItem[];
-  equipment: Equipment[];
   learnedSkills: LearnedSkill[];
   buffs?: UserBuff[];
   profession?: Profession;

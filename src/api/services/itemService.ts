@@ -1,21 +1,21 @@
-import { Socket } from "socket.io-client";
-import { asyncEmit } from "../websocketServer";
+import { Socket } from 'socket.io-client';
+import { asyncEmit } from '../websocketServer';
 
 export function itemService({ websocket }: { websocket?: Socket }) {
-  async function consumeItem(itemId: number) {
+  async function consumeItem(dto: ConsumeItemDto) {
     if (!websocket) return undefined;
 
-    return asyncEmit<string>(websocket, "consume_item", itemId);
+    return asyncEmit<string>(websocket, 'consume_item', dto);
   }
 
-  async function equipItem(itemId: number) {
+  async function equipItem(dto: EquipItemDto) {
     if (!websocket) return undefined;
-    return asyncEmit<string>(websocket, "equip_item", itemId);
+    return asyncEmit<string>(websocket, 'equip_item', dto);
   }
 
-  async function unequipItem(itemId: number) {
+  async function unequipItem(dto: UnequipItemDto) {
     if (!websocket) return undefined;
-    return asyncEmit<string>(websocket, "unequip_item", itemId);
+    return asyncEmit<string>(websocket, 'unequip_item', dto);
   }
 
   return {

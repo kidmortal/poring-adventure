@@ -27,7 +27,7 @@ export function ModalLayout() {
       <ItemMenuModal
         onRequestClose={() => modalStore.setInventoryItem({ open: false })}
         isOpen={modalStore.inventoryItem.open}
-        item={modalStore.inventoryItem.selectedItem}
+        inventoryItem={modalStore.inventoryItem.selectedItem}
       />
       <SellItemModal
         onRequestClose={() => modalStore.setSellItem({ open: false })}

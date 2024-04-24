@@ -1,16 +1,16 @@
 import styles from './style.module.scss';
 
-import { EquippedItem } from '../EquipedItem';
+import { InventoryItem } from '../InventoryItem';
 import { useModalStore } from '@/store/modal';
 import { useEffect, useState } from 'react';
 
-export function Equipments(props: { equips: Equipment[]; onClick?: (i: Item) => void }) {
+export function Equipments(props: { equips: InventoryItem[]; onClick?: (i: Item) => void }) {
   const modalStore = useModalStore();
   const [equippedItems, setEquippedItems] = useState<{
-    weapon?: Equipment;
-    armor?: Equipment;
-    legs?: Equipment;
-    boots?: Equipment;
+    weapon?: InventoryItem;
+    armor?: InventoryItem;
+    legs?: InventoryItem;
+    boots?: InventoryItem;
   }>({
     weapon: undefined,
     armor: undefined,
@@ -19,10 +19,10 @@ export function Equipments(props: { equips: Equipment[]; onClick?: (i: Item) => 
   });
   useEffect(() => {
     const newEquips: {
-      weapon?: Equipment;
-      armor?: Equipment;
-      legs?: Equipment;
-      boots?: Equipment;
+      weapon?: InventoryItem;
+      armor?: InventoryItem;
+      legs?: InventoryItem;
+      boots?: InventoryItem;
     } = {};
     props.equips.forEach((equip) => {
       if (equip.item.category === 'weapon') {
@@ -43,9 +43,9 @@ export function Equipments(props: { equips: Equipment[]; onClick?: (i: Item) => 
 
   return (
     <div className={styles.inventoryContainer}>
-      <EquippedItem
+      <InventoryItem
         key={equippedItems.weapon?.id}
-        equip={equippedItems.weapon}
+        inventoryItem={equippedItems.weapon}
         onClick={() => {
           modalStore.setInventoryItem({
             open: true,
@@ -53,9 +53,9 @@ export function Equipments(props: { equips: Equipment[]; onClick?: (i: Item) => 
           });
         }}
       />
-      <EquippedItem
+      <InventoryItem
         key={equippedItems.armor?.id}
-        equip={equippedItems.armor}
+        inventoryItem={equippedItems.armor}
         onClick={() => {
           modalStore.setInventoryItem({
             open: true,
@@ -63,9 +63,9 @@ export function Equipments(props: { equips: Equipment[]; onClick?: (i: Item) => 
           });
         }}
       />
-      <EquippedItem
+      <InventoryItem
         key={equippedItems.legs?.id}
-        equip={equippedItems.legs}
+        inventoryItem={equippedItems.legs}
         onClick={() => {
           modalStore.setInventoryItem({
             open: true,
@@ -73,9 +73,9 @@ export function Equipments(props: { equips: Equipment[]; onClick?: (i: Item) => 
           });
         }}
       />
-      <EquippedItem
+      <InventoryItem
         key={equippedItems.boots?.id}
-        equip={equippedItems.boots}
+        inventoryItem={equippedItems.boots}
         onClick={() => {
           modalStore.setInventoryItem({
             open: true,

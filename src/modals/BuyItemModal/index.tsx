@@ -51,7 +51,7 @@ export function BuyItemModal(props: Props) {
     <BaseModal onRequestClose={props.onRequestClose} isOpen={props.isOpen}>
       <div className={styles.itemInfoContainer}>
         <InventoryItem inventoryItem={props.item?.inventory} stack={stock} />
-        <ItemStats item={props.item?.inventory} />
+        <ItemStats inventoryItem={props.item?.inventory} />
 
         <span>Seller: {props.item?.seller.name}</span>
         <div className={styles.row}>

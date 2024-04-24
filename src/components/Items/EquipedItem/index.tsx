@@ -4,40 +4,40 @@ import styles from './style.module.scss';
 import cn from 'classnames';
 
 type Props = {
-  equip?: Equipment;
+  inventoryItem?: InventoryItem;
   backgroundColor?: string;
   onClick?: () => void;
 };
 
-export function ItemStats({ item }: { item?: Equipment | InventoryItem }) {
+export function ItemStats({ inventoryItem }: { inventoryItem?: InventoryItem | InventoryItem }) {
   return (
     <div className={styles.statsContainer}>
-      <h3>{item?.item?.name}</h3>
-      <span>{item?.item.category}</span>
-      <When value={!!item?.item?.health}>
-        <Stat assetName="health" label={`HP: ${item?.item?.health}`} />
+      <h3>{`+${inventoryItem?.enhancement} ${inventoryItem?.item?.name}`}</h3>
+      <span>{inventoryItem?.item.category}</span>
+      <When value={!!inventoryItem?.item?.health}>
+        <Stat assetName="health" label={`HP: ${inventoryItem?.item?.health}`} />
       </When>
-      <When value={!!item?.item?.mana}>
-        <Stat assetName="mana" label={`MP: ${item?.item?.mana}`} />
+      <When value={!!inventoryItem?.item?.mana}>
+        <Stat assetName="mana" label={`MP: ${inventoryItem?.item?.mana}`} />
       </When>
-      <When value={!!item?.item?.attack}>
-        <Stat assetName="attack" label={`ATK: ${item?.item?.attack}`} />
+      <When value={!!inventoryItem?.item?.attack}>
+        <Stat assetName="attack" label={`ATK: ${inventoryItem?.item?.attack}`} />
       </When>
-      <When value={!!item?.item?.str}>
-        <Stat assetName="str" label={`STR: ${item?.item?.str}`} />
+      <When value={!!inventoryItem?.item?.str}>
+        <Stat assetName="str" label={`STR: ${inventoryItem?.item?.str}`} />
       </When>
-      <When value={!!item?.item?.agi}>
-        <Stat assetName="agi" label={`AGI: ${item?.item?.agi}`} />
+      <When value={!!inventoryItem?.item?.agi}>
+        <Stat assetName="agi" label={`AGI: ${inventoryItem?.item?.agi}`} />
       </When>
-      <When value={!!item?.item?.int}>
-        <Stat assetName="int" label={`INT: ${item?.item?.int}`} />
+      <When value={!!inventoryItem?.item?.int}>
+        <Stat assetName="int" label={`INT: ${inventoryItem?.item?.int}`} />
       </When>
     </div>
   );
 }
 
 export function EquippedItem(args: Props) {
-  const equipment = args?.equip;
+  const equipment = args?.inventoryItem;
   const item = equipment?.item;
 
   if (!equipment) {

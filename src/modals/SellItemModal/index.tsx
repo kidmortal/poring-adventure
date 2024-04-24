@@ -16,7 +16,7 @@ import { ItemStats } from '@/components/Items/EquipedItem';
 
 type Props = {
   isOpen?: boolean;
-  item?: InventoryItem | Equipment;
+  item?: InventoryItem;
   onRequestClose: (i?: InventoryItem) => void;
 };
 
@@ -56,7 +56,7 @@ export function SellItemModal(props: Props) {
     <BaseModal onRequestClose={props.onRequestClose} isOpen={props.isOpen}>
       <div className={styles.itemInfoContainer}>
         <InventoryItem inventoryItem={props.item} />
-        <ItemStats item={props.item} />
+        <ItemStats inventoryItem={props.item} />
       </div>
       <div className={styles.buttonsContainer}>
         <Input

@@ -13,31 +13,29 @@ import { Button } from '@/components/shared/Button';
 import { useModalStore } from '@/store/modal';
 import { useWebsocketApi } from '@/api/websocketServer';
 import { ItemStats } from '@/components/Items/EquipedItem';
-import { useUserStore } from '@/store/user';
 
 type Props = {
   isOpen?: boolean;
-  item?: InventoryItem | Equipment;
+  inventoryItem?: InventoryItem;
   onRequestClose: (i?: InventoryItem) => void;
 };
 
-function ItemDetails({ item }: { item?: InventoryItem | Equipment }) {
+function ItemDetails({ inventoryItem }: { inventoryItem?: InventoryItem }) {
   let isOnSale = false;
   let stack = 0;
   let totalPrice = 0;
-  if (item && 'marketListing' in item) {
-    isOnSale = !!item?.marketListing;
-    stack = item?.marketListing?.stack ?? 0;
-    totalPrice = (item.marketListing?.price ?? 0) * (item.marketListing?.stack ?? 1);
-  }
+
+  isOnSale = !!inventoryItem?.marketListing;
+  stack = inventoryItem?.marketListing?.stack ?? 0;
+  totalPrice = (inventoryItem?.marketListing?.price ?? 0) * (inventoryItem?.marketListing?.stack ?? 1);
 
   return (
     <div className={styles.itemDetailContainer}>
-      <ItemStats item={item} />
+      <ItemStats inventoryItem={inventoryItem} />
       <When value={isOnSale}>
         <div className={styles.row}>
           <span>Sale</span>
-          <InventoryItem inventoryItem={item} stack={stack} />
+          <InventoryItem inventoryItem={inventoryItem} stack={stack} />
           <Silver amount={totalPrice} />
         </div>
       </When>
@@ -46,7 +44,6 @@ function ItemDetails({ item }: { item?: InventoryItem | Equipment }) {
 }
 
 export function ItemMenuModal(props: Props) {
-  const userStore = useUserStore();
   const api = useWebsocketApi();
   const modalStore = useModalStore();
   const queryClient = useQueryClient();
@@ -65,7 +62,7 @@ export function ItemMenuModal(props: Props) {
   });
 
   const consumeItemMutation = useMutation({
-    mutationFn: (itemId: number) => api.items.consumeItem(itemId),
+    mutationFn: (inventoryId: number) => api.items.consumeItem({ inventoryId }),
     onSuccess: () => {
       toast('Item consumed', { type: 'success', autoClose: 1000 });
     },
@@ -78,7 +75,7 @@ export function ItemMenuModal(props: Props) {
   });
 
   const unequipItemMutation = useMutation({
-    mutationFn: (itemId: number) => api.items.unequipItem(itemId),
+    mutationFn: (inventoryId: number) => api.items.unequipItem({ inventoryId }),
     onSuccess: () => {
       toast('Item unequipped', { type: 'success' });
     },
@@ -91,7 +88,7 @@ export function ItemMenuModal(props: Props) {
   });
 
   const equipItemMutation = useMutation({
-    mutationFn: (itemId: number) => api.items.equipItem(itemId),
+    mutationFn: (inventoryId: number) => api.items.equipItem({ inventoryId }),
     onSuccess: () => {
       toast('Item equipped', { type: 'success' });
     },
@@ -103,33 +100,33 @@ export function ItemMenuModal(props: Props) {
     },
   });
 
-  const item = props.item;
+  const inventoryItem = props.inventoryItem;
   let listingId = 0;
   let hasRemainingStock = false;
 
-  if (item && 'marketListing' in item) {
-    listingId = item.marketListing?.id ?? 0;
-    hasRemainingStock = (item.stack || 0) > (item.marketListing?.stack || 0);
+  if (inventoryItem && 'marketListing' in inventoryItem) {
+    listingId = inventoryItem.marketListing?.id ?? 0;
+    hasRemainingStock = (inventoryItem.stack || 0) > (inventoryItem.marketListing?.stack || 0);
   }
 
   const isOnSale = !!listingId;
-  const isConsumable = props.item?.item?.category === 'consumable';
+  const isConsumable = props.inventoryItem?.item?.category === 'consumable';
 
-  const isAlreadyEquipped = !!userStore.user?.equipment.find((equip) => equip.itemId === item?.itemId);
+  const isAlreadyEquipped = inventoryItem?.equipped ?? false;
 
   return (
     <BaseModal onRequestClose={props.onRequestClose} isOpen={props.isOpen}>
       <div className={styles.itemInfoContainer}>
-        <InventoryItem inventoryItem={item} />
-        <ItemDetails item={item} />
+        <InventoryItem inventoryItem={inventoryItem} />
+        <ItemDetails inventoryItem={inventoryItem} />
       </div>
       <div className={styles.buttonsContainer}>
         <When value={isConsumable}>
           <Button
             label="Use item"
             onClick={() => {
-              if (props.item?.itemId) {
-                consumeItemMutation.mutate(props.item?.itemId);
+              if (props.inventoryItem?.itemId) {
+                consumeItemMutation.mutate(props.inventoryItem?.id);
               }
             }}
             disabled={!hasRemainingStock || consumeItemMutation.isPending}
@@ -140,9 +137,10 @@ export function ItemMenuModal(props: Props) {
           <When value={!isAlreadyEquipped}>
             <Button
               label="Equip item"
+              disabled={equipItemMutation.isPending}
               onClick={() => {
-                if (props.item?.itemId) {
-                  equipItemMutation.mutate(props.item?.itemId);
+                if (props.inventoryItem?.itemId) {
+                  equipItemMutation.mutate(props.inventoryItem.id);
                 }
               }}
             />
@@ -150,9 +148,10 @@ export function ItemMenuModal(props: Props) {
           <When value={isAlreadyEquipped}>
             <Button
               label="Unequip item"
+              disabled={unequipItemMutation.isPending}
               onClick={() => {
-                if (props.item?.itemId) {
-                  unequipItemMutation.mutate(props.item?.itemId);
+                if (props.inventoryItem?.itemId) {
+                  unequipItemMutation.mutate(props.inventoryItem?.id);
                 }
               }}
             />

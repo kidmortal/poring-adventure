@@ -56,6 +56,10 @@ function RenderDropedItems({ items, email }: { email: string; items: BattleUserD
             id: 0,
             itemId: itemId,
             userEmail: '',
+            equipped: false,
+            locked: false,
+            enhancement: 0,
+            quality: 0,
             stack: stack,
           }}
         />

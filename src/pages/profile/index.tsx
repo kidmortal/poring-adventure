@@ -19,7 +19,7 @@ export function ProfilePage() {
   const userStore = useUserStore();
   const modal = useModalStore();
 
-  const equippedItems = userStore.user?.equipment ?? [];
+  const equippedItems = userStore.user?.inventory.filter((item) => item.equipped) ?? [];
 
   return (
     <div className={styles.container}>

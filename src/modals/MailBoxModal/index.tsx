@@ -81,6 +81,11 @@ function MailContainer({ mail }: { mail: Mail }) {
                 itemId: mail.item?.id,
                 userEmail: '',
                 item: mail.item,
+                stack: 1,
+                equipped: false,
+                locked: false,
+                enhancement: 0,
+                quality: 0,
               }}
             />
           </When>

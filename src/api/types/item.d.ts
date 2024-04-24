@@ -11,19 +11,19 @@ declare type Item = {
   mana?: number;
 };
 
-declare type Equipment = {
-  id: number;
-  userEmail: string;
-  itemId: number;
-  item: Item;
-};
-
 declare type InventoryItem = {
   id: number;
   stack: number;
   userEmail: string;
   itemId: number;
   item: Item;
+
+  quality: number;
+  enhancement: number;
+
+  equipped: boolean;
+  locked: boolean;
+
   marketListing?: MarketListing;
 };
 
@@ -41,6 +41,6 @@ declare type Mail = {
   item: Item;
 };
 
-const ITEM_CATEGORIES = ["all", "equipment", "consumable", "material"] as const;
+const ITEM_CATEGORIES = ['all', 'equipment', 'consumable', 'material'] as const;
 
 declare type ItemCategory = (typeof ITEM_CATEGORIES)[number];

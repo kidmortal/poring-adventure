@@ -6,7 +6,7 @@ type GenericModalState = {
 
 type InventoryItemState = {
   open: boolean;
-  selectedItem?: InventoryItem | Equipment;
+  selectedItem?: InventoryItem;
 };
 
 type SellItemState = {

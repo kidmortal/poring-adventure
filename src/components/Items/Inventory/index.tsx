@@ -11,18 +11,20 @@ const CONSUMABLES = ['consumable'];
 const EQUIPS = ['weapon', 'armor', 'legs', 'boots'];
 
 function filterInventory(items: InventoryItem[], filter: InventoryFilters) {
+  const notEquippedItems = items?.filter((inv) => !inv.equipped);
+
   switch (filter) {
     case 'all':
-      return items;
+      return notEquippedItems;
     case 'equipment':
-      return items?.filter((inv) => EQUIPS.includes(inv.item?.category));
+      return notEquippedItems?.filter((inv) => EQUIPS.includes(inv.item?.category));
     case 'consumable':
-      return items?.filter((inv) => CONSUMABLES.includes(inv.item?.category));
+      return notEquippedItems?.filter((inv) => CONSUMABLES.includes(inv.item?.category));
     case 'material':
-      return items?.filter((inv) => MATERIALS.includes(inv.item?.category));
+      return notEquippedItems?.filter((inv) => MATERIALS.includes(inv.item?.category));
 
     default:
-      return items;
+      return notEquippedItems;
   }
 }
 
@@ -46,7 +48,6 @@ function InventoryItems(props: { items: InventoryItem[]; onClick?: (i: Inventory
           key={value?.id}
           inventoryItem={value}
           onClick={() => props.onClick?.(value)}
-          backgroundColor="gray"
           toolTipDirection="right"
         />
       ))}

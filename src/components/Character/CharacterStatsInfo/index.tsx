@@ -22,7 +22,7 @@ export function CharacterStatsInfo() {
   let bonusStr = 0;
   let bonusAgi = 0;
   let bonusInt = 0;
-  const equippedItems = userStore.user?.equipment;
+  const equippedItems = userStore.user?.inventory.filter((item) => item.equipped) ?? [];
   const user = userStore.user;
   const stats = user?.stats;
   if (equippedItems) {
