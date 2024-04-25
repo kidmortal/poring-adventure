@@ -26,21 +26,21 @@ export function CharacterLayout() {
   });
   useQuery({
     queryKey: [Query.BATTLE],
-    enabled: !!store.websocket && !!store.wsAuthenticated && !!store.loggedUserInfo.accessToken,
+    enabled: !!store.websocket && !!store.wsAuthenticated,
     staleTime: 1000 * 60, // 60 seconds
     queryFn: () => api.battle.getBattleInstance(),
   });
 
   useQuery({
     queryKey: [Query.MAPS],
-    enabled: !!store.websocket && !!store.loggedUserInfo.accessToken,
+    enabled: !!store.websocket && !!store.wsAuthenticated,
     staleTime: 1000 * 60, // 60 seconds
     queryFn: () => api.monsters.getAllMaps(),
   });
 
   useQuery({
     queryKey: [Query.NOTIFICATIONS],
-    enabled: !!store.websocket && !!store.loggedUserInfo.accessToken,
+    enabled: !!store.websocket && !!store.wsAuthenticated,
     staleTime: 1000 * 60 * 10, // 10 minutes
     queryFn: () => api.mail.getAllMail(),
   });

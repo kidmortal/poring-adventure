@@ -17,6 +17,7 @@ import { GuildTaskSelectModal } from '@/modals/GuildTaskSelectModal';
 import { useUserStore } from '@/store/user';
 import { GuildBlessingModal } from '@/modals/GuildBlessingModal';
 import { DiscordIntegrationModal } from '@/modals/DiscordIntegrationModal';
+import { EnhanceItemModal } from '@/modals/EnhanceItemModal';
 
 export function ModalLayout() {
   const userStore = useUserStore();
@@ -85,6 +86,11 @@ export function ModalLayout() {
       <DeleteCharConfirmationModal
         onRequestClose={() => modalStore.setConfirmDeleteCharacter({ open: false })}
         isOpen={modalStore.confirmDeleteCharacter.open}
+      />
+      <EnhanceItemModal
+        onRequestClose={() => modalStore.setEnhanceItem({ open: false })}
+        isOpen={modalStore.enhanceItem.open}
+        inventoryItem={modalStore.inventoryItem.selectedItem}
       />
     </>
   );

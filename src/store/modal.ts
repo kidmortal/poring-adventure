@@ -39,6 +39,8 @@ type InteractUserState = {
 export interface ModalState {
   userConfig: GenericModalState;
   setUserConfig: (v: GenericModalState) => void;
+  enhanceItem: GenericModalState;
+  setEnhanceItem: (v: GenericModalState) => void;
   discordIntegration: GenericModalState;
   setDiscordIntegration: (v: GenericModalState) => void;
   guildBlessing: GenericModalState;
@@ -70,6 +72,8 @@ export interface ModalState {
 }
 
 export const useModalStore = create<ModalState>()((set) => ({
+  enhanceItem: { open: false },
+  setEnhanceItem: (v) => set(() => ({ enhanceItem: v })),
   userConfig: { open: false },
   setUserConfig: (v) => set(() => ({ userConfig: v })),
   discordIntegration: { open: false },

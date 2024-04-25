@@ -12,7 +12,7 @@ import { InventoryItem } from '@/components/Items/InventoryItem';
 import { Button } from '@/components/shared/Button';
 import { useModalStore } from '@/store/modal';
 import { useWebsocketApi } from '@/api/websocketServer';
-import { ItemStats } from '@/components/Items/EquipedItem';
+import { ItemStats } from '@/components/Items/ItemStats';
 
 type Props = {
   isOpen?: boolean;
@@ -134,6 +134,13 @@ export function ItemMenuModal(props: Props) {
         </When>
 
         <When value={!isConsumable}>
+          <Button
+            label="Enhance"
+            onClick={() => {
+              modalStore.setInventoryItem({ open: false });
+              modalStore.setEnhanceItem({ open: true });
+            }}
+          />
           <When value={!isAlreadyEquipped}>
             <Button
               label="Equip item"

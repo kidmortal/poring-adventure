@@ -12,7 +12,7 @@ import { Button } from '@/components/shared/Button';
 import { useWebsocketApi } from '@/api/websocketServer';
 import { useModalStore } from '@/store/modal';
 import Input from '@/components/shared/Input';
-import { ItemStats } from '@/components/Items/EquipedItem';
+import { ItemStats } from '@/components/Items/ItemStats';
 
 type Props = {
   isOpen?: boolean;
