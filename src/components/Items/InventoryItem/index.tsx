@@ -4,8 +4,7 @@ import styles from './style.module.scss';
 import cn from 'classnames';
 import { When } from '../../shared/When';
 import React from 'react';
-
-const itemQuality = ['common', 'common', 'uncommon', 'rare', 'epic', 'legendary', 'mythical'];
+import { ITEM_QUALITY } from '@/constants';
 
 type Props = {
   inventoryItem?: InventoryItem;
@@ -22,7 +21,7 @@ export function InventoryItem({ customSize = 26, ...args }: Props) {
   const item = args.inventoryItem?.item;
   let isOnSale = false;
   let stack = args.stack ?? 0;
-  const quality = itemQuality[inventoryItem?.quality ?? 0];
+  const quality = ITEM_QUALITY[inventoryItem?.quality ?? 0];
   console.log(quality);
 
   isOnSale = !!inventoryItem?.marketListing;
@@ -51,7 +50,7 @@ export function InventoryItem({ customSize = 26, ...args }: Props) {
     <div
       onClick={args.onClick}
       style={{ backgroundColor: args.backgroundColor }}
-      className={cn(styles.inventoryItemContainer, styles[itemQuality[inventoryItem.quality]])}
+      className={cn(styles.inventoryItemContainer, styles[quality])}
     >
       <img width={customSize} height={customSize} src={item.image} />
       <When value={stack > 1}>

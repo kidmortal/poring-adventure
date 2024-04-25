@@ -25,9 +25,9 @@ export function SellItemModal(props: Props) {
   const modalStore = useModalStore();
   const queryClient = useQueryClient();
   const createMarketListingMutation = useMutation({
-    mutationFn: (args: { id: number; stack: number; price: number }) =>
+    mutationFn: (args: { stack: number; price: number }) =>
       api.market.createMarketListing({
-        itemId: args.id,
+        inventoryId: props.item?.id ?? 0,
         price: args.price,
         stack: args.stack,
       }),
@@ -84,7 +84,6 @@ export function SellItemModal(props: Props) {
             onClick={() => {
               if (props.item) {
                 createMarketListingMutation.mutate({
-                  id: props.item?.itemId,
                   price: sellPrice,
                   stack: sellAmount,
                 });

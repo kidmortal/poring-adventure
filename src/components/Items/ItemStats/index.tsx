@@ -2,6 +2,7 @@ import { Utils } from '@/utils';
 import { Stat } from '../../Character/CharacterStatsInfo';
 import { When } from '../../shared/When';
 import styles from './style.module.scss';
+import { ITEM_QUALITY } from '@/constants';
 
 export function ItemStats({ inventoryItem }: { inventoryItem?: InventoryItem | InventoryItem }) {
   const item = inventoryItem?.item;
@@ -17,7 +18,7 @@ export function ItemStats({ inventoryItem }: { inventoryItem?: InventoryItem | I
 
   return (
     <div className={styles.statsContainer}>
-      <h3>{`+${inventoryItem?.enhancement} ${inventoryItem?.item?.name}`}</h3>
+      <h3>{`+${inventoryItem?.enhancement} ${ITEM_QUALITY[quality]} ${inventoryItem?.item?.name}`}</h3>
       <span>{item?.category}</span>
       <When value={!!health}>
         <Stat assetName="health" label={`HP: ${health} +${Math.floor(health * multiplier)}`} />

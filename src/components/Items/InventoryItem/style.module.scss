@@ -11,22 +11,22 @@
   border-radius: 6px;
   background-color: gray;
 
-  &.common {
+  &.Common {
     background-color: gray;
   }
-  &.uncommon {
+  &.Uncommon {
     background-color: rgba(0, 128, 0, 0.5);
   }
-  &.rare {
+  &.Rare {
     background-color: rgba(0, 0, 255, 0.5);
   }
-  &.epic {
+  &.Epic {
     background-color: rgba(128, 0, 128, 0.5);
   }
-  &.legendary {
+  &.Legendary {
     background-color: rgba(255, 215, 0, 0.5);
   }
-  &.mythic {
+  &.Mythic {
     background-color: rgba(255, 69, 0, 0.5);
   }
 }
