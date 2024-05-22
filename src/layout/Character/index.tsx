@@ -51,9 +51,10 @@ export function CharacterLayout() {
   if (characterQuery.isError) {
     return <ErrorMessage message={characterQuery.error.message} />;
   }
-  if (characterQuery.isFetched && !characterQuery.data) {
+  if (characterQuery.isFetched && !userStore.user?.id) {
     return <CharacterCreationPage />;
   }
+
   if (!userStore.user?.id) {
     return <FullscreenLoading info="Fetching character info" />;
   }
