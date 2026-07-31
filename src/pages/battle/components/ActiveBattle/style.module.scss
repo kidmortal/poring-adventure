@@ -1,0 +1,58 @@
+@import "@/styles/variables";
+
+.monsterSection {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: auto;
+  padding-right: 2rem;
+}
+
+.userSection {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.logContainer {
+  height: 5rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  overflow-y: auto;
+  margin-bottom: 1rem;
+  font-size: 12px;
+}
+
+.turnLabelContainer {
+  font-size: 14px;
+  padding: 0.35rem 0.75rem;
+  margin-top: 0.5rem;
+  border-radius: 999px;
+  background-color: rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba($gold, 0.3);
+  @include readable-text;
+
+  strong {
+    color: $gold;
+    font-weight: 700;
+  }
+}
+
+.targetingSkillLabel {
+  position: absolute;
+  top: 40%;
+  background-color: $primary;
+  padding: 0.5rem;
+  border-radius: 8px;
+  font-size: 14px;
+  text-align: center;
+  z-index: 5;
+}
