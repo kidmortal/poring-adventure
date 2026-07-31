@@ -1,15 +1,49 @@
+@import "@/styles/variables";
+
 .container {
   display: flex;
   width: 100%;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  font-size: 22px;
 
   input {
     width: 100%;
-    padding: 0.5rem;
-    border-radius: 6px;
-    font-size: 18px;
+    min-width: 0;
+    height: 42px;
+    padding: 0 0.6rem;
+    border-radius: $radius-sm;
+    border: 1px solid $border-strong;
+    background-color: rgba(0, 0, 0, 0.3);
+    color: $text;
+    font-family: inherit;
+    // 16px minimum, otherwise iOS Safari zooms the page on focus.
+    font-size: 16px;
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    outline: none;
+    transition: border-color 150ms, box-shadow 150ms;
+
+    &::placeholder {
+      color: $text-muted;
+      font-weight: 400;
+    }
+
+    &:focus {
+      border-color: rgba($gold, 0.55);
+      box-shadow: 0 0 0 2px rgba($gold, 0.15);
+    }
+
+    // Spinners steal width and are useless on touch.
+    &[type="number"] {
+      -moz-appearance: textfield;
+      appearance: textfield;
+    }
+
+    &[type="number"]::-webkit-outer-spin-button,
+    &[type="number"]::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
   }
 }

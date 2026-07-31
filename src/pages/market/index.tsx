@@ -76,10 +76,14 @@ function MarketListingContainer({ listing }: { listing: MarketListing }) {
   const modalStore = useModalStore();
   return (
     <div className={styles.listingContainer} key={listing.id}>
-      <span className={styles.sellerName}>{listing.seller?.name} </span>
-      <InventoryItem inventoryItem={listing.inventory} stack={listing.stack} toolTipDirection="right" />
-      <Silver amount={listing.price} />
-      <div>
+      <span className={styles.sellerName}>{listing.seller?.name}</span>
+      <div className={styles.itemCell}>
+        <InventoryItem inventoryItem={listing.inventory} stack={listing.stack} toolTipDirection="right" />
+      </div>
+      <div className={styles.priceCell}>
+        <Silver amount={listing.price} />
+      </div>
+      <div className={styles.buyCell}>
         <Button
           onClick={() => {
             modalStore.setBuyItem({

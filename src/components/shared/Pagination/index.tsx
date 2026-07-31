@@ -1,6 +1,7 @@
 import styles from './style.module.scss';
 import cn from 'classnames';
 import { usePagination } from '@/hooks/usePagination';
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 
 type PaginationButtonProps = {
   page: number;
@@ -53,8 +54,9 @@ export function Pagination({
           })}
           disabled={pagination.currentPage === 1}
           onClick={() => pagination.handlePageChange(pagination.currentPage - 1)}
+          aria-label="Previous page"
         >
-          Previous
+          <FaChevronLeft />
         </button>
         {pageButtons}
         <button
@@ -63,8 +65,9 @@ export function Pagination({
           })}
           disabled={pagination.currentPage === pagination.totalPages}
           onClick={() => pagination.handlePageChange(pagination.currentPage + 1)}
+          aria-label="Next page"
         >
-          Next
+          <FaChevronRight />
         </button>
       </div>
     </div>

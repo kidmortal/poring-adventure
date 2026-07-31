@@ -1,37 +1,72 @@
-.inventoryItemContainer {
-  cursor: pointer;
-  position: relative;
-  width: 3rem;
-  height: 3rem;
-  padding: 0.5rem;
-  border-radius: 6px;
-  gap: 0.5rem;
-
-  background-color: gray;
-}
-
-.empty {
-  cursor: default;
-}
-
-.statContainer {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-
-  img {
-    width: 20px;
-    height: 20px;
-  }
-}
+@import "@/styles/variables";
 
 .statsContainer {
+  width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
+  align-items: stretch;
   gap: 0.5rem;
-  padding: 0.2rem;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.1rem;
+  min-width: 0;
+}
+
+.itemName {
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.itemMeta {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 11px;
+  font-weight: 500;
+  color: $text-muted;
+  text-transform: capitalize;
+}
+
+.enhancementBadge {
+  padding: 0.05rem 0.35rem;
+  border-radius: 999px;
+  background-color: rgba($gold, 0.16);
+  border: 1px solid rgba($gold, 0.4);
+  color: $gold;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+// Stat rows stack full width so labels, values and bonuses line up in columns
+// instead of each row centering on its own text length.
+.statList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+// Quality colours match the rarity borders used on inventory slots.
+.Common {
+  color: $text;
+}
+.Uncommon {
+  color: $rarity-uncommon;
+}
+.Rare {
+  color: $rarity-rare;
+}
+.Epic {
+  color: $rarity-epic;
+}
+.Legendary {
+  color: $rarity-legendary;
+}
+.Mythic,
+.Mythical {
+  color: $rarity-mythic;
 }

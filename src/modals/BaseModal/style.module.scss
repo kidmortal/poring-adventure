@@ -1,34 +1,35 @@
+@import "@/styles/variables";
+
 .container {
   position: absolute;
   top: 0;
   left: 0;
   height: 100%;
   width: 100%;
-  background-color: rgba($color: #191919, $alpha: 0.7);
+  background-color: rgba(6, 8, 18, 0.72);
+  backdrop-filter: blur(2px);
   z-index: 4;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-}
-
-.itemContainer {
-  background-color: blue;
-  padding: 0.3rem;
-  border-radius: 6px;
+  padding: 1rem;
 }
 
 .modalBox {
-  min-height: 20rem;
-  min-width: 15rem;
+  // Was a fixed 20rem tall box with space-between, which spread short content
+  // apart and squeezed long content. Now it sizes to its content and scrolls.
+  width: 100%;
+  max-width: 21rem;
+  max-height: 85%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #35374b;
-  padding: 1.5rem;
-  border-radius: 6px;
-  color: white;
+  justify-content: flex-start;
+  align-items: stretch;
+  padding: 1rem;
+  color: $text;
+  overflow-y: auto;
+  @include panel-gold();
 }
 
 .row {

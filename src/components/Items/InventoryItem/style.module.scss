@@ -36,7 +36,9 @@
     border-color: $rarity-legendary;
     box-shadow: inset 0 0 10px rgba($rarity-legendary, 0.5), 0 0 6px rgba($rarity-legendary, 0.25);
   }
-  &.Mythic {
+  // ITEM_QUALITY spells the top tier "Mythical"; keep the old name working too.
+  &.Mythic,
+  &.Mythical {
     border-color: $rarity-mythic;
     box-shadow: inset 0 0 10px rgba($rarity-mythic, 0.55), 0 0 8px rgba($rarity-mythic, 0.3);
   }
