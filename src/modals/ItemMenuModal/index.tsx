@@ -66,7 +66,8 @@ export function ItemMenuModal(props: Props) {
 
   const consumeItemMutation = useMutation({
     mutationFn: (inventoryId: number) => api.items.consumeItem({ inventoryId }),
-    onSuccess: () => {
+    onSuccess: (success) => {
+      if (!success) return;
       toast('Item consumed', { type: 'success', autoClose: 1000 });
     },
     onSettled: () => {
@@ -79,7 +80,8 @@ export function ItemMenuModal(props: Props) {
 
   const unequipItemMutation = useMutation({
     mutationFn: (inventoryId: number) => api.items.unequipItem({ inventoryId }),
-    onSuccess: () => {
+    onSuccess: (success) => {
+      if (!success) return;
       toast('Item unequipped', { type: 'success' });
     },
     onSettled: () => {
@@ -92,7 +94,8 @@ export function ItemMenuModal(props: Props) {
 
   const equipItemMutation = useMutation({
     mutationFn: (inventoryId: number) => api.items.equipItem({ inventoryId }),
-    onSuccess: () => {
+    onSuccess: (success) => {
+      if (!success) return;
       toast('Item equipped', { type: 'success' });
     },
     onSettled: () => {

@@ -4,17 +4,17 @@ import { asyncEmit } from '../websocketServer';
 export function itemService({ websocket }: { websocket?: Socket }) {
   async function consumeItem(dto: ConsumeItemDto) {
     if (!websocket) return undefined;
-    return asyncEmit<string>(websocket, 'consume_item', dto);
+    return asyncEmit<boolean>(websocket, 'consume_item', dto);
   }
 
   async function equipItem(dto: EquipItemDto) {
     if (!websocket) return undefined;
-    return asyncEmit<string>(websocket, 'equip_item', dto);
+    return asyncEmit<boolean>(websocket, 'equip_item', dto);
   }
 
   async function unequipItem(dto: UnequipItemDto) {
     if (!websocket) return undefined;
-    return asyncEmit<string>(websocket, 'unequip_item', dto);
+    return asyncEmit<boolean>(websocket, 'unequip_item', dto);
   }
 
   async function enhanceItem(dto: EnhanceItemDto): Promise<boolean | undefined> {
