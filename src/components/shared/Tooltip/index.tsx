@@ -1,12 +1,11 @@
 import React from "react";
 import cn from "classnames";
 import styles from "./style.module.scss";
-
-export type ToolTipDirection = "top" | "bottom" | "left" | "right";
+import { Direction } from "@/types/ui";
 
 type Props = {
   text: React.ReactNode;
-  direction?: ToolTipDirection;
+  direction?: Direction;
   children: React.ReactNode;
 };
 

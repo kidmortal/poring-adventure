@@ -6,7 +6,7 @@ import { Stat } from '@/components/Character/CharacterStatsInfo';
 
 type Props = {
   profession?: Profession;
-  selectedGender?: 'male' | 'female';
+  selectedGender?: Gender;
   selected?: boolean;
   onClick?: () => void;
 };

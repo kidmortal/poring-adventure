@@ -39,10 +39,12 @@ declare global {
     userEmail: string;
   };
 
+  type Gender = 'male' | 'female';
+
   type Appearance = {
     id: number;
     head: string;
-    gender: 'male' | 'female';
+    gender: Gender;
     costume: string;
     userEmail: string;
   };

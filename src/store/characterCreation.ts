@@ -1,6 +1,4 @@
 import { create } from "zustand";
-
-type Gender = "male" | "female";
 interface CharacterCreationState {
   selectedProfession?: Profession;
   characterName: string;
