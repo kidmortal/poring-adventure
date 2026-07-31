@@ -5,67 +5,92 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  color: white;
-  gap: 1rem;
-}
-
-.internalMessageContainer {
-  height: 6rem;
-  width: 100%;
-  background-color: $neutral;
-  padding: 0.5rem;
-  border-radius: 6px;
-}
-
-.membersList {
-  padding: 0.5rem 0;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
+  align-items: stretch;
+  color: $text;
   gap: 0.5rem;
-  overflow-y: auto;
+  padding: 0.5rem 0;
+  overflow: hidden;
 }
 
-.guildTaskContainer {
-  width: 100%;
+.noGuild {
+  padding: 2rem 1rem;
+  font-size: 18px;
+  color: $text-muted;
+  text-align: center;
+}
+
+// Only the tab contents scroll; identity and tabs stay put.
+.tabPanel {
+  flex: 1;
+  min-height: 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: $orange;
-  padding: 0.5rem;
-  border-radius: 4px;
-
-  &.completed {
-    background-color: $success;
-    cursor: pointer;
-  }
-  &.selectNewTask {
-    background-color: $primary;
-    cursor: pointer;
-    padding: 2rem 1rem;
-  }
+  align-items: stretch;
+  gap: 0.6rem;
+  padding-bottom: 0.5rem;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
-.memberViewSwitch {
-  width: 100%;
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.sectionTitle {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: $text-muted;
+}
+
+.listHeader {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
-  gap: 2rem;
+  align-items: baseline;
+  gap: 0.5rem;
 }
 
-.row {
-  width: 100%;
+.count {
+  font-size: 12px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: $gold;
+}
+
+.list {
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.message {
+  padding: 0.6rem;
+  font-size: 13px;
+  line-height: 1.4;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  @include panel($radius);
+}
+
+.emptyTask {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
   gap: 0.5rem;
+  padding: 0.8rem;
+  text-align: center;
+  font-size: 13px;
+  color: $text-muted;
+  @include panel();
+}
+
+.empty {
+  padding: 1rem 0;
+  font-size: 13px;
+  color: $text-muted;
+  text-align: center;
 }
