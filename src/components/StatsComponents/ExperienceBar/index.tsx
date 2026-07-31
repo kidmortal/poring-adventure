@@ -1,4 +1,4 @@
-import styles from "./style.module.scss";
+import { StatBar } from '../StatBar';
 
 type Props = {
   currentExp?: number;
@@ -7,40 +7,28 @@ type Props = {
   minHeight?: string;
 };
 
-function calculateNextLevelExp(level: number) {
-  let expNeeded = 0;
-  let currentExp = 0;
-
+/** Total exp required to reach `level`. */
+function totalExpForLevel(level: number) {
+  let total = 0;
   for (let i = 1; i < level; i++) {
-    expNeeded = i * 100;
-    currentExp += expNeeded;
+    total += i * 100;
   }
-
-  return currentExp;
+  return total;
 }
 
 export default function ExperienceBar(props: Props) {
   const currentExp = props.currentExp ?? 0;
-  const currentLevelExp = calculateNextLevelExp(props.level ?? 0);
-  const currentLevelExpDifference = currentExp - currentLevelExp;
-  const nextLevelExp = calculateNextLevelExp((props.level ?? 0) + 1);
-  const currentPercentage = Math.floor(
-    (currentLevelExpDifference / nextLevelExp) * 100
-  );
+  const level = props.level ?? 0;
+  const expIntoLevel = currentExp - totalExpForLevel(level);
+  const expForNextLevel = totalExpForLevel(level + 1);
 
   return (
-    <div
-      className={styles.container}
-      style={{ minWidth: props.minWidth, minHeight: props.minHeight }}
-    >
-      <span>Exp {currentExp}</span>
-
-      <div
-        style={{
-          width: `${currentPercentage > 100 ? 100 : currentPercentage}%`,
-        }}
-        className={styles.fillColor}
-      />
-    </div>
+    <StatBar
+      variant="experience"
+      percentage={Math.floor((expIntoLevel / expForNextLevel) * 100)}
+      label={`Exp ${currentExp}`}
+      minWidth={props.minWidth}
+      minHeight={props.minHeight}
+    />
   );
 }

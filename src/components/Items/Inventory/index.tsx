@@ -6,26 +6,19 @@ import { useModalStore } from '@/store/modal';
 import { InventoryFilters, useMainStore } from '@/store/main';
 import { ItemCategoryFilter } from '../ItemCategoryFilter';
 
-const MATERIALS = ['material'];
-const CONSUMABLES = ['consumable'];
-const EQUIPS = ['weapon', 'armor', 'legs', 'boots'];
+/** Item categories each filter accepts; 'all' matches everything. */
+const CATEGORIES_BY_FILTER: Record<Exclude<InventoryFilters, 'all'>, string[]> = {
+  equipment: ['weapon', 'armor', 'legs', 'boots'],
+  consumable: ['consumable'],
+  material: ['material'],
+};
 
 function filterInventory(items: InventoryItem[], filter: InventoryFilters) {
   const notEquippedItems = items?.filter((inv) => !inv.equipped);
+  const categories = filter === 'all' ? undefined : CATEGORIES_BY_FILTER[filter];
 
-  switch (filter) {
-    case 'all':
-      return notEquippedItems;
-    case 'equipment':
-      return notEquippedItems?.filter((inv) => EQUIPS.includes(inv.item?.category));
-    case 'consumable':
-      return notEquippedItems?.filter((inv) => CONSUMABLES.includes(inv.item?.category));
-    case 'material':
-      return notEquippedItems?.filter((inv) => MATERIALS.includes(inv.item?.category));
-
-    default:
-      return notEquippedItems;
-  }
+  if (!categories) return notEquippedItems;
+  return notEquippedItems?.filter((inv) => categories.includes(inv.item?.category));
 }
 
 type Props = {
@@ -47,7 +40,6 @@ function InventoryItems(props: { items: InventoryItem[]; onClick?: (i: Inventory
           key={value?.id}
           inventoryItem={'item' in value ? value : undefined}
           onClick={() => 'item' in value && props.onClick?.(value)}
-          toolTipDirection="right"
         />
       ))}
     </div>

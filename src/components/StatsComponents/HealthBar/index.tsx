@@ -1,4 +1,4 @@
-import styles from "./style.module.scss";
+import { StatBar } from '../StatBar';
 
 type Props = {
   currentHealth: number;
@@ -8,25 +8,13 @@ type Props = {
 };
 
 export default function HealthBar(props: Props) {
-  const currentPercentage = Math.floor(
-    (props.currentHealth / props.maxHealth) * 100
-  );
-
   return (
-    <div
-      className={styles.container}
-      style={{ minWidth: props.minWidth, minHeight: props.minHeight }}
-    >
-      <span>
-        HP {props.currentHealth}/{props.maxHealth}
-      </span>
-
-      <div
-        style={{
-          width: `${currentPercentage > 100 ? 100 : currentPercentage}%`,
-        }}
-        className={styles.fillColor}
-      />
-    </div>
+    <StatBar
+      variant="health"
+      percentage={Math.floor((props.currentHealth / props.maxHealth) * 100)}
+      label={`HP ${props.currentHealth}/${props.maxHealth}`}
+      minWidth={props.minWidth}
+      minHeight={props.minHeight}
+    />
   );
 }

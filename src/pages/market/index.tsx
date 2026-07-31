@@ -78,7 +78,7 @@ function MarketListingContainer({ listing }: { listing: MarketListing }) {
     <div className={styles.listingContainer} key={listing.id}>
       <span className={styles.sellerName}>{listing.seller?.name}</span>
       <div className={styles.itemCell}>
-        <InventoryItem inventoryItem={listing.inventory} stack={listing.stack} toolTipDirection="right" />
+        <InventoryItem inventoryItem={listing.inventory} stack={listing.stack} />
       </div>
       <div className={styles.priceCell}>
         <Silver amount={listing.price} />

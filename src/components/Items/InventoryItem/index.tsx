@@ -1,16 +1,12 @@
 import { Broker } from '@/assets/Broker';
-import { ToolTipDirection } from '../../shared/Tooltip';
 import styles from './style.module.scss';
 import cn from 'classnames';
 import { When } from '../../shared/When';
-import React from 'react';
 import { ITEM_QUALITY } from '@/constants';
 
 type Props = {
   inventoryItem?: InventoryItem;
   backgroundColor?: string;
-  toolTip?: React.ReactNode;
-  toolTipDirection?: ToolTipDirection;
   stack?: number;
   customSize?: number;
   onClick?: () => void;

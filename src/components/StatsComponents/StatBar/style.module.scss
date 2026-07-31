@@ -29,7 +29,26 @@
   left: 0;
   bottom: 0;
   position: absolute;
-  background-image: linear-gradient(180deg, lighten($mp, 14%), $mp 55%, darken($mp, 12%));
   border-radius: 999px;
   transition: width 400ms ease;
+}
+
+@mixin fill($color) {
+  .fillColor {
+    background-image: linear-gradient(180deg, lighten($color, 14%), $color 55%, darken($color, 12%));
+  }
+}
+
+.health {
+  @include fill($hp);
+}
+
+.mana {
+  @include fill($mp);
+}
+
+.experience {
+  height: 0.85rem;
+  font-size: 10px;
+  @include fill($exp);
 }
