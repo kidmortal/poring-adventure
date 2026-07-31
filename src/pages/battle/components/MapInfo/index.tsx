@@ -3,6 +3,8 @@ import styles from './style.module.scss';
 import { useMutation } from '@tanstack/react-query';
 import { useWebsocketApi } from '@/api/websocketServer';
 import ForEach from '@/components/shared/ForEach';
+import { MonsterChip } from '@/components/Monsters/MonsterChip';
+import { levelRange } from '@/components/Monsters/MonsterChip/levelRange';
 import cn from 'classnames';
 
 type Props = {
@@ -29,25 +31,6 @@ function getDropsFromMonsters(monsters: Monster[]): MapDrop[] {
   );
 
   return Object.values(dropsByItem).sort((a, b) => b.chance - a.chance);
-}
-
-function levelRange(monsters: Monster[]) {
-  const levels = monsters.map((monster) => monster.level);
-  if (!levels.length) return '';
-
-  const min = Math.min(...levels);
-  const max = Math.max(...levels);
-  return min === max ? `Lv ${min}` : `Lv ${min}-${max}`;
-}
-
-function MonsterChip({ monster }: { monster: Monster }) {
-  return (
-    <div className={cn(styles.monsterChip, { [styles.boss]: monster.boss })}>
-      <img className={styles.monsterSprite} src={monster.image} alt={monster.name} />
-      <span className={styles.monsterName}>{monster.name}</span>
-      <span className={styles.monsterLevel}>Lv {monster.level}</span>
-    </div>
-  );
 }
 
 function DropSlot({ drop }: { drop: MapDrop }) {
