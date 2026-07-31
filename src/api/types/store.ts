@@ -7,6 +7,7 @@ declare global {
     transactionId: string;
     appUserId: string;
     received: boolean;
+    refunded: boolean;
     createdAt: string;
     storeProductId: number;
     userEmail: string;
@@ -17,5 +18,15 @@ declare global {
     id: number;
     name: string;
     displayName: string;
+    /** Rewards delivered to the mailbox when the purchase is claimed */
+    silver: number;
+    itemId: number | null;
+    itemStack: number;
+  };
+
+  /** Result of claiming or refunding a purchase */
+  type PurchaseActionResult = {
+    success: boolean;
+    message: string;
   };
 }
