@@ -33,21 +33,20 @@ type Props = {
 };
 
 function InventoryItems(props: { items: InventoryItem[]; onClick?: (i: InventoryItem) => void; limit: number }) {
-  const inventorySlots: (InventoryItem | { id: string })[] = props.items;
-  if (inventorySlots.length < props.limit) {
-    const remainingSlots = props.limit - inventorySlots.length;
-    for (let index = 0; index < remainingSlots; index++) {
-      inventorySlots.push({ id: `empty-${index}` });
-    }
-  }
+  // Pad with placeholders so the grid always shows a full set of rows.
+  const emptySlots = Math.max(props.limit - props.items.length, 0);
+  const inventorySlots: (InventoryItem | { id: string })[] = [
+    ...props.items,
+    ...Array.from({ length: emptySlots }, (_, index) => ({ id: `empty-${index}` })),
+  ];
 
   return (
     <div className={styles.inventoryContainer}>
-      {props.items?.map((value) => (
+      {inventorySlots.map((value) => (
         <InventoryItem
           key={value?.id}
-          inventoryItem={value}
-          onClick={() => props.onClick?.(value)}
+          inventoryItem={'item' in value ? value : undefined}
+          onClick={() => 'item' in value && props.onClick?.(value)}
           toolTipDirection="right"
         />
       ))}
@@ -65,7 +64,7 @@ export function Inventory(props: Props) {
       <ItemCategoryFilter selected={store.inventoryFilter} onClick={(option) => store.setInventoryFilter(option)} />
       <InventoryItems
         items={filteredInventory}
-        limit={12}
+        limit={15}
         onClick={(i) => {
           modalStore.setInventoryItem({
             open: true,

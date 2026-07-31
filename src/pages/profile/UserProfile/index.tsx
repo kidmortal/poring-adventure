@@ -23,29 +23,32 @@ export function UserProfile() {
 
   return (
     <div className={styles.container}>
-      <div className={styles.middleSector}>
-        <Equipments equips={equippedItems} />
-        <div className={styles.userCharacterInfoContainer}>
-          <div className={styles.nameContainer}>
-            <h2>{userStore.user?.name}</h2>
-            <span>Level {userStore.user?.stats?.level}</span>
-            <span>{userStore.user?.profession?.name}</span>
-            <ExperienceBar currentExp={userStore.user?.stats?.experience} level={userStore.user?.stats?.level} />
+      {/* Equips | character | shortcuts, then a full-width exp bar underneath. */}
+      <section className={styles.heroCard}>
+        <div className={styles.heroRow}>
+          <Equipments equips={equippedItems} />
+
+          <div className={styles.userCharacterInfoContainer}>
+            <div className={styles.nameContainer}>
+              <h2>{userStore.user?.name}</h2>
+              <span className={styles.subtitle}>
+                Lv {userStore.user?.stats?.level} · {userStore.user?.profession?.name}
+              </span>
+            </div>
+
+            <CharacterInfo
+              costume={userStore.user?.appearance?.costume ?? ''}
+              gender={userStore.user?.appearance?.gender ?? 'female'}
+              head={userStore.user?.appearance?.head ?? ''}
+              onClick={() => {
+                console.log(store.loggedUserInfo.accessToken);
+                if (userStore.user?.admin) {
+                  navigate('/admin');
+                }
+              }}
+            />
           </div>
 
-          <CharacterInfo
-            costume={userStore.user?.appearance?.costume ?? ''}
-            gender={userStore.user?.appearance?.gender ?? 'female'}
-            head={userStore.user?.appearance?.head ?? ''}
-            onClick={() => {
-              console.log(store.loggedUserInfo.accessToken);
-              if (userStore.user?.admin) {
-                navigate('/admin');
-              }
-            }}
-          />
-        </div>
-        <div>
           <div className={styles.extraMenus}>
             <IconButton
               label={<img width={20} height={20} src="https://kidmortal.sirv.com/misc/guild_level.webp" />}
@@ -59,9 +62,12 @@ export function UserProfile() {
               onClick={() => modal.setSkillbook({ open: true })}
             />
           </div>
-          <CharacterStatsInfo />
         </div>
-      </div>
+
+        <ExperienceBar currentExp={userStore.user?.stats?.experience} level={userStore.user?.stats?.level} />
+      </section>
+
+      <CharacterStatsInfo />
 
       <Inventory items={userStore.user?.inventory} />
     </div>

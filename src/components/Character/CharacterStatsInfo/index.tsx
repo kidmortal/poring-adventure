@@ -4,11 +4,17 @@ import HealthBar from '../../StatsComponents/HealthBar';
 import ManaBar from '../../StatsComponents/ManaBar';
 import styles from './style.module.scss';
 
-export function Stat(props: { label: string; assetName: string }) {
+/**
+ * `label` alone renders as plain text (item tooltips, profession picker).
+ * Passing `value`/`bonus` renders the base number and the equipment bonus separately.
+ */
+export function Stat(props: { label: string; assetName: string; value?: number; bonus?: number }) {
   return (
     <div className={styles.statContainer}>
       <img src={`https://kidmortal.sirv.com/misc/${props.assetName}.webp`} />
-      <span>{props.label}</span>
+      <span className={styles.statLabel}>{props.label}</span>
+      {props.value !== undefined && <span className={styles.statValue}>{props.value}</span>}
+      {!!props.bonus && <span className={styles.statBonus}>+{props.bonus}</span>}
     </div>
   );
 }
@@ -64,12 +70,14 @@ export function CharacterStatsInfo() {
         <ManaBar currentHealth={userStore.user?.stats?.mana ?? 0} maxHealth={userStore.user?.stats?.maxMana ?? 0} />
       </div>
       <BuffList buffs={user?.buffs} />
-      <Stat assetName="health" label={`HP: ${rawHealth} +${bonusHealth}`} />
-      <Stat assetName="mana" label={`MP: ${rawMana} +${bonusMana}`} />
-      <Stat assetName="attack" label={`ATK: ${rawAtk} +${bonusAttack}`} />
-      <Stat assetName="str" label={`STR: ${rawStr} +${bonusStr}`} />
-      <Stat assetName="agi" label={`AGI: ${rawAgi} +${bonusAgi}`} />
-      <Stat assetName="int" label={`INT: ${rawInt} +${bonusInt}`} />
+      <div className={styles.statGrid}>
+        <Stat assetName="health" label="HP" value={rawHealth} bonus={bonusHealth} />
+        <Stat assetName="mana" label="MP" value={rawMana} bonus={bonusMana} />
+        <Stat assetName="attack" label="ATK" value={rawAtk} bonus={bonusAttack} />
+        <Stat assetName="str" label="STR" value={rawStr} bonus={bonusStr} />
+        <Stat assetName="agi" label="AGI" value={rawAgi} bonus={bonusAgi} />
+        <Stat assetName="int" label="INT" value={rawInt} bonus={bonusInt} />
+      </div>
     </div>
   );
 }

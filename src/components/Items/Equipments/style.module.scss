@@ -1,11 +1,12 @@
+@import "@/styles/variables";
+
+// Vertical equipment rail: weapon / armor / legs / boots, fixed width so the
+// character column beside it keeps the space it needs.
 .inventoryContainer {
+  flex-shrink: 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
-  flex-wrap: wrap;
-
-  > *:not(:first-child) {
-    margin-top: 1rem;
-  }
+  gap: 0.4rem;
 }

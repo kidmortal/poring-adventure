@@ -22,7 +22,6 @@ export function InventoryItem({ customSize = 26, ...args }: Props) {
   let isOnSale = false;
   let stack = args.stack ?? 0;
   const quality = ITEM_QUALITY[inventoryItem?.quality ?? 0];
-  console.log(quality);
 
   isOnSale = !!inventoryItem?.marketListing;
   stack = args.stack || inventoryItem?.stack || 0;

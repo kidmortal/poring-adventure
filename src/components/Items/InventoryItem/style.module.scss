@@ -1,72 +1,90 @@
+@import "@/styles/variables";
+
 .inventoryItemContainer {
   cursor: pointer;
   position: relative;
-  min-width: fit-content;
-  min-height: fit-content;
+  width: 46px;
+  height: 46px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 0.5rem;
-  border-radius: 6px;
-  background-color: gray;
+  transition: transform 120ms ease, box-shadow 120ms ease;
+  @include slot($radius);
 
+  &:active {
+    transform: scale(0.94);
+  }
+
+  // Rarity reads from the border + glow, so the item sprite stays readable.
   &.Common {
-    background-color: gray;
+    border-color: rgba($rarity-common, 0.5);
   }
   &.Uncommon {
-    background-color: rgba(0, 128, 0, 0.5);
+    border-color: $rarity-uncommon;
+    box-shadow: inset 0 0 8px rgba($rarity-uncommon, 0.35);
   }
   &.Rare {
-    background-color: rgba(0, 0, 255, 0.5);
+    border-color: $rarity-rare;
+    box-shadow: inset 0 0 8px rgba($rarity-rare, 0.4);
   }
   &.Epic {
-    background-color: rgba(128, 0, 128, 0.5);
+    border-color: $rarity-epic;
+    box-shadow: inset 0 0 8px rgba($rarity-epic, 0.45);
   }
   &.Legendary {
-    background-color: rgba(255, 215, 0, 0.5);
+    border-color: $rarity-legendary;
+    box-shadow: inset 0 0 10px rgba($rarity-legendary, 0.5), 0 0 6px rgba($rarity-legendary, 0.25);
   }
   &.Mythic {
-    background-color: rgba(255, 69, 0, 0.5);
+    border-color: $rarity-mythic;
+    box-shadow: inset 0 0 10px rgba($rarity-mythic, 0.55), 0 0 8px rgba($rarity-mythic, 0.3);
   }
 }
 
 .empty {
   cursor: default;
-  min-width: 42px;
-  min-height: 42px;
+  border-style: dashed;
+  border-color: rgba(255, 255, 255, 0.07);
+  background-image: none;
+  background-color: rgba(0, 0, 0, 0.2);
+  box-shadow: none;
 }
 
 .saleIcon {
   position: absolute;
-  left: 3px;
-  top: 3px;
+  left: 2px;
+  top: 2px;
+  display: flex;
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.7));
 }
 
 .stackAmount {
   position: absolute;
-  bottom: 0;
-  right: 4px;
-  font-size: 16px;
-  color: white;
+  bottom: 1px;
+  right: 3px;
+  font-size: 11px;
+  font-weight: 700;
+  color: $text;
+  @include readable-text;
 }
 
 .enhancementAmount {
   margin-top: 0;
   position: absolute;
-  top: 0;
-  right: 4px;
-  font-size: 16px;
-  color: white;
-  font-weight: 600;
+  top: 1px;
+  right: 3px;
+  font-size: 11px;
+  font-weight: 700;
+  @include readable-text;
 
   &.lowEnhancement {
-    color: blue;
+    color: #7fb6ff;
   }
   &.midEnhancement {
-    color: yellow;
+    color: $gold;
   }
   &.highEnhancement {
-    color: red;
+    color: #ff7a5c;
   }
 }
