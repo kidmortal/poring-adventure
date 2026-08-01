@@ -6,7 +6,6 @@ import { CharacterStatsInfo } from '@/components/Character/CharacterStatsInfo';
 
 import { Equipments } from '@/components/Items/Equipments';
 import { useNavigate } from 'react-router-dom';
-import { IconButton } from '@/components/shared/IconButton';
 import { PartyInfo } from '@/assets/PartyInfo';
 import { useModalStore } from '@/store/modal';
 
@@ -50,17 +49,18 @@ export function UserProfile() {
           </div>
 
           <div className={styles.extraMenus}>
-            <IconButton
-              label={<img width={20} height={20} src="https://kidmortal.sirv.com/misc/guild_level.webp" />}
-              onClick={() => {
-                navigate('/guild');
-              }}
-            />
-            <IconButton label={<PartyInfo />} onClick={() => navigate('/party')} />
-            <IconButton
-              label={<img width={20} height={20} src="https://kidmortal.sirv.com/misc/skillbook.webp?w=20&h=20" />}
-              onClick={() => modal.setSkillbook({ open: true })}
-            />
+            <button className={styles.shortcut} onClick={() => navigate('/guild')}>
+              <img width={28} height={28} src="https://kidmortal.sirv.com/misc/guild_level.webp" />
+              <span>Guild</span>
+            </button>
+            <button className={styles.shortcut} onClick={() => navigate('/party')}>
+              <PartyInfo size={28} />
+              <span>Party</span>
+            </button>
+            <button className={styles.shortcut} onClick={() => modal.setSkillbook({ open: true })}>
+              <img width={28} height={28} src="https://kidmortal.sirv.com/misc/skillbook.webp?w=28&h=28" />
+              <span>Spells</span>
+            </button>
           </div>
         </div>
 
