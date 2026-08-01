@@ -66,7 +66,7 @@ export function SellItemModal(props: Props) {
     <BaseModal onRequestClose={props.onRequestClose} isOpen={props.isOpen}>
       <div className={styles.itemInfoContainer}>
         <header className={styles.itemHeader}>
-          <InventoryItem inventoryItem={props.item} customSize={40} />
+          <InventoryItem inventoryItem={props.item} customSize={46} />
           <ItemIdentity inventoryItem={props.item} />
         </header>
         <ItemStats inventoryItem={props.item} showHeader={false} />

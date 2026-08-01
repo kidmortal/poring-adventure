@@ -124,7 +124,7 @@ export function ItemMenuModal(props: Props) {
     <BaseModal onRequestClose={props.onRequestClose} isOpen={props.isOpen}>
       <div className={styles.itemInfoContainer}>
         <header className={styles.itemHeader}>
-          <InventoryItem inventoryItem={inventoryItem} customSize={40} />
+          <InventoryItem inventoryItem={inventoryItem} customSize={46} />
           <ItemIdentity inventoryItem={inventoryItem} />
         </header>
         <ItemDetails inventoryItem={inventoryItem} />

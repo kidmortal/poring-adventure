@@ -3,8 +3,8 @@
 .inventoryItemContainer {
   cursor: pointer;
   position: relative;
-  width: 46px;
-  height: 46px;
+  width: 54px;
+  height: 54px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -65,7 +65,7 @@
   position: absolute;
   bottom: 1px;
   right: 3px;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
   color: $text;
   @include readable-text;
@@ -76,7 +76,7 @@
   position: absolute;
   top: 1px;
   right: 3px;
-  font-size: 11px;
+  font-size: 13px;
   font-weight: 700;
   @include readable-text;
 

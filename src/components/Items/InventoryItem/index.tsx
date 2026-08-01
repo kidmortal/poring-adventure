@@ -12,7 +12,7 @@ type Props = {
   onClick?: () => void;
 };
 
-export function InventoryItem({ customSize = 26, ...args }: Props) {
+export function InventoryItem({ customSize = 32, ...args }: Props) {
   const inventoryItem = args.inventoryItem;
   const item = args.inventoryItem?.item;
   let isOnSale = false;
