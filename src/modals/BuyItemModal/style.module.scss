@@ -1,27 +1,158 @@
-.row {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 2rem;
-}
+@import '@/styles/variables';
 
+// Deliberately mirrors SellItemModal — buying and selling are the same task from
+// opposite sides, so they should not look like two different screens.
 
 .itemInfoContainer {
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  align-items: stretch;
+  gap: 0.5rem;
+}
+
+.itemHeader {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.6rem;
+  padding-bottom: 0.65rem;
+  border-bottom: 1px solid $border;
+  text-align: left;
+}
+
+.formContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.6rem;
+  margin-top: 0.75rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.fieldHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.fieldLabel {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: $text-muted;
+}
+
+.fieldHint {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 11px;
+  color: $text-muted;
+}
+
+.sellerRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
   align-items: center;
   gap: 0.5rem;
 }
 
-.buttonsContainer {
-  width: 100%;
+.sellerName {
+  min-width: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: $text;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.unitPrice {
+  flex-shrink: 0;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.unitSuffix {
+  font-size: 11px;
+  color: $text-muted;
+}
+
+.amountRow {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  gap: 0.35rem;
+}
+
+.stepperButton,
+.maxButton {
+  display: flex;
   justify-content: center;
   align-items: center;
+  // Full-height touch targets — the number keyboard is the slow path on mobile.
+  @include tap-target(42px);
+  padding: 0 0.5rem;
+  border: 1px solid $border-strong;
+  border-radius: $radius-sm;
+  background-color: rgba(255, 255, 255, 0.07);
+  color: $text;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 150ms, opacity 150ms;
+
+  &:active {
+    background-color: rgba(255, 255, 255, 0.14);
+  }
+
+  &:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+}
+
+.maxButton {
+  color: $gold;
+  border-color: rgba($gold, 0.35);
+  background-color: rgba($gold, 0.1);
+}
+
+.totalPriceContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
   gap: 0.5rem;
+  padding: 0.5rem 0.6rem;
+  border-radius: $radius;
+  background-color: rgba($gold, 0.08);
+  border: 1px solid rgba($gold, 0.28);
+}
+
+.totalLabel {
+  font-size: 13px;
+  font-weight: 600;
+  color: $text;
+}
+
+.warning {
+  font-size: 11px;
+  color: $error;
+  text-align: center;
 }

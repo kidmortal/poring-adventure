@@ -74,8 +74,22 @@ export function MarketPage() {
 
 function MarketListingContainer({ listing }: { listing: MarketListing }) {
   const modalStore = useModalStore();
+
+  // Tapping the row opens the same modal the Buy button does: it already is the
+  // item detail sheet (name, quality, stats, seller, price), so a preview-only
+  // twin would just duplicate it and dead-end anyone who then wants to buy.
+  function openListing() {
+    modalStore.setBuyItem({
+      open: true,
+      marketListing: listing,
+      // Reset, otherwise an amount typed for a previous listing carries over and
+      // can exceed this one's stock.
+      amount: 1,
+    });
+  }
+
   return (
-    <div className={styles.listingContainer} key={listing.id}>
+    <div className={styles.listingContainer} key={listing.id} onClick={openListing}>
       <span className={styles.sellerName}>{listing.seller?.name}</span>
       <div className={styles.itemCell}>
         <InventoryItem inventoryItem={listing.inventory} stack={listing.stack} />
@@ -84,15 +98,7 @@ function MarketListingContainer({ listing }: { listing: MarketListing }) {
         <Silver amount={listing.price} />
       </div>
       <div className={styles.buyCell}>
-        <Button
-          onClick={() => {
-            modalStore.setBuyItem({
-              open: true,
-              marketListing: listing,
-            });
-          }}
-          label="Buy"
-        />
+        <Button onClick={openListing} label="Buy" />
       </div>
     </div>
   );
