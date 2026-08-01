@@ -1,5 +1,6 @@
 import { Socket } from 'socket.io-client';
 import { create } from 'zustand';
+import { ItemCategory } from '@/constants';
 
 export type LoggedUserInfo = {
   loggedIn: boolean;

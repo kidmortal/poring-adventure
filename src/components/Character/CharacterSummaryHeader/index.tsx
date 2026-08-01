@@ -23,6 +23,7 @@ export function CharacterSummaryHeader() {
       <div className={styles.characterInfo}>
         <div className={styles.nameContainer}>
           <CharacterHead
+            className={styles.avatar}
             gender={userStore.user.appearance?.gender ?? 'female'}
             head={userStore.user.appearance?.head ?? ''}
           />
@@ -43,6 +44,7 @@ export function CharacterSummaryHeader() {
             }}
             label={<Settings />}
             theme="danger"
+            className={styles.headerButton}
           />
         </When>
       </div>

@@ -1,9 +1,9 @@
-export function PartyInfo() {
+export function PartyInfo({ size = 26 }: { size?: number }) {
   return (
     <svg
-      fill="#000000"
-      width="25px"
-      height="25px"
+      fill="currentColor"
+      width={size}
+      height={size}
       viewBox="0 0 36 36"
       version="1.1"
       preserveAspectRatio="xMidYMid meet"

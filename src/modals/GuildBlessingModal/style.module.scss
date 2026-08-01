@@ -1,51 +1,134 @@
-.container {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 1rem;
-}
+@import "@/styles/variables";
 
-.blessingContainer {
+.header {
   width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
   gap: 0.5rem;
+  padding-bottom: 0.6rem;
+  margin-bottom: 0.6rem;
+  border-bottom: 1px solid $border;
 
-  p {
-    font-size: 14px;
-  }
-
-  img {
-  }
-
-  strong {
-    white-space: nowrap;
-  }
-  button {
-    width: fit-content;
+  h2 {
+    font-size: 17px;
+    font-weight: 700;
+    color: $gold;
   }
 }
 
-.updateButtonContainer {
+.subtitle {
+  font-size: 11px;
+  color: $text-muted;
+}
+
+.balance {
+  flex-shrink: 0;
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba($secondary, 0.35);
+  font-size: 14px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.4rem;
+}
+
+.blessingContainer {
+  display: flex;
+  flex-direction: row;
   align-items: center;
   gap: 0.5rem;
-  span {
-    font-size: 16px;
-    font-weight: bold;
-  }
+  padding: 0.45rem 0.5rem;
+  border-radius: $radius;
+  background-color: rgba(0, 0, 0, 0.22);
+  border: 1px solid $border;
 }
 
-.row {
+.blessingIcon {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+.blessingInfo {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.blessingName {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.blessingMeta {
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
+  align-items: baseline;
+  gap: 0.4rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.level {
+  font-size: 10px;
+  font-weight: 700;
+  color: $text-muted;
+}
+
+.bonus {
+  font-size: 13px;
+  font-weight: 700;
+  color: $exp;
+}
+
+// What the next upgrade buys, so the cost has something to weigh against.
+.nextLevel {
+  font-size: 11px;
+  color: $text-muted;
+}
+
+.upgradeButton {
+  width: auto;
+  flex-shrink: 0;
+  gap: 0.3rem;
+  padding: 0.4rem 0.6rem;
+  font-size: 13px;
+}
+
+.noBlessingsContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.6rem;
+  padding: 0.5rem 0;
+}
+
+.lockedMessage {
+  font-size: 13px;
+  line-height: 1.4;
+  color: $text-muted;
+  text-align: center;
+}
+
+.warning {
+  font-size: 11px;
+  color: $error;
+  text-align: center;
 }

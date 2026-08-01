@@ -1,28 +1,23 @@
 import { Broker } from '@/assets/Broker';
-import { ToolTipDirection } from '../../shared/Tooltip';
 import styles from './style.module.scss';
 import cn from 'classnames';
 import { When } from '../../shared/When';
-import React from 'react';
 import { ITEM_QUALITY } from '@/constants';
 
 type Props = {
   inventoryItem?: InventoryItem;
   backgroundColor?: string;
-  toolTip?: React.ReactNode;
-  toolTipDirection?: ToolTipDirection;
   stack?: number;
   customSize?: number;
   onClick?: () => void;
 };
 
-export function InventoryItem({ customSize = 26, ...args }: Props) {
+export function InventoryItem({ customSize = 32, ...args }: Props) {
   const inventoryItem = args.inventoryItem;
   const item = args.inventoryItem?.item;
   let isOnSale = false;
   let stack = args.stack ?? 0;
   const quality = ITEM_QUALITY[inventoryItem?.quality ?? 0];
-  console.log(quality);
 
   isOnSale = !!inventoryItem?.marketListing;
   stack = args.stack || inventoryItem?.stack || 0;

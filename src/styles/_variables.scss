@@ -1,8 +1,90 @@
-$primary: #1565c0;
-$secondary: #4caf50;
-$success: #4caf50;
-$error: #d37676;
-$light-neutral: #35374b;
-$neutral: #242424;
-$dark-neutral: #191919;
+// ---------------------------------------------------------------
+// Poring Adventure — theme tokens
+// Fantasy/Ragnarok inspired: deep midnight blues + gold trim
+// ---------------------------------------------------------------
+
+// Surfaces (dark -> light)
+$dark-neutral: #0e1020; // app backdrop / recessed areas
+$neutral: #1b1f36; // panels, chips
+$light-neutral: #222741; // main app surface
+
+$surface-raised: #2a3054; // slots, inputs
+$surface-hover: #333a68;
+
+// Accents
+$primary: #3f6fd8;
+$secondary: #3fa45b;
+$success: #3fa45b;
+$error: #d9534f;
 $orange: #e8751a;
+
+$gold: #f0c14b;
+$gold-dim: #8a6a1d;
+
+// Vitals
+$hp: #e0464f;
+$mp: #3f7fe0;
+$exp: #4dc98a;
+
+// Text
+$text: #eef1fa;
+$text-muted: #98a0c2;
+
+// Lines & depth
+$border: rgba(255, 255, 255, 0.09);
+$border-strong: rgba(255, 255, 255, 0.16);
+$shadow-panel: 0 2px 10px rgba(0, 0, 0, 0.35);
+$shadow-raised: 0 4px 14px rgba(0, 0, 0, 0.45);
+
+// Rarity
+$rarity-common: #8a90a8;
+$rarity-uncommon: #4caf50;
+$rarity-rare: #4a8ef0;
+$rarity-epic: #a663d9;
+$rarity-legendary: #f0c14b;
+$rarity-mythic: #ff6a3d;
+
+// Shape
+$radius-sm: 6px;
+$radius: 10px;
+$radius-lg: 14px;
+
+// ---------------------------------------------------------------
+// Mixins
+// ---------------------------------------------------------------
+
+/// Standard panel: subtle vertical gradient, hairline border, depth.
+@mixin panel($radius: $radius-lg) {
+  background-color: $neutral;
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(0, 0, 0, 0.12));
+  border: 1px solid $border;
+  border-radius: $radius;
+  box-shadow: $shadow-panel;
+}
+
+/// Panel with the gold trim used for "hero" surfaces (header, character card).
+@mixin panel-gold($radius: $radius-lg) {
+  @include panel($radius);
+  border-color: rgba($gold, 0.35);
+  box-shadow: $shadow-panel, inset 0 0 0 1px rgba($gold, 0.08);
+}
+
+/// Inset slot look (inventory / equipment cells).
+@mixin slot($radius: $radius-sm) {
+  background-color: $surface-raised;
+  background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.28), rgba(255, 255, 255, 0.04));
+  border: 1px solid $border;
+  border-radius: $radius;
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.4);
+}
+
+/// Text that has to stay legible on top of colored bars/sprites.
+@mixin readable-text {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.85);
+}
+
+/// Comfortable touch target for mobile.
+@mixin tap-target($size: 40px) {
+  min-width: $size;
+  min-height: $size;
+}

@@ -7,7 +7,7 @@ import { Query } from '@/store/query';
 import { FullscreenLoading } from '@/layout/PageLoading/FullscreenLoading';
 import { useWebsocketApi } from '@/api/websocketServer';
 import ForEach from '@/components/shared/ForEach';
-import { ProfessionBlock } from './ProfessionBlock';
+import { ClassBlock } from './ClassBlock';
 import Input from '@/components/shared/Input';
 
 function GenderRadioSelectors() {
@@ -51,14 +51,14 @@ export function CharacterCreationPage() {
     queryKey: [Query.ALL_CHARACTERS],
     enabled: !!mainStore.websocket,
     staleTime: 1000 * 10, // 10 seconds
-    queryFn: () => api.users.getAllProfessions(),
+    queryFn: () => api.users.getAllClasses(),
   });
 
   const newUserData: CreateUserPayload = {
     name: store.characterName,
     gender: store.gender,
-    professionId: store.selectedProfession?.id ?? 1,
-    costume: store.selectedProfession?.costume,
+    classId: store.selectedClass?.id ?? 1,
+    costume: store.selectedClass?.costume,
   };
 
   const newCharacterMutation = useMutation({
@@ -76,16 +76,16 @@ export function CharacterCreationPage() {
       <Input placeholder="Character name" onChange={(e) => store.setCharacterName(e.target.value)} />
       <GenderRadioSelectors />
 
-      <div className={styles.professionListContainer}>
+      <div className={styles.classListContainer}>
         <ForEach
           items={query.data}
-          render={(pro) => (
-            <ProfessionBlock
-              key={pro.id}
-              profession={pro}
+          render={(characterClass) => (
+            <ClassBlock
+              key={characterClass.id}
+              characterClass={characterClass}
               selectedGender={store.gender}
-              selected={store.selectedProfession?.id === pro.id}
-              onClick={() => store.setSelectedProfession(pro)}
+              selected={store.selectedClass?.id === characterClass.id}
+              onClick={() => store.setSelectedClass(characterClass)}
             />
           )}
         />
@@ -94,7 +94,7 @@ export function CharacterCreationPage() {
       <Button
         label="Create Character"
         onClick={() => newCharacterMutation.mutate()}
-        disabled={!store.selectedProfession || !store.characterName}
+        disabled={!store.selectedClass || !store.characterName}
       />
     </div>
   );

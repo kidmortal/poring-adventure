@@ -1,7 +1,43 @@
+@import "@/styles/variables";
+
 .container {
+  width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  align-items: stretch;
+  gap: 0.6rem;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 1rem;
+  gap: 0.1rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid $border;
+  text-align: center;
+
+  h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: $gold;
+  }
+}
+
+.subtitle {
+  font-size: 11px;
+  color: $text-muted;
+}
+
+.taskList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.empty {
+  padding: 1rem 0;
+  font-size: 13px;
+  color: $text-muted;
+  text-align: center;
 }

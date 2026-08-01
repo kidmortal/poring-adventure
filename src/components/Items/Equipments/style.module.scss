@@ -1,11 +1,13 @@
-.inventoryContainer {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
+@import "@/styles/variables";
 
-  > *:not(:first-child) {
-    margin-top: 1rem;
-  }
+// Equipment rail: weapon / armor / legs / boots in a 2x2 block. The rows spread
+// over the full height of the hero row so the block reaches the character's
+// baseline instead of leaving a gap under it.
+.inventoryContainer {
+  height: 100%;
+  display: grid;
+  grid-template-columns: repeat(2, auto);
+  justify-content: flex-start;
+  align-content: space-between;
+  gap: 0.4rem;
 }

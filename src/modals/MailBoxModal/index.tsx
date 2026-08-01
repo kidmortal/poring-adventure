@@ -75,7 +75,7 @@ function MailContainer({ mail }: { mail: Mail }) {
           <When value={hasItem}>
             <InventoryItem
               stack={mail.itemStack}
-              customSize={32}
+              customSize={38}
               inventoryItem={{
                 id: 0,
                 itemId: mail.item?.id,

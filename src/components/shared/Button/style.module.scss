@@ -6,43 +6,71 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  padding: 0.5rem;
-  border-radius: 6px;
-  font-size: 16px;
+  gap: 0.4rem;
+  padding: 0.55rem 0.75rem;
+  border-radius: $radius;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
   color: white;
   cursor: pointer;
-  box-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
-  transition: 200ms;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.18);
+  transition: filter 150ms, transform 100ms;
   user-select: none;
   border: none;
+
+  &:active {
+    transform: translateY(1px);
+    filter: brightness(0.92);
+  }
 }
 
 .primary {
-  background-color: $primary;
+  background-image: linear-gradient(180deg, lighten($primary, 8%), $primary);
   &:hover {
-    background-color: darken($color: $primary, $amount: 5);
+    background-image: linear-gradient(180deg, lighten($primary, 12%), lighten($primary, 3%));
   }
 }
 .secondary {
-  background-color: $secondary;
+  background-image: linear-gradient(180deg, lighten($secondary, 8%), $secondary);
   &:hover {
-    background-color: darken($color: $secondary, $amount: 5);
+    background-image: linear-gradient(180deg, lighten($secondary, 12%), lighten($secondary, 3%));
   }
 }
 .success {
-  background-color: $secondary;
+  background-image: linear-gradient(180deg, lighten($success, 8%), $success);
   &:hover {
-    background-color: darken($color: $secondary, $amount: 5);
+    background-image: linear-gradient(180deg, lighten($success, 12%), lighten($success, 3%));
   }
 }
 .danger {
-  background-color: $error;
+  background-image: linear-gradient(180deg, lighten($error, 8%), $error);
   &:hover {
-    background-color: darken($color: $error, $amount: 5);
+    background-image: linear-gradient(180deg, lighten($error, 12%), lighten($error, 3%));
+  }
+}
+
+// Low-emphasis action: sits next to a primary button without competing with it.
+.neutral {
+  background-image: none;
+  background-color: rgba(255, 255, 255, 0.07);
+  border: 1px solid $border-strong;
+  color: $text;
+  box-shadow: none;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.12);
   }
 }
 
 .disabled {
-  background-color: gray !important;
+  background-image: none !important;
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  color: $text-muted;
+  box-shadow: none;
   cursor: not-allowed;
+
+  &:active {
+    transform: none;
+  }
 }

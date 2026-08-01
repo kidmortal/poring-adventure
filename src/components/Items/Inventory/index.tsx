@@ -6,26 +6,19 @@ import { useModalStore } from '@/store/modal';
 import { InventoryFilters, useMainStore } from '@/store/main';
 import { ItemCategoryFilter } from '../ItemCategoryFilter';
 
-const MATERIALS = ['material'];
-const CONSUMABLES = ['consumable'];
-const EQUIPS = ['weapon', 'armor', 'legs', 'boots'];
+/** Item categories each filter accepts; 'all' matches everything. */
+const CATEGORIES_BY_FILTER: Record<Exclude<InventoryFilters, 'all'>, string[]> = {
+  equipment: ['weapon', 'armor', 'legs', 'boots'],
+  consumable: ['consumable'],
+  material: ['material'],
+};
 
 function filterInventory(items: InventoryItem[], filter: InventoryFilters) {
   const notEquippedItems = items?.filter((inv) => !inv.equipped);
+  const categories = filter === 'all' ? undefined : CATEGORIES_BY_FILTER[filter];
 
-  switch (filter) {
-    case 'all':
-      return notEquippedItems;
-    case 'equipment':
-      return notEquippedItems?.filter((inv) => EQUIPS.includes(inv.item?.category));
-    case 'consumable':
-      return notEquippedItems?.filter((inv) => CONSUMABLES.includes(inv.item?.category));
-    case 'material':
-      return notEquippedItems?.filter((inv) => MATERIALS.includes(inv.item?.category));
-
-    default:
-      return notEquippedItems;
-  }
+  if (!categories) return notEquippedItems;
+  return notEquippedItems?.filter((inv) => categories.includes(inv.item?.category));
 }
 
 type Props = {
@@ -33,22 +26,20 @@ type Props = {
 };
 
 function InventoryItems(props: { items: InventoryItem[]; onClick?: (i: InventoryItem) => void; limit: number }) {
-  const inventorySlots: (InventoryItem | { id: string })[] = props.items;
-  if (inventorySlots.length < props.limit) {
-    const remainingSlots = props.limit - inventorySlots.length;
-    for (let index = 0; index < remainingSlots; index++) {
-      inventorySlots.push({ id: `empty-${index}` });
-    }
-  }
+  // Pad with placeholders so the grid always shows a full set of rows.
+  const emptySlots = Math.max(props.limit - props.items.length, 0);
+  const inventorySlots: (InventoryItem | { id: string })[] = [
+    ...props.items,
+    ...Array.from({ length: emptySlots }, (_, index) => ({ id: `empty-${index}` })),
+  ];
 
   return (
     <div className={styles.inventoryContainer}>
-      {props.items?.map((value) => (
+      {inventorySlots.map((value) => (
         <InventoryItem
           key={value?.id}
-          inventoryItem={value}
-          onClick={() => props.onClick?.(value)}
-          toolTipDirection="right"
+          inventoryItem={'item' in value ? value : undefined}
+          onClick={() => 'item' in value && props.onClick?.(value)}
         />
       ))}
     </div>
@@ -65,7 +56,7 @@ export function Inventory(props: Props) {
       <ItemCategoryFilter selected={store.inventoryFilter} onClick={(option) => store.setInventoryFilter(option)} />
       <InventoryItems
         items={filteredInventory}
-        limit={12}
+        limit={15}
         onClick={(i) => {
           modalStore.setInventoryItem({
             open: true,

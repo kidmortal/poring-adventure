@@ -1,19 +1,26 @@
+@import "@/styles/variables";
+
 .container {
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   align-items: center;
+  gap: 0.5rem;
+  // Header and nav stay put; only the middle section scrolls.
+  overflow: hidden;
 }
 
 .centerPageContainer {
   width: 100%;
-  height: 100%;
+  flex: 1;
+  // Without this a flex child refuses to shrink and the page overflows instead of scrolling.
+  min-height: 0;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   align-items: center;
-  padding: 0 1rem;
+  padding: 0 0.5rem;
   overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
 }

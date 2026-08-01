@@ -4,9 +4,11 @@
   display: flex;
   width: 100%;
   flex-direction: row;
-  justify-content: space-evenly;
   align-items: center;
-  background-color: $neutral;
+  gap: 0.25rem;
+  padding: 0.25rem;
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid $border;
   border-radius: 12px;
 }
 
@@ -16,12 +18,21 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-
-  padding: 0.5rem;
-  border-radius: 12px;
+  padding: 0.45rem;
+  border-radius: 9px;
   border: none;
-  &.selected {
-    background-color: $dark-neutral;
-  }
+  background: transparent;
+  color: $text-muted;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
   cursor: pointer;
+  user-select: none;
+  transition: color 150ms, background-color 150ms;
+
+  &.selected {
+    color: $text;
+    background-color: $surface-raised;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4), inset 0 0 0 1px rgba($gold, 0.25);
+  }
 }

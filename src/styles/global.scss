@@ -1,9 +1,11 @@
 @import "https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap";
+@import "./variables";
 
 html {
   font-family: "Poppins", sans-serif;
   box-sizing: border-box;
   font-size: 16px;
+  -webkit-text-size-adjust: 100%;
 }
 
 *,
@@ -27,6 +29,22 @@ ul {
   font-weight: normal;
 }
 
+body {
+  background-color: $dark-neutral;
+  color: $text;
+  // Game UI: no accidental text selection / blue tap flash on mobile.
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  user-select: none;
+  overscroll-behavior: none;
+}
+
+input,
+textarea {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
 ol,
 ul {
   list-style: none;
@@ -35,4 +53,27 @@ ul {
 img {
   max-width: 100%;
   height: auto;
+  // Sprites are pixel art — keep them crisp when scaled.
+  image-rendering: pixelated;
+  -webkit-user-drag: none;
+}
+
+// Slim scrollbars so scrollable panels don't eat horizontal space on mobile.
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.18) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.18);
+  border-radius: 4px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
 }

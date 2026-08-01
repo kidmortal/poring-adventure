@@ -1,9 +1,10 @@
 import cn from "classnames";
 import styles from "./style.module.scss";
+import { Theme } from "@/types/ui";
 
 type Props = {
   label: React.ReactNode;
-  theme?: "primary" | "secondary" | "danger" | "success";
+  theme?: Theme;
   className?: string;
   onClick?: () => void;
   disabled?: boolean;

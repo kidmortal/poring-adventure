@@ -1,0 +1,53 @@
+@import '@/styles/variables';
+
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  gap: 0.3rem;
+}
+
+.filter {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.15rem;
+  padding: 0.4rem 0.2rem;
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 600;
+  color: $text-muted;
+  background-color: rgba(0, 0, 0, 0.25);
+  border: 1px solid transparent;
+  border-radius: 9px;
+  cursor: pointer;
+  transition: color 150ms, background-color 150ms, border-color 150ms;
+}
+
+.icon {
+  font-size: 18px;
+  line-height: 1.1;
+  opacity: 0.75;
+  transition: opacity 150ms;
+}
+
+.label {
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.selected {
+  color: $gold;
+  background-color: rgba($gold, 0.12);
+  border-color: rgba($gold, 0.35);
+
+  .icon {
+    opacity: 1;
+  }
+}

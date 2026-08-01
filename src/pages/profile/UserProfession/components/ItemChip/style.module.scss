@@ -1,0 +1,36 @@
+@import '@/styles/variables';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+  padding: 0.25rem;
+  min-width: 3rem;
+  @include slot();
+
+  img {
+    image-rendering: pixelated;
+  }
+}
+
+.amount {
+  font-size: 11px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: $text;
+}
+
+.note {
+  font-size: 9px;
+  color: $text-muted;
+  font-variant-numeric: tabular-nums;
+}
+
+.missing {
+  border-color: rgba($error, 0.5);
+
+  .note {
+    color: $error;
+  }
+}

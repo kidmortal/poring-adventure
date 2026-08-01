@@ -12,6 +12,7 @@ import { guildService } from './services/guildService';
 import { mailService } from './services/mailService';
 import { storeService } from './services/storeService';
 import { discordService } from './services/discordService';
+import { professionService } from './services/professionService';
 
 export async function asyncEmit<T>(ws: Socket, event: string, args: number | string | object): Promise<T> {
   return new Promise(function (resolve) {
@@ -37,6 +38,7 @@ export function useWebsocketApi() {
     mail: mailService({ websocket }),
     store: storeService({ websocket }),
     discord: discordService({ websocket }),
+    professions: professionService({ websocket }),
   };
 }
 

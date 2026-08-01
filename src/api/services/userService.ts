@@ -33,14 +33,14 @@ export function userService({ websocket }: { websocket?: Socket }) {
     );
   }
 
-  async function getAllProfessions(): Promise<Profession[] | undefined> {
+  async function getAllClasses(): Promise<Class[] | undefined> {
     if (!websocket) return undefined;
-    return asyncEmit<Profession[]>(websocket, "get_all_professions", "");
+    return asyncEmit<Class[]>(websocket, "get_all_classes", "");
   }
 
-  async function getAllHeads(): Promise<Profession[] | undefined> {
+  async function getAllHeads(): Promise<Head[] | undefined> {
     if (!websocket) return undefined;
-    return asyncEmit<Profession[]>(websocket, "get_all_heads", "");
+    return asyncEmit<Head[]>(websocket, "get_all_heads", "");
   }
 
   return {
@@ -49,7 +49,7 @@ export function userService({ websocket }: { websocket?: Socket }) {
     getUser,
     deleteUser,
     getRankingUsers,
-    getAllProfessions,
+    getAllClasses,
     getAllHeads,
   };
 }

@@ -1,0 +1,32 @@
+@import "@/styles/variables";
+
+.container {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 0.4rem;
+
+  font-size: 20px;
+  font-weight: 600;
+  color: $text;
+}
+
+.overLay {
+  span {
+    position: absolute;
+    bottom: 0;
+    height: 26px;
+    @include readable-text;
+  }
+}
+
+.silver .overLay span {
+  right: 0;
+}
+
+// The exp icon is wider, so its amount sits further in.
+.exp .overLay span {
+  right: 12px;
+}

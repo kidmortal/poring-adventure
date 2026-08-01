@@ -35,7 +35,7 @@ function RankingPlayerBox(props: { user: User }) {
       />
       <div className={styles.characterInfo}>
         <span>
-          {props.user.name} - LV {props.user.stats?.level} {props.user?.profession?.name}
+          {props.user.name} - LV {props.user.stats?.level} {props.user?.class?.name}
         </span>
         <Silver amount={props.user.silver} />
       </div>

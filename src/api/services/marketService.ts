@@ -4,7 +4,7 @@ import { asyncEmit } from '../websocketServer';
 export function marketService({ websocket }: { websocket?: Socket }) {
   async function createMarketListing(dto: CreateMarketListingDto) {
     if (!websocket) return undefined;
-    return asyncEmit<string>(websocket, 'create_market_listing', dto);
+    return asyncEmit<boolean>(websocket, 'create_market_listing', dto);
   }
 
   async function removeMarketListing(dto: RemoveMarketListingDto) {
@@ -15,7 +15,7 @@ export function marketService({ websocket }: { websocket?: Socket }) {
 
   async function purchaseMarketListing(dto: PuchaseMarketListingDto) {
     if (!websocket) return undefined;
-    return asyncEmit<string>(websocket, 'purchase_market_listing', dto);
+    return asyncEmit<boolean>(websocket, 'purchase_market_listing', dto);
   }
 
   async function getMarketListingPage(dto: GetAllMarketListingDto) {

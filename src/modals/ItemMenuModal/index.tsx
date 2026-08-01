@@ -12,7 +12,7 @@ import { InventoryItem } from '@/components/Items/InventoryItem';
 import { Button } from '@/components/shared/Button';
 import { useModalStore } from '@/store/modal';
 import { useWebsocketApi } from '@/api/websocketServer';
-import { ItemStats } from '@/components/Items/ItemStats';
+import { ItemIdentity, ItemStats } from '@/components/Items/ItemStats';
 
 type Props = {
   isOpen?: boolean;
@@ -21,23 +21,26 @@ type Props = {
 };
 
 function ItemDetails({ inventoryItem }: { inventoryItem?: InventoryItem }) {
-  let isOnSale = false;
-  let stack = 0;
-  let totalPrice = 0;
-
-  isOnSale = !!inventoryItem?.marketListing;
-  stack = inventoryItem?.marketListing?.stack ?? 0;
-  totalPrice = (inventoryItem?.marketListing?.price ?? 0) * (inventoryItem?.marketListing?.stack ?? 1);
+  const isOnSale = !!inventoryItem?.marketListing;
+  const stack = inventoryItem?.marketListing?.stack ?? 0;
+  const totalPrice = (inventoryItem?.marketListing?.price ?? 0) * (inventoryItem?.marketListing?.stack ?? 1);
 
   return (
     <div className={styles.itemDetailContainer}>
-      <ItemStats inventoryItem={inventoryItem} />
+      <section className={styles.statsSection}>
+        <span className={styles.sectionTitle}>Stats</span>
+        <ItemStats inventoryItem={inventoryItem} showHeader={false} />
+      </section>
+
       <When value={isOnSale}>
-        <div className={styles.row}>
-          <span>Sale</span>
-          <InventoryItem inventoryItem={inventoryItem} stack={stack} />
-          <Silver amount={totalPrice} />
-        </div>
+        {/* Spelled out — the old version was a bare "Sale" label next to a duplicate icon. */}
+        <section className={styles.saleSection}>
+          <span className={styles.sectionTitle}>Listed on the market</span>
+          <div className={styles.saleRow}>
+            <span className={styles.saleAmount}>{stack}x listed for</span>
+            <Silver amount={totalPrice} />
+          </div>
+        </section>
       </When>
     </div>
   );
@@ -63,7 +66,8 @@ export function ItemMenuModal(props: Props) {
 
   const consumeItemMutation = useMutation({
     mutationFn: (inventoryId: number) => api.items.consumeItem({ inventoryId }),
-    onSuccess: () => {
+    onSuccess: (success) => {
+      if (!success) return;
       toast('Item consumed', { type: 'success', autoClose: 1000 });
     },
     onSettled: () => {
@@ -76,7 +80,8 @@ export function ItemMenuModal(props: Props) {
 
   const unequipItemMutation = useMutation({
     mutationFn: (inventoryId: number) => api.items.unequipItem({ inventoryId }),
-    onSuccess: () => {
+    onSuccess: (success) => {
+      if (!success) return;
       toast('Item unequipped', { type: 'success' });
     },
     onSettled: () => {
@@ -89,7 +94,8 @@ export function ItemMenuModal(props: Props) {
 
   const equipItemMutation = useMutation({
     mutationFn: (inventoryId: number) => api.items.equipItem({ inventoryId }),
-    onSuccess: () => {
+    onSuccess: (success) => {
+      if (!success) return;
       toast('Item equipped', { type: 'success' });
     },
     onSettled: () => {
@@ -117,7 +123,10 @@ export function ItemMenuModal(props: Props) {
   return (
     <BaseModal onRequestClose={props.onRequestClose} isOpen={props.isOpen}>
       <div className={styles.itemInfoContainer}>
-        <InventoryItem inventoryItem={inventoryItem} />
+        <header className={styles.itemHeader}>
+          <InventoryItem inventoryItem={inventoryItem} customSize={46} />
+          <ItemIdentity inventoryItem={inventoryItem} />
+        </header>
         <ItemDetails inventoryItem={inventoryItem} />
       </div>
       <div className={styles.buttonsContainer}>
@@ -134,13 +143,6 @@ export function ItemMenuModal(props: Props) {
         </When>
 
         <When value={!isConsumable}>
-          <Button
-            label="Enhance"
-            onClick={() => {
-              modalStore.setInventoryItem({ open: false });
-              modalStore.setEnhanceItem({ open: true });
-            }}
-          />
           <When value={!isAlreadyEquipped}>
             <Button
               label="Equip item"
@@ -165,6 +167,31 @@ export function ItemMenuModal(props: Props) {
           </When>
         </When>
 
+        {/* Secondary actions share a row so the primary action above stays dominant. */}
+        <div className={styles.secondaryActions}>
+          <When value={!isConsumable}>
+            <Button
+              label="Enhance"
+              theme="neutral"
+              onClick={() => {
+                modalStore.setInventoryItem({ open: false });
+                modalStore.setEnhanceItem({ open: true });
+              }}
+            />
+          </When>
+          <When value={hasRemainingStock}>
+            <Button
+              label="Sell item"
+              theme="neutral"
+              onClick={() => {
+                modalStore.setInventoryItem({ open: false });
+                modalStore.setSellItem({ open: true });
+              }}
+              disabled={!hasRemainingStock}
+            />
+          </When>
+        </div>
+
         <When value={isOnSale}>
           <Button
             label="Revoke selling"
@@ -175,17 +202,6 @@ export function ItemMenuModal(props: Props) {
                 revokeMarketListingMutation.mutate(listingId);
               }
             }}
-          />
-        </When>
-        <When value={hasRemainingStock}>
-          <Button
-            label="Sell item"
-            theme="danger"
-            onClick={() => {
-              modalStore.setInventoryItem({ open: false });
-              modalStore.setSellItem({ open: true });
-            }}
-            disabled={!hasRemainingStock}
           />
         </When>
       </div>

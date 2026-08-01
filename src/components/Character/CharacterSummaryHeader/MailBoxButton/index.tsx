@@ -14,6 +14,7 @@ export default function MailBoxButton() {
       <Button
         label={<MailIcon />}
         theme="success"
+        className={styles.button}
         onClick={() => {
           modalStore.setUserConfig({ open: false });
           modalStore.setMailBox({ open: true });

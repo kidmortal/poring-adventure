@@ -1,22 +1,62 @@
+@import "@/styles/variables";
+
 .container {
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  color: white;
-  padding: 3px;
-  gap: 1rem;
+  align-items: stretch;
+  color: $text;
+  padding: 0.5rem;
+  gap: 0.5rem;
+}
+
+.title {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: $text-muted;
+  text-align: center;
+  @include readable-text;
 }
 
 .dropContainer {
   width: 100%;
   display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.4rem;
+  padding: 0.5rem;
+  // Panel instead of a white hairline box, so it reads over the grass.
+  background-color: rgba(0, 0, 0, 0.5);
+  border: 1px solid $border-strong;
+  border-radius: $radius;
+}
+
+.playerName {
+  font-size: 12px;
+  font-weight: 700;
+  color: $gold;
+}
+
+.rewards {
+  display: flex;
   flex-direction: row;
-  justify-content: flex-start;
   align-items: center;
-  border: 1px solid white;
-  border-radius: 6px;
-  gap: 0.2rem;
-  padding-left: 1rem;
+  gap: 1rem;
+}
+
+// Wraps so a big haul cannot run off the screen.
+.itemRow {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.defeat {
+  font-size: 16px;
+  text-align: center;
+  padding: 1rem;
+  @include readable-text;
 }

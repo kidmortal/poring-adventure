@@ -4,20 +4,17 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 1rem;
-  gap: 1rem;
+  align-items: stretch;
+  padding: 0.6rem;
+  gap: 0.6rem;
+  @include panel();
 }
 
+// Fixed 5-column grid: slots line up in rows instead of re-flowing per row count.
 .inventoryContainer {
   width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  flex-wrap: wrap;
-  > *:not(:first-child) {
-    margin: 0.5rem;
-  }
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.4rem;
+  justify-items: center;
 }

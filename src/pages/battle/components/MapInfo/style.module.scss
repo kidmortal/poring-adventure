@@ -1,26 +1,115 @@
-.container {
+@import "@/styles/variables";
+
+.card {
   width: 100%;
   display: flex;
   flex-direction: column;
+  align-items: stretch;
+  gap: 0.6rem;
+  padding: 0.7rem;
+  @include panel();
+}
+
+.cardHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid $border;
+}
+
+.mapName {
+  font-size: 16px;
+  font-weight: 700;
+  color: $text;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.badges {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.3rem;
+  flex-shrink: 0;
+}
+
+.badge {
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  background-color: rgba(255, 255, 255, 0.08);
+  border: 1px solid $border-strong;
+  font-size: 10px;
+  font-weight: 700;
+  color: $text-muted;
+  white-space: nowrap;
+}
+
+.bossBadge {
+  color: $rarity-mythic;
+  background-color: rgba($rarity-mythic, 0.12);
+  border-color: rgba($rarity-mythic, 0.4);
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.sectionTitle {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: $text-muted;
+}
+
+// Wrapping grids: the old rows never wrapped, so anything past the card width
+// was simply cut off.
+.monsterGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+  gap: 0.35rem;
+}
+
+
+
+
+
+.dropGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(46px, 1fr));
+  gap: 0.35rem;
+  justify-items: center;
+}
+
+.dropSlot {
+  position: relative;
+  width: 46px;
+  height: 46px;
+  display: flex;
   justify-content: center;
   align-items: center;
+  @include slot($radius-sm);
 
-  button {
-    width: 100%;
+  img {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
   }
 }
 
-.mapInfoColumn {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-}
-
-.monstersRow {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
+.dropChance {
+  position: absolute;
+  right: 2px;
+  bottom: 1px;
+  font-size: 9px;
+  font-weight: 700;
+  color: $gold;
+  @include readable-text;
 }

@@ -12,6 +12,20 @@
   width: 70px;
   height: 80px;
   position: relative;
+
+  // Soft ground shadow so the sprite sits on the panel instead of floating.
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 46px;
+    height: 10px;
+    border-radius: 50%;
+    background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.45), transparent 70%);
+  }
+
   display: flex;
   flex-direction: column;
   justify-content: flex-start;

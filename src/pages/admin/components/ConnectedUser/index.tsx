@@ -45,7 +45,7 @@ export function ConnectedUser({ user }: { user?: User }) {
         <CharacterHead head={user.appearance.head} gender={user.appearance.gender} className={styles.userHead} />
         <div className={styles.generalInfoContainer}>
           <span>{user.name}</span>
-          <span>{`LV ${user.stats?.level} ${user.profession?.name}`}</span>
+          <span>{`LV ${user.stats?.level} ${user.class?.name}`}</span>
         </div>
 
         <div className={styles.statsContainer}>

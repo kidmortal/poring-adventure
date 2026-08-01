@@ -1,6 +1,7 @@
 import cn from 'classnames';
 import styles from './style.module.scss';
 import { useState } from 'react';
+import { Orientation } from '@/types/ui';
 
 export function CharacterHead({
   gender,
@@ -8,7 +9,7 @@ export function CharacterHead({
   className,
 }: {
   head: string;
-  gender: 'male' | 'female';
+  gender: Gender;
   className?: string;
 }) {
   return (
@@ -28,8 +29,8 @@ export function CharacterInfo({
 }: {
   costume: string;
   head: string;
-  gender: 'male' | 'female';
-  orientation?: 'front' | 'back';
+  gender: Gender;
+  orientation?: Orientation;
   onClick?: () => void;
 }) {
   const [assetLoaded, setAssetLoaded] = useState(false);

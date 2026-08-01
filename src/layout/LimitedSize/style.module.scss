@@ -2,11 +2,13 @@
 
 .container {
   height: 100vh;
+  height: 100dvh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   background-color: $dark-neutral;
+  background-image: radial-gradient(circle at 50% 0%, rgba($primary, 0.18), transparent 60%);
 }
 
 .limitedContainer {
@@ -18,14 +20,19 @@
   justify-content: flex-start;
   align-items: center;
   background-color: $light-neutral;
+  // Faint vignette so the play area reads as a lit stage instead of a flat block.
+  background-image: radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.07), transparent 55%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(0, 0, 0, 0.18));
   border-radius: 0.5rem;
-  padding: 0.2rem;
-  overflow-y: auto;
+  padding: 0.4rem;
+  overflow: hidden;
 }
 
 .limitSize {
   max-width: 500px; // Iphone XR
   max-height: 900px; // Iphone XR
+  border: 1px solid $border;
+  box-shadow: $shadow-raised;
 }
 
 .limitedDev {
