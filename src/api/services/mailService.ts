@@ -37,8 +37,15 @@ export function mailService({ websocket }: { websocket?: Socket }) {
     return asyncEmit<boolean>(websocket, 'delete_all_notifications', '');
   }
 
+  /** Sends silver and/or an item to another player as mail. No tax. */
+  async function sendGift(dto: SendGiftDto): Promise<boolean | undefined> {
+    if (!websocket) return undefined;
+    return asyncEmit<boolean>(websocket, 'send_gift', dto);
+  }
+
   return {
     getAllMail,
+    sendGift,
     getAllNotifications,
     readAllNotifications,
     deleteAllNotifications,

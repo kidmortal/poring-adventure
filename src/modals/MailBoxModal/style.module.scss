@@ -148,3 +148,11 @@
   color: $text-muted;
   text-align: center;
 }
+
+.buttonLabel {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 0.35rem;
+}

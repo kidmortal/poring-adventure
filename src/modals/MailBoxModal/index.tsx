@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import cn from 'classnames';
 import dayjs from 'dayjs';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { FaHammer, FaBoxOpen, FaBell } from 'react-icons/fa';
+import { FaHammer, FaBoxOpen, FaBell, FaEnvelopeOpen, FaTrash, FaHandHolding } from 'react-icons/fa';
 
 import styles from './style.module.scss';
 import { BaseModal } from '../BaseModal';
@@ -90,18 +90,30 @@ export function MailBoxModal(props: Props) {
       <div className={styles.actions}>
         <When value={showing === 'mail'}>
           <Button
-            label="Mark read"
+            label={
+              <span className={styles.buttonLabel}>
+                <FaEnvelopeOpen /> Read
+              </span>
+            }
             theme="neutral"
             onClick={() => viewAllMutation.mutate()}
             disabled={viewAllMutation.isPending}
           />
           <Button
-            label={unclaimedMail > 0 ? `Claim ${unclaimedMail}` : 'Claim all'}
+            label={
+              <span className={styles.buttonLabel}>
+                <FaHandHolding /> {unclaimedMail > 0 ? `Claim ${unclaimedMail}` : 'Claim'}
+              </span>
+            }
             onClick={() => claimAllMutation.mutate()}
             disabled={claimAllMutation.isPending || unclaimedMail === 0}
           />
           <Button
-            label="Delete claimed"
+            label={
+              <span className={styles.buttonLabel}>
+                <FaTrash /> Clear
+              </span>
+            }
             theme="danger"
             onClick={() => deleteAllMutation.mutate()}
             disabled={deleteAllMutation.isPending}
@@ -110,7 +122,11 @@ export function MailBoxModal(props: Props) {
 
         <When value={showing === 'notifications'}>
           <Button
-            label="Clear all"
+            label={
+              <span className={styles.buttonLabel}>
+                <FaTrash /> Clear all
+              </span>
+            }
             theme="danger"
             onClick={() => clearNotificationsMutation.mutate()}
             disabled={clearNotificationsMutation.isPending || notifications.length === 0}

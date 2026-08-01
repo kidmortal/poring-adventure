@@ -18,6 +18,7 @@ import { RecipeCard } from './components/RecipeCard';
 import { HireOfferCard } from './components/HireOfferCard';
 import { ServiceOfferForm } from './components/ServiceOfferForm';
 import { ProfessionFilter, ProfessionFilterValue } from './components/ProfessionFilter';
+import { LoadingBlock } from '@/components/shared/LoadingBlock';
 
 type ProfessionTab = 'professions' | 'gather' | 'craft' | 'hire';
 
@@ -155,6 +156,10 @@ export function UserProfession() {
             {current && <ProfessionCard profession={current.profession} userProfession={current} />}
           </section>
 
+          <When value={professionsQuery.isLoading}>
+            <LoadingBlock info="Loading trades" />
+          </When>
+
           <When value={available.length > 0}>
             <section className={styles.section}>
               <span className={styles.sectionTitle}>{current ? 'Swap to' : 'Available'}</span>
@@ -184,7 +189,10 @@ export function UserProfession() {
         </When>
 
         <When value={showing === 'gather'}>
-          <When value={nodes.length === 0}>
+          <When value={nodesQuery.isLoading}>
+            <LoadingBlock info="Loading nodes" />
+          </When>
+          <When value={!nodesQuery.isLoading && nodes.length === 0}>
             <span className={styles.empty}>Nothing to gather yet</span>
           </When>
           <ForEach
@@ -204,7 +212,10 @@ export function UserProfession() {
         </When>
 
         <When value={showing === 'craft'}>
-          <When value={recipes.length === 0}>
+          <When value={recipesQuery.isLoading}>
+            <LoadingBlock info="Loading recipes" />
+          </When>
+          <When value={!recipesQuery.isLoading && recipes.length === 0}>
             <span className={styles.empty}>No recipe available yet</span>
           </When>
           <ForEach
@@ -244,7 +255,10 @@ export function UserProfession() {
               selected={hireFilter}
               onSelect={(value) => setHireFilter(value)}
             />
-            <When value={shownOffers.length === 0}>
+            <When value={offersQuery.isLoading}>
+              <LoadingBlock info="Loading crafters" />
+            </When>
+            <When value={!offersQuery.isLoading && shownOffers.length === 0}>
               <span className={styles.empty}>
                 {offers.length === 0 ? 'Nobody is offering their services' : 'No crafter of that trade is offering'}
               </span>

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import cn from 'classnames';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { FaHammer, FaHandshake } from 'react-icons/fa';
 
 import styles from './style.module.scss';
 import { BaseModal } from '../BaseModal';
@@ -164,7 +165,12 @@ export function CraftDetailsModal({ isOpen, recipe, offer, onRequestClose }: Pro
 
       <Button
         className={styles.action}
-        label={blockedReason ?? (hired ? `Hire ${crafterName}` : 'Craft')}
+        label={
+          <span className={styles.actionLabel}>
+            {hired ? <FaHandshake /> : <FaHammer />}
+            {blockedReason ?? (hired ? `Hire ${crafterName}` : 'Craft')}
+          </span>
+        }
         theme={blockedReason ? 'neutral' : 'primary'}
         disabled={!!blockedReason || busy}
         onClick={() => (hired ? hireMutation.mutate() : craftMutation.mutate())}

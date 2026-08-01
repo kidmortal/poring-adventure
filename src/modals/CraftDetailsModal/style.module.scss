@@ -173,6 +173,14 @@
   margin-top: 0.75rem;
 }
 
+.actionLabel {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 0.45rem;
+}
+
 // Rarity colours, matching the item tiles elsewhere.
 .Common {
   color: $rarity-common;

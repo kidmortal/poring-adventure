@@ -8,4 +8,13 @@ declare global {
     classId: number;
     costume?: string;
   };
+
+  /** Silver, one item stack, or both — with an optional note. */
+  type SendGiftDto = {
+    receiverEmail: string;
+    silver?: number;
+    inventoryId?: number;
+    stack?: number;
+    message?: string;
+  };
 }

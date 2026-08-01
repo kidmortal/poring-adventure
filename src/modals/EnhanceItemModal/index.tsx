@@ -3,6 +3,7 @@ import cn from 'classnames';
 import styles from './style.module.scss';
 
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { FaArrowUp, FaHammer, FaHandshake } from 'react-icons/fa';
 
 import { BaseModal } from '../BaseModal';
 
@@ -168,7 +169,11 @@ export function EnhanceItemModal(props: Props) {
         <When value={!!selected}>
           <Button
             theme="primary"
-            label="Assisted enhance"
+            label={
+              <span className={styles.buttonLabel}>
+                <FaHandshake /> Assisted enhance
+              </span>
+            }
             onClick={() => selected && hireEnhanceMutation.mutate(selected.id)}
             disabled={busy || silver < totalPrice || selectedUnavailable}
           />
@@ -177,7 +182,11 @@ export function EnhanceItemModal(props: Props) {
         <When value={!selected}>
           <Button
             theme={isBlacksmith ? 'neutral' : 'gold'}
-            label="Enhance yourself"
+            label={
+              <span className={styles.buttonLabel}>
+                <FaArrowUp /> Enhance yourself
+              </span>
+            }
             onClick={() => enhanceItemMutation.mutate()}
             disabled={busy || silver < forgePrice}
           />
@@ -188,6 +197,7 @@ export function EnhanceItemModal(props: Props) {
             theme="success"
             label={
               <span className={styles.ownSkillLabel}>
+                <FaHammer />
                 Use your own skill
                 <span className={styles.ownSkillBonus}>+{ownBonus}%</span>
                 <span className={styles.ownSkillCost}>{ENHANCE_SERVICE_STAMINA_COST} energy</span>

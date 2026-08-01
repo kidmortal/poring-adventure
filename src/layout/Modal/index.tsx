@@ -22,6 +22,7 @@ import { SwapProfessionModal } from '@/modals/SwapProfessionModal';
 import { MonsterInfoModal } from '@/modals/MonsterInfoModal';
 import { ItemInfoModal } from '@/modals/ItemInfoModal';
 import { CraftDetailsModal } from '@/modals/CraftDetailsModal';
+import { GiftModal } from '@/modals/GiftModal';
 
 export function ModalLayout() {
   const userStore = useUserStore();
@@ -105,6 +106,11 @@ export function ModalLayout() {
         onRequestClose={() => modalStore.setItemInfo({ open: false })}
         isOpen={modalStore.itemInfo.open}
         item={modalStore.itemInfo.item}
+      />
+      <GiftModal
+        onRequestClose={() => modalStore.setGift({ open: false })}
+        isOpen={modalStore.gift.open}
+        user={modalStore.gift.user}
       />
       <CraftDetailsModal
         onRequestClose={() => modalStore.setCraftDetails({ open: false })}

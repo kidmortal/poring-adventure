@@ -95,11 +95,15 @@
   color: $text-muted;
 }
 
-.inviteButton {
+.actions {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
   margin-top: 0.85rem;
 }
 
-.inviteLabel {
+.actionLabel {
   display: flex;
   flex-direction: row;
   align-items: center;

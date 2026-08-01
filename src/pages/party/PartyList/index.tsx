@@ -8,6 +8,7 @@ import { CharacterHead } from '@/components/Character/CharacterInfo';
 import { When } from '@/components/shared/When';
 import { Button } from '@/components/shared/Button';
 import { useUserStore } from '@/store/user';
+import { LoadingBlock } from '@/components/shared/LoadingBlock';
 
 export function PartyList() {
   const userStore = useUserStore();
@@ -29,6 +30,10 @@ export function PartyList() {
     mutationFn: (partyId: number) => api.party.quitParty({ partyId }),
     onSuccess: () => query.refetch(),
   });
+
+  if (query.isLoading) {
+    return <LoadingBlock info="Looking for parties" />;
+  }
 
   return (
     <div className={styles.container}>

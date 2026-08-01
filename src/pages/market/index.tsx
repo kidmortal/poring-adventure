@@ -1,7 +1,7 @@
 import { Query } from '@/store/query';
 import styles from './style.module.scss';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { FullscreenLoading } from '@/layout/PageLoading/FullscreenLoading';
+import { LoadingBlock } from '@/components/shared/LoadingBlock';
 
 import { Button } from '@/components/shared/Button';
 import { Silver } from '@/components/StatsComponents/Silver';
@@ -44,10 +44,6 @@ export function MarketPage() {
     }
   }, [query.data]);
 
-  if (query.isLoading) {
-    return <FullscreenLoading info="Market Update" />;
-  }
-
   return (
     <div className={styles.container}>
       <div className={styles.searchContainer}>
@@ -57,11 +53,16 @@ export function MarketPage() {
         />
         {/* <PriceSortSwitch sort="desc" /> */}
       </div>
+      {/* The filters stay usable while the page they filter is on its way. */}
       <div className={styles.listContainer}>
-        <ForEach
-          items={store.marketListings}
-          render={(list) => <MarketListingContainer key={list.id} listing={list} />}
-        />
+        {query.isLoading ? (
+          <LoadingBlock info="Loading listings" />
+        ) : (
+          <ForEach
+            items={store.marketListings}
+            render={(list) => <MarketListingContainer key={list.id} listing={list} />}
+          />
+        )}
       </div>
 
       <Pagination

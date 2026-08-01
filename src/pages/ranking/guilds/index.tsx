@@ -9,6 +9,7 @@ import { Query } from '@/store/query';
 import { Button } from '@/components/shared/Button';
 import { useUserStore } from '@/store/user';
 import { When } from '@/components/shared/When';
+import { FaEye, FaUserPlus } from 'react-icons/fa';
 
 /** Guild capacity, mirrored from the server rule. */
 const MAX_MEMBERS = 10;
@@ -83,13 +84,21 @@ function GuildInfoBox({ guild, rank }: { guild: Guild; rank: number }) {
       <div className={styles.actions}>
         <Button
           className={styles.actionButton}
-          label="View"
+          label={
+            <span className={styles.buttonLabel}>
+              <FaEye /> View
+            </span>
+          }
           theme="neutral"
           onClick={() => modalStore.setGuildInfo({ guild, open: true })}
         />
         <Button
           className={styles.actionButton}
-          label={applyBlockedReason ?? 'Apply'}
+          label={
+            <span className={styles.buttonLabel}>
+              <FaUserPlus /> {applyBlockedReason ?? 'Apply'}
+            </span>
+          }
           theme={applyBlockedReason ? 'neutral' : 'primary'}
           disabled={!!applyBlockedReason || applyToGuildMutation.isPending}
           onClick={() => applyToGuildMutation.mutate()}

@@ -1,0 +1,187 @@
+@import '@/styles/variables';
+
+.header {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.6rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid $border;
+}
+
+.headerIcon {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: $radius-sm;
+  background-color: rgba($gold, 0.12);
+  border: 1px solid rgba($gold, 0.35);
+  color: $gold;
+  font-size: 15px;
+}
+
+.headerText {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-size: 16px;
+  font-weight: 700;
+  color: $gold;
+}
+
+.subtitle {
+  font-size: 11px;
+  color: $text-muted;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-top: 0.7rem;
+}
+
+.sectionHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sectionTitle {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: $text-muted;
+}
+
+.hint {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 10px;
+  color: $text-muted;
+}
+
+.clearButton {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0;
+  border: none;
+  background: none;
+  font-family: inherit;
+  font-size: 10px;
+  color: $text-muted;
+  cursor: pointer;
+
+  &:hover {
+    color: $text;
+  }
+}
+
+.silverRow,
+.stackRow {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  gap: 0.35rem;
+}
+
+.stepperButton,
+.maxButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @include tap-target(40px);
+  padding: 0 0.55rem;
+  border: 1px solid $border-strong;
+  border-radius: $radius-sm;
+  background-color: rgba(255, 255, 255, 0.07);
+  color: $text;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 150ms, opacity 150ms;
+
+  &:active {
+    background-color: rgba(255, 255, 255, 0.14);
+  }
+
+  &:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+}
+
+.maxButton {
+  color: $gold;
+  border-color: rgba($gold, 0.35);
+  background-color: rgba($gold, 0.1);
+}
+
+// Your bags, minus everything the server would refuse to move.
+.itemGrid {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  max-height: 8.5rem;
+  overflow-y: auto;
+}
+
+.itemSlot {
+  padding: 2px;
+  border-radius: $radius-sm;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+
+.selectedItem {
+  border-color: rgba($gold, 0.6);
+  background-color: rgba($gold, 0.12);
+}
+
+.freeNote {
+  width: 100%;
+  margin-top: 0.7rem;
+  font-size: 10px;
+  line-height: 1.35;
+  color: $text-muted;
+  text-align: center;
+}
+
+.send {
+  margin-top: 0.4rem;
+}
+
+.sendLabel {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.empty {
+  font-size: 11px;
+  color: $text-muted;
+  text-align: center;
+  padding: 0.3rem 0;
+}

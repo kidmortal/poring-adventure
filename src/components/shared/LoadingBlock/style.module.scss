@@ -1,0 +1,61 @@
+@import '@/styles/variables';
+
+.container {
+  width: 100%;
+  flex: 1;
+  min-height: 8rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 1.5rem 1rem;
+  color: $text-muted;
+}
+
+@keyframes poringBob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.poring {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+  animation: poringBob 1.4s ease-in-out infinite;
+}
+
+.info {
+  font-size: 12px;
+  color: $text-muted;
+}
+
+.track {
+  width: 8rem;
+  height: 3px;
+  border-radius: 999px;
+  background-color: rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+}
+
+@keyframes trackSlide {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(300%);
+  }
+}
+
+.trackFill {
+  width: 33%;
+  height: 100%;
+  border-radius: 999px;
+  background-image: linear-gradient(90deg, rgba($gold, 0.15), $gold, rgba($gold, 0.15));
+  animation: trackSlide 1.3s ease-in-out infinite;
+}

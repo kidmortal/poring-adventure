@@ -4,7 +4,7 @@ import { useMainStore } from '@/store/main';
 import { useQuery } from '@tanstack/react-query';
 
 import { Query } from '@/store/query';
-import { FullscreenLoading } from '@/layout/PageLoading/FullscreenLoading';
+import { LoadingBlock } from '@/components/shared/LoadingBlock';
 
 import { useWebsocketApi } from '@/api/websocketServer';
 import styles from './style.module.scss';
@@ -25,7 +25,7 @@ export function GuildLayout() {
   });
 
   if (guildQuery.isLoading) {
-    return <FullscreenLoading info="Fetching guild info" />;
+    return <LoadingBlock info="Loading guild" />;
   }
 
   const guild = userStore.guild;

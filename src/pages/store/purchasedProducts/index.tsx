@@ -4,6 +4,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useWebsocketApi } from '@/api/websocketServer';
 import ForEach from '@/components/shared/ForEach';
 import { useUserStore } from '@/store/user';
+import { LoadingBlock } from '@/components/shared/LoadingBlock';
 import { Button } from '@/components/shared/Button';
 import { useMainStore } from '@/store/main';
 import { Query } from '@/store/query';
@@ -13,12 +14,16 @@ export function PurchasedStoreProducts() {
   const api = useWebsocketApi();
   const store = useMainStore();
 
-  useQuery({
+  const purchasesQuery = useQuery({
     queryKey: [Query.ALL_PURCHASES],
     enabled: !!store.websocket,
     staleTime: 1000 * 10, // 10 seconds
     queryFn: () => api.store.getPurchases(),
   });
+
+  if (purchasesQuery.isLoading) {
+    return <LoadingBlock info="Loading purchases" />;
+  }
 
   return (
     <div className={styles.container}>

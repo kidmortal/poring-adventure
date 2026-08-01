@@ -2,7 +2,6 @@ import { Query } from '@/store/query';
 import styles from './style.module.scss';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 
-import { FullscreenLoading } from '@/layout/PageLoading/FullscreenLoading';
 import { useMainStore } from '@/store/main';
 import { useWebsocketApi } from '@/api/websocketServer';
 import { useEffect, useState } from 'react';
@@ -11,6 +10,7 @@ import { TabOption, Tabs } from '@/components/shared/Tabs';
 import { PlayersRankingPage } from './players';
 import { GuildRankingPage } from './guilds';
 import { Pagination } from '@/components/shared/Pagination';
+import { LoadingBlock } from '@/components/shared/LoadingBlock';
 
 type RankingTab = 'players' | 'guild';
 
@@ -37,10 +37,6 @@ export function RankingPage() {
     queryClient.invalidateQueries({ queryKey: [Query.ALL_CHARACTERS] });
   }, [store.rankingPage]);
 
-  if (query.isLoading) {
-    return <FullscreenLoading info="Player List" />;
-  }
-
   const tabs: TabOption<RankingTab>[] = [
     { value: 'players', label: 'Players' },
     { value: 'guild', label: 'Guilds', badge: queryGuild.data?.length },
@@ -53,10 +49,14 @@ export function RankingPage() {
       {/* Only the list scrolls, so the tabs and the pagination stay in view. */}
       <div className={styles.listPanel}>
         <When value={showing === 'players'}>
-          <PlayersRankingPage users={query.data?.users} page={store.rankingPage} />
+          {query.isLoading ? (
+            <LoadingBlock info="Loading players" />
+          ) : (
+            <PlayersRankingPage users={query.data?.users} page={store.rankingPage} />
+          )}
         </When>
         <When value={showing === 'guild'}>
-          <GuildRankingPage guilds={queryGuild.data} />
+          {queryGuild.isLoading ? <LoadingBlock info="Loading guilds" /> : <GuildRankingPage guilds={queryGuild.data} />}
         </When>
       </div>
 

@@ -1,7 +1,7 @@
 import styles from './style.module.scss';
 
 import { useMutation } from '@tanstack/react-query';
-import { FaUserPlus } from 'react-icons/fa';
+import { FaGift, FaUserPlus } from 'react-icons/fa';
 
 import { BaseModal } from '../BaseModal';
 import { CharacterInfo } from '@/components/Character/CharacterInfo';
@@ -13,6 +13,7 @@ import { When } from '@/components/shared/When';
 import { Silver } from '@/components/StatsComponents/Silver';
 import { useWebsocketApi } from '@/api/websocketServer';
 import { useUserStore } from '@/store/user';
+import { useModalStore } from '@/store/modal';
 
 type Props = {
   isOpen?: boolean;
@@ -27,6 +28,7 @@ type Props = {
  */
 export function InteractUserModal(props: Props) {
   const userStore = useUserStore();
+  const modalStore = useModalStore();
   const api = useWebsocketApi();
 
   const inviteUserMutation = useMutation({
@@ -103,22 +105,39 @@ export function InteractUserModal(props: Props) {
         </div>
       </section>
 
-      <Button
-        className={styles.inviteButton}
-        label={
-          <span className={styles.inviteLabel}>
-            <FaUserPlus />
-            {inviteBlockedReason ?? 'Invite to party'}
-          </span>
-        }
-        theme={inviteBlockedReason ? 'neutral' : 'primary'}
-        disabled={!!inviteBlockedReason || inviteUserMutation.isPending}
-        onClick={() => {
-          if (user?.email) {
-            inviteUserMutation.mutate(user.email);
+      <div className={styles.actions}>
+        <Button
+          label={
+            <span className={styles.actionLabel}>
+              <FaUserPlus />
+              {inviteBlockedReason ?? 'Invite to party'}
+            </span>
           }
-        }}
-      />
+          theme={inviteBlockedReason ? 'neutral' : 'primary'}
+          disabled={!!inviteBlockedReason || inviteUserMutation.isPending}
+          onClick={() => {
+            if (user?.email) {
+              inviteUserMutation.mutate(user.email);
+            }
+          }}
+        />
+        {/* Gifting has none of the invite's preconditions — you only need
+            something to give, which the gift modal itself checks. */}
+        <Button
+          theme={isSelf ? 'neutral' : 'gold'}
+          disabled={isSelf}
+          label={
+            <span className={styles.actionLabel}>
+              <FaGift />
+              {isSelf ? 'This is you' : 'Send a gift'}
+            </span>
+          }
+          onClick={() => {
+            props.onRequestClose();
+            modalStore.setGift({ open: true, user });
+          }}
+        />
+      </div>
     </BaseModal>
   );
 }
