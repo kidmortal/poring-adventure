@@ -14,4 +14,5 @@ export enum Query {
   ALL_PROFESSIONS = 'all_professions',
   GATHERING_NODES = 'gathering_nodes',
   RECIPES = 'recipes',
+  SERVICE_OFFERS = 'service_offers',
 }

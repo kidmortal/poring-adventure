@@ -1,0 +1,170 @@
+@import '@/styles/variables';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0.6rem;
+  @include panel();
+}
+
+.depleted {
+  opacity: 0.6;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.icon {
+  font-size: 26px;
+  line-height: 1.1;
+}
+
+.headerText {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.nameRow {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 0.4rem;
+
+  h3 {
+    font-size: 14px;
+    font-weight: 700;
+    color: $text;
+  }
+}
+
+.youBadge {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  padding: 0.1rem 0.35rem;
+  border-radius: 999px;
+  color: $gold;
+  border: 1px solid rgba($gold, 0.4);
+}
+
+.subtitle {
+  font-size: 11px;
+  color: $text-muted;
+}
+
+.rate {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.rateSuffix {
+  font-size: 10px;
+  color: $text-muted;
+}
+
+.energyRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.energy {
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  color: $exp;
+}
+
+.energyEmpty {
+  color: $error;
+}
+
+.services {
+  display: flex;
+  flex-direction: row;
+  gap: 0.25rem;
+}
+
+.serviceBadge {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  padding: 0.1rem 0.35rem;
+  border-radius: 999px;
+  color: $text-muted;
+  border: 1px solid $border;
+}
+
+// Three columns: the recipe takes the slack, price and button keep their own
+// width so a long name or a long reason never squeezes them.
+.recipeRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto 58px;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.4rem;
+  border-radius: $radius-sm;
+  background-color: rgba(0, 0, 0, 0.18);
+}
+
+.recipeText {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.recipeName,
+.recipeMeta {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.recipeName {
+  font-size: 12px;
+  font-weight: 600;
+  color: $text;
+}
+
+.recipeMeta {
+  font-size: 10px;
+  color: $text-muted;
+}
+
+.recipeBlocked {
+  color: $orange;
+}
+
+.recipeFee {
+  justify-self: end;
+}
+
+.hireButton {
+  padding: 0.35rem 0.4rem;
+  font-size: 11px;
+}
+
+.empty {
+  font-size: 11px;
+  color: $text-muted;
+  text-align: center;
+}
+
+.result {
+  font-size: 11px;
+  color: $exp;
+  text-align: center;
+}

@@ -42,6 +42,37 @@ export function professionService({ websocket }: { websocket?: Socket }) {
     return asyncEmit<CraftResult>(websocket, 'craft', dto);
   }
 
+  async function getServiceOffers(): Promise<ServiceOffer[] | undefined> {
+    if (!websocket) return undefined;
+    return asyncEmit<ServiceOffer[]>(websocket, 'get_service_offers', '');
+  }
+
+  async function getUserServiceOffer(): Promise<ServiceOffer | null | undefined> {
+    if (!websocket) return undefined;
+    return asyncEmit<ServiceOffer | null>(websocket, 'get_user_service_offer', '');
+  }
+
+  async function publishServiceOffer(dto: PublishServiceOfferDto): Promise<ServiceOffer | undefined> {
+    if (!websocket) return undefined;
+    return asyncEmit<ServiceOffer>(websocket, 'publish_service_offer', dto);
+  }
+
+  async function removeServiceOffer(): Promise<boolean | undefined> {
+    if (!websocket) return undefined;
+    return asyncEmit<boolean>(websocket, 'remove_service_offer', '');
+  }
+
+  /** The crafter spends the stamina, you provide the materials and keep the item. */
+  async function hireCraft(dto: HireCraftDto): Promise<HiredCraftResult | undefined> {
+    if (!websocket) return undefined;
+    return asyncEmit<HiredCraftResult>(websocket, 'hire_craft', dto);
+  }
+
+  async function hireEnhance(dto: HireEnhanceDto): Promise<HiredEnhanceResult | undefined> {
+    if (!websocket) return undefined;
+    return asyncEmit<HiredEnhanceResult>(websocket, 'hire_enhance', dto);
+  }
+
   return {
     getAllProfessions,
     getUserProfessions,
@@ -50,5 +81,11 @@ export function professionService({ websocket }: { websocket?: Socket }) {
     gather,
     getRecipes,
     craft,
+    getServiceOffers,
+    getUserServiceOffer,
+    publishServiceOffer,
+    removeServiceOffer,
+    hireCraft,
+    hireEnhance,
   };
 }

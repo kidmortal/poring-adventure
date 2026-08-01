@@ -13,4 +13,20 @@ declare global {
   type CraftDto = {
     recipeId: number;
   };
+
+  type PublishServiceOfferDto = {
+    pricePerStamina: number;
+    crafting: boolean;
+    enhancing: boolean;
+  };
+
+  type HireCraftDto = {
+    offerId: number;
+    recipeId: number;
+  };
+
+  type HireEnhanceDto = {
+    offerId: number;
+    inventoryId: number;
+  };
 }

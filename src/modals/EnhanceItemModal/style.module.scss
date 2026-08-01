@@ -1,3 +1,5 @@
+@import '@/styles/variables';
+
 .row {
   display: flex;
   flex-direction: row;
@@ -30,4 +32,85 @@
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
+}
+
+// Hiring a smith sits under your own attempt: same decision, better odds, extra cost.
+.smithSection {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid $border;
+}
+
+.sectionTitle {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: $text-muted;
+}
+
+.sectionHint {
+  font-size: 11px;
+  line-height: 1.35;
+  color: $text-muted;
+}
+
+.smithRow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto 58px;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.4rem;
+  border-radius: $radius-sm;
+  background-color: rgba(0, 0, 0, 0.18);
+}
+
+.smithText {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.smithName {
+  font-size: 12px;
+  font-weight: 600;
+  color: $text;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.smithMeta,
+.smithBlocked {
+  font-size: 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.smithMeta {
+  color: $exp;
+}
+
+.smithBlocked {
+  color: $orange;
+}
+
+.smithFee {
+  justify-self: end;
+}
+
+.hireButton {
+  padding: 0.35rem 0.4rem;
+  font-size: 11px;
+}
+
+.empty {
+  font-size: 11px;
+  color: $text-muted;
+  text-align: center;
 }

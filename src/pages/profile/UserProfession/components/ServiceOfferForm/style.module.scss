@@ -1,0 +1,74 @@
+@import '@/styles/variables';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding: 0.6rem;
+  @include panel();
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.fieldHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.fieldLabel {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: $text-muted;
+}
+
+.fieldHint {
+  font-size: 11px;
+  color: $text-muted;
+}
+
+.toggles {
+  display: flex;
+  flex-direction: row;
+  gap: 0.35rem;
+}
+
+.toggle {
+  flex: 1;
+  @include tap-target(38px);
+  border: 1px solid $border-strong;
+  border-radius: $radius-sm;
+  background-color: rgba(255, 255, 255, 0.05);
+  color: $text-muted;
+  font-family: inherit;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 150ms, color 150ms;
+
+  &:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+}
+
+.selected {
+  color: $gold;
+  border-color: rgba($gold, 0.4);
+  background-color: rgba($gold, 0.12);
+}
+
+.empty {
+  padding: 1rem 0;
+  font-size: 13px;
+  color: $text-muted;
+  text-align: center;
+}

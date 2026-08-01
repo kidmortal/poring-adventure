@@ -17,6 +17,8 @@ declare global {
     icon: string;
     description: string;
     kind: ProfessionKind;
+    /** Whether this profession may enhance items for other players. */
+    canEnhance?: boolean;
     nodes?: GatheringNode[];
     recipes?: Recipe[];
   };
@@ -88,5 +90,48 @@ declare global {
     recipe: string;
     amount: number;
     experience: number;
+  };
+
+  /**
+   * A crafter selling their stamina. Only players who published one show up on
+   * the hiring board, and their remaining stamina is what limits how much work
+   * they can still take.
+   */
+  type ServiceOffer = {
+    id: number;
+    crafterEmail: string;
+    professionId: number;
+    /** Silver charged per stamina point the job costs the crafter. */
+    pricePerStamina: number;
+    crafting: boolean;
+    enhancing: boolean;
+    createdAt: string;
+    profession: Profession;
+    crafter: {
+      name: string;
+      email: string;
+      stats?: { stamina: number; maxStamina: number };
+      professions: { professionId: number; level: number }[];
+    };
+  };
+
+  /** What a hired craft produced, and what it cost to hire. */
+  type HiredCraftResult = {
+    recipe: string;
+    amount: number;
+    experience: number;
+    crafter: string;
+    fee: number;
+  };
+
+  type HiredEnhanceResult = {
+    item: string;
+    enhancement: number;
+    success: boolean;
+    chance: number;
+    blacksmith: string;
+    blacksmithLevel: number;
+    forgePrice: number;
+    fee: number;
   };
 }
