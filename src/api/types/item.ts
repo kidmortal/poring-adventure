@@ -45,4 +45,20 @@ declare global {
     item: Item;
   };
 
+  /**
+   * Something that happened while you were away — a hired service being used,
+   * and what it earned you. Nothing to claim: the reward is already paid.
+   */
+  type GameNotification = {
+    id: number;
+    userEmail: string;
+    /** hired_craft, hired_enhance, or info. Decides the icon. */
+    type: string;
+    title: string;
+    message: string;
+    silver: number;
+    experience: number;
+    read: boolean;
+    createdAt: string;
+  };
 }

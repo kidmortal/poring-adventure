@@ -32,8 +32,6 @@ export function UserProfession() {
   const modalStore = useModalStore();
   const [showing, setShowing] = useState<ProfessionTab>('professions');
   const [gatherResults, setGatherResults] = useState<Record<number, GatherResult>>({});
-  const [craftResults, setCraftResults] = useState<Record<number, CraftResult>>({});
-  const [hireResults, setHireResults] = useState<Record<number, HiredCraftResult>>({});
   const [hireFilter, setHireFilter] = useState<ProfessionFilterValue>('all');
 
   const professionsQuery = useQuery({
@@ -67,13 +65,6 @@ export function UserProfession() {
     },
   });
 
-  const craftMutation = useMutation({
-    mutationFn: (recipeId: number) => api.professions.craft({ recipeId }),
-    onSuccess: (result, recipeId) => {
-      if (result) setCraftResults((current) => ({ ...current, [recipeId]: result }));
-    },
-  });
-
   // The hiring board is other players' stamina and prices, so it goes stale as
   // soon as anyone is hired.
   const offersQuery = useQuery({
@@ -85,14 +76,6 @@ export function UserProfession() {
   function invalidateOffers() {
     queryClient.invalidateQueries({ queryKey: [Query.SERVICE_OFFERS] });
   }
-
-  const hireMutation = useMutation({
-    mutationFn: (args: { offerId: number; recipeId: number }) => api.professions.hireCraft(args),
-    onSuccess: (result, args) => {
-      if (result) setHireResults((current) => ({ ...current, [args.offerId]: result }));
-    },
-    onSettled: invalidateOffers,
-  });
 
   const publishOfferMutation = useMutation({
     mutationFn: (dto: PublishServiceOfferDto) => api.professions.publishServiceOffer(dto),
@@ -135,7 +118,7 @@ export function UserProfession() {
   // Only crafting trades can be hired, so they are the only filters worth showing.
   const craftingProfessions = allProfessions.filter((profession) => profession.kind === 'crafting');
   const shownOffers = offers.filter((offer) => hireFilter === 'all' || offer.professionId === hireFilter);
-  const hiringBusy = hireMutation.isPending || publishOfferMutation.isPending || removeOfferMutation.isPending;
+  const hiringBusy = publishOfferMutation.isPending || removeOfferMutation.isPending;
 
   const tabs: TabOption<ProfessionTab>[] = [
     // The badge nudges toward picking a first profession; once one is chosen the
@@ -233,9 +216,9 @@ export function UserProfession() {
                 professionLevel={levelByProfessionId[recipe.professionId]}
                 stamina={stamina}
                 ownedByItemId={ownedByItemId}
-                busy={craftMutation.isPending}
-                lastResult={craftResults[recipe.id]}
-                onCraft={() => craftMutation.mutate(recipe.id)}
+                // Crafting goes through the details sheet: what it eats, what
+                // it costs and how likely each quality is.
+                onCraft={() => modalStore.setCraftDetails({ open: true, recipe })}
               />
             )}
           />
@@ -276,9 +259,13 @@ export function UserProfession() {
                   ownedByItemId={ownedByItemId}
                   silver={user?.silver ?? 0}
                   isSelf={offer.crafterEmail === user?.email}
-                  busy={hireMutation.isPending}
-                  lastResult={hireResults[offer.id]}
-                  onHire={(recipeId) => hireMutation.mutate({ offerId: offer.id, recipeId })}
+                  onHire={(recipeId) =>
+                    modalStore.setCraftDetails({
+                      open: true,
+                      offer,
+                      recipe: recipes.find((r) => r.id === recipeId),
+                    })
+                  }
                 />
               )}
             />

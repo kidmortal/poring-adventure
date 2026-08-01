@@ -5,15 +5,17 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { FullscreenLoading } from '@/layout/PageLoading/FullscreenLoading';
 import { useMainStore } from '@/store/main';
 import { useWebsocketApi } from '@/api/websocketServer';
-import { Button } from '@/components/shared/Button';
 import { useEffect, useState } from 'react';
 import { When } from '@/components/shared/When';
+import { TabOption, Tabs } from '@/components/shared/Tabs';
 import { PlayersRankingPage } from './players';
 import { GuildRankingPage } from './guilds';
 import { Pagination } from '@/components/shared/Pagination';
 
+type RankingTab = 'players' | 'guild';
+
 export function RankingPage() {
-  const [switchRanking, setSwitchRanking] = useState<'players' | 'guild'>('players');
+  const [showing, setShowing] = useState<RankingTab>('players');
   const api = useWebsocketApi();
   const queryClient = useQueryClient();
   const store = useMainStore();
@@ -39,14 +41,26 @@ export function RankingPage() {
     return <FullscreenLoading info="Player List" />;
   }
 
+  const tabs: TabOption<RankingTab>[] = [
+    { value: 'players', label: 'Players' },
+    { value: 'guild', label: 'Guilds', badge: queryGuild.data?.length },
+  ];
+
   return (
     <div className={styles.container}>
-      <div className={styles.rankingSwitch}>
-        <Button label="Players" onClick={() => setSwitchRanking('players')} />
-        <Button label="Guild" onClick={() => setSwitchRanking('guild')} />
+      <Tabs options={tabs} selected={showing} onSelect={setShowing} />
+
+      {/* Only the list scrolls, so the tabs and the pagination stay in view. */}
+      <div className={styles.listPanel}>
+        <When value={showing === 'players'}>
+          <PlayersRankingPage users={query.data?.users} page={store.rankingPage} />
+        </When>
+        <When value={showing === 'guild'}>
+          <GuildRankingPage guilds={queryGuild.data} />
+        </When>
       </div>
-      <When value={switchRanking === 'players'}>
-        <PlayersRankingPage users={query.data?.users} />
+
+      <When value={showing === 'players'}>
         <Pagination
           className={styles.pagination}
           totalCount={query.data?.count ?? 10}
@@ -54,9 +68,6 @@ export function RankingPage() {
             store.setRankingPage(p);
           }}
         />
-      </When>
-      <When value={switchRanking === 'guild'}>
-        <GuildRankingPage guilds={queryGuild.data} />
       </When>
     </div>
   );

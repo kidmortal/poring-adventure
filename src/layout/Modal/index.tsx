@@ -19,6 +19,9 @@ import { GuildBlessingModal } from '@/modals/GuildBlessingModal';
 import { DiscordIntegrationModal } from '@/modals/DiscordIntegrationModal';
 import { EnhanceItemModal } from '@/modals/EnhanceItemModal';
 import { SwapProfessionModal } from '@/modals/SwapProfessionModal';
+import { MonsterInfoModal } from '@/modals/MonsterInfoModal';
+import { ItemInfoModal } from '@/modals/ItemInfoModal';
+import { CraftDetailsModal } from '@/modals/CraftDetailsModal';
 
 export function ModalLayout() {
   const userStore = useUserStore();
@@ -92,6 +95,22 @@ export function ModalLayout() {
         onRequestClose={() => modalStore.setEnhanceItem({ open: false })}
         isOpen={modalStore.enhanceItem.open}
         inventoryItem={modalStore.inventoryItem.selectedItem}
+      />
+      <MonsterInfoModal
+        onRequestClose={() => modalStore.setMonsterInfo({ open: false })}
+        isOpen={modalStore.monsterInfo.open}
+        monster={modalStore.monsterInfo.monster}
+      />
+      <ItemInfoModal
+        onRequestClose={() => modalStore.setItemInfo({ open: false })}
+        isOpen={modalStore.itemInfo.open}
+        item={modalStore.itemInfo.item}
+      />
+      <CraftDetailsModal
+        onRequestClose={() => modalStore.setCraftDetails({ open: false })}
+        isOpen={modalStore.craftDetails.open}
+        recipe={modalStore.craftDetails.recipe}
+        offer={modalStore.craftDetails.offer}
       />
       <SwapProfessionModal
         onRequestClose={() => modalStore.setSwapProfession({ open: false })}

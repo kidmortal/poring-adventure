@@ -18,11 +18,14 @@ type Props = {
 const DEFAULT_PRICE = 50;
 
 /**
- * Publishing your own stamina for hire. Enhancing is only on the board for
- * professions that can enhance, so a cook never advertises smithing work.
+ * Publishing your own stamina for hire. Only crafting trades can be sold, and
+ * enhancing only by the ones that can enhance, so a cook never advertises
+ * smithing work and a miner never advertises at all.
  */
 export function ServiceOfferForm({ profession, offer, busy, onPublish, onRemove }: Props) {
   const canEnhance = !!profession?.canEnhance;
+  // Gathering happens at a node, alone: there is no job to sell.
+  const canBeHired = profession?.kind === 'crafting';
 
   const [price, setPrice] = useState(offer?.pricePerStamina ?? DEFAULT_PRICE);
   const [crafting, setCrafting] = useState(offer?.crafting ?? true);
@@ -42,6 +45,10 @@ export function ServiceOfferForm({ profession, offer, busy, onPublish, onRemove 
 
   if (!profession) {
     return <span className={styles.empty}>Learn a profession to sell your services</span>;
+  }
+
+  if (!canBeHired) {
+    return <span className={styles.empty}>{profession.name} is gathered alone — there is nothing to hire out</span>;
   }
 
   return (

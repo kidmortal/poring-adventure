@@ -16,7 +16,42 @@
   gap: 0.5rem;
 }
 
+// The result floats up out of the item and fades — the modal stays open so a
+// second attempt is one tap away.
+@keyframes outcomeFloat {
+  0% {
+    transform: translate(-50%, 0);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -60px);
+    opacity: 0;
+  }
+}
+
+.outcome {
+  position: absolute;
+  top: 0.5rem;
+  left: 50%;
+  z-index: 2;
+  pointer-events: none;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: $error;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+  animation: outcomeFloat 1400ms ease-out forwards;
+}
+
+.outcomeSuccess {
+  color: lighten($success, 18%);
+}
+
 .itemInfoContainer {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -59,14 +94,35 @@
   color: $text-muted;
 }
 
+// A picker, not an action: clicking chooses who assists the attempt above.
 .smithRow {
+  width: 100%;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) auto 58px;
+  grid-template-columns: minmax(0, 1fr) auto auto;
   align-items: center;
   gap: 0.4rem;
-  padding: 0.35rem 0.4rem;
+  padding: 0.4rem 0.5rem;
   border-radius: $radius-sm;
+  border: 1px solid transparent;
   background-color: rgba(0, 0, 0, 0.18);
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 150ms, border-color 150ms;
+
+  &:hover:not(:disabled) {
+    background-color: rgba(255, 255, 255, 0.06);
+  }
+}
+
+.smithSelected {
+  border-color: rgba($gold, 0.5);
+  background-color: rgba($gold, 0.12);
+}
+
+.smithBlockedRow {
+  opacity: 0.55;
+  cursor: not-allowed;
 }
 
 .smithText {
@@ -84,19 +140,37 @@
   text-overflow: ellipsis;
 }
 
-.smithMeta,
+.smithNameRow {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.smithLevel {
+  flex-shrink: 0;
+  font-size: 10px;
+  font-weight: 700;
+  color: $gold;
+}
+
+// What the smith's level adds: the figure you actually compare smiths by, so it
+// is sized to be read at a glance. Lightened, because the palette green is dim
+// against the panel background.
+.smithBonus {
+  font-size: 15px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  color: lighten($success, 18%);
+}
+
 .smithBlocked {
   font-size: 10px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-
-.smithMeta {
-  color: $exp;
-}
-
-.smithBlocked {
   color: $orange;
 }
 
@@ -104,13 +178,37 @@
   justify-self: end;
 }
 
-.hireButton {
-  padding: 0.35rem 0.4rem;
-  font-size: 11px;
+// The bonus the selected smith adds, next to the chance you would roll alone.
+.chanceBonus {
+  margin-left: 0.35rem;
+  font-weight: 700;
+  color: lighten($success, 18%);
 }
+
 
 .empty {
   font-size: 11px;
   color: $text-muted;
   text-align: center;
+}
+
+// The green option carries two extra figures, so they share the label row.
+.ownSkillLabel {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.4rem;
+}
+
+.ownSkillBonus {
+  font-size: 13px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.ownSkillCost {
+  font-size: 10px;
+  font-weight: 600;
+  opacity: 0.8;
 }

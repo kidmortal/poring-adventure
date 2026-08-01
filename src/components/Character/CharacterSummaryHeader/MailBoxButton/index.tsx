@@ -8,7 +8,9 @@ import { useUserStore } from '@/store/user';
 export default function MailBoxButton() {
   const modalStore = useModalStore();
   const userStore = useUserStore();
-  const notViewedMailCount = userStore.mailBox.filter((m) => !m.visualized);
+  // One badge for both inboxes, since one button opens both.
+  const unreadCount =
+    userStore.mailBox.filter((m) => !m.visualized).length + userStore.notifications.filter((n) => !n.read).length;
   return (
     <div className={styles.container}>
       <Button
@@ -20,8 +22,8 @@ export default function MailBoxButton() {
           modalStore.setMailBox({ open: true });
         }}
       />
-      <When value={notViewedMailCount.length > 0}>
-        <span className={styles.mailCounter}>{notViewedMailCount.length}</span>
+      <When value={unreadCount > 0}>
+        <span className={styles.mailCounter}>{unreadCount}</span>
       </When>
     </div>
   );

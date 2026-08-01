@@ -1,55 +1,28 @@
+@import '@/styles/variables';
+
 .container {
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  font-size: 18px;
-  color: white;
-  margin-top: 1rem;
+  align-items: stretch;
   gap: 0.5rem;
-  textarea {
-    height: 15rem;
-    width: 20rem;
-  }
-
-  overflow-y: auto;
+  padding: 0.5rem 0;
+  color: $text;
+  overflow: hidden;
 }
 
-.characterContainer {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 1rem;
-}
-
-.characterInfo {
+// The one scrolling region: tabs above and pagination below stay put.
+.listPanel {
+  flex: 1;
+  min-height: 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 0.5rem;
-}
-
-.rankingSwitch {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  gap: 3rem;
-}
-
-.guildBoxContainer {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .pagination {
-  padding: 1rem 0;
+  flex-shrink: 0;
+  padding: 0.25rem 0;
 }

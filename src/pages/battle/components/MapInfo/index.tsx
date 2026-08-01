@@ -6,6 +6,7 @@ import ForEach from '@/components/shared/ForEach';
 import { MonsterChip } from '@/components/Monsters/MonsterChip';
 import { levelRange } from '@/components/Monsters/MonsterChip/levelRange';
 import cn from 'classnames';
+import { useModalStore } from '@/store/modal';
 
 type Props = {
   map: MonsterMap;
@@ -33,17 +34,18 @@ function getDropsFromMonsters(monsters: Monster[]): MapDrop[] {
   return Object.values(dropsByItem).sort((a, b) => b.chance - a.chance);
 }
 
-function DropSlot({ drop }: { drop: MapDrop }) {
+function DropSlot({ drop, onClick }: { drop: MapDrop; onClick: () => void }) {
   return (
-    <div className={styles.dropSlot} title={drop.item.name}>
+    <button type="button" className={styles.dropSlot} title={drop.item.name} onClick={onClick}>
       <img src={drop.item.image} alt={drop.item.name} />
       <span className={styles.dropChance}>{drop.chance}%</span>
-    </div>
+    </button>
   );
 }
 
 export function MapInfo({ map }: Props) {
   const api = useWebsocketApi();
+  const modalStore = useModalStore();
   const createBattleMutation = useMutation({
     mutationFn: (mapId: number) => api.battle.createBattleInstance(mapId),
   });
@@ -64,14 +66,34 @@ export function MapInfo({ map }: Props) {
       <section className={styles.section}>
         <span className={styles.sectionTitle}>Monsters</span>
         <div className={styles.monsterGrid}>
-          <ForEach items={map.monster} render={(monster) => <MonsterChip key={monster.id} monster={monster} />} />
+          {/* Both grids open a details sheet, so a map can be sized up without
+              entering it. */}
+          <ForEach
+            items={map.monster}
+            render={(monster) => (
+              <MonsterChip
+                key={monster.id}
+                monster={monster}
+                onClick={() => modalStore.setMonsterInfo({ open: true, monster })}
+              />
+            )}
+          />
         </div>
       </section>
 
       <section className={styles.section}>
         <span className={styles.sectionTitle}>Possible drops</span>
         <div className={styles.dropGrid}>
-          <ForEach items={drops} render={(drop) => <DropSlot key={drop.item.id} drop={drop} />} />
+          <ForEach
+            items={drops}
+            render={(drop) => (
+              <DropSlot
+                key={drop.item.id}
+                drop={drop}
+                onClick={() => modalStore.setItemInfo({ open: true, item: drop.item })}
+              />
+            )}
+          />
         </div>
       </section>
 

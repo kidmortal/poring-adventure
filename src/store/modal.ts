@@ -5,7 +5,8 @@ type GenericModalState = {
 };
 
 type InventoryItemState = {
-  open: boolean;
+  /** Optional: the setter merges, so a caller may update only the selection. */
+  open?: boolean;
   selectedItem?: InventoryItem;
 };
 
@@ -34,6 +35,23 @@ type GuildInfoState = {
 type InteractUserState = {
   open?: boolean;
   user?: User;
+};
+
+type CraftDetailsState = {
+  open?: boolean;
+  recipe?: Recipe;
+  /** Set when the craft is being bought from someone else. */
+  offer?: ServiceOffer;
+};
+
+type MonsterInfoState = {
+  open?: boolean;
+  monster?: Monster;
+};
+
+type ItemInfoState = {
+  open?: boolean;
+  item?: Item;
 };
 
 type SwapProfessionState = {
@@ -77,6 +95,12 @@ export interface ModalState {
   setConfirmDeleteCharacter: (v: { open: boolean }) => void;
   swapProfession: SwapProfessionState;
   setSwapProfession: (v: SwapProfessionState) => void;
+  monsterInfo: MonsterInfoState;
+  setMonsterInfo: (v: MonsterInfoState) => void;
+  itemInfo: ItemInfoState;
+  setItemInfo: (v: ItemInfoState) => void;
+  craftDetails: CraftDetailsState;
+  setCraftDetails: (v: CraftDetailsState) => void;
 }
 
 export const useModalStore = create<ModalState>()((set) => ({
@@ -96,6 +120,9 @@ export const useModalStore = create<ModalState>()((set) => ({
   skillbook: { open: false },
   confirmDeleteCharacter: { open: false },
   swapProfession: { open: false },
+  monsterInfo: { open: false },
+  itemInfo: { open: false },
+  craftDetails: { open: false },
   guildInfo: { open: false },
   guildTaskSelect: { open: false },
   mailBox: { open: false },
@@ -114,6 +141,9 @@ export const useModalStore = create<ModalState>()((set) => ({
   setConfirmDeleteCharacter: (v) => set(() => ({ confirmDeleteCharacter: v })),
   setSkillbook: (v) => set(() => ({ skillbook: v })),
   setSwapProfession: (v) => set(() => ({ swapProfession: v })),
+  setMonsterInfo: (v) => set(() => ({ monsterInfo: v })),
+  setItemInfo: (v) => set(() => ({ itemInfo: v })),
+  setCraftDetails: (v) => set(() => ({ craftDetails: v })),
   setInventoryItem: (v) => set((state) => ({ inventoryItem: { ...state.inventoryItem, ...v } })),
   setSellItem: (v) => set((state) => ({ sellItem: { ...state.sellItem, ...v } })),
   setBuyItem: (v) => set((state) => ({ buyItem: { ...state.buyItem, ...v } })),

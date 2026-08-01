@@ -1,10 +1,12 @@
+import styles from './style.module.scss';
+
 import { BaseModal } from '../BaseModal';
 import { Button } from '@/components/shared/Button';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Query } from '@/store/query';
 
 import SignOut from '@/assets/SignOut';
-import { FaDiscord } from 'react-icons/fa';
+import { FaDiscord, FaPen, FaTrash } from 'react-icons/fa';
 import { When } from '@/components/shared/When';
 import { FullscreenLoading } from '@/layout/PageLoading/FullscreenLoading';
 import { useWebsocketApi } from '@/api/websocketServer';
@@ -18,6 +20,16 @@ type Props = {
   onRequestClose: (i?: InventoryItem) => void;
 };
 
+/** Icon and label share one row, so every action lines up down the modal. */
+function ActionLabel({ icon, children }: { icon: React.ReactNode; children: React.ReactNode }) {
+  return (
+    <span className={styles.actionLabel}>
+      <span className={styles.actionIcon}>{icon}</span>
+      <span>{children}</span>
+    </span>
+  );
+}
+
 export function UserSettingsModal(props: Props) {
   const userStore = useUserStore();
   const store = useMainStore();
@@ -30,74 +42,78 @@ export function UserSettingsModal(props: Props) {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: [Query.USER_CHARACTER] }),
   });
 
+  const user = userStore.user;
+
   return (
     <BaseModal onRequestClose={props.onRequestClose} isOpen={props.isOpen}>
+      <header className={styles.header}>
+        <h2>Settings</h2>
+        <When value={!!user}>
+          <span className={styles.subtitle}>
+            {user?.name} · Lv {user?.stats?.level}
+          </span>
+        </When>
+      </header>
+
       <When value={deleteUserMutation.isPending}>
         <FullscreenLoading info="Deleting character" />
       </When>
-      <Button
-        label="Edit Character"
-        onClick={() => {
-          modalStore.setUserConfig({ open: false });
-          modalStore.setEditCharacter({ open: true });
-        }}
-      />
-      <Button
-        label={
-          <div
-            style={{
-              width: '100%',
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-evenly',
-              alignItems: 'center',
-            }}
-          >
-            <FaDiscord />
-            <span>Discord Integration</span>
-          </div>
-        }
-        theme="secondary"
-        onClick={() => {
-          modalStore.setUserConfig({ open: false });
-          modalStore.setDiscordIntegration({ open: true });
-        }}
-      />
 
-      <Button
-        onClick={() =>
-          PlataformAuth.SignOut({
-            onSuccess: () => {
-              modalStore.setUserConfig({ open: false });
-              store.resetStore();
-              userStore.resetStore();
-              queryClient.clear();
-            },
-          })
-        }
-        label={
-          <div
-            style={{
-              width: '100%',
-              padding: '0 1.5rem',
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              alignItems: 'center',
-            }}
-          >
-            <SignOut /> Sign out
-          </div>
-        }
-        theme="danger"
-      />
-      <Button
-        label="Delete my char"
-        onClick={() => {
-          modalStore.setUserConfig({ open: false });
-          modalStore.setConfirmDeleteCharacter({ open: true });
-        }}
-      />
+      <div className={styles.group}>
+        <Button
+          label={<ActionLabel icon={<FaPen />}>Edit character</ActionLabel>}
+          onClick={() => {
+            modalStore.setUserConfig({ open: false });
+            modalStore.setEditCharacter({ open: true });
+          }}
+        />
+        <Button
+          label={<ActionLabel icon={<FaDiscord />}>Discord integration</ActionLabel>}
+          theme="secondary"
+          onClick={() => {
+            modalStore.setUserConfig({ open: false });
+            modalStore.setDiscordIntegration({ open: true });
+          }}
+        />
+      </div>
+
+      {/* Leaving and deleting are a different kind of action from the two above,
+          which only open another screen — so they sit apart, and only the
+          destructive one is red. */}
+      <div className={styles.dangerGroup}>
+        <Button
+          theme="neutral"
+          label={
+            <ActionLabel
+              icon={
+                <span className={styles.signOutIcon}>
+                  <SignOut />
+                </span>
+              }
+            >
+              Sign out
+            </ActionLabel>
+          }
+          onClick={() =>
+            PlataformAuth.SignOut({
+              onSuccess: () => {
+                modalStore.setUserConfig({ open: false });
+                store.resetStore();
+                userStore.resetStore();
+                queryClient.clear();
+              },
+            })
+          }
+        />
+        <Button
+          theme="danger"
+          label={<ActionLabel icon={<FaTrash />}>Delete my character</ActionLabel>}
+          onClick={() => {
+            modalStore.setUserConfig({ open: false });
+            modalStore.setConfirmDeleteCharacter({ open: true });
+          }}
+        />
+      </div>
     </BaseModal>
   );
 }

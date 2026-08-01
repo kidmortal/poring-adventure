@@ -37,3 +37,12 @@
   font-size: 9px;
   color: $text-muted;
 }
+
+// Only clickable where it opens the monster's details.
+.clickable {
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+  }
+}

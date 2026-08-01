@@ -25,6 +25,10 @@ declare global {
     recipeId: number;
   };
 
+  type SelfEnhanceDto = {
+    inventoryId: number;
+  };
+
   type HireEnhanceDto = {
     offerId: number;
     inventoryId: number;

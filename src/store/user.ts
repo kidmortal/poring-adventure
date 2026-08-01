@@ -2,6 +2,7 @@ import { create } from 'zustand';
 
 export interface UserStoreState {
   mailBox: Mail[];
+  notifications: GameNotification[];
   guild?: Guild;
   user?: User;
   party?: Party;
@@ -11,6 +12,7 @@ export interface UserStoreState {
   purchases?: UserPurchase[];
   setPurchases: (v?: UserPurchase[]) => void;
   setMailBox: (v: Mail[]) => void;
+  setNotifications: (v: GameNotification[]) => void;
   setGuild: (v?: Guild) => void;
   setUser: (v?: User) => void;
   resetStore: () => void;
@@ -18,6 +20,7 @@ export interface UserStoreState {
 
 export const useUserStore = create<UserStoreState>()((set) => ({
   mailBox: [],
+  notifications: [],
   purchases: [],
   guild: undefined,
   user: undefined,
@@ -32,5 +35,6 @@ export const useUserStore = create<UserStoreState>()((set) => ({
   setUser: (v) => set(() => ({ user: v })),
   setGuild: (v) => set(() => ({ guild: v })),
   setMailBox: (v) => set(() => ({ mailBox: v })),
-  resetStore: () => set(() => ({ user: undefined, guild: undefined, mailBox: [] })),
+  setNotifications: (v) => set(() => ({ notifications: v })),
+  resetStore: () => set(() => ({ user: undefined, guild: undefined, mailBox: [], notifications: [] })),
 }));

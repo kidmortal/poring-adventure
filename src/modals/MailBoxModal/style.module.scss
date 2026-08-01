@@ -1,70 +1,150 @@
-@import "@/styles/variables";
+@import '@/styles/variables';
 
-.container {
-  width: 18rem;
-  height: 30rem;
+// Only the list scrolls: the tabs above and the actions below stay reachable
+// however long the mailbox gets.
+.list {
+  width: 100%;
+  flex: 1;
+  min-height: 0;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 0.5rem;
+  gap: 0.35rem;
+  // The modal box sizes to its content, so the list needs its own ceiling for
+  // the actions below to stay pinned.
+  max-height: 55vh;
+  margin: 0.6rem 0;
   overflow-y: auto;
+  overflow-x: hidden;
 }
 
-.mailContainer {
-  width: 100%;
-  min-width: 18rem;
+.row {
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
-  border-radius: 6px;
-  border: 1px solid white;
-  user-select: none;
-  cursor: pointer;
-  transition: 200ms;
-
-  &:hover {
-    border: 1px solid green;
-  }
-
-  &.visualized {
-    cursor: default;
-    border: 1px solid grey;
-    opacity: 0.5;
-  }
-}
-
-.notificationInfoContainer {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: flex-start;
-  font-size: 14px;
-}
-
-.messageContainer {
+  gap: 0.5rem;
   padding: 0.5rem;
-  border-radius: 4px;
-  width: 10rem;
-  background-color: $primary;
+  border-radius: $radius;
+  border: 1px solid transparent;
+  background-color: rgba(255, 255, 255, 0.05);
 }
 
-.rewardsContainer {
+// Already seen: pushed back so what is new stands out.
+.read {
+  opacity: 0.65;
+  background-color: rgba(0, 0, 0, 0.18);
+}
+
+// A reward still sitting there is the one thing worth chasing in this modal.
+.unclaimed {
+  border-color: rgba($gold, 0.4);
+  background-color: rgba($gold, 0.08);
+  opacity: 1;
+}
+
+.icon {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: $radius-sm;
+  background-color: rgba(0, 0, 0, 0.25);
+  color: $gold;
+  font-size: 13px;
+}
+
+.rowText {
+  flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  font-size: 12px;
+  gap: 0.15rem;
 }
 
-.buttonsContainer {
-  width: 100%;
+.rowHeader {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  align-items: center;
-  gap: 1rem;
-  margin-top: 1rem;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.sender,
+.title {
+  min-width: 0;
+  font-size: 12px;
+  font-weight: 700;
+  color: $text;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.date {
+  flex-shrink: 0;
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+  color: $text-muted;
+}
+
+.message {
+  font-size: 11px;
+  line-height: 1.35;
+  color: $text-muted;
+}
+
+.status {
+  font-size: 10px;
+  font-weight: 700;
+  color: $gold;
+}
+
+.claimed {
+  color: $text-muted;
+  font-weight: 600;
+}
+
+.rewards {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.3rem;
+}
+
+.earnings {
+  display: flex;
+  flex-direction: row;
+  gap: 0.5rem;
+  font-size: 10px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.silverEarned {
+  color: $gold;
+}
+
+.expEarned {
+  color: $exp;
+}
+
+.actions {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 0.35rem;
+
+  button {
+    padding: 0.45rem 0.4rem;
+    font-size: 12px;
+  }
+}
+
+.empty {
+  padding: 1.5rem 0;
+  font-size: 13px;
+  color: $text-muted;
+  text-align: center;
 }

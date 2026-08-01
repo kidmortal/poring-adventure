@@ -31,6 +31,7 @@ export function addWebsocketListeners({
     userStore.setPurchases(purchases);
   });
   websocket.on('mailbox', (mailBox: Mail[]) => userStore.setMailBox(mailBox));
+  websocket.on('notifications', (n: GameNotification[]) => userStore.setNotifications(n));
   websocket.on('guild', (guild: Guild) => {
     console.log(guild);
     userStore.setGuild(guild);

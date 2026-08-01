@@ -10,6 +10,9 @@ declare global {
     image: string;
     attack: number;
     health: number;
+    /** Rewards for killing it, split across the party. */
+    silver: number;
+    exp: number;
     drops: Drop[];
   };
 

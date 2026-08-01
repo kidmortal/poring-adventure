@@ -9,34 +9,20 @@ import { useWebsocketApi } from '@/api/websocketServer';
 import ForEach from '@/components/shared/ForEach';
 import { ClassBlock } from './ClassBlock';
 import Input from '@/components/shared/Input';
+import Switch from '@/components/shared/Switch';
 
-function GenderRadioSelectors() {
+/** Two options, so a switch rather than a pair of raw radio buttons. */
+function GenderSelector() {
   const store = useCharacterCreationStore();
   return (
-    <div className={styles.row}>
-      <span>{`Gender =>`} </span>
-      <div>
-        <input
-          type="radio"
-          id="male"
-          name="male"
-          value="male"
-          onChange={() => store.setGender('male')}
-          checked={store.gender === 'male'}
-        />
-        <label htmlFor="male">male</label>
-      </div>
-      <div>
-        <input
-          type="radio"
-          id="female"
-          name="female"
-          value="female"
-          onChange={() => store.setGender('female')}
-          checked={store.gender === 'female'}
-        />
-        <label htmlFor="female">female</label>
-      </div>
+    <div className={styles.field}>
+      <span className={styles.fieldLabel}>Gender</span>
+      <Switch
+        leftLabel="Male"
+        rightLabel="Female"
+        selected={store.gender === 'male' ? 'left' : 'right'}
+        onSelect={(value) => store.setGender(value === 'left' ? 'male' : 'female')}
+      />
     </div>
   );
 }
@@ -72,11 +58,20 @@ export function CharacterCreationPage() {
 
   return (
     <div className={styles.container}>
-      <h1>Create your character</h1>
-      <Input placeholder="Character name" onChange={(e) => store.setCharacterName(e.target.value)} />
-      <GenderRadioSelectors />
+      <h1 className={styles.title}>Create your character</h1>
 
-      <div className={styles.classListContainer}>
+      <div className={styles.form}>
+        <div className={styles.field}>
+          <span className={styles.fieldLabel}>Name</span>
+          <Input placeholder="Character name" onChange={(e) => store.setCharacterName(e.target.value)} />
+        </div>
+        <GenderSelector />
+      </div>
+
+      {/* Only the class list scrolls, so the name, the gender and the button
+          stay put however many classes there are. */}
+      <div className={styles.classList}>
+        <span className={styles.fieldLabel}>Class</span>
         <ForEach
           items={query.data}
           render={(characterClass) => (
