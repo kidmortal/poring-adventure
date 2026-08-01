@@ -46,7 +46,7 @@ export function CharacterWithHealthBar({
 
         <When value={classInfo}>
           <span className={styles.classinfo}>
-            LV {user?.stats?.level} {user?.profession?.name}
+            LV {user?.stats?.level} {user?.class?.name}
           </span>
         </When>
         <HealthBar

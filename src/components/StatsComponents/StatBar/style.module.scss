@@ -52,3 +52,7 @@
   font-size: 10px;
   @include fill($exp);
 }
+
+.stamina {
+  @include fill($gold-dim);
+}

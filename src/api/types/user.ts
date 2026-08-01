@@ -14,7 +14,9 @@ declare global {
     inventory: InventoryItem[];
     learnedSkills: LearnedSkill[];
     buffs?: UserBuff[];
-    profession?: Profession;
+    class?: Class;
+    /** Crafting and gathering trades the user has learned. */
+    professions?: UserProfession[];
     guildMember?: GuildMember;
     partyId: number;
   };
@@ -36,10 +38,21 @@ declare global {
     str: number;
     agi: number;
     int: number;
+    stamina: number;
+    maxStamina: number;
+    staminaRefilledAt: string;
     userEmail: string;
   };
 
   type Gender = 'male' | 'female';
+
+  /** Selectable head sprite, keyed by gender. */
+  type Head = {
+    id: number;
+    name: string;
+    gender: Gender;
+    image: string;
+  };
 
   type Appearance = {
     id: number;

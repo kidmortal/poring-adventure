@@ -1,7 +1,7 @@
 import styles from './style.module.scss';
 import cn from 'classnames';
 
-export type StatBarVariant = 'health' | 'mana' | 'experience';
+export type StatBarVariant = 'health' | 'mana' | 'experience' | 'stamina';
 
 type Props = {
   variant: StatBarVariant;
@@ -13,8 +13,8 @@ type Props = {
 };
 
 /**
- * Shared fill bar behind HealthBar / ManaBar / ExperienceBar — they only differ
- * by colour, height and label.
+ * Shared fill bar behind HealthBar / ManaBar / ExperienceBar / StaminaBar —
+ * they only differ by colour, height and label.
  */
 export function StatBar({ variant, percentage, label, minWidth, minHeight }: Props) {
   const width = Math.min(Math.max(percentage, 0), 100);

@@ -36,6 +36,12 @@ type InteractUserState = {
   user?: User;
 };
 
+type SwapProfessionState = {
+  open?: boolean;
+  /** The profession the user is about to swap to. */
+  profession?: Profession;
+};
+
 export interface ModalState {
   userConfig: GenericModalState;
   setUserConfig: (v: GenericModalState) => void;
@@ -69,6 +75,8 @@ export interface ModalState {
   setEditCharacter: (v: GenericModalState) => void;
   confirmDeleteCharacter: { open: boolean };
   setConfirmDeleteCharacter: (v: { open: boolean }) => void;
+  swapProfession: SwapProfessionState;
+  setSwapProfession: (v: SwapProfessionState) => void;
 }
 
 export const useModalStore = create<ModalState>()((set) => ({
@@ -87,6 +95,7 @@ export const useModalStore = create<ModalState>()((set) => ({
   interactUser: { open: false },
   skillbook: { open: false },
   confirmDeleteCharacter: { open: false },
+  swapProfession: { open: false },
   guildInfo: { open: false },
   guildTaskSelect: { open: false },
   mailBox: { open: false },
@@ -104,6 +113,7 @@ export const useModalStore = create<ModalState>()((set) => ({
   setEditCharacter: (v) => set(() => ({ editCharacter: v })),
   setConfirmDeleteCharacter: (v) => set(() => ({ confirmDeleteCharacter: v })),
   setSkillbook: (v) => set(() => ({ skillbook: v })),
+  setSwapProfession: (v) => set(() => ({ swapProfession: v })),
   setInventoryItem: (v) => set((state) => ({ inventoryItem: { ...state.inventoryItem, ...v } })),
   setSellItem: (v) => set((state) => ({ sellItem: { ...state.sellItem, ...v } })),
   setBuyItem: (v) => set((state) => ({ buyItem: { ...state.buyItem, ...v } })),

@@ -11,4 +11,7 @@ export enum Query {
   BATTLE = 'battle',
   MAPS = 'maps',
   NOTIFICATIONS = 'notifications',
+  ALL_PROFESSIONS = 'all_professions',
+  GATHERING_NODES = 'gathering_nodes',
+  RECIPES = 'recipes',
 }

@@ -5,29 +5,29 @@ import cn from 'classnames';
 import { Stat } from '@/components/Character/CharacterStatsInfo';
 
 type Props = {
-  profession?: Profession;
+  characterClass?: Class;
   selectedGender?: Gender;
   selected?: boolean;
   onClick?: () => void;
 };
 
-export function ProfessionBlock({ profession, selected, selectedGender = 'male', onClick }: Props) {
+export function ClassBlock({ characterClass, selected, selectedGender = 'male', onClick }: Props) {
   return (
     <div onClick={onClick} className={cn(styles.container, { [styles.selected]: selected })}>
-      <div className={styles.professionDetails}>
-        <h3>{profession?.name}</h3>
-        <ForEach items={profession?.skills} render={(s) => <SkillPreview key={s.id} skill={s} />} />
+      <div className={styles.classDetails}>
+        <h3>{characterClass?.name}</h3>
+        <ForEach items={characterClass?.skills} render={(s) => <SkillPreview key={s.id} skill={s} />} />
       </div>
-      <div className={styles.professionStatsContainer}>
-        <div className={styles.professionStats}>
-          <Stat assetName="health" label={`+${profession?.health}`} />
-          <Stat assetName="mana" label={`+${profession?.mana}`} />
-          <Stat assetName="attack" label={`+${profession?.attack}`} />
-          <Stat assetName="str" label={`+${profession?.str}`} />
-          <Stat assetName="agi" label={`+${profession?.agi}`} />
-          <Stat assetName="int" label={`+${profession?.int}`} />
+      <div className={styles.classStatsContainer}>
+        <div className={styles.classStats}>
+          <Stat assetName="health" label={`+${characterClass?.health}`} />
+          <Stat assetName="mana" label={`+${characterClass?.mana}`} />
+          <Stat assetName="attack" label={`+${characterClass?.attack}`} />
+          <Stat assetName="str" label={`+${characterClass?.str}`} />
+          <Stat assetName="agi" label={`+${characterClass?.agi}`} />
+          <Stat assetName="int" label={`+${characterClass?.int}`} />
         </div>
-        <CharacterInfo gender={selectedGender} costume={profession?.costume ?? ''} head="1" />
+        <CharacterInfo gender={selectedGender} costume={characterClass?.costume ?? ''} head="1" />
       </div>
     </div>
   );

@@ -18,6 +18,7 @@ import { useUserStore } from '@/store/user';
 import { GuildBlessingModal } from '@/modals/GuildBlessingModal';
 import { DiscordIntegrationModal } from '@/modals/DiscordIntegrationModal';
 import { EnhanceItemModal } from '@/modals/EnhanceItemModal';
+import { SwapProfessionModal } from '@/modals/SwapProfessionModal';
 
 export function ModalLayout() {
   const userStore = useUserStore();
@@ -91,6 +92,11 @@ export function ModalLayout() {
         onRequestClose={() => modalStore.setEnhanceItem({ open: false })}
         isOpen={modalStore.enhanceItem.open}
         inventoryItem={modalStore.inventoryItem.selectedItem}
+      />
+      <SwapProfessionModal
+        onRequestClose={() => modalStore.setSwapProfession({ open: false })}
+        isOpen={modalStore.swapProfession.open}
+        profession={modalStore.swapProfession.profession}
       />
     </>
   );

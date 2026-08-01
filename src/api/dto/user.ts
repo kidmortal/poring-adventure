@@ -5,7 +5,7 @@ declare global {
   type CreateUserPayload = {
     name: string;
     gender: Gender;
-    professionId: number;
+    classId: number;
     costume?: string;
   };
 }

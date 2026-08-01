@@ -31,7 +31,7 @@ export function UserProfile() {
             <div className={styles.nameContainer}>
               <h2>{userStore.user?.name}</h2>
               <span className={styles.subtitle}>
-                Lv {userStore.user?.stats?.level} · {userStore.user?.profession?.name}
+                Lv {userStore.user?.stats?.level} · {userStore.user?.class?.name}
               </span>
             </div>
 

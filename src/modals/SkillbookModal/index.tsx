@@ -15,7 +15,7 @@ type Props = {
 export function SkillbookModal(props: Props) {
   const api = useWebsocketApi();
   const userStore = useUserStore();
-  const allSkills = userStore.user?.profession?.skills;
+  const allSkills = userStore.user?.class?.skills;
   const learnedSkills = userStore.user?.learnedSkills;
   const availableSkills = learnedSkills?.filter((l) => !l.equipped);
   const equippedSkills = learnedSkills?.filter((l) => l.equipped);
