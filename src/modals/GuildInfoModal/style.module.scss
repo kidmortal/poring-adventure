@@ -1,15 +1,275 @@
-.container {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-}
+@import '@/styles/variables';
 
-.memberContainer {
+.header {
   width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: center;
-  align-items: flex-start;
-  gap: 1rem;
+  align-items: center;
+  gap: 0.7rem;
+  padding-bottom: 0.7rem;
+  border-bottom: 1px solid $border;
+}
+
+.emblem {
+  width: 56px;
+  height: 56px;
+  flex-shrink: 0;
+  border-radius: $radius-sm;
+  object-fit: cover;
+  background-color: rgba(0, 0, 0, 0.25);
+}
+
+.identity {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.name {
+  font-size: 17px;
+  font-weight: 700;
+  color: $gold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.subtitle {
+  font-size: 11px;
+  color: $text-muted;
+}
+
+.expBar {
+  width: 100%;
+  height: 5px;
+  margin-top: 0.15rem;
+  border-radius: 999px;
+  background-color: rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+}
+
+.expFill {
+  height: 100%;
+  border-radius: 999px;
+  background-color: $exp;
+}
+
+.expLabel {
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+  color: $text-muted;
+}
+
+// The guild's own words, quoted rather than styled as body copy.
+.motto {
+  width: 100%;
+  margin-top: 0.6rem;
+  padding: 0.45rem 0.6rem;
+  border-radius: $radius-sm;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-left: 2px solid rgba($gold, 0.5);
+  font-size: 11px;
+  line-height: 1.4;
+  font-style: italic;
+  color: $text-muted;
+}
+
+.section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-top: 0.75rem;
+}
+
+.sectionHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.sectionTitle {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: $text-muted;
+}
+
+.sectionHint {
+  font-size: 10px;
+  color: $text-muted;
+}
+
+.soulshards {
+  font-size: 11px;
+  font-weight: 700;
+  color: $gold;
+}
+
+.blessings {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.25rem;
+}
+
+.task {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  padding: 0.5rem;
+  border-radius: $radius-sm;
+  background-color: rgba(0, 0, 0, 0.2);
+}
+
+.taskHeader {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.taskName {
+  font-size: 12px;
+  font-weight: 700;
+  color: $text;
+}
+
+.taskReward {
+  font-size: 11px;
+  font-weight: 700;
+  color: $gold;
+}
+
+.taskTarget {
+  font-size: 10px;
+  color: $text-muted;
+}
+
+.taskBar {
+  width: 100%;
+  height: 5px;
+  margin-top: 0.2rem;
+  border-radius: 999px;
+  background-color: rgba(0, 0, 0, 0.35);
+  overflow: hidden;
+}
+
+.taskFill {
+  height: 100%;
+  border-radius: 999px;
+  background-color: $success;
+}
+
+.taskProgress {
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+  color: $text-muted;
+}
+
+.memberRow {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.4rem;
+  border-radius: $radius-sm;
+  border: 1px solid transparent;
+  background-color: rgba(0, 0, 0, 0.18);
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 150ms;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.06);
+  }
+}
+
+.self {
+  border-color: rgba($gold, 0.4);
+  background-color: rgba($gold, 0.08);
+}
+
+.memberText {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.memberNameRow {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.memberName {
+  font-size: 12px;
+  font-weight: 700;
+  color: $text;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.roleBadge {
+  flex-shrink: 0;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  padding: 0.05rem 0.3rem;
+  border-radius: 999px;
+  border: 1px solid $border;
+  color: $text-muted;
+}
+
+.owner {
+  color: $gold;
+  border-color: rgba($gold, 0.45);
+}
+
+.officer {
+  color: $rarity-rare;
+  border-color: rgba($rarity-rare, 0.45);
+}
+
+.memberMeta {
+  font-size: 10px;
+  color: $text-muted;
+}
+
+.memberStats {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.contribution {
+  font-size: 12px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: $exp;
+}
+
+.contributionLabel {
+  font-size: 9px;
+  color: $text-muted;
+}
+
+.empty {
+  font-size: 11px;
+  color: $text-muted;
+  text-align: center;
+  padding: 0.35rem 0;
 }

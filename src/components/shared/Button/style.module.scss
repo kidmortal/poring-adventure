@@ -37,6 +37,15 @@
     background-image: linear-gradient(180deg, lighten($secondary, 12%), lighten($secondary, 3%));
   }
 }
+// Gold reads as the plain, unassisted action next to the blue and green ones.
+.gold {
+  color: $dark-neutral;
+  background-image: linear-gradient(180deg, lighten($gold, 8%), $gold);
+  &:hover {
+    background-image: linear-gradient(180deg, lighten($gold, 12%), lighten($gold, 3%));
+  }
+}
+
 .success {
   background-image: linear-gradient(180deg, lighten($success, 8%), $success);
   &:hover {

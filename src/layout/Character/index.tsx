@@ -38,11 +38,24 @@ export function CharacterLayout() {
     queryFn: () => api.monsters.getAllMaps(),
   });
 
+  // Mail arrives over the `mailbox` push the request triggers; notifications
+  // come back inline, so they are written to the store here.
+  useQuery({
+    queryKey: [Query.MAILBOX],
+    enabled: !!store.websocket && !!store.wsAuthenticated,
+    staleTime: 1000 * 60 * 10, // 10 minutes
+    queryFn: () => api.mail.getAllMail(),
+  });
+
   useQuery({
     queryKey: [Query.NOTIFICATIONS],
     enabled: !!store.websocket && !!store.wsAuthenticated,
     staleTime: 1000 * 60 * 10, // 10 minutes
-    queryFn: () => api.mail.getAllMail(),
+    queryFn: async () => {
+      const notifications = await api.mail.getAllNotifications();
+      userStore.setNotifications(notifications ?? []);
+      return notifications ?? [];
+    },
   });
 
   if (characterQuery.isLoading) {

@@ -17,9 +17,10 @@ export function itemService({ websocket }: { websocket?: Socket }) {
     return asyncEmit<boolean>(websocket, 'unequip_item', dto);
   }
 
-  async function enhanceItem(dto: EnhanceItemDto): Promise<boolean | undefined> {
+  /** Resolves to the roll's outcome, or false when the attempt was refused. */
+  async function enhanceItem(dto: EnhanceItemDto): Promise<EnhanceResult | false | undefined> {
     if (!websocket) return undefined;
-    return asyncEmit<boolean>(websocket, 'enhance_item', dto);
+    return asyncEmit<EnhanceResult | false>(websocket, 'enhance_item', dto);
   }
 
   async function upgradeItem(dto: UpgradeItemDto) {

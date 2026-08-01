@@ -90,6 +90,8 @@ declare global {
     recipe: string;
     amount: number;
     experience: number;
+    /** Rolled against the crafter's level: 1 Common through 5 Legendary. */
+    quality: number;
   };
 
   /**
@@ -120,8 +122,19 @@ declare global {
     recipe: string;
     amount: number;
     experience: number;
+    quality: number;
     crafter: string;
+    crafterLevel: number;
     fee: number;
+  };
+
+  /** Outcome of enhancing an item yourself. */
+  type EnhanceResult = {
+    item: string;
+    enhancement: number;
+    success: boolean;
+    chance: number;
+    forgePrice: number;
   };
 
   type HiredEnhanceResult = {

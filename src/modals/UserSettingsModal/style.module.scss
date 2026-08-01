@@ -1,3 +1,65 @@
-.container {
+@import '@/styles/variables';
+
+.header {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+  padding-bottom: 0.6rem;
+  margin-bottom: 0.75rem;
+  border-bottom: 1px solid $border;
+
+  h2 {
+    font-size: 17px;
+    font-weight: 700;
+    color: $gold;
+  }
+}
+
+.subtitle {
+  font-size: 11px;
+  color: $text-muted;
+}
+
+.group,
+.dangerGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+// Separated from the navigational actions above: these two leave or destroy.
+.dangerGroup {
+  padding-top: 0.75rem;
+  margin-top: 0.75rem;
+  border-top: 1px solid $border;
+}
+
+// Icon column then label, so the labels start on the same x down the modal
+// instead of each button centring its own contents.
+.actionLabel {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.6rem;
+  padding-left: 0.4rem;
+}
+
+.actionIcon {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 18px;
+  font-size: 15px;
+}
+
+.signOutIcon {
+  display: flex;
+
+  svg {
+    width: 16px;
+    height: 16px;
+  }
 }

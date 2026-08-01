@@ -73,6 +73,12 @@ export function professionService({ websocket }: { websocket?: Socket }) {
     return asyncEmit<HiredEnhanceResult>(websocket, 'hire_enhance', dto);
   }
 
+  /** A blacksmith working their own item: their level, their stamina, no fee. */
+  async function selfAssistedEnhance(dto: SelfEnhanceDto): Promise<HiredEnhanceResult | undefined> {
+    if (!websocket) return undefined;
+    return asyncEmit<HiredEnhanceResult>(websocket, 'self_assisted_enhance', dto);
+  }
+
   return {
     getAllProfessions,
     getUserProfessions,
@@ -87,5 +93,6 @@ export function professionService({ websocket }: { websocket?: Socket }) {
     removeServiceOffer,
     hireCraft,
     hireEnhance,
+    selfAssistedEnhance,
   };
 }

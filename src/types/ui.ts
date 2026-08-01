@@ -7,7 +7,7 @@
  */
 
 /** Colour intent of a button or action. */
-export type Theme = 'primary' | 'secondary' | 'danger' | 'success' | 'neutral';
+export type Theme = 'primary' | 'secondary' | 'danger' | 'success' | 'gold' | 'neutral';
 
 /** Side a floating element opens towards. */
 export type Direction = 'top' | 'bottom' | 'left' | 'right';

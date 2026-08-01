@@ -1,26 +1,134 @@
+@import '@/styles/variables';
+
 .container {
   width: 100%;
   display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.35rem;
+  color: $text;
 }
 
-.guildBoxContainer {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
+// Rank, emblem, identity, actions — the same column rhythm as the player board.
+.row {
+  display: grid;
+  grid-template-columns: 26px 44px minmax(0, 1fr) auto;
   align-items: center;
-  gap: 1rem;
+  gap: 0.5rem;
+  padding: 0.45rem 0.5rem;
+  border-radius: $radius;
+  background-color: rgba(0, 0, 0, 0.18);
+  border: 1px solid transparent;
 }
 
-.guildInfoColumn {
+.mine {
+  border-color: rgba($gold, 0.4);
+  background-color: rgba($gold, 0.08);
+}
+
+.rank {
+  font-size: 14px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+  color: $text-muted;
+}
+
+.rank1 {
+  color: $gold;
+}
+
+.rank2 {
+  color: #c6ccdb;
+}
+
+.rank3 {
+  color: #cd8032;
+}
+
+.emblem {
+  width: 44px;
+  height: 44px;
+  border-radius: $radius-sm;
+  object-fit: cover;
+  background-color: rgba(0, 0, 0, 0.25);
+}
+
+.info {
+  min-width: 0;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  span {
-    font-size: 12px;
-  }
+  gap: 0.05rem;
+}
+
+.nameRow {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.name {
+  font-size: 14px;
+  font-weight: 700;
+  color: $text;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.level {
+  flex-shrink: 0;
+  font-size: 11px;
+  font-weight: 700;
+  color: $gold;
+}
+
+.meta {
+  font-size: 11px;
+  color: $text-muted;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.stats {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 0.5rem;
+  font-size: 10px;
+  font-variant-numeric: tabular-nums;
+}
+
+.members {
+  color: $text-muted;
+}
+
+// A full guild cannot take you, so it reads as a closed door.
+.membersFull {
+  color: $orange;
+}
+
+.experience {
+  color: $exp;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.actionButton {
+  padding: 0.3rem 0.5rem;
+  font-size: 11px;
+}
+
+.empty {
+  padding: 1rem 0;
+  font-size: 13px;
+  color: $text-muted;
+  text-align: center;
 }

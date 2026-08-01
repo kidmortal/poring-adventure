@@ -1,28 +1,56 @@
+@import '@/styles/variables';
+
+// Rendered straight into the limited-size stage, so it owns the full height and
+// hands the leftover space to the class list.
 .container {
   width: 100%;
+  height: 100%;
+  flex: 1;
+  min-height: 0;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
+  align-items: stretch;
+  gap: 0.6rem;
+  padding: 0.5rem 0.4rem;
+  color: $text;
+  overflow: hidden;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 700;
+  color: $gold;
   text-align: center;
-  gap: 1rem;
-  color: white;
-  padding: 0 0.2rem 2rem 0.2rem;
 }
 
-.classListContainer {
+.form {
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  gap: 1rem;
+  gap: 0.5rem;
 }
 
-.row {
-  width: 100%;
+.field {
   display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  gap: 1rem;
-  align-items: center;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.fieldLabel {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: $text-muted;
+}
+
+// The only scrolling region: the form above and the button below stay in view.
+.classList {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 0.15rem;
 }

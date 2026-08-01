@@ -2,9 +2,12 @@ import styles from './style.module.scss';
 import cn from 'classnames';
 
 /** Sprite, name and level for one monster. Bosses are highlighted. */
-export function MonsterChip({ monster }: { monster: Monster }) {
+export function MonsterChip({ monster, onClick }: { monster: Monster; onClick?: () => void }) {
   return (
-    <div className={cn(styles.monsterChip, { [styles.boss]: monster.boss })}>
+    <div
+      className={cn(styles.monsterChip, { [styles.boss]: monster.boss, [styles.clickable]: !!onClick })}
+      onClick={onClick}
+    >
       <img className={styles.monsterSprite} src={monster.image} alt={monster.name} />
       <span className={styles.monsterName}>{monster.name}</span>
       <span className={styles.monsterLevel}>Lv {monster.level}</span>

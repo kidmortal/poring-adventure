@@ -81,7 +81,28 @@ function formatMemory(memory?: number) {
   return `${value.toFixed(2)} ${units[index]}`;
 }
 
+/**
+ * How likely each quality is for a crafter of this level — mirrors the server
+ * rule, so the table shown before a craft is the one that gets rolled.
+ */
+function craftQualityChances(level: number): { quality: number; chance: number }[] {
+  const safeLevel = Math.max(level, 1);
+  const uncommon = Math.min(safeLevel * 6, 40);
+  const rare = Math.min(Math.floor(safeLevel * 3), 25);
+  const epic = Math.min(Math.floor(safeLevel * 1.2), 12);
+  const legendary = Math.min(Math.floor(safeLevel * 0.4), 8);
+
+  return [
+    { quality: 1, chance: 100 - uncommon - rare - epic - legendary },
+    { quality: 2, chance: uncommon },
+    { quality: 3, chance: rare },
+    { quality: 4, chance: epic },
+    { quality: 5, chance: legendary },
+  ];
+}
+
 export const Utils = {
+  craftQualityChances,
   isSuccess,
   enhanceChance,
   enhancePrice,
