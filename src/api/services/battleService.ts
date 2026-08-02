@@ -12,6 +12,12 @@ export function battleService({ websocket }: { websocket?: Socket }) {
     return asyncEmit<Battle>(websocket, "battle_create", mapId);
   }
 
+  /** Spends today's guild boss entry — for the whole party, when in one. */
+  async function createGuildBossBattle() {
+    if (!websocket) return undefined;
+    return asyncEmit<Battle>(websocket, "battle_create_guild_boss", "");
+  }
+
   async function requestBattleAttack() {
     if (!websocket) return undefined;
     return asyncEmit<Battle>(websocket, "battle_attack", "");
@@ -32,6 +38,7 @@ export function battleService({ websocket }: { websocket?: Socket }) {
 
   return {
     createBattleInstance,
+    createGuildBossBattle,
     requestBattleAttack,
     requestBattleCast,
     cancelBattleInstance,

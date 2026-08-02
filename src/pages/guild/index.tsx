@@ -9,18 +9,28 @@ import { useModalStore } from '@/store/modal';
 import { GuildTaskInfo } from '@/components/GuildTaskInfo';
 import { useUserStore } from '@/store/user';
 import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { GuildApplicationInfo } from './components/GuildApplicationInfo';
 import { GuildInfo } from './components/GuildInfo';
 import { GuidMemberInfo } from './components/GuildMemberInfo';
 import { GuildMenu } from './components/GuildMenu';
 import { GuildBlessings } from './components/GuildBlessings';
+import { GuildBossInfo } from './components/GuildBossInfo';
 import { Tabs, TabOption } from '@/components/shared/Tabs';
 import { Button } from '@/components/shared/Button';
 
-type GuildTab = 'overview' | 'members' | 'requests';
+type GuildTab = 'overview' | 'boss' | 'members' | 'requests';
+
+const GUILD_TABS: GuildTab[] = ['overview', 'boss', 'members', 'requests'];
 
 export function GuildPage() {
-  const [showing, setShowing] = useState<GuildTab>('overview');
+  // Leaving a guild boss fight lands here with ?tab=boss, so the player comes
+  // back to what they were doing rather than the overview.
+  const [searchParams] = useSearchParams();
+  const requestedTab = searchParams.get('tab') as GuildTab | null;
+  const [showing, setShowing] = useState<GuildTab>(
+    requestedTab && GUILD_TABS.includes(requestedTab) ? requestedTab : 'overview',
+  );
   const userStore = useUserStore();
   const modalStore = useModalStore();
   const api = useWebsocketApi();
@@ -42,6 +52,7 @@ export function GuildPage() {
 
   const tabs: TabOption<GuildTab>[] = [
     { value: 'overview', label: 'Overview' },
+    { value: 'boss', label: 'Boss' },
     { value: 'members', label: 'Members' },
     { value: 'requests', label: 'Requests', badge: applications.length },
   ];
@@ -82,6 +93,13 @@ export function GuildPage() {
 
             <GuildMenu />
           </>
+        )}
+
+        {showing === 'boss' && (
+          <section className={styles.section}>
+            <span className={styles.sectionTitle}>Guild boss</span>
+            <GuildBossInfo guild={guild} boss={userStore.guildBoss} />
+          </section>
         )}
 
         {showing === 'members' && (

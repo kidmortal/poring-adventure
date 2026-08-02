@@ -25,6 +25,7 @@ import { CraftDetailsModal } from '@/modals/CraftDetailsModal';
 import { GiftModal } from '@/modals/GiftModal';
 import { PartyMemberModal } from '@/modals/PartyMemberModal';
 import { GuildMemberModal } from '@/modals/GuildMemberModal';
+import { GuildBossSummonModal } from '@/modals/GuildBossSummonModal';
 
 export function ModalLayout() {
   const userStore = useUserStore();
@@ -118,6 +119,10 @@ export function ModalLayout() {
         onRequestClose={() => modalStore.setGuildMember({ open: false })}
         isOpen={modalStore.guildMember.open}
         member={modalStore.guildMember.member}
+      />
+      <GuildBossSummonModal
+        onRequestClose={() => modalStore.setGuildBossSummon({ open: false })}
+        isOpen={modalStore.guildBossSummon.open}
       />
       <GiftModal
         onRequestClose={() => modalStore.setGift({ open: false })}

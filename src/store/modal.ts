@@ -47,6 +47,10 @@ type GuildMemberState = {
   member?: GuildMember;
 };
 
+type GuildBossSummonState = {
+  open?: boolean;
+};
+
 type GiftState = {
   open?: boolean;
   /** Who is receiving it. */
@@ -123,6 +127,8 @@ export interface ModalState {
   setPartyMember: (v: PartyMemberState) => void;
   guildMember: GuildMemberState;
   setGuildMember: (v: GuildMemberState) => void;
+  guildBossSummon: GuildBossSummonState;
+  setGuildBossSummon: (v: GuildBossSummonState) => void;
 }
 
 export const useModalStore = create<ModalState>()((set) => ({
@@ -148,6 +154,7 @@ export const useModalStore = create<ModalState>()((set) => ({
   gift: { open: false },
   partyMember: { open: false },
   guildMember: { open: false },
+  guildBossSummon: { open: false },
   guildInfo: { open: false },
   guildTaskSelect: { open: false },
   mailBox: { open: false },
@@ -172,6 +179,7 @@ export const useModalStore = create<ModalState>()((set) => ({
   setGift: (v) => set(() => ({ gift: v })),
   setPartyMember: (v) => set(() => ({ partyMember: v })),
   setGuildMember: (v) => set(() => ({ guildMember: v })),
+  setGuildBossSummon: (v) => set(() => ({ guildBossSummon: v })),
   setInventoryItem: (v) => set((state) => ({ inventoryItem: { ...state.inventoryItem, ...v } })),
   setSellItem: (v) => set((state) => ({ sellItem: { ...state.sellItem, ...v } })),
   setBuyItem: (v) => set((state) => ({ buyItem: { ...state.buyItem, ...v } })),

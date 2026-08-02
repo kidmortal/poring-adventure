@@ -11,9 +11,11 @@ import { Stat } from '@/components/Character/CharacterStatsInfo';
 import ExperienceBar from '@/components/StatsComponents/ExperienceBar';
 import HealthBar from '@/components/StatsComponents/HealthBar';
 import ManaBar from '@/components/StatsComponents/ManaBar';
+import { GuildToken } from '@/components/StatsComponents/GuildToken';
 import { useWebsocketApi } from '@/api/websocketServer';
 import { useModalStore } from '@/store/modal';
 import { useUserStore } from '@/store/user';
+import { hasBossEntryToday } from '@/pages/guild/guildBoss';
 
 type Props = {
   isOpen?: boolean;
@@ -110,7 +112,11 @@ export function GuildMemberModal({ isOpen, member, onRequestClose }: Props) {
           <Row label="Rank" value={member?.role ?? '-'} />
           <Row label="Contribution" value={`${member?.contribution ?? 0} (${share}%)`} />
           <Row label="Position" value={rank > 0 ? `#${rank} of ${members.length}` : '-'} />
-          <Row label="Guild tokens" value={member?.guildTokens ?? 0} />
+          <div className={styles.row}>
+            <span className={styles.rowLabel}>Guild tokens</span>
+            <GuildToken amount={member?.guildTokens} size={14} />
+          </div>
+          <Row label="Boss entry" value={hasBossEntryToday(member) ? 'Ready' : 'Used today'} />
         </div>
       </section>
 

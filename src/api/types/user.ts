@@ -18,6 +18,8 @@ declare global {
     /** Crafting and gathering trades the user has learned. */
     professions?: UserProfession[];
     guildMember?: GuildMember;
+    /** The player's own pending guild applications. */
+    guildApplications?: GuildApplication[];
     partyId: number;
   };
 

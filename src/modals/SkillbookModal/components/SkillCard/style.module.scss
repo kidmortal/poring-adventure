@@ -1,0 +1,201 @@
+@import '@/styles/variables';
+
+.card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.5rem;
+  border-radius: $radius;
+  background-color: rgba(0, 0, 0, 0.22);
+  border: 1px solid $border;
+
+  &.locked {
+    border-style: dashed;
+    border-color: $border-strong;
+  }
+}
+
+.head {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.icon {
+  position: relative;
+  flex-shrink: 0;
+  width: 38px;
+  height: 38px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @include slot();
+
+  img {
+    width: 30px;
+    height: 30px;
+    object-fit: contain;
+  }
+}
+
+// A learnable skill is shown dimmed, with the lock sitting over its art.
+.locked .icon img {
+  opacity: 0.45;
+  filter: grayscale(0.7);
+}
+
+.lock {
+  position: absolute;
+  right: -3px;
+  bottom: -3px;
+  display: flex;
+  padding: 0.15rem;
+  border-radius: 50%;
+  background-color: $dark-neutral;
+  border: 1px solid $border-strong;
+  color: $text-muted;
+  font-size: 8px;
+}
+
+.headText {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.nameRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.name {
+  font-size: 13px;
+  font-weight: 700;
+  color: $text;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mastery {
+  flex-shrink: 0;
+  padding: 0.05rem 0.3rem;
+  border-radius: 999px;
+  font-size: 9px;
+  font-weight: 700;
+  color: $gold;
+  background-color: rgba($gold, 0.14);
+  border: 1px solid rgba($gold, 0.4);
+}
+
+.tags {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.kind {
+  padding: 0.05rem 0.35rem;
+  border-radius: $radius-sm;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+
+  &.damage {
+    color: $hp;
+    background-color: rgba($hp, 0.16);
+  }
+
+  &.heal {
+    color: $exp;
+    background-color: rgba($exp, 0.16);
+  }
+
+  &.mana {
+    color: $mp;
+    background-color: rgba($mp, 0.2);
+  }
+
+  &.buff {
+    color: $gold;
+    background-color: rgba($gold, 0.16);
+  }
+}
+
+.target {
+  font-size: 10px;
+  color: $text-muted;
+}
+
+.description {
+  font-size: 11px;
+  line-height: 1.35;
+  color: $text-muted;
+}
+
+.footer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.4rem;
+}
+
+.chips {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.25rem;
+  min-width: 0;
+}
+
+.chip {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.1rem 0.35rem;
+  border-radius: $radius-sm;
+  background-color: rgba(255, 255, 255, 0.06);
+  border: 1px solid $border;
+  font-size: 10px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: $text;
+
+  &.scaling {
+    color: $gold;
+    border-color: rgba($gold, 0.3);
+  }
+
+  // The clock ships as a red-stroked svg; it has to read as a chip icon here.
+  svg {
+    width: 12px;
+    height: 12px;
+
+    path,
+    circle {
+      stroke: $text-muted;
+    }
+  }
+}
+
+// Sizes to its label instead of the Button default of width:100%.
+.action.action {
+  width: auto;
+  flex: 0 0 auto;
+  padding: 0.25rem 0.6rem;
+  font-size: 11px;
+  white-space: nowrap;
+}

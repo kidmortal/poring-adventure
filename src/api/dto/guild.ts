@@ -27,6 +27,16 @@ declare global {
     applicationId: number;
   };
 
+  type SummonGuildBossDto = {
+    bossId: number;
+    difficulty: GuildBossDifficulty;
+  };
+
+  type BuyGuildStoreProductDto = {
+    productId: number;
+    amount?: number;
+  };
+
   type AcceptGuildTaskDto = {
     taskId: number;
   };

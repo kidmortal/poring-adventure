@@ -54,12 +54,74 @@ declare global {
     userEmail: string;
     guildId: number;
     user: User;
+    /** When they last spent a guild boss entry. Entries come back each UTC day. */
+    bossEntryUsedAt?: string;
+  };
+
+  type GuildBossDifficulty = 'easy' | 'normal' | 'hard' | 'nightmare';
+
+  /** A boss the guild can summon. These numbers are the easy ones. */
+  type GuildBoss = {
+    id: number;
+    name: string;
+    image: string;
+    level: number;
+    health: number;
+    attack: number;
+    taskPoints: number;
+    tokens: number;
+    silver: number;
+    exp: number;
+    requiredGuildLevel: number;
+  };
+
+  /** The boss a guild has standing, with the health pool it has left. */
+  type CurrentGuildBoss = {
+    id: number;
+    guildId: number;
+    guildBossId: number;
+    difficulty: GuildBossDifficulty;
+    maxHealth: number;
+    health: number;
+    attack: number;
+    summonedAt: string;
+    boss: GuildBoss;
+    damage: GuildBossDamage[];
+    /** What this difficulty pays on the kill, already scaled by the server. */
+    reward: { taskPoints: number; tokens: number };
+  };
+
+  /** What one member has banked against the standing boss. */
+  type GuildBossDamage = {
+    id: number;
+    currentGuildBossId: number;
+    userEmail: string;
+    /** The score the token payout is split by. A party banks its damage evenly. */
+    damage: number;
+    /** What this member personally hit for — what the contribution share reads. */
+    dealtDamage: number;
+    /** Set when the score was earned in a party — everyone in it shares the key. */
+    partyKey?: string | null;
+    /** Who led that party. */
+    partyLeaderEmail?: string | null;
+    user?: User;
+  };
+
+  /** Sold for guild tokens rather than silver. */
+  type GuildStoreProduct = {
+    id: number;
+    itemId: number;
+    price: number;
+    stack: number;
+    enabled: boolean;
+    item: Item;
   };
 
   interface GuildApplication {
     id: number;
     userEmail: string;
     guildId: number;
-    user: User;
+    /** Absent on the copy that rides along with the applicant's own profile. */
+    user?: User;
   }
 }

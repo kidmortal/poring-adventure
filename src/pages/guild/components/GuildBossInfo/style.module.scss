@@ -1,0 +1,410 @@
+@import '@/styles/variables';
+
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.portrait {
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+.identity {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.nameRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+.name {
+  font-size: 15px;
+  font-weight: 700;
+  color: $text;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// Each difficulty gets its own colour, so the badge alone tells you what the
+// guild has taken on.
+.difficulty {
+  flex-shrink: 0;
+  padding: 0.05rem 0.4rem;
+  border-radius: 999px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+
+  &.easy {
+    color: $exp;
+    background-color: rgba($exp, 0.16);
+    border: 1px solid rgba($exp, 0.4);
+  }
+
+  &.normal {
+    color: $primary;
+    background-color: rgba($primary, 0.18);
+    border: 1px solid rgba($primary, 0.45);
+  }
+
+  &.hard {
+    color: $orange;
+    background-color: rgba($orange, 0.18);
+    border: 1px solid rgba($orange, 0.45);
+  }
+
+  &.nightmare {
+    color: $rarity-mythic;
+    background-color: rgba($rarity-mythic, 0.18);
+    border: 1px solid rgba($rarity-mythic, 0.5);
+  }
+}
+
+.level {
+  font-size: 11px;
+  color: $text-muted;
+}
+
+.healthBar {
+  position: relative;
+  width: 100%;
+  height: 1.1rem;
+  border-radius: $radius-sm;
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.45);
+  border: 1px solid $border;
+}
+
+.healthFill {
+  height: 100%;
+  background-color: $hp;
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.25), rgba(0, 0, 0, 0.2));
+  transition: width 0.3s ease;
+}
+
+.healthLabel {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 10px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  @include readable-text();
+}
+
+.yourRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 11px;
+  color: $text-muted;
+}
+
+.yourDamage strong {
+  color: $text;
+  font-variant-numeric: tabular-nums;
+}
+
+.entry {
+  flex-shrink: 0;
+  padding: 0.05rem 0.4rem;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  color: $exp;
+  background-color: rgba($exp, 0.14);
+
+  &.entrySpent {
+    color: $text-muted;
+    background-color: rgba(255, 255, 255, 0.06);
+  }
+}
+
+// Why the fight cannot start, one line per person in the way.
+.blockers {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.4rem 0.5rem;
+  border-radius: $radius-sm;
+  background-color: rgba($error, 0.1);
+  border: 1px solid rgba($error, 0.3);
+}
+
+.blocker {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 11px;
+  color: $text-muted;
+
+  strong {
+    color: $text;
+    font-weight: 600;
+  }
+}
+
+.blockerAvatar.blockerAvatar {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  object-fit: cover;
+  object-position: top center;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.25);
+}
+
+.partyWarning {
+  font-size: 10px;
+  color: $orange;
+  text-align: center;
+}
+
+.damageSection,
+.rewardSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  margin-top: 0.35rem;
+}
+
+.sectionTitle {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: $text-muted;
+}
+
+.damageList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.damageGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+// The party's own line carries the score, so it sits a shade brighter than the
+// member rows hanging off it.
+.groupHead {
+  background-color: rgba($primary, 0.12);
+  border-color: rgba($primary, 0.4);
+}
+
+.headAvatar {
+  position: relative;
+  flex-shrink: 0;
+  display: flex;
+}
+
+.leaderMark {
+  position: absolute;
+  left: -2px;
+  top: -5px;
+  font-size: 8px;
+  color: $gold;
+  @include readable-text();
+}
+
+// Members hang under the score with a rail down their left, so the group reads
+// as one line with its parts beneath rather than several equal rows.
+.members {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  margin-left: 0.75rem;
+  padding-left: 0.5rem;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: -0.1rem;
+    bottom: 0.6rem;
+    width: 2px;
+    border-radius: 2px;
+    background-color: rgba($primary, 0.5);
+  }
+}
+
+.memberRow {
+  padding: 0.15rem 0.4rem;
+  background-color: rgba(0, 0, 0, 0.15);
+
+  // Each member is tied back to the rail by a short arm.
+  &::before {
+    content: '';
+    position: absolute;
+    left: -0.5rem;
+    width: 0.5rem;
+    height: 2px;
+    border-radius: 2px;
+    background-color: rgba($primary, 0.5);
+  }
+
+  position: relative;
+}
+
+.memberValue {
+  font-size: 11px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: $text-muted;
+}
+
+.partyTag {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.2rem;
+  margin-left: 0.35rem;
+  padding: 0.02rem 0.3rem;
+  border-radius: 999px;
+  background-color: rgba($primary, 0.2);
+  font-size: 9px;
+  font-weight: 700;
+  color: $primary;
+  vertical-align: middle;
+}
+
+.damageRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.25rem 0.4rem;
+  border-radius: $radius-sm;
+  background-color: rgba(0, 0, 0, 0.22);
+  border: 1px solid $border;
+}
+
+.avatar.avatar {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  object-fit: cover;
+  object-position: top center;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.25);
+}
+
+.damageName {
+  flex: 1;
+  min-width: 0;
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.damageValue {
+  font-size: 12px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: $hp;
+}
+
+.damageShare {
+  width: 2.2rem;
+  text-align: right;
+  font-size: 10px;
+  color: $text-muted;
+  font-variant-numeric: tabular-nums;
+}
+
+.rewards {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.reward {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.1rem 0.4rem;
+  border-radius: 999px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba($gold, 0.25);
+  font-size: 11px;
+  font-weight: 600;
+  color: $gold;
+}
+
+.rewardNote {
+  font-size: 10px;
+  color: $text-muted;
+}
+
+.dismiss {
+  margin-top: 0.4rem;
+}
+
+.dismissHint {
+  font-size: 10px;
+  color: $text-muted;
+  text-align: center;
+}
+
+.empty {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 1rem 0.5rem;
+  border-radius: $radius;
+  background-color: rgba(0, 0, 0, 0.22);
+  border: 1px dashed $border-strong;
+}
+
+.emptyIcon {
+  font-size: 22px;
+  color: $text-muted;
+}
+
+.emptyTitle {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.emptyHint {
+  font-size: 11px;
+  color: $text-muted;
+  text-align: center;
+}

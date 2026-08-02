@@ -1,0 +1,173 @@
+@import '@/styles/variables';
+
+.header {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding-bottom: 0.7rem;
+  border-bottom: 1px solid $border;
+}
+
+.title {
+  font-size: 17px;
+  font-weight: 700;
+  color: $gold;
+}
+
+.subtitle {
+  font-size: 11px;
+  line-height: 1.35;
+  color: $text-muted;
+}
+
+.section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-top: 0.8rem;
+}
+
+.sectionTitle {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: $text-muted;
+}
+
+.difficulties {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.3rem;
+}
+
+.difficulty {
+  padding: 0.3rem 0.2rem;
+  border-radius: $radius-sm;
+  border: 1px solid $border;
+  background-color: rgba(0, 0, 0, 0.25);
+  color: $text-muted;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  cursor: pointer;
+
+  &.selected {
+    color: $text;
+  }
+
+  &.easy.selected {
+    border-color: rgba($exp, 0.6);
+    background-color: rgba($exp, 0.18);
+  }
+
+  &.normal.selected {
+    border-color: rgba($primary, 0.6);
+    background-color: rgba($primary, 0.2);
+  }
+
+  &.hard.selected {
+    border-color: rgba($orange, 0.6);
+    background-color: rgba($orange, 0.2);
+  }
+
+  &.nightmare.selected {
+    border-color: rgba($rarity-mythic, 0.65);
+    background-color: rgba($rarity-mythic, 0.2);
+  }
+}
+
+.modifierNote {
+  font-size: 10px;
+  color: $text-muted;
+  text-align: center;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.boss {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem;
+  border-radius: $radius;
+  background-color: rgba(0, 0, 0, 0.22);
+  border: 1px solid $border;
+
+  &.locked {
+    opacity: 0.55;
+    border-style: dashed;
+  }
+}
+
+.portrait {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+.bossInfo {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.bossName {
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bossStats {
+  font-size: 10px;
+  color: $text-muted;
+  font-variant-numeric: tabular-nums;
+}
+
+.bossRewards {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.shards {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.05rem 0.35rem;
+  border-radius: 999px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba($gold, 0.25);
+  font-size: 11px;
+  font-weight: 600;
+  color: $gold;
+}
+
+// Sizes to its label instead of the Button default of width:100%.
+.summon.summon {
+  width: auto;
+  flex: 0 0 auto;
+  padding: 0.3rem 0.6rem;
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.empty {
+  font-size: 11px;
+  color: $text-muted;
+  text-align: center;
+}

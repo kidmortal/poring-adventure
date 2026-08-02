@@ -1,4 +1,4 @@
-@import "@/styles/variables";
+@import '@/styles/variables';
 
 .container {
   width: 100%;
@@ -6,6 +6,121 @@
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
+  align-items: stretch;
+  gap: 0.6rem;
+  padding: 0.75rem;
+  overflow-y: auto;
+  color: $text;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
   align-items: center;
-  color: white;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid $border;
+}
+
+.headerText {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  min-width: 0;
+}
+
+.title {
+  font-size: 17px;
+  font-weight: 700;
+  color: $gold;
+}
+
+.subtitle {
+  font-size: 11px;
+  color: $text-muted;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.product {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem;
+  border-radius: $radius;
+  background-color: rgba(0, 0, 0, 0.22);
+  border: 1px solid $border;
+}
+
+.itemImage {
+  position: relative;
+  flex-shrink: 0;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @include slot();
+
+  img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
+  }
+}
+
+.stack {
+  position: absolute;
+  right: 2px;
+  bottom: 0;
+  font-size: 10px;
+  font-weight: 700;
+  @include readable-text();
+}
+
+.productInfo {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.2rem;
+}
+
+.productName {
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.price.price {
+  font-size: 12px;
+  padding: 0.05rem 0.4rem;
+}
+
+// Button is width:100% by default, which overflows a flex row — it has to size
+// to its own label here.
+.buy.buy {
+  width: auto;
+  flex: 0 0 auto;
+  padding: 0.3rem 0.8rem;
+  font-size: 12px;
+}
+
+.empty {
+  font-size: 12px;
+  color: $text-muted;
+  text-align: center;
+}
+
+.back {
+  margin-top: auto;
 }

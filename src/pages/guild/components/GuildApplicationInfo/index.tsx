@@ -26,11 +26,15 @@ export function GuildApplicationInfo({
     <div className={styles.applicationInfoContainer}>
       <div className={styles.applicantInfo}>
         <When value={!!appearance}>
-          <CharacterHead className={styles.avatar} head={appearance?.head} gender={appearance?.gender} />
+          <CharacterHead
+            className={styles.avatar}
+            head={appearance?.head ?? '1'}
+            gender={appearance?.gender ?? 'male'}
+          />
         </When>
         <div className={styles.memberInfo}>
-          <span>{application.user.name}</span>
-          <span className={styles.level}>Lv {application.user.stats?.level ?? 0}</span>
+          <span>{application.user?.name ?? application.userEmail}</span>
+          <span className={styles.level}>Lv {application.user?.stats?.level ?? 0}</span>
         </div>
       </div>
 

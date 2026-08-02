@@ -24,6 +24,15 @@ export function GuildLayout() {
     queryFn: () => api.guild.getGuild(),
   });
 
+  // The boss rides its own event; every later change is pushed, so this only
+  // has to ask for the first one.
+  useQuery({
+    queryKey: [Query.GUILD_BOSS],
+    enabled: !!store.websocket && store.wsAuthenticated,
+    staleTime: Infinity,
+    queryFn: () => api.guild.getCurrentGuildBoss(),
+  });
+
   if (guildQuery.isLoading) {
     return <LoadingBlock info="Loading guild" />;
   }

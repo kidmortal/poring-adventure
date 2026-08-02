@@ -11,6 +11,12 @@ declare global {
     userLost: boolean;
     log: BattleLog[];
     drops: BattleDrop[];
+    /** Passes through the attack order, counted from 1. */
+    round: number;
+    /** Swings the monster has taken while enraged — 0 until it turns. */
+    enrageStacks: number;
+    /** A guild boss fight, which ends back at the guild rather than the maps. */
+    guildBoss?: boolean;
   };
 
   type BattleLog = {

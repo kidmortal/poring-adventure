@@ -57,6 +57,37 @@ export function guildService({ websocket }: { websocket?: Socket }) {
     return asyncEmit<void>(websocket, 'cancel_guild_task', dto);
   }
 
+  async function getGuildBosses() {
+    if (!websocket) return undefined;
+    return asyncEmit<GuildBoss[]>(websocket, 'get_guild_bosses', '');
+  }
+
+  /** Resolves once the server has pushed the boss on the `guild_boss` event. */
+  async function getCurrentGuildBoss() {
+    if (!websocket) return undefined;
+    return asyncEmit<boolean>(websocket, 'get_guild_boss', '');
+  }
+
+  async function summonGuildBoss(dto: SummonGuildBossDto) {
+    if (!websocket) return undefined;
+    return asyncEmit<boolean>(websocket, 'summon_guild_boss', dto);
+  }
+
+  async function dismissGuildBoss() {
+    if (!websocket) return undefined;
+    return asyncEmit<boolean>(websocket, 'dismiss_guild_boss', '');
+  }
+
+  async function getGuildStore() {
+    if (!websocket) return undefined;
+    return asyncEmit<GuildStoreProduct[]>(websocket, 'get_guild_store', '');
+  }
+
+  async function buyGuildStoreProduct(dto: BuyGuildStoreProductDto) {
+    if (!websocket) return undefined;
+    return asyncEmit<boolean>(websocket, 'buy_guild_store_product', dto);
+  }
+
   async function unlockBlessing(dto: UnlockBlessingsDto) {
     if (!websocket) return undefined;
     return asyncEmit<void>(websocket, 'unlock_blessing', dto);
@@ -79,6 +110,12 @@ export function guildService({ websocket }: { websocket?: Socket }) {
     finishQuest,
     acceptGuildTask,
     cancelGuildTask,
+    getGuildBosses,
+    getCurrentGuildBoss,
+    summonGuildBoss,
+    dismissGuildBoss,
+    getGuildStore,
+    buyGuildStoreProduct,
     unlockBlessing,
     upgradeBlessing,
   };

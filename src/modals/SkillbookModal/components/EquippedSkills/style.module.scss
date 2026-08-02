@@ -1,12 +1,67 @@
+@import '@/styles/variables';
+
 .container {
   width: 100%;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.4rem;
+}
+
+.slot {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
-  gap: 0.5rem;
   align-items: center;
-  button {
-    width: 3rem;
-    height: 3rem;
+  gap: 0.15rem;
+  padding: 0.35rem 0.2rem;
+  min-height: 4.2rem;
+  @include slot();
+
+  img {
+    width: 32px;
+    height: 32px;
+    object-fit: contain;
   }
+
+  &.filled {
+    cursor: pointer;
+
+    &:active {
+      background-color: $surface-hover;
+    }
+  }
+
+  // The border carries what the skill does, matching the card tags.
+  &.damage {
+    border-color: rgba($hp, 0.45);
+  }
+
+  &.heal {
+    border-color: rgba($exp, 0.45);
+  }
+
+  &.mana {
+    border-color: rgba($mp, 0.5);
+  }
+
+  &.buff {
+    border-color: rgba($gold, 0.45);
+  }
+}
+
+.slotName {
+  width: 100%;
+  font-size: 8px;
+  line-height: 1.1;
+  text-align: center;
+  color: $text-muted;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.empty {
+  font-size: 18px;
+  font-weight: 700;
+  color: $border-strong;
 }

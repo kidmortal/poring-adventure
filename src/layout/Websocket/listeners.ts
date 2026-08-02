@@ -1,7 +1,7 @@
 import { Socket } from 'socket.io-client';
 
 import { MainStoreState } from '@/store/main';
-import { BattleState } from '@/store/battle';
+import { BattleState, useBattleStore } from '@/store/battle';
 import { WebsocketApi } from '@/api/websocketServer';
 import { UserStoreState } from '@/store/user';
 
@@ -36,7 +36,19 @@ export function addWebsocketListeners({
     console.log(guild);
     userStore.setGuild(guild);
   });
-  websocket.on('battle_update', (b: Battle) => {
+  // `false` is the server saying the guild has no boss standing.
+  websocket.on('guild_boss', (boss: CurrentGuildBoss | false) => userStore.setGuildBoss(boss || undefined));
+  websocket.on('battle_update', (b?: Battle) => {
+    // The fight is over. A guild boss belongs to the guild screen — dropping the
+    // player on the map selection instead reads as if they had gone hunting.
+    if (!b) {
+      const wasGuildBoss = useBattleStore.getState().battle?.guildBoss;
+      battle.setBattle(undefined);
+      if (wasGuildBoss && window.location.pathname.includes('battle')) {
+        pushToScreen('/guild?tab=boss');
+      }
+      return;
+    }
     if (!window.location.pathname.includes('battle')) {
       pushToScreen('/battle');
     }

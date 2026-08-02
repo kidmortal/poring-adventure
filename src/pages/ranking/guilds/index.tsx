@@ -9,7 +9,7 @@ import { Query } from '@/store/query';
 import { Button } from '@/components/shared/Button';
 import { useUserStore } from '@/store/user';
 import { When } from '@/components/shared/When';
-import { FaEye, FaUserPlus } from 'react-icons/fa';
+import { FaCheck, FaEye, FaUserPlus } from 'react-icons/fa';
 
 /** Guild capacity, mirrored from the server rule. */
 const MAX_MEMBERS = 10;
@@ -53,12 +53,14 @@ function GuildInfoBox({ guild, rank }: { guild: Guild; rank: number }) {
   const myGuildId = userStore.user?.guildMember?.guildId;
   const isMyGuild = myGuildId === guild.id;
   const isFull = memberCount >= MAX_MEMBERS;
-  const alreadyApplied = guild.guildApplications?.some((a) => a.userEmail === userStore.user?.email);
+  // Read from the player's own profile rather than the guild row: the ranking
+  // payload is cached and carries no applications.
+  const alreadyApplied = userStore.user?.guildApplications?.some((a) => a.guildId === guild.id);
 
   let applyBlockedReason: string | undefined;
   if (myGuildId) applyBlockedReason = isMyGuild ? 'Your guild' : 'In a guild';
+  else if (alreadyApplied) applyBlockedReason = 'Application sent';
   else if (isFull) applyBlockedReason = 'Full';
-  else if (alreadyApplied) applyBlockedReason = 'Applied';
 
   return (
     <div className={cn(styles.row, { [styles.mine]: isMyGuild })}>
@@ -96,7 +98,7 @@ function GuildInfoBox({ guild, rank }: { guild: Guild; rank: number }) {
           className={styles.actionButton}
           label={
             <span className={styles.buttonLabel}>
-              <FaUserPlus /> {applyBlockedReason ?? 'Apply'}
+              {alreadyApplied ? <FaCheck /> : <FaUserPlus />} {applyBlockedReason ?? 'Apply'}
             </span>
           }
           theme={applyBlockedReason ? 'neutral' : 'primary'}

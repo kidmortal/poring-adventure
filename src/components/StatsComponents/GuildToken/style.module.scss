@@ -1,0 +1,24 @@
+@import '@/styles/variables';
+
+// Currency pill, matching Silver — a value chip rather than loose text.
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 0.3rem;
+  flex-shrink: 0;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba($mp, 0.35);
+
+  font-size: 14px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: $text;
+
+  img {
+    object-fit: contain;
+  }
+}
