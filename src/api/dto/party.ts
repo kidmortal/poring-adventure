@@ -18,6 +18,10 @@ declare global {
     kickedEmail: string;
   };
 
+  type PromotePartyMemberDto = PartyIdDto & {
+    promotedEmail: string;
+  };
+
   type InviteToPartyDto = PartyIdDto & {
     invitedEmail: string;
   };

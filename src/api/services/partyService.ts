@@ -34,6 +34,11 @@ export function partyService({ websocket }: { websocket?: Socket }) {
     if (!websocket) return false;
     return asyncEmit<boolean>(websocket, 'kick_from_party', dto);
   }
+  /** Hands leadership to another member. Leader only, server side too. */
+  async function promoteMember(dto: PromotePartyMemberDto): Promise<boolean> {
+    if (!websocket) return false;
+    return asyncEmit<boolean>(websocket, 'promote_party_member', dto);
+  }
   async function quitParty(dto: QuitPartyDto): Promise<boolean> {
     if (!websocket) return false;
     return asyncEmit<boolean>(websocket, 'quit_party', dto);
@@ -56,6 +61,7 @@ export function partyService({ websocket }: { websocket?: Socket }) {
     joinParty,
     sendChatMessage,
     kickFromParty,
+    promoteMember,
     openParty,
     closeParty,
     getAllOpenParties,

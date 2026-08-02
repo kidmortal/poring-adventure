@@ -5,68 +5,254 @@
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  color: white;
+  align-items: stretch;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+  color: $text;
+  overflow: hidden;
 }
 
-.memberContainer {
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.6rem;
+  @include panel-gold();
+}
+
+.headerText {
+  min-width: 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+}
+
+.title {
+  font-size: 15px;
+  font-weight: 700;
+  color: $gold;
+}
+
+.subtitle {
+  font-size: 11px;
+  color: $text-muted;
+}
+
+// Open or closed decides whether strangers can walk in, so it is stated plainly.
+.statusBadge {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: row;
   align-items: center;
-  margin-top: 1rem;
+  gap: 0.3rem;
+  padding: 0.15rem 0.5rem;
+  border-radius: 999px;
+  border: 1px solid $border;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: $text-muted;
+}
+
+.openBadge {
+  color: $success;
+  border-color: rgba($success, 0.45);
 }
 
 .leaderActions {
-  width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
+  gap: 0.4rem;
+}
+
+.leaderButton {
+  flex: 1;
+  min-width: 0;
+  padding: 0.5rem 0.4rem;
+  font-size: 12px;
+}
+
+.leaveButton {
+  padding: 0.5rem 0.4rem;
+  font-size: 12px;
+}
+
+.buttonLabel {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
   align-items: center;
-  gap: 1rem;
-  button {
-    width: fit-content;
+  gap: 0.4rem;
+  white-space: nowrap;
+}
+
+// Members sit in a row that wraps at four, each opening its own sheet.
+.memberList {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: flex-end;
+  gap: 0.5rem;
+  padding: 0.5rem 0.4rem;
+  @include panel();
+}
+
+.memberCard {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.2rem;
+  border-radius: $radius-sm;
+  cursor: pointer;
+  transition: background-color 150ms;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.06);
   }
 }
 
-.partyMemberList {
-  width: 100%;
+.roleIcon {
   display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
-  padding-bottom: 1rem;
+  height: 14px;
+  color: transparent;
 }
 
-.partyChat {
+.leaderIcon {
+  color: $gold;
+}
+
+// The chat takes whatever height is left, and is the only thing that scrolls.
+.chat {
+  flex: 1;
+  min-height: 6rem;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.2rem;
+  padding: 0.5rem;
+  border-radius: $radius;
+  background-color: rgba(0, 0, 0, 0.25);
+  border: 1px solid $border;
+  overflow-y: auto;
+}
+
+.chatEmpty {
+  margin: auto;
+  font-size: 11px;
+  color: $text-muted;
+}
+
+.chatLine {
+  max-width: 85%;
+  align-self: flex-start;
+  display: flex;
+  flex-direction: column;
+  gap: 0.05rem;
+  padding: 0.3rem 0.5rem;
+  border-radius: $radius-sm;
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+// Your own lines sit on the other side, so a conversation is readable at a glance.
+.mine {
+  align-self: flex-end;
+  background-color: rgba($primary, 0.22);
+}
+
+.chatAuthor {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  color: $gold;
+}
+
+.chatText {
+  font-size: 12px;
+  line-height: 1.35;
+  color: $text;
+  word-break: break-word;
+}
+
+.chatInput {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  gap: 0.4rem;
+
+  input {
+    flex: 1;
+    min-width: 0;
+    @include tap-target(42px);
+    padding: 0 0.7rem;
+    border-radius: $radius;
+    border: 1px solid $border-strong;
+    background-color: rgba(0, 0, 0, 0.3);
+    color: $text;
+    font-family: inherit;
+    font-size: 13px;
+
+    &::placeholder {
+      color: $text-muted;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: rgba($gold, 0.45);
+    }
+  }
+}
+
+.sendButton {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  @include tap-target(42px);
+  width: 42px;
+  border-radius: $radius;
+  border: 1px solid rgba($gold, 0.35);
+  background-color: rgba($gold, 0.12);
+  color: $gold;
+  cursor: pointer;
+  transition: background-color 150ms, opacity 150ms;
+
+  &:hover:not(:disabled) {
+    background-color: rgba($gold, 0.2);
+  }
+
+  &:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+}
+
+.emptyState {
   width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  align-items: flex-start;
-  font-size: 14px;
-  background-color: $dark-neutral;
-  border-radius: 6px;
-  padding: 0.5rem;
-  margin-bottom: 1rem;
-  max-height: 16rem;
-  overflow-y: auto;
-}
-
-.chatInputContainer {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
   justify-content: center;
   align-items: center;
-  button {
-    height: 3rem;
-  }
-  input {
-    width: 100%;
-    height: 3rem;
-  }
-  padding-bottom: 1rem;
+  gap: 0.5rem;
+  padding: 1.5rem 1rem;
+  color: $text;
+}
+
+.emptyTitle {
+  font-size: 15px;
+  font-weight: 700;
+  color: $gold;
+}
+
+.emptyHint {
+  font-size: 11px;
+  line-height: 1.4;
+  color: $text-muted;
+  text-align: center;
+  margin-bottom: 0.5rem;
 }

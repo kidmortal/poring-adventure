@@ -23,6 +23,7 @@ import { MonsterInfoModal } from '@/modals/MonsterInfoModal';
 import { ItemInfoModal } from '@/modals/ItemInfoModal';
 import { CraftDetailsModal } from '@/modals/CraftDetailsModal';
 import { GiftModal } from '@/modals/GiftModal';
+import { PartyMemberModal } from '@/modals/PartyMemberModal';
 
 export function ModalLayout() {
   const userStore = useUserStore();
@@ -106,6 +107,11 @@ export function ModalLayout() {
         onRequestClose={() => modalStore.setItemInfo({ open: false })}
         isOpen={modalStore.itemInfo.open}
         item={modalStore.itemInfo.item}
+      />
+      <PartyMemberModal
+        onRequestClose={() => modalStore.setPartyMember({ open: false })}
+        isOpen={modalStore.partyMember.open}
+        member={modalStore.partyMember.member}
       />
       <GiftModal
         onRequestClose={() => modalStore.setGift({ open: false })}

@@ -8,6 +8,7 @@ import ForEach from '@/components/shared/ForEach';
 import Clock from '@/assets/Clock';
 import { FaBolt, FaFistRaised, FaFlag, FaMagic, FaTimes } from 'react-icons/fa';
 import { useBattleStore } from '@/store/battle';
+import { useUserStore } from '@/store/user';
 
 type Props = {
   api: WebsocketApi;
@@ -18,6 +19,7 @@ type Props = {
 /** Only rendered mid fight — a finished battle is handled by BattleResults. */
 export function BattleActions({ api, isYourTurn, user }: Props) {
   const battleStore = useBattleStore();
+  const userStore = useUserStore();
   const equippedSkills = user?.learnedSkills.filter((skill) => skill.equipped);
 
   const attackMutation = useMutation({
@@ -33,6 +35,10 @@ export function BattleActions({ api, isYourTurn, user }: Props) {
   });
 
   const currentMana = user?.stats?.mana ?? 0;
+  // Running ends the fight for everyone, so the leader may call it at any point
+  // — the server holds the same rule.
+  const leadsParty = !!userStore.party && userStore.party.leaderEmail === userStore.user?.email;
+  const canRun = (isYourTurn || leadsParty) && !battleStore.isCasting;
   return (
     <div className={styles.actions}>
       {/* Three verbs, three icons: at a glance, even mid fight. */}
@@ -71,7 +77,7 @@ export function BattleActions({ api, isYourTurn, user }: Props) {
         }
         theme="danger"
         onClick={() => cancelBattleMutation.mutate()}
-        disabled={cancelBattleMutation.isPending || !isYourTurn || battleStore.isCasting}
+        disabled={cancelBattleMutation.isPending || !canRun}
       />
       <div
         className={cn(styles.skillsContainer, {

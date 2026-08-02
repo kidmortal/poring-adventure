@@ -37,6 +37,11 @@ type InteractUserState = {
   user?: User;
 };
 
+type PartyMemberState = {
+  open?: boolean;
+  member?: User;
+};
+
 type GiftState = {
   open?: boolean;
   /** Who is receiving it. */
@@ -109,6 +114,8 @@ export interface ModalState {
   setCraftDetails: (v: CraftDetailsState) => void;
   gift: GiftState;
   setGift: (v: GiftState) => void;
+  partyMember: PartyMemberState;
+  setPartyMember: (v: PartyMemberState) => void;
 }
 
 export const useModalStore = create<ModalState>()((set) => ({
@@ -132,6 +139,7 @@ export const useModalStore = create<ModalState>()((set) => ({
   itemInfo: { open: false },
   craftDetails: { open: false },
   gift: { open: false },
+  partyMember: { open: false },
   guildInfo: { open: false },
   guildTaskSelect: { open: false },
   mailBox: { open: false },
@@ -154,6 +162,7 @@ export const useModalStore = create<ModalState>()((set) => ({
   setItemInfo: (v) => set(() => ({ itemInfo: v })),
   setCraftDetails: (v) => set(() => ({ craftDetails: v })),
   setGift: (v) => set(() => ({ gift: v })),
+  setPartyMember: (v) => set(() => ({ partyMember: v })),
   setInventoryItem: (v) => set((state) => ({ inventoryItem: { ...state.inventoryItem, ...v } })),
   setSellItem: (v) => set((state) => ({ sellItem: { ...state.sellItem, ...v } })),
   setBuyItem: (v) => set((state) => ({ buyItem: { ...state.buyItem, ...v } })),
