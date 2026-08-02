@@ -9,7 +9,9 @@
   align-items: center;
   color: $text;
   border-radius: $radius;
-  margin: 0.5rem 0;
+  // No margin of its own: the layout already spaces this off the header and the
+  // nav, and doubling it was costing the battlefield a row of height.
+  margin: 0;
   overflow: hidden;
 }
 

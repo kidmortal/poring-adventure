@@ -41,12 +41,11 @@ export function TurnOrder({ attackerList, attackerTurn, users, monsters }: Props
     };
   });
 
+  // No "Now:" line — the chip that is lit and pulsing already says whose turn
+  // it is, and the battlefield needs the height more. The track is the whole
+  // strip now, so there is nothing to wrap it in.
   return (
-    <div className={styles.container}>
-      <span className={styles.label}>
-        Now: <strong>{order[attackerTurn % order.length]}</strong>
-      </span>
-      <div className={styles.track}>
+    <div className={styles.track}>
         {actors.map((actor) => (
           <Fragment key={`${actor.name}-${actor.distance}`}>
             {/* Drawn in CSS: the order reads as a flow, not a row of tiles. */}
@@ -75,6 +74,5 @@ export function TurnOrder({ attackerList, attackerTurn, users, monsters }: Props
           </Fragment>
         ))}
       </div>
-    </div>
   );
 }

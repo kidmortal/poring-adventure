@@ -10,7 +10,9 @@
   align-items: flex-start;
   flex-wrap: wrap;
   gap: 0.5rem;
-  margin-bottom: auto;
+  // A plain gap, not `auto`: that pushed the party to the floor and left a dead
+  // band across the middle of the arena.
+  margin-bottom: 0.5rem;
   padding: 0 1.5rem 0 1rem;
 }
 
@@ -27,16 +29,18 @@
   padding: 0 1rem 0 1.5rem;
 }
 
-// The log sits on the arena floor now, so it carries its own surface. It is
-// the tallest thing up here: the monsters moved inward to pay for it.
+// The log sits on the arena floor now, so it carries its own surface. It takes
+// whatever height is left over, so slack becomes readable log rather than a gap
+// between the two sides of the fight.
 .logContainer {
-  height: 9rem;
+  flex: 1;
+  min-height: 4.5rem;
   width: calc(100% - 1rem);
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  margin: 0.4rem 0 0.75rem;
+  margin: 0.4rem 0 0.5rem;
   padding: 0.25rem 0.35rem;
   border-radius: $radius-sm;
   background-color: rgba(0, 0, 0, 0.25);
