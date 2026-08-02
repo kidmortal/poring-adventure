@@ -13,10 +13,10 @@ type Props = {
   api: WebsocketApi;
   user?: User;
   isYourTurn?: boolean;
-  battleEnded: boolean;
 };
 
-export function BattleActions({ api, isYourTurn, battleEnded, user }: Props) {
+/** Only rendered mid fight — a finished battle is handled by BattleResults. */
+export function BattleActions({ api, isYourTurn, user }: Props) {
   const battleStore = useBattleStore();
   const equippedSkills = user?.learnedSkills.filter((skill) => skill.equipped);
 
@@ -35,113 +35,99 @@ export function BattleActions({ api, isYourTurn, battleEnded, user }: Props) {
   const currentMana = user?.stats?.mana ?? 0;
   return (
     <div className={styles.actions}>
-      <When value={battleEnded}>
-        <Button
-          label={
-            <span className={styles.actionLabel}>
-              <FaFlag /> Finish battle
-            </span>
-          }
-          theme="primary"
-          onClick={() => cancelBattleMutation.mutate()}
-          disabled={cancelBattleMutation.isPending}
-        />
-      </When>
-      <When value={!battleEnded}>
-        {/* Three verbs, three icons: at a glance, even mid fight. */}
-        <Button
-          className={styles.actionButton}
-          label={
-            <span className={styles.actionLabel}>
-              <FaFistRaised /> Attack
-            </span>
-          }
-          onClick={() => attackMutation.mutate()}
-          disabled={attackMutation.isPending || !isYourTurn || battleStore.isCasting}
-        />
-        <Button
-          className={styles.actionButton}
-          label={
-            <span className={styles.actionLabel}>
-              {battleStore.isCasting ? <FaTimes /> : <FaMagic />}
-              {battleStore.isCasting ? 'Cancel' : 'Cast'}
-            </span>
-          }
-          theme={battleStore.isCasting ? 'danger' : 'secondary'}
-          onClick={() => {
-            battleStore.setIsCasting(!battleStore.isCasting);
-            battleStore.setIsTargetingSkill(false);
-            battleStore.setSkillId(undefined);
-          }}
-          disabled={cancelBattleMutation.isPending || !isYourTurn}
-        />
-        <Button
-          className={styles.actionButton}
-          label={
-            <span className={styles.actionLabel}>
-              <FaFlag /> Run
-            </span>
-          }
-          theme="danger"
-          onClick={() => cancelBattleMutation.mutate()}
-          disabled={cancelBattleMutation.isPending || !isYourTurn || battleStore.isCasting}
-        />
-        <div
-          className={cn(styles.skillsContainer, {
-            [styles.visible]: battleStore.isCasting,
-          })}
-        >
-          <When value={equippedSkills?.length === 0}>
+      {/* Three verbs, three icons: at a glance, even mid fight. */}
+      <Button
+        className={styles.actionButton}
+        label={
+          <span className={styles.actionLabel}>
+            <FaFistRaised /> Attack
+          </span>
+        }
+        onClick={() => attackMutation.mutate()}
+        disabled={attackMutation.isPending || !isYourTurn || battleStore.isCasting}
+      />
+      <Button
+        className={styles.actionButton}
+        label={
+          <span className={styles.actionLabel}>
+            {battleStore.isCasting ? <FaTimes /> : <FaMagic />}
+            {battleStore.isCasting ? 'Cancel' : 'Cast'}
+          </span>
+        }
+        theme={battleStore.isCasting ? 'danger' : 'secondary'}
+        onClick={() => {
+          battleStore.setIsCasting(!battleStore.isCasting);
+          battleStore.setIsTargetingSkill(false);
+          battleStore.setSkillId(undefined);
+        }}
+        disabled={cancelBattleMutation.isPending || !isYourTurn}
+      />
+      <Button
+        className={styles.actionButton}
+        label={
+          <span className={styles.actionLabel}>
+            <FaFlag /> Run
+          </span>
+        }
+        theme="danger"
+        onClick={() => cancelBattleMutation.mutate()}
+        disabled={cancelBattleMutation.isPending || !isYourTurn || battleStore.isCasting}
+      />
+      <div
+        className={cn(styles.skillsContainer, {
+          [styles.visible]: battleStore.isCasting,
+        })}
+      >
+        <When value={equippedSkills?.length === 0}>
+          <Button
+            label={
+              <span className={styles.actionLabel}>
+                <FaBolt /> No skills equipped
+              </span>
+            }
+            disabled
+          />
+        </When>
+        <ForEach
+          items={equippedSkills}
+          render={(equippedSkill) => (
             <Button
-              label={
-                <span className={styles.actionLabel}>
-                  <FaBolt /> No skills equipped
-                </span>
-              }
-              disabled
-            />
-          </When>
-          <ForEach
-            items={equippedSkills}
-            render={(equippedSkill) => (
-              <Button
-                key={equippedSkill.skillId}
-                className={styles.skillButton}
-                theme="secondary"
-                label={<SkillText learnedSkill={equippedSkill} />}
-                onClick={() => {
-                  if (equippedSkill.skill.category === 'target_ally') {
-                    if (battleStore.isTargetingSkill) {
-                      castMutation.mutate({
-                        skillId: equippedSkill.skillId,
-                      });
-                      battleStore.setIsCasting(false);
-                      battleStore.setIsTargetingSkill(false);
-                      battleStore.setSkillId(undefined);
-                      return;
-                    }
-
-                    battleStore.setIsTargetingSkill(true);
-                    battleStore.setSkillId(equippedSkill.skillId);
+              key={equippedSkill.skillId}
+              className={styles.skillButton}
+              theme="secondary"
+              label={<SkillText learnedSkill={equippedSkill} />}
+              onClick={() => {
+                if (equippedSkill.skill.category === 'target_ally') {
+                  if (battleStore.isTargetingSkill) {
+                    castMutation.mutate({
+                      skillId: equippedSkill.skillId,
+                    });
+                    battleStore.setIsCasting(false);
+                    battleStore.setIsTargetingSkill(false);
+                    battleStore.setSkillId(undefined);
                     return;
                   }
 
-                  castMutation.mutate({
-                    skillId: equippedSkill.skillId,
-                  });
-                  battleStore.setIsCasting(false);
-                }}
-                disabled={
-                  castMutation.isPending ||
-                  currentMana < equippedSkill.skill.manaCost ||
-                  equippedSkill.cooldown > 0 ||
-                  (battleStore.skillId != undefined && battleStore.skillId != equippedSkill.skillId)
+                  battleStore.setIsTargetingSkill(true);
+                  battleStore.setSkillId(equippedSkill.skillId);
+                  return;
                 }
-              />
-            )}
-          />
-        </div>
-      </When>
+
+                castMutation.mutate({
+                  skillId: equippedSkill.skillId,
+                });
+                battleStore.setIsCasting(false);
+              }}
+              disabled={
+                castMutation.isPending ||
+                currentMana < equippedSkill.skill.manaCost ||
+                equippedSkill.cooldown > 0 ||
+                (battleStore.skillId != undefined && battleStore.skillId != equippedSkill.skillId)
+              }
+            />
+          )}
+        />
+      </div>
     </div>
   );
 }

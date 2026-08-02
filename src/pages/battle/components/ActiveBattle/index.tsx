@@ -7,7 +7,7 @@ import { CharacterWithHealthBar } from '@/components/Character/CharacterWithHeal
 import { useBattleStore } from '@/store/battle';
 import { useUserStore } from '@/store/user';
 import { BattleMonsterInfo } from '../BattleMonsterInfo';
-import { BattleRewardBox } from '../BattleRewardsBox';
+import { BattleResults } from '../BattleResults';
 import { BattleLogs } from '../BattleLogs';
 import { BattleActions } from '../BattleActions';
 import { TurnOrder } from '../TurnOrder';
@@ -42,6 +42,11 @@ export function ActiveBattle({ battle }: { battle: Battle }) {
     battleStore.setSkillId(undefined);
   }
 
+  // A finished fight is a report, not an arena: it gets its own screen.
+  if (battleIsFinished) {
+    return <BattleResults battle={battle} api={api} />;
+  }
+
   return (
     <>
       {/* Who is acting and who follows, so a co-op fight can be planned. */}
@@ -57,15 +62,10 @@ export function ActiveBattle({ battle }: { battle: Battle }) {
       </div>
 
       <div className={styles.monsterSection}>
-        <When value={!battleIsFinished}>
-          <ForEach
-            items={battle.monsters}
-            render={(m, idx) => <BattleMonsterInfo key={`${m.name}-${idx}`} monster={m} />}
-          />
-        </When>
-        <When value={battleIsFinished}>
-          <BattleRewardBox drops={battle.drops} userLost={battle.userLost} members={battle.users} />
-        </When>
+        <ForEach
+          items={battle.monsters}
+          render={(m, idx) => <BattleMonsterInfo key={`${m.name}-${idx}`} monster={m} />}
+        />
       </div>
 
       <div className={styles.userSection}>
@@ -86,7 +86,7 @@ export function ActiveBattle({ battle }: { battle: Battle }) {
         />
       </div>
 
-      <BattleActions user={battleUser} api={api} isYourTurn={isYourTurn} battleEnded={battleIsFinished} />
+      <BattleActions user={battleUser} api={api} isYourTurn={isYourTurn} />
     </>
   );
 }

@@ -13,6 +13,8 @@ declare global {
     /** Rewards for killing it, split across the party. */
     silver: number;
     exp: number;
+    /** Which map it belongs to — what a rematch is opened against. */
+    mapId?: number;
     drops: Drop[];
   };
 
