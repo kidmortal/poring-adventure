@@ -25,8 +25,8 @@
   display: flex;
   flex-direction: column;
   align-items: stretch;
-  gap: 0.4rem;
-  padding: 0.5rem;
+  gap: 0.25rem;
+  padding: 0.45rem 0.5rem;
   // Panel instead of a white hairline box, so it reads over the grass.
   background-color: rgba(0, 0, 0, 0.5);
   border: 1px solid $border-strong;
@@ -39,19 +39,13 @@
   color: $gold;
 }
 
+// Everything earned on one line, wrapping so a big haul cannot run off screen.
 .rewards {
   display: flex;
   flex-direction: row;
   align-items: center;
-  gap: 1rem;
-}
-
-// Wraps so a big haul cannot run off the screen.
-.itemRow {
-  display: flex;
-  flex-direction: row;
   flex-wrap: wrap;
-  gap: 0.3rem;
+  gap: 0.4rem 0.75rem;
 }
 
 .defeat {

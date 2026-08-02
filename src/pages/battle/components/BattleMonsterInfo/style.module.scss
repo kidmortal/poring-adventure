@@ -7,10 +7,9 @@
   justify-content: center;
   align-items: center;
   gap: 0.1rem;
-  padding: 0.3rem 0.5rem;
-  border-radius: $radius;
-  // Legible over the grass background.
-  background-color: rgba(0, 0, 0, 0.35);
+  padding: 0.2rem 0.4rem;
+  // No surface of its own: the arena is dark enough, and the text shadow keeps
+  // it legible over the glow.
   font-size: 11px;
   @include readable-text;
 }

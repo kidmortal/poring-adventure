@@ -1,49 +1,48 @@
 @import "@/styles/variables";
 
+// The enemy side fills from the right edge inward, so the first monster is the
+// one furthest from the party.
 .monsterSection {
   width: 100%;
   display: flex;
-  flex-direction: row;
-  justify-content: flex-end;
-  align-items: center;
+  flex-direction: row-reverse;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 0.5rem;
   margin-bottom: auto;
-  padding-right: 2rem;
+  padding: 0 1.5rem 0 1rem;
 }
 
+// The party lines up from the left edge, facing the monsters. Four fit before
+// it wraps.
 .userSection {
   width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
-  align-items: center;
-  gap: 0.5rem;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 0.5rem 0.5rem;
+  padding: 0 1rem 0 1.5rem;
 }
 
+// The log sits on the arena floor now, so it carries its own surface. It is
+// the tallest thing up here: the monsters moved inward to pay for it.
 .logContainer {
-  height: 5rem;
-  width: 100%;
+  height: 9rem;
+  width: calc(100% - 1rem);
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+  margin: 0.4rem 0 0.75rem;
+  padding: 0.25rem 0.35rem;
+  border-radius: $radius-sm;
+  background-color: rgba(0, 0, 0, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   overflow-y: auto;
-  margin-bottom: 1rem;
-  font-size: 12px;
-}
-
-.turnLabelContainer {
-  font-size: 14px;
-  padding: 0.35rem 0.75rem;
-  margin-top: 0.5rem;
-  border-radius: 999px;
-  background-color: rgba(0, 0, 0, 0.45);
-  border: 1px solid rgba($gold, 0.3);
-  @include readable-text;
-
-  strong {
-    color: $gold;
-    font-weight: 700;
-  }
+  font-size: 10px;
 }
 
 .targetingSkillLabel {

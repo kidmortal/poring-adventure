@@ -3,6 +3,7 @@ import styles from './style.module.scss';
 import { InventoryItem } from '@/components/Items/InventoryItem';
 import { SilverStack } from '@/components/StatsComponents/SilverStack';
 import { ExpStack } from '@/components/StatsComponents/ExpStack';
+import { useModalStore } from '@/store/modal';
 
 type Props = {
   members?: User[];
@@ -26,18 +27,27 @@ function asInventoryItem(drop: BattleUserDropedItem): InventoryItem {
 }
 
 function DropRow({ drop, name }: { drop: BattleDrop; name: string }) {
+  const modalStore = useModalStore();
+
   return (
     <div className={styles.dropContainer}>
       <span className={styles.playerName}>{name}</span>
+      {/* Experience, silver and loot on one line: a haul is one reading, and it
+          wraps rather than growing a second block. */}
       <div className={styles.rewards}>
         <ExpStack amount={drop.exp} />
         <SilverStack amount={drop.silver} />
-      </div>
-      <div className={styles.itemRow}>
         <ForEach
           items={drop.dropedItems}
           render={(item) => (
-            <InventoryItem key={`${drop.userEmail}-${item.itemId}`} inventoryItem={asInventoryItem(item)} />
+            <InventoryItem
+              key={`${drop.userEmail}-${item.itemId}`}
+              inventoryItem={asInventoryItem(item)}
+              customSize={30}
+              // Loot is not in anyone's bags yet, so it opens the catalogue
+              // entry rather than the inventory menu.
+              onClick={() => modalStore.setItemInfo({ open: true, item: item.item })}
+            />
           )}
         />
       </div>

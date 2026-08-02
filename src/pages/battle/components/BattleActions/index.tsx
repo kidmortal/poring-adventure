@@ -6,6 +6,7 @@ import cn from 'classnames';
 import { When } from '@/components/shared/When';
 import ForEach from '@/components/shared/ForEach';
 import Clock from '@/assets/Clock';
+import { FaBolt, FaFistRaised, FaFlag, FaMagic, FaTimes } from 'react-icons/fa';
 import { useBattleStore } from '@/store/battle';
 
 type Props = {
@@ -36,20 +37,36 @@ export function BattleActions({ api, isYourTurn, battleEnded, user }: Props) {
     <div className={styles.actions}>
       <When value={battleEnded}>
         <Button
-          label="Finish battle"
+          label={
+            <span className={styles.actionLabel}>
+              <FaFlag /> Finish battle
+            </span>
+          }
           theme="primary"
           onClick={() => cancelBattleMutation.mutate()}
           disabled={cancelBattleMutation.isPending}
         />
       </When>
       <When value={!battleEnded}>
+        {/* Three verbs, three icons: at a glance, even mid fight. */}
         <Button
-          label="Attack"
+          className={styles.actionButton}
+          label={
+            <span className={styles.actionLabel}>
+              <FaFistRaised /> Attack
+            </span>
+          }
           onClick={() => attackMutation.mutate()}
           disabled={attackMutation.isPending || !isYourTurn || battleStore.isCasting}
         />
         <Button
-          label={battleStore.isCasting ? 'Cancel' : 'Cast'}
+          className={styles.actionButton}
+          label={
+            <span className={styles.actionLabel}>
+              {battleStore.isCasting ? <FaTimes /> : <FaMagic />}
+              {battleStore.isCasting ? 'Cancel' : 'Cast'}
+            </span>
+          }
           theme={battleStore.isCasting ? 'danger' : 'secondary'}
           onClick={() => {
             battleStore.setIsCasting(!battleStore.isCasting);
@@ -59,7 +76,12 @@ export function BattleActions({ api, isYourTurn, battleEnded, user }: Props) {
           disabled={cancelBattleMutation.isPending || !isYourTurn}
         />
         <Button
-          label="Run"
+          className={styles.actionButton}
+          label={
+            <span className={styles.actionLabel}>
+              <FaFlag /> Run
+            </span>
+          }
           theme="danger"
           onClick={() => cancelBattleMutation.mutate()}
           disabled={cancelBattleMutation.isPending || !isYourTurn || battleStore.isCasting}
@@ -70,7 +92,14 @@ export function BattleActions({ api, isYourTurn, battleEnded, user }: Props) {
           })}
         >
           <When value={equippedSkills?.length === 0}>
-            <Button label="You have no learned skills" disabled />
+            <Button
+              label={
+                <span className={styles.actionLabel}>
+                  <FaBolt /> No skills equipped
+                </span>
+              }
+              disabled
+            />
           </When>
           <ForEach
             items={equippedSkills}

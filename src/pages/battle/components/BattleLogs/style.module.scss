@@ -1,12 +1,56 @@
-@import "@/styles/variables";
+@import '@/styles/variables';
+
 .logContainer {
-  width: 90%;
+  width: 100%;
   height: 100%;
   display: flex;
   flex-direction: column-reverse;
   justify-content: flex-end;
+  align-items: stretch;
+  gap: 0.15rem;
+  padding: 0.15rem;
+  overflow-y: auto;
+}
+
+.line {
+  display: flex;
+  flex-direction: row;
   align-items: center;
-  background-color: #35374b80;
-  border-radius: 4px;
-  padding: 0.2rem;
+  gap: 0.4rem;
+  padding: 0.1rem 0.35rem;
+  border-radius: $radius-sm;
+  border-left: 2px solid transparent;
+  font-size: 10px;
+  line-height: 1.25;
+  color: $text-muted;
+  // Older lines sit back so the newest one is the one being read.
+  opacity: 0.7;
+}
+
+.latest {
+  opacity: 1;
+  color: $text;
+  border-left-color: rgba($gold, 0.55);
+  background-color: rgba(255, 255, 255, 0.05);
+}
+
+// Fixed slot: lines with and without an icon still line up.
+.iconSlot {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 16px;
+  height: 16px;
+
+  img {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+  }
+}
+
+.message {
+  min-width: 0;
+  @include readable-text;
 }

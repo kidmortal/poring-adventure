@@ -13,9 +13,16 @@
   overflow: hidden;
 }
 
-// The grass belongs to the fight itself; map selection reads as a menu.
+// An arena rather than a field: the same dark surface as the rest of the app,
+// lit from the monsters' side so the two halves of the fight read apart. The
+// spacing is unchanged — it has to hold a party of four.
 .battlefield {
   position: relative;
-  background-image: url("https://kidmortal.sirv.com/misc/grass.png");
-  background-repeat: repeat;
+  background-color: $dark-neutral;
+  background-image:
+    radial-gradient(ellipse 90% 55% at 75% 22%, rgba($primary, 0.22), transparent 70%),
+    radial-gradient(ellipse 80% 45% at 25% 88%, rgba($gold, 0.1), transparent 70%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(0, 0, 0, 0.35));
+  border: 1px solid rgba($gold, 0.18);
+  box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.55);
 }

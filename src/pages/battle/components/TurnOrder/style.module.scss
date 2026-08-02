@@ -1,0 +1,119 @@
+@import '@/styles/variables';
+
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.4rem 0.5rem;
+  border-bottom: 1px solid rgba($gold, 0.15);
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+.label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: $text-muted;
+
+  strong {
+    font-weight: 700;
+    color: $gold;
+  }
+}
+
+// Reads left to right: whoever is acting sits first, the rest queue behind.
+.track {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 0.3rem;
+  overflow-x: auto;
+}
+
+.actor {
+  flex-shrink: 0;
+  width: 3.1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+  padding: 0.2rem 0.15rem;
+  border-radius: $radius-sm;
+  border: 1px solid transparent;
+  opacity: 0.55;
+  transition: opacity 150ms;
+}
+
+// The one acting right now, so the eye lands on it first.
+@keyframes currentPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba($gold, 0.35);
+  }
+  50% {
+    box-shadow: 0 0 0 3px rgba($gold, 0);
+  }
+}
+
+.current {
+  opacity: 1;
+  border-color: rgba($gold, 0.55);
+  background-color: rgba($gold, 0.12);
+  animation: currentPulse 1.8s ease-out infinite;
+}
+
+// Up next: brighter than the queue behind it, quieter than the current one.
+.next {
+  opacity: 0.85;
+}
+
+// A chevron between chips, drawn from two borders rather than an asset.
+.arrow {
+  flex-shrink: 0;
+  align-self: center;
+  width: 6px;
+  height: 6px;
+  margin: 0 0.05rem;
+  border-top: 2px solid rgba($gold, 0.55);
+  border-right: 2px solid rgba($gold, 0.55);
+  transform: rotate(45deg);
+}
+
+.dead {
+  opacity: 0.25;
+  filter: grayscale(1);
+}
+
+.portrait {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30px;
+  height: 30px;
+}
+
+.head {
+  width: 30px;
+  height: 34px;
+  object-fit: contain;
+}
+
+.monster {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}
+
+.name {
+  max-width: 100%;
+  font-size: 9px;
+  color: $text;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

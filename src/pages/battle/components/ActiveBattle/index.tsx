@@ -10,6 +10,7 @@ import { BattleMonsterInfo } from '../BattleMonsterInfo';
 import { BattleRewardBox } from '../BattleRewardsBox';
 import { BattleLogs } from '../BattleLogs';
 import { BattleActions } from '../BattleActions';
+import { TurnOrder } from '../TurnOrder';
 
 /** The player the monsters are currently focused on. */
 function highestAggroUser(users: BattleUser[]) {
@@ -43,9 +44,13 @@ export function ActiveBattle({ battle }: { battle: Battle }) {
 
   return (
     <>
-      <div className={styles.turnLabelContainer}>
-        Turn: <strong>{turnName}</strong>
-      </div>
+      {/* Who is acting and who follows, so a co-op fight can be planned. */}
+      <TurnOrder
+        attackerList={battle.attackerList}
+        attackerTurn={battle.attackerTurn}
+        users={battle.users}
+        monsters={battle.monsters}
+      />
 
       <div className={styles.logContainer}>
         <BattleLogs logs={battle.log} />
