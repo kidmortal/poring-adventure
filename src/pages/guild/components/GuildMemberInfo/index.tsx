@@ -4,11 +4,21 @@ import cn from 'classnames';
 
 import { When } from '@/components/shared/When';
 
-export function GuidMemberInfo({ member, isLeader }: { member: GuildMember; isLeader?: boolean }) {
+type Props = {
+  member: GuildMember;
+  isLeader?: boolean;
+  onClick?: () => void;
+};
+
+export function GuidMemberInfo({ member, isLeader, onClick }: Props) {
   const appearance = member.user?.appearance;
 
   return (
-    <div className={cn(styles.memberInfoContainer, { [styles.leader]: isLeader })}>
+    <div
+      role={onClick ? 'button' : undefined}
+      onClick={onClick}
+      className={cn(styles.memberInfoContainer, { [styles.leader]: isLeader, [styles.clickable]: !!onClick })}
+    >
       <When value={!!appearance}>
         <CharacterHead className={styles.avatar} head={appearance?.head} gender={appearance?.gender} />
       </When>

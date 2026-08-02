@@ -96,7 +96,12 @@ export function GuildPage() {
               <ForEach
                 items={members}
                 render={(member) => (
-                  <GuidMemberInfo key={member.id} member={member} isLeader={member.userEmail === guild.leaderEmail} />
+                  <GuidMemberInfo
+                    key={member.id}
+                    member={member}
+                    isLeader={member.userEmail === guild.leaderEmail}
+                    onClick={() => modalStore.setGuildMember({ open: true, member })}
+                  />
                 )}
               />
             </div>

@@ -24,6 +24,7 @@ import { ItemInfoModal } from '@/modals/ItemInfoModal';
 import { CraftDetailsModal } from '@/modals/CraftDetailsModal';
 import { GiftModal } from '@/modals/GiftModal';
 import { PartyMemberModal } from '@/modals/PartyMemberModal';
+import { GuildMemberModal } from '@/modals/GuildMemberModal';
 
 export function ModalLayout() {
   const userStore = useUserStore();
@@ -112,6 +113,11 @@ export function ModalLayout() {
         onRequestClose={() => modalStore.setPartyMember({ open: false })}
         isOpen={modalStore.partyMember.open}
         member={modalStore.partyMember.member}
+      />
+      <GuildMemberModal
+        onRequestClose={() => modalStore.setGuildMember({ open: false })}
+        isOpen={modalStore.guildMember.open}
+        member={modalStore.guildMember.member}
       />
       <GiftModal
         onRequestClose={() => modalStore.setGift({ open: false })}
