@@ -60,11 +60,7 @@ export function GuildMemberModal({ isOpen, member, onRequestClose }: Props) {
   else if (!userStore.user?.partyId) inviteBlockedReason = 'Create a party first';
   else if (user?.partyId === userStore.user?.partyId) inviteBlockedReason = 'Already in your party';
 
-  // Contribution only means something next to the rest of the guild.
-  const members = guild?.members ?? [];
-  const totalContribution = members.reduce((total, m) => total + m.contribution, 0);
-  const rank = [...members].sort((a, b) => b.contribution - a.contribution).findIndex((m) => m.id === member?.id) + 1;
-  const share = totalContribution > 0 ? Math.round(((member?.contribution ?? 0) / totalContribution) * 100) : 0;
+
 
   return (
     <BaseModal isOpen={isOpen} onRequestClose={close}>
@@ -110,8 +106,6 @@ export function GuildMemberModal({ isOpen, member, onRequestClose }: Props) {
         <span className={styles.sectionTitle}>Guild</span>
         <div className={styles.rows}>
           <Row label="Rank" value={member?.role ?? '-'} />
-          <Row label="Contribution" value={`${member?.contribution ?? 0} (${share}%)`} />
-          <Row label="Position" value={rank > 0 ? `#${rank} of ${members.length}` : '-'} />
           <div className={styles.row}>
             <span className={styles.rowLabel}>Guild tokens</span>
             <GuildToken amount={member?.guildTokens} size={14} />

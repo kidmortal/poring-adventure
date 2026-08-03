@@ -1,215 +1,65 @@
-@import "@/styles/variables";
-
-.container {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  color: white;
-}
-
-.mainSectionRow {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  > *:not(:first-child) {
-    margin-left: 0.5rem;
-  }
-}
-
-.branchContainer {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  > *:not(:first-child) {
-    margin-left: 0.3rem;
-  }
-}
-
-.ramInfoContainer {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  > *:not(:first-child) {
-    margin-left: 1rem;
-  }
-}
-
-.totalRamInfo {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  > *:not(:first-child) {
-    margin-left: 0.3rem;
-  }
-  font-size: 12px;
-
-  .lowMemory {
-    color: greenyellow;
-  }
-  .mediumMemory {
-    color: yellow;
-  }
-  .highMemory {
-    color: #dd5746;
-  }
-}
-
-.appMemoryUsage {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  > *:not(:first-child) {
-    margin-left: 0.5rem;
-  }
-  font-size: 12px;
-  span {
-    color: greenyellow;
-  }
-}
-
-.adminActions {
-  width: 100%;
-  padding: 1rem 0;
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-
-  > *:not(:first-child) {
-    margin-left: 1rem;
-  }
-
-  button {
-    width: 3rem;
-    > div {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-
-      > *:not(:first-child) {
-        margin-top: 0.2rem;
-      }
-    }
-  }
-  span {
-    font-size: 10px;
-  }
-}
-
-.socketList {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  > *:not(:first-child) {
-    margin-top: 1rem;
-  }
-}
-
-.userSocketContainer {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-
-  > *:not(:first-child) {
-    margin-top: 0.5rem;
-  }
-
-  background-color: $dark-neutral;
-  padding: 0.5rem;
-  border-radius: 4px;
-
-  span {
-    font-size: 12px;
-  }
-
-  .userHead {
-    width: 3rem;
-    height: 3rem;
-  }
-}
+@import '@/styles/variables';
 
 .serverInfoContainer {
   width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background-color: $dark-neutral;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
+  gap: 0.4rem;
   padding: 0.5rem;
-  border-radius: 4px;
+  @include panel($radius);
+}
+
+// One reading per tile: icon, what it is, and the number itself.
+.tile {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.45rem;
+  min-width: 0;
+}
+
+.tileIcon {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: $radius-sm;
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
+.tileText {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.tileLabel {
+  font-size: 9px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: $text-muted;
+}
+
+.tileValue {
   font-size: 12px;
-  > *:not(:first-child) {
-    margin-top: 0.3rem;
-  }
-  margin-top: 1rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-.userInfoContainer {
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-
-  > *:not(:first-child) {
-    margin-left: 0.5rem;
-  }
-}
-.generalInfoContainer {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  > *:not(:first-child) {
-    margin-top: 0.2rem;
-  }
+// Memory pressure reads off the colour before the number is parsed.
+.lowMemory {
+  color: $exp;
 }
 
-.statsContainer {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-
-  > *:not(:first-child) {
-    margin-top: 0.3rem;
-  }
+.mediumMemory {
+  color: $gold;
 }
 
-.socketActions {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  > *:not(:first-child) {
-    margin-left: 1rem;
-  }
-}
-
-.row {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-
-  > *:not(:first-child) {
-    margin-left: 0.5rem;
-  }
+.highMemory {
+  color: $error;
 }

@@ -1,0 +1,86 @@
+@import '@/styles/variables';
+
+.action {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.55rem;
+  border-radius: $radius-sm;
+  border: 1px solid $border;
+  background-color: rgba(0, 0, 0, 0.25);
+  color: $text;
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 120ms, border-color 120ms;
+
+  &:active {
+    background-color: rgba(255, 255, 255, 0.06);
+  }
+
+  &.pending {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.icon {
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 26px;
+  height: 26px;
+  border-radius: $radius-sm;
+  font-size: 13px;
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.label {
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.hint {
+  font-size: 9px;
+  color: $text-muted;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+// The colour says how much damage the action can do, not what it looks like.
+.primary .icon {
+  color: $primary;
+  background-color: rgba($primary, 0.18);
+}
+
+.secondary .icon,
+.success .icon {
+  color: $success;
+  background-color: rgba($success, 0.18);
+}
+
+.gold .icon {
+  color: $gold;
+  background-color: rgba($gold, 0.18);
+}
+
+.danger {
+  border-color: rgba($error, 0.35);
+
+  .icon {
+    color: $error;
+    background-color: rgba($error, 0.18);
+  }
+}

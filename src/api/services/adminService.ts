@@ -60,6 +60,37 @@ export function adminService({ websocket }: { websocket?: Socket }) {
     return asyncEmit(websocket, "send_push_notification_user", args);
   }
 
+  /** No email resets every character; an email resets just that one. */
+  async function resetDailyStamina(args?: { email?: string }) {
+    if (!websocket) return undefined;
+    return asyncEmit(websocket, "reset_daily_stamina", args?.email ?? "");
+  }
+
+  async function resetBossEntry(args?: { email?: string }) {
+    if (!websocket) return undefined;
+    return asyncEmit(websocket, "reset_boss_entry", args?.email ?? "");
+  }
+
+  async function clearGuildBosses() {
+    if (!websocket) return undefined;
+    return asyncEmit(websocket, "clear_guild_bosses", "");
+  }
+
+  async function giveSilver(args: { email: string; amount: number }) {
+    if (!websocket) return undefined;
+    return asyncEmit(websocket, "give_silver", args);
+  }
+
+  async function forceEndBattle(args: { email: string }) {
+    if (!websocket) return undefined;
+    return asyncEmit(websocket, "force_end_battle", args.email);
+  }
+
+  async function clearUserCache(args: { email: string }) {
+    if (!websocket) return undefined;
+    return asyncEmit(websocket, "clear_user_cache", args.email);
+  }
+
   async function getServerInfo() {
     if (!websocket) return undefined;
     return asyncEmit<ServerInfo>(websocket, "get_server_info", "");
@@ -90,5 +121,11 @@ export function adminService({ websocket }: { websocket?: Socket }) {
     sendGiftMail,
     fullHealUser,
     killUser,
+    resetDailyStamina,
+    resetBossEntry,
+    clearGuildBosses,
+    giveSilver,
+    forceEndBattle,
+    clearUserCache,
   };
 }
