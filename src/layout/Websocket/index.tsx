@@ -13,6 +13,8 @@ import { WebsocketDisconnectedMessageScreen } from '@/screens/WebsocketDisconnec
 import { addAdminWebsocketListeners } from './adminListeners';
 import { useAdminStore } from '@/store/admin';
 import { useUserStore } from '@/store/user';
+import { attachWebsocketDevLogger } from './devLogger';
+import { WebsocketDebugPanel } from '@/components/WebsocketDebugPanel';
 
 export function WebsocketLayout() {
   const [disconnected, setDisconnected] = useState(false);
@@ -30,6 +32,9 @@ export function WebsocketLayout() {
       const socket = io(import.meta.env.VITE_API_URL, {
         auth: { accessToken: store.loggedUserInfo.accessToken },
       });
+
+      // Before any listener, so the log holds the whole connection attempt.
+      attachWebsocketDevLogger(socket);
 
       socket.on('authenticated', () => {
         store.setWsAuthenticated(true);
@@ -73,17 +78,28 @@ export function WebsocketLayout() {
     }
   }, [store.websocket]);
 
-  if (disconnected) {
-    return <WebsocketDisconnectedMessageScreen onReconnect={() => connectToWS()} />;
-  }
+  // The panel rides along with every branch: a failed connection is exactly
+  // when the log matters most, and those screens never render the Outlet.
+  return (
+    <>
+      {renderScreen()}
+      <WebsocketDebugPanel />
+    </>
+  );
 
-  if (!store.websocket && !store.wsAuthenticated) {
-    return <FullscreenLoading info={'Server connection'} />;
-  }
+  function renderScreen() {
+    if (disconnected) {
+      return <WebsocketDisconnectedMessageScreen onReconnect={() => connectToWS()} />;
+    }
 
-  if (!store.websocket) {
-    return <FullscreenLoading info={'Reconnecting to server'} />;
-  }
+    if (!store.websocket && !store.wsAuthenticated) {
+      return <FullscreenLoading info={'Server connection'} />;
+    }
 
-  return <Outlet />;
+    if (!store.websocket) {
+      return <FullscreenLoading info={'Reconnecting to server'} />;
+    }
+
+    return <Outlet />;
+  }
 }

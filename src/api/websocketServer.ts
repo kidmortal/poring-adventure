@@ -14,9 +14,26 @@ import { storeService } from './services/storeService';
 import { discordService } from './services/discordService';
 import { professionService } from './services/professionService';
 
+/** How long to wait for the server's acknowledgement before giving up on it. */
+const ACK_TIMEOUT_MS = 15_000;
+
+/**
+ * Emits and resolves with the server's acknowledgement.
+ *
+ * The timeout is not paranoia: a handler that throws where the server cannot
+ * answer, or a query that never settles, leaves this promise pending forever and
+ * the screen behind it loading forever. Rejecting turns that into an error the
+ * caller can show and retry.
+ */
 export async function asyncEmit<T>(ws: Socket, event: string, args: number | string | object): Promise<T> {
-  return new Promise(function (resolve) {
+  return new Promise(function (resolve, reject) {
+    const timer = setTimeout(
+      () => reject(new Error(`No response from server for "${event}" after ${ACK_TIMEOUT_MS / 1000}s`)),
+      ACK_TIMEOUT_MS,
+    );
+
     ws.emit(event, args, (response: T) => {
+      clearTimeout(timer);
       resolve(response);
     });
   });
