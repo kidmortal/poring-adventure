@@ -31,6 +31,16 @@ export function battleService({ websocket }: { websocket?: Socket }) {
     return asyncEmit<Battle>(websocket, "battle_cast", params);
   }
 
+  /**
+   * Drinks something mid-fight. It costs the turn, which is the trade against
+   * bringing a Priest, and only items flagged `battleUse` are accepted — food
+   * is eaten before a fight, not during one.
+   */
+  async function requestBattleUseItem(params: { inventoryId: number }) {
+    if (!websocket) return undefined;
+    return asyncEmit<boolean>(websocket, "battle_use_item", params);
+  }
+
   async function cancelBattleInstance() {
     if (!websocket) return undefined;
     return asyncEmit<Battle>(websocket, "battle_reset", "");
@@ -41,6 +51,7 @@ export function battleService({ websocket }: { websocket?: Socket }) {
     createGuildBossBattle,
     requestBattleAttack,
     requestBattleCast,
+    requestBattleUseItem,
     cancelBattleInstance,
     getBattleInstance,
   };

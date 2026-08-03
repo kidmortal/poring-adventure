@@ -42,6 +42,20 @@ export function professionService({ websocket }: { websocket?: Socket }) {
     return asyncEmit<CraftResult>(websocket, 'craft', dto);
   }
 
+  /**
+   * Today's contracts. The board is derived from the player and the UTC day, so
+   * it is stable across reloads and cannot be re-rolled by fetching again.
+   */
+  async function getCommissions(): Promise<CommissionBoard | undefined> {
+    if (!websocket) return undefined;
+    return asyncEmit<CommissionBoard>(websocket, 'get_commissions', '');
+  }
+
+  async function deliverCommission(dto: CommissionIdDto): Promise<DeliverCommissionResult | undefined> {
+    if (!websocket) return undefined;
+    return asyncEmit<DeliverCommissionResult>(websocket, 'deliver_commission', dto);
+  }
+
   async function getServiceOffers(): Promise<ServiceOffer[] | undefined> {
     if (!websocket) return undefined;
     return asyncEmit<ServiceOffer[]>(websocket, 'get_service_offers', '');
@@ -87,6 +101,8 @@ export function professionService({ websocket }: { websocket?: Socket }) {
     gather,
     getRecipes,
     craft,
+    getCommissions,
+    deliverCommission,
     getServiceOffers,
     getUserServiceOffer,
     publishServiceOffer,

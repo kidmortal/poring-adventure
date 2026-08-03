@@ -13,6 +13,8 @@ import { useModalStore } from '@/store/modal';
 import Input from '@/components/shared/Input';
 import { ItemIdentity, ItemStats } from '@/components/Items/ItemStats';
 import { FaMinus, FaPlus } from 'react-icons/fa';
+import { listingFee, settleSale } from '@/marketRules';
+import { useUserStore } from '@/store/user';
 
 type Props = {
   isOpen?: boolean;
@@ -25,6 +27,7 @@ const MIN_PRICE = 1;
 export function SellItemModal(props: Props) {
   const api = useWebsocketApi();
   const modalStore = useModalStore();
+  const userStore = useUserStore();
   const queryClient = useQueryClient();
   const createMarketListingMutation = useMutation({
     mutationFn: (args: { stack: number; price: number }) =>
@@ -54,9 +57,15 @@ export function SellItemModal(props: Props) {
   const sellAmount = modalStore.sellItem.amount ?? 0;
   const hasRemainingStock = availableStack > 0;
 
+  const { total, tax, payout } = settleSale({ price: sellPrice, stacks: sellAmount });
+  const fee = listingFee({ price: sellPrice, stacks: sellAmount });
+  const silver = userStore.user?.silver ?? 0;
+
   const amountIsValid = sellAmount >= 1 && sellAmount <= availableStack;
   const priceIsValid = sellPrice >= MIN_PRICE;
-  const canSell = hasRemainingStock && amountIsValid && priceIsValid && !createMarketListingMutation.isPending;
+  const canAffordFee = silver >= fee;
+  const canSell =
+    hasRemainingStock && amountIsValid && priceIsValid && canAffordFee && !createMarketListingMutation.isPending;
 
   function changeAmount(next: number) {
     modalStore.setSellItem({ amount: Math.min(Math.max(next, 0), availableStack) });
@@ -129,7 +138,24 @@ export function SellItemModal(props: Props) {
           <span className={styles.totalLabel}>
             Total for {sellAmount || 0}x
           </span>
-          <Silver amount={sellAmount * sellPrice} />
+          <Silver amount={total} />
+        </div>
+
+        {/* Both cuts are spelled out before the button, because finding out
+            afterwards that the number moved is what makes a fee feel unfair. */}
+        <div className={styles.feeContainer}>
+          <div className={styles.feeRow}>
+            <span>Listing fee, paid now</span>
+            <Silver amount={fee} />
+          </div>
+          <div className={styles.feeRow}>
+            <span>Market tax when it sells</span>
+            <Silver amount={tax} />
+          </div>
+          <div className={styles.feeRowStrong}>
+            <span>You receive</span>
+            <Silver amount={payout} />
+          </div>
         </div>
 
         <Button
@@ -151,6 +177,9 @@ export function SellItemModal(props: Props) {
         )}
         {hasRemainingStock && amountIsValid && !priceIsValid && (
           <span className={styles.warning}>Set a price of at least {MIN_PRICE} silver.</span>
+        )}
+        {hasRemainingStock && amountIsValid && priceIsValid && !canAffordFee && (
+          <span className={styles.warning}>The {fee} silver listing fee is more than you are carrying.</span>
         )}
       </div>
     </BaseModal>

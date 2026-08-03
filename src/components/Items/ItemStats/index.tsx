@@ -75,6 +75,57 @@ export function ItemStats({
           <Stat assetName="int" label="INT" value={int} bonus={Math.floor(int * multiplier)} />
         </When>
       </div>
+
+      <ConsumableEffect inventoryItem={inventoryItem} />
+    </div>
+  );
+}
+
+/**
+ * What a consumable does beyond restoring vitals: the buff it grants, how long
+ * that lasts at this stack's quality, and whether it can be used mid-fight.
+ *
+ * A meal's numbers are fixed by its recipe — a better cook makes one that lasts
+ * longer, not one that hits harder — so quality shows up in the duration.
+ */
+function ConsumableEffect({ inventoryItem }: { inventoryItem?: InventoryItem }) {
+  const item = inventoryItem?.item;
+  const buff = item?.buff;
+  if (!item || (!buff && !item.battleUse && !item.battleEffect)) return null;
+
+  const quality = inventoryItem?.quality ?? 1;
+  const duration = buff ? Math.max(1, Math.floor(buff.duration * Utils.qualityMultiplier(quality))) : 0;
+
+  return (
+    <div className={styles.effectSection}>
+      <When value={!!buff}>
+        <div className={styles.effectRow}>
+          <img width={20} height={20} src={buff?.image} alt={buff?.name} />
+          <span className={styles.effectName}>{buff?.name}</span>
+          <span className={styles.effectDuration}>{duration} battles</span>
+        </div>
+        <div className={styles.effectBonuses}>
+          <When value={!!buff?.attackBonus}>
+            <span>+{buff?.attackBonus}% attack</span>
+          </When>
+          <When value={!!buff?.healthBonus}>
+            <span>-{buff?.healthBonus}% damage taken</span>
+          </When>
+        </div>
+      </When>
+
+      <When value={!!item.partyWide}>
+        <span className={styles.effectNote}>Feeds your whole party</span>
+      </When>
+      <When value={item.battleEffect === 'escape'}>
+        <span className={styles.effectNote}>Escapes a fight, whoever leads the party</span>
+      </When>
+      <When value={!!item.battleUse}>
+        <span className={styles.effectNote}>Usable in battle — costs your turn</span>
+      </When>
+      <When value={!item.battleUse && !!buff}>
+        <span className={styles.effectNote}>Eaten before a fight, not during one</span>
+      </When>
     </div>
   );
 }

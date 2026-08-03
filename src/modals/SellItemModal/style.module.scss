@@ -118,3 +118,33 @@
   color: $error;
   text-align: center;
 }
+
+// Both cuts, before the button rather than after the sale.
+.feeContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 0.5rem;
+  @include slot();
+}
+
+.feeRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 11px;
+  color: $text-muted;
+}
+
+.feeRowStrong {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 700;
+  color: $text;
+  padding-top: 0.25rem;
+  border-top: 1px solid $border;
+}

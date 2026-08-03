@@ -46,6 +46,19 @@ function ItemDetails({ inventoryItem }: { inventoryItem?: InventoryItem }) {
   );
 }
 
+/** "Grilled Fish — Well Fed for 4 battles, party of 3" and the like. */
+function describeConsume(result: ConsumeResult) {
+  const parts: string[] = [];
+  if (result.health) parts.push(`+${result.health} health`);
+  if (result.mana) parts.push(`+${result.mana} mana`);
+  if (result.buff) {
+    const reach = result.buff.fed > 1 ? `, party of ${result.buff.fed}` : '';
+    parts.push(`${result.buff.name} for ${result.buff.duration} battles${reach}`);
+  }
+
+  return parts.length ? `${result.item} — ${parts.join(', ')}` : `${result.item} used`;
+}
+
 export function ItemMenuModal(props: Props) {
   const api = useWebsocketApi();
   const modalStore = useModalStore();
@@ -66,9 +79,11 @@ export function ItemMenuModal(props: Props) {
 
   const consumeItemMutation = useMutation({
     mutationFn: (inventoryId: number) => api.items.consumeItem({ inventoryId }),
-    onSuccess: (success) => {
-      if (!success) return;
-      toast('Item consumed', { type: 'success', autoClose: 1000 });
+    onSuccess: (result) => {
+      if (!result) return;
+      // Says what it actually did, because quality changes the numbers and a
+      // meal's whole effect is a buff that would otherwise be invisible.
+      toast(describeConsume(result), { type: 'success', autoClose: 2000 });
     },
     onSettled: () => {
       props.onRequestClose();

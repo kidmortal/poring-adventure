@@ -80,3 +80,46 @@
 .Mythical {
   color: $rarity-mythic;
 }
+
+// What a consumable does past restoring vitals — the buff line and the notes
+// that say when it can be used.
+.effectSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding-top: 0.4rem;
+  border-top: 1px solid $border;
+}
+
+.effectRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.effectName {
+  flex: 1;
+  font-size: 12px;
+  font-weight: 700;
+  color: $text;
+}
+
+.effectDuration {
+  font-size: 10px;
+  color: $text-muted;
+}
+
+.effectBonuses {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  font-size: 11px;
+  color: $success;
+}
+
+.effectNote {
+  font-size: 10px;
+  color: $text-muted;
+}

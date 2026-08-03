@@ -15,6 +15,16 @@ declare global {
     agi?: number;
     health?: number;
     mana?: number;
+
+    /** The buff eating it grants. What a cook's whole output is made of. */
+    buffId?: number | null;
+    buff?: Buff | null;
+    /** Usable mid-fight, at the cost of a turn. Alchemy's output. */
+    battleUse?: boolean;
+    /** Feeds the whole party rather than only whoever ate it. */
+    partyWide?: boolean;
+    /** An action rather than a restore — currently only "escape". */
+    battleEffect?: string | null;
   };
 
   type InventoryItem = {

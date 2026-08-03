@@ -36,6 +36,14 @@ function hiredEnhanceBonus(baseChance: number, blacksmithLevel: number) {
   return Math.min(Math.round(baseChance * 0.1 * blacksmithLevel), 100 - baseChance);
 }
 
+/** From +6 up a failure costs a level, but never past +5 — mirrors the server. */
+const SETBACK_FROM_ENHANCEMENT = 6;
+const SETBACK_FLOOR = 5;
+
+function failureCostsALevel(current: number) {
+  return current >= SETBACK_FROM_ENHANCEMENT && current - 1 >= SETBACK_FLOOR;
+}
+
 export function EnhanceItemModal(props: Props) {
   const api = useWebsocketApi();
   const queryClient = useQueryClient();
@@ -56,11 +64,11 @@ export function EnhanceItemModal(props: Props) {
    * new element, so a second roll restarts the animation instead of sitting
    * still on screen.
    */
-  const [outcome, setOutcome] = useState<{ id: number; success: boolean }>();
+  const [outcome, setOutcome] = useState<{ id: number; success: boolean; setback?: boolean }>();
 
-  function showOutcome(result?: { success: boolean } | false) {
+  function showOutcome(result?: { success: boolean; setback?: boolean } | false) {
     if (!result) return;
-    setOutcome({ id: Date.now(), success: result.success });
+    setOutcome({ id: Date.now(), success: result.success, setback: result.setback });
   }
 
   const enhanceItemMutation = useMutation({
@@ -104,21 +112,26 @@ export function EnhanceItemModal(props: Props) {
     return () => clearTimeout(timer);
   }, [outcome]);
 
-  // A successful roll moves the item to a new stack, so the modal follows it —
-  // otherwise the next attempt would target an inventory id that is now gone.
+  // Any roll that changes the enhancement moves the item to a new stack, so the
+  // modal follows it — otherwise the next attempt would target an inventory id
+  // that is now gone. A setback moves it down rather than up, but it moves it
+  // just the same.
   const item = props.inventoryItem;
   useEffect(() => {
-    if (!outcome?.success || !item) return;
-    const upgraded = userStore.user?.inventory?.find(
+    if (!outcome || !item) return;
+    if (!outcome.success && !outcome.setback) return;
+
+    const enhancement = outcome.success ? item.enhancement + 1 : item.enhancement - 1;
+    const moved = userStore.user?.inventory?.find(
       (owned) =>
         owned.itemId === item.itemId &&
         owned.quality === item.quality &&
-        owned.enhancement === item.enhancement + 1 &&
+        owned.enhancement === enhancement &&
         !owned.equipped &&
         !owned.locked,
     );
-    if (upgraded && upgraded.id !== item.id) {
-      modalStore.setInventoryItem({ selectedItem: upgraded });
+    if (moved && moved.id !== item.id) {
+      modalStore.setInventoryItem({ selectedItem: moved });
     }
   }, [outcome, userStore.user]);
 
@@ -140,6 +153,7 @@ export function EnhanceItemModal(props: Props) {
   // A smith picked for a cheaper item can be out of energy by the time you come
   // back, so the selection is re-checked rather than trusted.
   const selectedUnavailable = !!selected && (selected.crafter.stats?.stamina ?? 0) < ENHANCE_SERVICE_STAMINA_COST;
+  const atRisk = !!item && failureCostsALevel(item.enhancement);
 
   return (
     <BaseModal onRequestClose={props.onRequestClose} isOpen={props.isOpen}>
@@ -150,7 +164,9 @@ export function EnhanceItemModal(props: Props) {
             key={outcome?.id}
             className={cn(styles.outcome, { [styles.outcomeSuccess]: outcome?.success })}
           >
-            {outcome?.success ? 'SUCCESS' : 'FAIL'}
+            {/* A setback is a different kind of bad news to a wasted fee, and
+                the player has to be told which one just happened. */}
+            {outcome?.success ? 'SUCCESS' : outcome?.setback ? 'BROKEN' : 'FAIL'}
           </span>
         </When>
         <InventoryItem inventoryItem={props.inventoryItem} />
@@ -161,6 +177,12 @@ export function EnhanceItemModal(props: Props) {
           </When>
         </span>
         <Silver amount={totalPrice} />
+
+        {/* Past the threshold a failure takes a level rather than only the fee,
+            and nobody should discover that by losing one. */}
+        <When value={atRisk}>
+          <span className={styles.setbackWarning}>A failure now drops it to +{(item?.enhancement ?? 1) - 1}</span>
+        </When>
       </div>
 
       {/* Three ways to spend the attempt, and the colour says which: blue when a

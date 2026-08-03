@@ -86,10 +86,15 @@ declare global {
   type Buff = {
     id: number;
     name: string;
+    /** power_up, invincible, parry, well_fed, second_wind. */
+    effect?: string;
     duration: number;
     image: string;
     pose: string;
     persist: boolean;
     maxStack: number;
+    /** Percentages the "well_fed" effect reads. Meals carry these. */
+    attackBonus?: number;
+    healthBonus?: number;
   };
 }

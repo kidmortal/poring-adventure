@@ -1,0 +1,65 @@
+@import '@/styles/variables';
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  padding: 0.6rem;
+  @include panel();
+}
+
+/// A filled contract stays on the board so the day's progress is visible, but
+/// it steps back so the ones still worth doing read first.
+.done {
+  opacity: 0.55;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.reward {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.silver {
+  font-size: 13px;
+  font-weight: 700;
+  color: $gold;
+}
+
+.experience {
+  font-size: 10px;
+  color: $exp;
+}
+
+.progress {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 11px;
+}
+
+.ready {
+  color: $success;
+  font-weight: 600;
+}
+
+.holding {
+  color: $text-muted;
+}
+
+.level {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: $text-muted;
+}

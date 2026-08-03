@@ -133,6 +133,8 @@ declare global {
     item: string;
     enhancement: number;
     success: boolean;
+    /** Set when the failure cost a level rather than only the forge price. */
+    setback?: boolean;
     chance: number;
     forgePrice: number;
   };
@@ -141,10 +143,60 @@ declare global {
     item: string;
     enhancement: number;
     success: boolean;
+    setback?: boolean;
     chance: number;
     blacksmith: string;
     blacksmithLevel: number;
     forgePrice: number;
     fee: number;
+  };
+
+  /**
+   * One standing NPC contract on today's board. The board redraws every UTC
+   * day, which is what keeps demand for crafted goods coming back instead of
+   * being satisfied once and for all.
+   */
+  type Commission = {
+    id: number;
+    item: Item;
+    amount: number;
+    silver: number;
+    experience: number;
+    requiredLevel: number;
+    /** Whether this one has already been filled today. */
+    delivered: boolean;
+    /** How many the player is holding right now, across every stack. */
+    owned: number;
+  };
+
+  type CommissionBoard = {
+    /** null when the player has not taken up a trade yet. */
+    profession: string | null;
+    day: string;
+    commissions: Commission[];
+  };
+
+  type DeliverCommissionResult = {
+    item: string;
+    amount: number;
+    silver: number;
+    experience: number;
+  };
+
+  /** What eating or drinking something actually did. */
+  type ConsumeResult = {
+    item: string;
+    quality: number;
+    health: number;
+    mana: number;
+    buff: {
+      name: string;
+      image: string;
+      duration: number;
+      attackBonus: number;
+      healthBonus: number;
+      /** How many people the meal reached — more than one for a Feast. */
+      fed: number;
+    } | null;
   };
 }

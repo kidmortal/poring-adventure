@@ -14,6 +14,10 @@ declare global {
     recipeId: number;
   };
 
+  type CommissionIdDto = {
+    commissionId: number;
+  };
+
   type PublishServiceOfferDto = {
     pricePerStamina: number;
     crafting: boolean;

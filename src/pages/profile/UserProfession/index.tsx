@@ -18,9 +18,10 @@ import { RecipeCard } from './components/RecipeCard';
 import { HireOfferCard } from './components/HireOfferCard';
 import { ServiceOfferForm } from './components/ServiceOfferForm';
 import { ProfessionFilter, ProfessionFilterValue } from './components/ProfessionFilter';
+import { CommissionCard } from './components/CommissionCard';
 import { LoadingBlock } from '@/components/shared/LoadingBlock';
 
-type ProfessionTab = 'professions' | 'gather' | 'craft' | 'hire';
+type ProfessionTab = 'professions' | 'gather' | 'craft' | 'board' | 'hire';
 
 /**
  * Crafting and gathering. Every action here is priced in stamina, which refills
@@ -64,6 +65,21 @@ export function UserProfession() {
     onSuccess: (result, nodeId) => {
       if (result) setGatherResults((current) => ({ ...current, [nodeId]: result }));
     },
+  });
+
+  // The board is drawn from the player and the UTC day, so it only changes when
+  // a contract is filled — or at midnight, which a refetch on mount catches.
+  const commissionsQuery = useQuery({
+    queryKey: [Query.COMMISSIONS],
+    staleTime: 1000 * 60,
+    queryFn: () => api.professions.getCommissions(),
+  });
+
+  const deliverMutation = useMutation({
+    mutationFn: (commissionId: number) => api.professions.deliverCommission({ commissionId }),
+    // The delivery consumed stacks and paid out, so what the board says the
+    // player is holding is stale on both counts.
+    onSettled: () => queryClient.invalidateQueries({ queryKey: [Query.COMMISSIONS] }),
   });
 
   // The hiring board is other players' stamina and prices, so it goes stale as
@@ -114,6 +130,12 @@ export function UserProfession() {
   const nodes = nodesQuery.data ?? [];
   const recipes = recipesQuery.data ?? [];
 
+  const board = commissionsQuery.data;
+  const commissions = board?.commissions ?? [];
+  const readyCommissions = commissions.filter(
+    (commission) => !commission.delivered && commission.owned >= commission.amount,
+  ).length;
+
   const offers = offersQuery.data ?? [];
   const myOffer = offers.find((offer) => offer.crafterEmail === user?.email);
   // Only crafting trades can be hired, so they are the only filters worth showing.
@@ -127,6 +149,9 @@ export function UserProfession() {
     { value: 'professions', label: 'Professions', badge: current ? undefined : available.length },
     { value: 'gather', label: 'Gather' },
     { value: 'craft', label: 'Craft' },
+    // The badge counts what could be handed over right now, which is the only
+    // number worth interrupting someone for.
+    { value: 'board', label: 'Board', badge: readyCommissions || undefined },
     { value: 'hire', label: 'Hire', badge: offers.length },
   ];
 
@@ -233,6 +258,38 @@ export function UserProfession() {
               />
             )}
           />
+        </When>
+
+        <When value={showing === 'board'}>
+          <section className={styles.section}>
+            <span className={styles.sectionTitle}>Commission board</span>
+            <span className={styles.swapHint}>
+              Standing orders from the guild halls. A new set every day, and they cost no stamina — the work was
+              already done at the bench.
+            </span>
+
+            <When value={commissionsQuery.isLoading}>
+              <LoadingBlock info="Reading the board" />
+            </When>
+            <When value={!commissionsQuery.isLoading && !board?.profession}>
+              <span className={styles.empty}>Learn a profession to be offered work</span>
+            </When>
+            <When value={!commissionsQuery.isLoading && !!board?.profession && commissions.length === 0}>
+              <span className={styles.empty}>Nothing posted for a {board?.profession} today</span>
+            </When>
+
+            <ForEach
+              items={commissions}
+              render={(commission) => (
+                <CommissionCard
+                  key={commission.id}
+                  commission={commission}
+                  busy={deliverMutation.isPending}
+                  onDeliver={() => deliverMutation.mutate(commission.id)}
+                />
+              )}
+            />
+          </section>
         </When>
 
         <When value={showing === 'hire'}>

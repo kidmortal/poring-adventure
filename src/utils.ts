@@ -38,8 +38,20 @@ function getRandomNumberBetween(min: number, max: number): number {
 
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+/**
+ * What quality alone is worth: 1 Common through 5 Legendary, 15% a tier.
+ *
+ * Mirrors the server. It used to be folded into the enhancement term, which
+ * meant it vanished at +0 — a Legendary sword fresh off the anvil showed the
+ * same numbers as a Common one.
+ */
+function qualityMultiplier(quality: number) {
+  return 1 + (Math.max(quality, 1) - 1) * 0.15;
+}
+
+/** Quality is the floor; enhancement builds on it and quality amplifies it. */
 function itemStatsMultiplier(quality: number, enhancement: number) {
-  return 1 + enhancement * 0.2 * (quality * 0.5);
+  return qualityMultiplier(quality) + enhancement * 0.2 * (quality * 0.5);
 }
 
 function getLevelFromExp(exp: number) {
@@ -109,6 +121,7 @@ export const Utils = {
   getRandomNumberBetween,
   getLevelFromExp,
   itemStatsMultiplier,
+  qualityMultiplier,
   randomDamage,
   removeElementFromList,
   formatMemory,

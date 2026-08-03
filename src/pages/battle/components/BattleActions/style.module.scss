@@ -92,3 +92,9 @@
   padding: 0.4rem;
   border-radius: 8px;
 }
+
+/// Quality on a battle consumable, which is what decides how much it restores.
+.itemQuality {
+  font-size: 10px;
+  color: $gold;
+}

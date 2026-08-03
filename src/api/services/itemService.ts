@@ -2,9 +2,13 @@ import { Socket } from 'socket.io-client';
 import { asyncEmit } from '../websocketServer';
 
 export function itemService({ websocket }: { websocket?: Socket }) {
-  async function consumeItem(dto: ConsumeItemDto) {
+  /**
+   * Resolves to what the consumable actually did — how much it restored once
+   * quality was applied, and the buff it granted if it was a meal.
+   */
+  async function consumeItem(dto: ConsumeItemDto): Promise<ConsumeResult | false | undefined> {
     if (!websocket) return undefined;
-    return asyncEmit<boolean>(websocket, 'consume_item', dto);
+    return asyncEmit<ConsumeResult | false>(websocket, 'consume_item', dto);
   }
 
   async function equipItem(dto: EquipItemDto) {
