@@ -54,6 +54,39 @@ function itemStatsMultiplier(quality: number, enhancement: number) {
   return qualityMultiplier(quality) + enhancement * 0.2 * (quality * 0.5);
 }
 
+/**
+ * Compact form for numbers that would otherwise blow out a chip or a reward
+ * icon: `k` for thousands, `kk` for millions, `kkk` for billions.
+ *
+ * Rounded **down**, never up, so an abbreviation can never claim more than the
+ * player actually has — 1,999 silver reads as `1.9k` rather than a `2k` they
+ * cannot spend. One decimal below ten of a unit, where the digit still carries
+ * information, and none above it.
+ *
+ * Anything under a thousand is left exactly as it is.
+ */
+function abbreviateNumber(value: number) {
+  const abs = Math.abs(value);
+  if (abs < 1_000) return String(value);
+
+  const sign = value < 0 ? '-' : '';
+  const units = [
+    { limit: 1_000_000_000, suffix: 'kkk' },
+    { limit: 1_000_000, suffix: 'kk' },
+    { limit: 1_000, suffix: 'k' },
+  ];
+
+  for (const { limit, suffix } of units) {
+    if (abs < limit) continue;
+    const scaled = abs / limit;
+    const text =
+      scaled < 10 ? (Math.floor(scaled * 10) / 10).toFixed(1).replace(/\.0$/, '') : String(Math.floor(scaled));
+    return `${sign}${text}${suffix}`;
+  }
+
+  return String(value);
+}
+
 function getLevelFromExp(exp: number) {
   let level = 1;
   let expNeeded = 0;
@@ -114,6 +147,7 @@ function craftQualityChances(level: number): { quality: number; chance: number }
 }
 
 export const Utils = {
+  abbreviateNumber,
   craftQualityChances,
   isSuccess,
   enhanceChance,

@@ -1,32 +1,35 @@
-@import "@/styles/variables";
+@import '@/styles/variables';
 
+// Icon then amount, in a row. The amount used to be absolutely positioned on
+// top of the sprite, which only worked while rewards stayed small.
 .container {
-  position: relative;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: 0.4rem;
+  gap: 0.3rem;
+  flex-shrink: 0;
 
-  font-size: 20px;
-  font-weight: 600;
-  color: $text;
-}
-
-.overLay {
-  span {
-    position: absolute;
-    bottom: 0;
+  img {
+    width: 26px;
     height: 26px;
-    @include readable-text;
+    flex-shrink: 0;
   }
 }
 
-.silver .overLay span {
-  right: 0;
+.amount {
+  font-size: 15px;
+  font-weight: 700;
+  // Tabular figures stop a column of rewards jittering as the digits change.
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  @include readable-text;
 }
 
-// The exp icon is wider, so its amount sits further in.
-.exp .overLay span {
-  right: 12px;
+.silver .amount {
+  color: $gold;
+}
+
+.exp .amount {
+  color: $exp;
 }

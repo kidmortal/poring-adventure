@@ -138,7 +138,7 @@ export function SellItemModal(props: Props) {
           <span className={styles.totalLabel}>
             Total for {sellAmount || 0}x
           </span>
-          <Silver amount={total} />
+          <Silver amount={total} exact />
         </div>
 
         {/* Both cuts are spelled out before the button, because finding out
@@ -146,15 +146,15 @@ export function SellItemModal(props: Props) {
         <div className={styles.feeContainer}>
           <div className={styles.feeRow}>
             <span>Listing fee, paid now</span>
-            <Silver amount={fee} />
+            <Silver amount={fee} exact />
           </div>
           <div className={styles.feeRow}>
             <span>Market tax when it sells</span>
-            <Silver amount={tax} />
+            <Silver amount={tax} exact />
           </div>
           <div className={styles.feeRowStrong}>
             <span>You receive</span>
-            <Silver amount={payout} />
+            <Silver amount={payout} exact />
           </div>
         </div>
 

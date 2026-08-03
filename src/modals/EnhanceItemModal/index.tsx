@@ -176,7 +176,7 @@ export function EnhanceItemModal(props: Props) {
             <span className={styles.chanceBonus}>+{selectedBonus}%</span>
           </When>
         </span>
-        <Silver amount={totalPrice} />
+        <Silver amount={totalPrice} exact />
 
         {/* Past the threshold a failure takes a level rather than only the fee,
             and nobody should discover that by losing one. */}
@@ -283,7 +283,7 @@ export function EnhanceItemModal(props: Props) {
                     smiths, so it gets its own column and size. */}
                 <span className={styles.smithBonus}>+{bonus}%</span>
                 <div className={styles.smithFee}>
-                  <Silver amount={fee} />
+                  <Silver amount={fee} exact />
                 </div>
               </button>
             );

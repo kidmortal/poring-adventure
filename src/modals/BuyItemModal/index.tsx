@@ -86,7 +86,7 @@ export function BuyItemModal(props: Props) {
           <div className={styles.sellerRow}>
             <span className={styles.sellerName}>{listing?.seller?.name}</span>
             <div className={styles.unitPrice}>
-              <Silver amount={unitPrice} />
+              <Silver amount={unitPrice} exact />
               <span className={styles.unitSuffix}>each</span>
             </div>
           </div>
@@ -96,7 +96,7 @@ export function BuyItemModal(props: Props) {
           <div className={styles.fieldHeader}>
             <span className={styles.fieldLabel}>Amount</span>
             <span className={styles.fieldHint}>
-              You have <Silver amount={silver} />
+              You have <Silver amount={silver} exact />
             </span>
           </div>
           {/* Stepper + Max, same as selling: the number keyboard is the slow path. */}
@@ -142,7 +142,7 @@ export function BuyItemModal(props: Props) {
 
         <div className={styles.totalPriceContainer}>
           <span className={styles.totalLabel}>Total for {buyingAmount || 0}x</span>
-          <Silver amount={totalPrice} />
+          <Silver amount={totalPrice} exact />
         </div>
 
         <Button
