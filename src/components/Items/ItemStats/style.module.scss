@@ -32,6 +32,16 @@
   text-transform: capitalize;
 }
 
+.requiredLevel {
+  padding: 0.05rem 0.35rem;
+  border-radius: 999px;
+  background-color: rgba($text-muted, 0.16);
+  border: 1px solid rgba($text-muted, 0.4);
+  color: $text-muted;
+  font-size: 10px;
+  font-weight: 700;
+}
+
 .enhancementBadge {
   padding: 0.05rem 0.35rem;
   border-radius: 999px;

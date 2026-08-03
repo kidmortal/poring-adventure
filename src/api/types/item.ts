@@ -7,6 +7,8 @@ declare global {
     name: string;
     category: string;
     image: string;
+    /** Character level needed to equip it. 1 for anything not equipment. */
+    requiredLevel: number;
     attack?: number;
     str?: number;
     int?: number;

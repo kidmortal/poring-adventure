@@ -9,7 +9,7 @@ export function battleService({ websocket }: { websocket?: Socket }) {
 
   async function createBattleInstance(mapId: number) {
     if (!websocket) return undefined;
-    return asyncEmit<Battle>(websocket, "battle_create", mapId);
+    return asyncEmit<Battle>(websocket, "battle_create", { mapId });
   }
 
   /** Spends today's guild boss entry — for the whole party, when in one. */

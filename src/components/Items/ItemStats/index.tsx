@@ -16,6 +16,10 @@ export function ItemIdentity({ inventoryItem }: { inventoryItem?: InventoryItem 
       <h3 className={cn(styles.itemName, styles[qualityName])}>{item?.name}</h3>
       <span className={styles.itemMeta}>
         {qualityName} · {item?.category}
+        {/* Gear is tiered, so the level it asks for belongs next to its name. */}
+        <When value={(item?.requiredLevel ?? 1) > 1}>
+          <span className={styles.requiredLevel}>Lv {item?.requiredLevel}</span>
+        </When>
         <When value={enhancement > 0}>
           <span className={styles.enhancementBadge}>+{enhancement}</span>
         </When>
