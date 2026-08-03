@@ -30,6 +30,13 @@ export function HireOfferCard({ offer, recipes, ownedByItemId, silver, isSelf, b
   const maxStamina = offer.crafter.stats?.maxStamina ?? 0;
   const level = offerLevel(offer);
 
+  // Only what this crafter could actually make. Their level gates the job
+  // server side, so listing the rest is a row that can never be clicked — and
+  // unlike their energy or your materials, it is not something that resolves on
+  // its own by waiting or going shopping.
+  const craftable = recipes.filter((recipe) => recipe.requiredLevel <= level);
+  const lockedByLevel = recipes.length - craftable.length;
+
   return (
     <div className={cn(styles.container, { [styles.depleted]: stamina <= 0 })}>
       <header className={styles.header}>
@@ -68,18 +75,20 @@ export function HireOfferCard({ offer, recipes, ownedByItemId, silver, isSelf, b
       <When value={offer.crafting && recipes.length === 0}>
         <span className={styles.empty}>No recipe available for this trade</span>
       </When>
+      <When value={offer.crafting && recipes.length > 0 && craftable.length === 0}>
+        <span className={styles.empty}>Not levelled far enough to craft anything yet</span>
+      </When>
 
       <ForEach
-        items={offer.crafting ? recipes : []}
+        items={offer.crafting ? craftable : []}
         render={(recipe) => {
           const fee = recipe.staminaCost * offer.pricePerStamina;
           const missingIngredient = recipe.ingredients.some((i) => (ownedByItemId[i.itemId] ?? 0) < i.amount);
 
-          // Everything that can stop the job: their level, their energy, your
-          // materials, your silver.
+          // What is left that can stop the job. Their level is already handled
+          // by not listing the recipe at all.
           let blockedReason: string | undefined;
           if (isSelf) blockedReason = 'Your own offer';
-          else if (level < recipe.requiredLevel) blockedReason = `Crafter needs level ${recipe.requiredLevel}`;
           else if (stamina < recipe.staminaCost) blockedReason = 'Crafter is out of energy';
           else if (missingIngredient) blockedReason = 'You are missing materials';
           else if (silver < fee) blockedReason = 'You cannot pay the fee';
@@ -108,6 +117,15 @@ export function HireOfferCard({ offer, recipes, ownedByItemId, silver, isSelf, b
           );
         }}
       />
+
+      {/* Said once, quietly, rather than as a row per locked recipe: the list is
+          shorter than the trade because of their level, not because the trade
+          is that small. */}
+      <When value={offer.crafting && lockedByLevel > 0 && craftable.length > 0}>
+        <span className={styles.lockedNote}>
+          {lockedByLevel} more {lockedByLevel === 1 ? 'recipe' : 'recipes'} at higher levels
+        </span>
+      </When>
 
       <When value={!!lastResult}>
         <span className={styles.result}>

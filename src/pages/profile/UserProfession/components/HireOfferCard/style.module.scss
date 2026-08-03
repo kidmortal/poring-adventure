@@ -168,3 +168,12 @@
   color: $exp;
   text-align: center;
 }
+
+/// Footnote for the recipes this crafter's level does not reach yet. Quieter
+/// than .empty — it sits under a list that does have rows in it.
+.lockedNote {
+  font-size: 10px;
+  color: $text-muted;
+  text-align: center;
+  opacity: 0.75;
+}

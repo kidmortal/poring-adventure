@@ -130,6 +130,17 @@ export function UserProfession() {
   const nodes = nodesQuery.data ?? [];
   const recipes = recipesQuery.data ?? [];
 
+  // Nodes belong to one trade, and a trade you have not learned cannot work any
+  // of them. Listing all fifteen with "Learn Mining first" under each is fifteen
+  // copies of one sentence, so the tab says it once instead.
+  const isGatherer = current?.profession?.kind === 'gathering';
+  const workable = isGatherer
+    ? nodes.filter((node) => node.professionId === current.professionId && node.requiredLevel <= current.level)
+    : [];
+  const lockedByLevel = isGatherer
+    ? nodes.filter((node) => node.professionId === current.professionId).length - workable.length
+    : 0;
+
   const board = commissionsQuery.data;
   const commissions = board?.commissions ?? [];
   const readyCommissions = commissions.filter(
@@ -217,11 +228,24 @@ export function UserProfession() {
           <When value={nodesQuery.isLoading}>
             <LoadingBlock info="Loading nodes" />
           </When>
-          <When value={!nodesQuery.isLoading && nodes.length === 0}>
-            <span className={styles.empty}>Nothing to gather yet</span>
+
+          {/* Said once for the whole tab. Which trade you would need is not
+              worth spelling out per node — every node would name a different
+              one, and the answer is on the Professions tab either way. */}
+          <When value={!nodesQuery.isLoading && !isGatherer}>
+            <span className={styles.empty}>
+              {current
+                ? `${current.profession.name} does not work nodes — learn a gathering trade to gather`
+                : 'Learn a gathering trade to work a node'}
+            </span>
           </When>
+
+          <When value={!nodesQuery.isLoading && isGatherer && workable.length === 0}>
+            <span className={styles.empty}>Nothing you can work at this level yet</span>
+          </When>
+
           <ForEach
-            items={nodes}
+            items={workable}
             render={(node) => (
               <GatheringNodeCard
                 key={node.id}
@@ -234,6 +258,14 @@ export function UserProfession() {
               />
             )}
           />
+
+          {/* The list is shorter than the trade because of your level, not
+              because the trade is that small. */}
+          <When value={isGatherer && lockedByLevel > 0}>
+            <span className={styles.swapHint}>
+              {lockedByLevel} more {lockedByLevel === 1 ? 'node' : 'nodes'} open up as {current?.profession.name} levels
+            </span>
+          </When>
         </When>
 
         <When value={showing === 'craft'}>
