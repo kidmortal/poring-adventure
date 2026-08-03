@@ -1,5 +1,6 @@
 @import '@/styles/variables';
 
+// A button now, so the whole chip is one tap target for the item's details.
 .container {
   display: flex;
   flex-direction: column;
@@ -9,8 +10,26 @@
   min-width: 3rem;
   @include slot();
 
+  font: inherit;
+  cursor: pointer;
+  transition: 120ms;
+
   img {
     image-rendering: pixelated;
+  }
+
+  &:hover:not(:disabled),
+  &:focus-visible {
+    border-color: rgba($gold, 0.45);
+    background-color: $surface-hover;
+  }
+
+  &:active:not(:disabled) {
+    transform: scale(0.96);
+  }
+
+  &:disabled {
+    cursor: default;
   }
 }
 
