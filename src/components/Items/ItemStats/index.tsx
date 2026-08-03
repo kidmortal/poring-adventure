@@ -49,34 +49,39 @@ export function ItemStats({
   const str = item?.str ?? 0;
   const agi = item?.agi ?? 0;
   const int = item?.int ?? 0;
+  const hasStats = !!(health || mana || attack || str || agi || int);
 
   return (
     <div className={styles.statsContainer}>
       <When value={showHeader}>
         <ItemIdentity inventoryItem={inventoryItem} />
       </When>
-      <div className={styles.statList}>
-        <When value={!!health}>
-          <Stat assetName="health" label="HP" value={health} bonus={Math.floor(health * multiplier)} />
-        </When>
-        <When value={!!mana}>
-          <Stat assetName="mana" label="MP" value={mana} bonus={Math.floor(mana * multiplier)} />
-        </When>
-        <When value={!!attack}>
-          <Stat assetName="attack" label="ATK" value={attack} bonus={Math.floor(attack * multiplier)} />
-        </When>
-        <When value={!!str}>
-          <Stat assetName="str" label="STR" value={str} bonus={Math.floor(str * multiplier)} />
-        </When>
-        <When value={!!agi}>
-          <Stat assetName="agi" label="AGI" value={agi} bonus={Math.floor(agi * multiplier)} />
-        </When>
-        <When value={!!int}>
-          <Stat assetName="int" label="INT" value={int} bonus={Math.floor(int * multiplier)} />
-        </When>
-      </div>
+      {/* A meal has no stat block at all, and an empty list would still draw the
+          divider the effect section hangs off. */}
+      <When value={hasStats}>
+        <div className={styles.statList}>
+          <When value={!!health}>
+            <Stat assetName="health" label="HP" value={health} bonus={Math.floor(health * multiplier)} />
+          </When>
+          <When value={!!mana}>
+            <Stat assetName="mana" label="MP" value={mana} bonus={Math.floor(mana * multiplier)} />
+          </When>
+          <When value={!!attack}>
+            <Stat assetName="attack" label="ATK" value={attack} bonus={Math.floor(attack * multiplier)} />
+          </When>
+          <When value={!!str}>
+            <Stat assetName="str" label="STR" value={str} bonus={Math.floor(str * multiplier)} />
+          </When>
+          <When value={!!agi}>
+            <Stat assetName="agi" label="AGI" value={agi} bonus={Math.floor(agi * multiplier)} />
+          </When>
+          <When value={!!int}>
+            <Stat assetName="int" label="INT" value={int} bonus={Math.floor(int * multiplier)} />
+          </When>
+        </div>
+      </When>
 
-      <ConsumableEffect inventoryItem={inventoryItem} />
+      <ConsumableEffect inventoryItem={inventoryItem} hasStats={hasStats} />
     </div>
   );
 }
@@ -88,7 +93,14 @@ export function ItemStats({
  * A meal's numbers are fixed by its recipe — a better cook makes one that lasts
  * longer, not one that hits harder — so quality shows up in the duration.
  */
-function ConsumableEffect({ inventoryItem }: { inventoryItem?: InventoryItem }) {
+function ConsumableEffect({
+  inventoryItem,
+  hasStats,
+}: {
+  inventoryItem?: InventoryItem;
+  /** Whether anything is rendered above this, and so whether to draw a divider. */
+  hasStats?: boolean;
+}) {
   const item = inventoryItem?.item;
   const buff = item?.buff;
   if (!item || (!buff && !item.battleUse && !item.battleEffect)) return null;
@@ -97,7 +109,7 @@ function ConsumableEffect({ inventoryItem }: { inventoryItem?: InventoryItem }) 
   const duration = buff ? Math.max(1, Math.floor(buff.duration * Utils.qualityMultiplier(quality))) : 0;
 
   return (
-    <div className={styles.effectSection}>
+    <div className={cn(styles.effectSection, { [styles.effectDivided]: hasStats })}>
       <When value={!!buff}>
         <div className={styles.effectRow}>
           <img width={20} height={20} src={buff?.image} alt={buff?.name} />

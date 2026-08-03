@@ -87,6 +87,10 @@
   display: flex;
   flex-direction: column;
   gap: 0.2rem;
+}
+
+// Only when there are stats above it to be divided from — a meal has none.
+.effectDivided {
   padding-top: 0.4rem;
   border-top: 1px solid $border;
 }

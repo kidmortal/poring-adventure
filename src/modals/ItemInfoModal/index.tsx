@@ -17,6 +17,11 @@ type Props = {
  */
 export function ItemInfoModal({ isOpen, item, onRequestClose }: Props) {
   const hasStats = !!(item?.attack || item?.str || item?.agi || item?.int || item?.health || item?.mana);
+  // A meal carries its whole effect in its buff and has no stat block at all,
+  // so "no stats" is not the same as "inert material" — it used to describe a
+  // Grilled Skewer as something worth only what it crafts into.
+  const hasEffect = !!(item?.buff || item?.battleEffect);
+  const isConsumable = item?.category === 'consumable';
 
   return (
     <BaseModal isOpen={isOpen} onRequestClose={onRequestClose}>
@@ -42,10 +47,16 @@ export function ItemInfoModal({ isOpen, item, onRequestClose }: Props) {
           }
         />
 
-        <When value={hasStats}>
+        <When value={hasStats && !isConsumable}>
           <span className={styles.note}>Base values — quality and enhancement raise them.</span>
         </When>
-        <When value={!hasStats}>
+        <When value={isConsumable && hasStats}>
+          <span className={styles.note}>Base values — a higher quality brew restores more.</span>
+        </When>
+        <When value={isConsumable && !hasStats && hasEffect}>
+          <span className={styles.note}>A higher quality dish makes the effect last longer.</span>
+        </When>
+        <When value={!isConsumable && !hasStats && !hasEffect}>
           <span className={styles.note}>A material: worth what someone will pay, or what it crafts into.</span>
         </When>
       </div>
