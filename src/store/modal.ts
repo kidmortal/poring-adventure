@@ -69,6 +69,13 @@ type MonsterInfoState = {
   monster?: Monster;
 };
 
+type DungeonBossState = {
+  open?: boolean;
+  monster?: DungeonMonster;
+  /** How many bosses the dungeon has, so the last one can say it is the last. */
+  totalStages?: number;
+};
+
 type ItemInfoState = {
   open?: boolean;
   item?: Item;
@@ -117,6 +124,8 @@ export interface ModalState {
   setSwapProfession: (v: SwapProfessionState) => void;
   monsterInfo: MonsterInfoState;
   setMonsterInfo: (v: MonsterInfoState) => void;
+  dungeonBoss: DungeonBossState;
+  setDungeonBoss: (v: DungeonBossState) => void;
   itemInfo: ItemInfoState;
   setItemInfo: (v: ItemInfoState) => void;
   craftDetails: CraftDetailsState;
@@ -149,6 +158,7 @@ export const useModalStore = create<ModalState>()((set) => ({
   confirmDeleteCharacter: { open: false },
   swapProfession: { open: false },
   monsterInfo: { open: false },
+  dungeonBoss: { open: false },
   itemInfo: { open: false },
   craftDetails: { open: false },
   gift: { open: false },
@@ -174,6 +184,7 @@ export const useModalStore = create<ModalState>()((set) => ({
   setSkillbook: (v) => set(() => ({ skillbook: v })),
   setSwapProfession: (v) => set(() => ({ swapProfession: v })),
   setMonsterInfo: (v) => set(() => ({ monsterInfo: v })),
+  setDungeonBoss: (v) => set(() => ({ dungeonBoss: v })),
   setItemInfo: (v) => set(() => ({ itemInfo: v })),
   setCraftDetails: (v) => set(() => ({ craftDetails: v })),
   setGift: (v) => set(() => ({ gift: v })),

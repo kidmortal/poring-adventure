@@ -13,6 +13,7 @@ import { mailService } from './services/mailService';
 import { storeService } from './services/storeService';
 import { discordService } from './services/discordService';
 import { professionService } from './services/professionService';
+import { dungeonService } from './services/dungeonService';
 
 /** How long to wait for the server's acknowledgement before giving up on it. */
 const ACK_TIMEOUT_MS = 15_000;
@@ -50,6 +51,7 @@ export function useWebsocketApi() {
     admin: adminService({ websocket }),
     items: itemService({ websocket }),
     monsters: monsterService({ websocket }),
+    dungeons: dungeonService({ websocket }),
     skills: skillService({ websocket }),
     guild: guildService({ websocket }),
     mail: mailService({ websocket }),

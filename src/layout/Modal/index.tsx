@@ -20,6 +20,7 @@ import { DiscordIntegrationModal } from '@/modals/DiscordIntegrationModal';
 import { EnhanceItemModal } from '@/modals/EnhanceItemModal';
 import { SwapProfessionModal } from '@/modals/SwapProfessionModal';
 import { MonsterInfoModal } from '@/modals/MonsterInfoModal';
+import { DungeonBossModal } from '@/modals/DungeonBossModal';
 import { ItemInfoModal } from '@/modals/ItemInfoModal';
 import { CraftDetailsModal } from '@/modals/CraftDetailsModal';
 import { GiftModal } from '@/modals/GiftModal';
@@ -104,6 +105,12 @@ export function ModalLayout() {
         onRequestClose={() => modalStore.setMonsterInfo({ open: false })}
         isOpen={modalStore.monsterInfo.open}
         monster={modalStore.monsterInfo.monster}
+      />
+      <DungeonBossModal
+        onRequestClose={() => modalStore.setDungeonBoss({ open: false })}
+        isOpen={modalStore.dungeonBoss.open}
+        monster={modalStore.dungeonBoss.monster}
+        totalStages={modalStore.dungeonBoss.totalStages}
       />
       <ItemInfoModal
         onRequestClose={() => modalStore.setItemInfo({ open: false })}

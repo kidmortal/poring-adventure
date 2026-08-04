@@ -38,13 +38,19 @@ export function addWebsocketListeners({
   });
   // `false` is the server saying the guild has no boss standing.
   websocket.on('guild_boss', (boss: CurrentGuildBoss | false) => userStore.setGuildBoss(boss || undefined));
+  websocket.on('dungeon_status', (status: DungeonStatus) => userStore.setDungeonStatus(status));
   websocket.on('battle_update', (b?: Battle) => {
     // The fight is over. A guild boss belongs to the guild screen — dropping the
     // player on the map selection instead reads as if they had gone hunting.
     if (!b) {
-      const wasGuildBoss = useBattleStore.getState().battle?.guildBoss;
+      const finished = useBattleStore.getState().battle;
       battle.setBattle(undefined);
-      if (wasGuildBoss && window.location.pathname.includes('battle')) {
+      // A dungeon ends on the battle page, but on its own tab: a run that
+      // failed leaves nothing standing for the page to work it out from.
+      if (finished?.dungeon) {
+        battle.setCameFromDungeon(true);
+      }
+      if (finished?.guildBoss && window.location.pathname.includes('battle')) {
         pushToScreen('/guild?tab=boss');
       }
       return;

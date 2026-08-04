@@ -1,0 +1,191 @@
+@import '@/styles/variables';
+
+.header {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.75rem;
+  padding-bottom: 0.6rem;
+  border-bottom: 1px solid $border;
+}
+
+.sprite {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.identity {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.nameRow {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+.name {
+  font-size: 17px;
+  font-weight: 700;
+  color: $gold;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.badge {
+  flex-shrink: 0;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  padding: 0.05rem 0.35rem;
+  border-radius: 999px;
+  color: $error;
+  border: 1px solid rgba($error, 0.5);
+}
+
+// The dungeon's real fight reads apart from the two tolls in front of it.
+.finalBadge {
+  color: $rarity-mythic;
+  background-color: rgba($rarity-mythic, 0.12);
+  border-color: rgba($rarity-mythic, 0.45);
+}
+
+.rewardRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.35rem 0.5rem;
+  border-radius: $radius-sm;
+  background-color: rgba(0, 0, 0, 0.22);
+}
+
+.level {
+  font-size: 12px;
+  color: $text-muted;
+}
+
+.statRow {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.35rem;
+  margin-top: 0.6rem;
+  padding: 0.4rem 0.5rem;
+  border-radius: $radius;
+  background-color: rgba(0, 0, 0, 0.22);
+}
+
+.stat {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 0.25rem;
+  font-size: 13px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: $text;
+}
+
+.statLabel {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  color: $text-muted;
+}
+
+.section {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-top: 0.75rem;
+}
+
+.sectionTitle {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: $text-muted;
+}
+
+.dropRow {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.4rem;
+  border-radius: $radius-sm;
+  border: 1px solid transparent;
+  background-color: rgba(0, 0, 0, 0.18);
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 150ms;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.06);
+  }
+}
+
+.dropImage {
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+.dropText {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.dropName {
+  font-size: 12px;
+  font-weight: 600;
+  color: $text;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dropAmount {
+  font-size: 10px;
+  color: $text-muted;
+}
+
+.dropChance {
+  flex-shrink: 0;
+  font-size: 13px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: $exp;
+}
+
+// Long odds read differently from a near-guaranteed drop.
+.rareChance {
+  color: $gold;
+}
+
+.empty {
+  font-size: 11px;
+  color: $text-muted;
+  text-align: center;
+}

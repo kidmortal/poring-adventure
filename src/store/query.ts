@@ -13,6 +13,8 @@ export enum Query {
   GUILD_BOSSES = 'guild_bosses',
   BATTLE = 'battle',
   MAPS = 'maps',
+  DUNGEONS = 'dungeons',
+  DUNGEON_STATUS = 'dungeon_status',
   MAILBOX = 'mailbox',
   NOTIFICATIONS = 'notifications',
   ALL_PROFESSIONS = 'all_professions',

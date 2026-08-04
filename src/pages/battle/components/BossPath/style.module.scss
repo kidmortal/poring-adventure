@@ -1,0 +1,165 @@
+@import '@/styles/variables';
+
+.path {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.2rem;
+  padding: 0.5rem 0.2rem 0.2rem;
+}
+
+.node {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.15rem;
+}
+
+// The road between two bosses. It is anchored to the sprite's centre line and
+// reaches back into the node before it, so the three nodes read as one path
+// rather than three cards that happen to be side by side.
+.link {
+  position: absolute;
+  top: 26px;
+  right: 50%;
+  width: 100%;
+  height: 2px;
+  background-color: $border-strong;
+  z-index: 0;
+}
+
+.linkWalked {
+  background-color: $gold-dim;
+}
+
+.boss {
+  position: relative;
+  z-index: 1;
+  width: 54px;
+  height: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-radius: 50%;
+  border: 2px solid $border-strong;
+  background-color: $surface-raised;
+  background-image: linear-gradient(180deg, rgba(0, 0, 0, 0.25), rgba(255, 255, 255, 0.05));
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.45);
+  font-family: inherit;
+  cursor: pointer;
+  transition: border-color 150ms, transform 150ms;
+
+  &:hover {
+    transform: translateY(-1px);
+    border-color: rgba($gold, 0.6);
+  }
+}
+
+// The dungeon's real fight, drawn larger than the toll bosses in front of it.
+.finalBoss {
+  width: 62px;
+  height: 62px;
+  border-color: rgba($rarity-mythic, 0.55);
+}
+
+.cleared {
+  border-color: rgba($success, 0.7);
+
+  .sprite {
+    opacity: 0.45;
+  }
+}
+
+.next {
+  border-color: $gold;
+  box-shadow: 0 0 0 3px rgba($gold, 0.18), inset 0 1px 2px rgba(0, 0, 0, 0.45);
+}
+
+.locked {
+  opacity: 0.85;
+}
+
+.sprite {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+}
+
+.stageMark {
+  position: absolute;
+  top: -4px;
+  left: -4px;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: $dark-neutral;
+  border: 1px solid $border-strong;
+  font-size: 10px;
+  font-weight: 700;
+  color: $text-muted;
+}
+
+.state {
+  position: absolute;
+  right: -3px;
+  bottom: -3px;
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 9px;
+  border: 1px solid $dark-neutral;
+}
+
+.stateCleared {
+  background-color: $success;
+  color: $text;
+}
+
+.stateLocked {
+  background-color: $dark-neutral;
+  color: $text-muted;
+}
+
+.name {
+  max-width: 100%;
+  font-size: 10px;
+  font-weight: 600;
+  color: $text;
+  text-align: center;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+
+.finalName {
+  color: $rarity-mythic;
+}
+
+.level {
+  font-size: 9px;
+  color: $text-muted;
+  font-variant-numeric: tabular-nums;
+}
+
+.finalTag {
+  padding: 0.02rem 0.3rem;
+  border-radius: 999px;
+  background-color: rgba($rarity-mythic, 0.14);
+  border: 1px solid rgba($rarity-mythic, 0.4);
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: $rarity-mythic;
+}

@@ -1,0 +1,203 @@
+@import '@/styles/variables';
+
+.card {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.6rem;
+  padding: 0.7rem;
+  @include panel();
+}
+
+// The dungeon the party is actually inside is the one thing on the tab that
+// matters, so it wears the gold trim the rest of the list does not.
+.running {
+  border-color: rgba($gold, 0.45);
+  box-shadow: $shadow-panel, inset 0 0 0 1px rgba($gold, 0.1);
+}
+
+.cardHeader {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.6rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid $border;
+}
+
+.portrait {
+  width: 52px;
+  height: 52px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+.identity {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.name {
+  font-size: 16px;
+  font-weight: 700;
+  color: $gold;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.badges {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  background-color: rgba(255, 255, 255, 0.08);
+  border: 1px solid $border-strong;
+  font-size: 10px;
+  font-weight: 700;
+  color: $text-muted;
+  white-space: nowrap;
+}
+
+.levelBadge {
+  color: $text;
+}
+
+// The recommendation is advisory, so it warns rather than blocks.
+.tooLow {
+  color: $orange;
+  background-color: rgba($orange, 0.12);
+  border-color: rgba($orange, 0.4);
+}
+
+.bossBadge {
+  color: $rarity-mythic;
+  background-color: rgba($rarity-mythic, 0.12);
+  border-color: rgba($rarity-mythic, 0.4);
+}
+
+.description {
+  font-size: 11px;
+  line-height: 1.4;
+  color: $text-muted;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.sectionTitle {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: $text-muted;
+}
+
+.rewardRow {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.35rem 0.5rem;
+  border-radius: $radius-sm;
+  background-color: rgba(0, 0, 0, 0.22);
+}
+
+.reward {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  gap: 0.25rem;
+  font-size: 13px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: $text;
+}
+
+.rewardLabel {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  color: $text-muted;
+}
+
+.rewardNote {
+  font-size: 10px;
+  color: $text-muted;
+}
+
+.progress {
+  padding: 0.4rem 0.5rem;
+  border-radius: $radius-sm;
+  background-color: rgba($gold, 0.08);
+  border: 1px solid rgba($gold, 0.25);
+  font-size: 11px;
+  line-height: 1.4;
+  color: $text;
+
+  strong {
+    color: $gold;
+  }
+}
+
+.actionLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.blockers {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.blocker {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.4rem;
+  border-radius: $radius-sm;
+  background-color: rgba($error, 0.1);
+  border: 1px solid rgba($error, 0.28);
+  font-size: 11px;
+  color: $text-muted;
+
+  strong {
+    color: $text;
+  }
+}
+
+.blockerAvatar {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.hint {
+  font-size: 10px;
+  line-height: 1.35;
+  color: $text-muted;
+  text-align: center;
+}
+
+.warning {
+  color: $orange;
+}

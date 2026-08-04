@@ -38,6 +38,27 @@ export function CharacterLayout() {
     queryFn: () => api.monsters.getAllMaps(),
   });
 
+  // The dungeon list is content and barely moves; the run and the party's
+  // entries do, so they are written to the store here and refreshed from the
+  // `dungeon_status` push whenever the server changes either.
+  useQuery({
+    queryKey: [Query.DUNGEONS],
+    enabled: !!store.websocket && !!store.wsAuthenticated,
+    staleTime: 1000 * 60 * 10, // 10 minutes
+    queryFn: () => api.dungeons.getAllDungeons(),
+  });
+
+  useQuery({
+    queryKey: [Query.DUNGEON_STATUS],
+    enabled: !!store.websocket && !!store.wsAuthenticated,
+    staleTime: 1000 * 60, // 60 seconds
+    queryFn: async () => {
+      const status = await api.dungeons.getDungeonStatus();
+      userStore.setDungeonStatus(status);
+      return status ?? null;
+    },
+  });
+
   // Mail arrives over the `mailbox` push the request triggers; notifications
   // come back inline, so they are written to the store here.
   useQuery({

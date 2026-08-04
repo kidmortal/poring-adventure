@@ -6,6 +6,11 @@ export interface UserStoreState {
   guild?: Guild;
   /** The boss the guild has standing, or undefined when it has none. */
   guildBoss?: CurrentGuildBoss;
+  /**
+   * The dungeon run the player is inside and every entry their party holds.
+   * Party-wide, because walking in spends everybody's entry.
+   */
+  dungeonStatus?: DungeonStatus;
   user?: User;
   party?: Party;
   partyStatus?: PartyStatus;
@@ -17,6 +22,7 @@ export interface UserStoreState {
   setNotifications: (v: GameNotification[]) => void;
   setGuild: (v?: Guild) => void;
   setGuildBoss: (v?: CurrentGuildBoss) => void;
+  setDungeonStatus: (v?: DungeonStatus) => void;
   setUser: (v?: User) => void;
   resetStore: () => void;
 }
@@ -27,6 +33,7 @@ export const useUserStore = create<UserStoreState>()((set) => ({
   purchases: [],
   guild: undefined,
   guildBoss: undefined,
+  dungeonStatus: undefined,
   user: undefined,
   party: undefined,
   setParty: (v) => set(() => ({ party: v })),
@@ -39,8 +46,16 @@ export const useUserStore = create<UserStoreState>()((set) => ({
   setUser: (v) => set(() => ({ user: v })),
   setGuild: (v) => set(() => ({ guild: v })),
   setGuildBoss: (v) => set(() => ({ guildBoss: v })),
+  setDungeonStatus: (v) => set(() => ({ dungeonStatus: v })),
   setMailBox: (v) => set(() => ({ mailBox: v })),
   setNotifications: (v) => set(() => ({ notifications: v })),
   resetStore: () =>
-    set(() => ({ user: undefined, guild: undefined, guildBoss: undefined, mailBox: [], notifications: [] })),
+    set(() => ({
+      user: undefined,
+      guild: undefined,
+      guildBoss: undefined,
+      dungeonStatus: undefined,
+      mailBox: [],
+      notifications: [],
+    })),
 }));

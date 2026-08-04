@@ -17,6 +17,11 @@ declare global {
     enrageStacks: number;
     /** A guild boss fight, which ends back at the guild rather than the maps. */
     guildBoss?: boolean;
+    /**
+     * Which leg of a dungeon run this is. Set, the results screen offers the
+     * next boss instead of a rematch — there is no rematch on one entry a day.
+     */
+    dungeon?: DungeonBattleInfo;
   };
 
   type BattleLog = {

@@ -1,0 +1,45 @@
+@import '@/styles/variables';
+
+.container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.6rem;
+  padding: 0.5rem 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.1rem;
+  text-align: center;
+
+  h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: $gold;
+  }
+}
+
+.subtitle {
+  font-size: 11px;
+  color: $text-muted;
+}
+
+.empty {
+  font-size: 11px;
+  color: $text-muted;
+  text-align: center;
+}
+
+.dungeonList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding-bottom: 0.5rem;
+}

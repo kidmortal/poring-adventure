@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { FaMapMarkedAlt, FaRedo } from 'react-icons/fa';
+import { FaDoorOpen, FaMapMarkedAlt, FaRedo, FaSignOutAlt } from 'react-icons/fa';
 
 import styles from './style.module.scss';
 import { WebsocketApi } from '@/api/websocketServer';
@@ -40,9 +40,18 @@ export function BattleResults({ battle, api }: Props) {
     },
   });
 
+  // A dungeon has no rematch to offer — one entry a day buys one attempt — so
+  // the only way on is the next boss on the path.
+  const nextBossMutation = useMutation({
+    mutationFn: () => api.dungeons.continueDungeon(),
+  });
+
   const won = !battle.userLost;
   const mapId = battle.monsters?.[0]?.mapId;
-  const busy = leaveMutation.isPending || againMutation.isPending;
+  const dungeon = battle.dungeon;
+  const bossesLeft = dungeon ? dungeon.totalStages - dungeon.stage : 0;
+  const canPressOn = won && !!dungeon && bossesLeft > 0;
+  const busy = leaveMutation.isPending || againMutation.isPending || nextBossMutation.isPending;
 
   const dropCount = battle.drops?.reduce((sum, drop) => sum + drop.dropedItems.length, 0) ?? 0;
 
@@ -55,10 +64,10 @@ export function BattleResults({ battle, api }: Props) {
   return (
     <div className={styles.container}>
       <header className={styles.header}>
-        <h2 className={won ? styles.victory : styles.defeat}>{won ? 'Victory' : 'Defeated'}</h2>
-        <span className={styles.subtitle}>
-          {won ? battle.monsters.map((monster) => monster.name).join(', ') : 'Better luck next time'}
-        </span>
+        <h2 className={won ? styles.victory : styles.defeat}>
+          {won ? (dungeon && bossesLeft === 0 ? `${dungeon.name} cleared` : 'Victory') : 'Defeated'}
+        </h2>
+        <span className={styles.subtitle}>{subtitle()}</span>
       </header>
 
       <Tabs options={tabs} selected={showing} onSelect={setShowing} />
@@ -85,26 +94,68 @@ export function BattleResults({ battle, api }: Props) {
       </div>
 
       <div className={styles.actions}>
-        <Button
-          label={
-            <span className={styles.actionLabel}>
-              <FaRedo /> Fight again
-            </span>
-          }
-          disabled={busy || !mapId}
-          onClick={() => mapId && againMutation.mutate(mapId)}
-        />
-        <Button
-          theme="neutral"
-          label={
-            <span className={styles.actionLabel}>
-              <FaMapMarkedAlt /> Back to maps
-            </span>
-          }
-          disabled={busy}
-          onClick={() => leaveMutation.mutate()}
-        />
+        {/* A dungeon run walks forwards or it ends — there is nothing to fight
+            again, and leaving forfeits the bosses still standing. */}
+        {dungeon ? (
+          <>
+            {canPressOn && (
+              <Button
+                theme="danger"
+                label={
+                  <span className={styles.actionLabel}>
+                    <FaDoorOpen /> Next boss ({bossesLeft} left)
+                  </span>
+                }
+                disabled={busy}
+                onClick={() => nextBossMutation.mutate()}
+              />
+            )}
+            <Button
+              theme="neutral"
+              label={
+                <span className={styles.actionLabel}>
+                  <FaSignOutAlt /> Leave the dungeon
+                </span>
+              }
+              disabled={busy}
+              onClick={() => leaveMutation.mutate()}
+            />
+          </>
+        ) : (
+          <>
+            <Button
+              label={
+                <span className={styles.actionLabel}>
+                  <FaRedo /> Fight again
+                </span>
+              }
+              disabled={busy || !mapId}
+              onClick={() => mapId && againMutation.mutate(mapId)}
+            />
+            <Button
+              theme="neutral"
+              label={
+                <span className={styles.actionLabel}>
+                  <FaMapMarkedAlt /> Back to maps
+                </span>
+              }
+              disabled={busy}
+              onClick={() => leaveMutation.mutate()}
+            />
+          </>
+        )}
       </div>
     </div>
   );
+
+  /** What the header says under the verdict, which a dungeon changes. */
+  function subtitle() {
+    if (!won) {
+      return dungeon ? "The run is over — today's entry is spent" : 'Better luck next time';
+    }
+    if (canPressOn) {
+      return `${bossesLeft} still standing — the party keeps the health it has left`;
+    }
+    return battle.monsters.map((monster) => monster.name).join(', ');
+  }
 }
