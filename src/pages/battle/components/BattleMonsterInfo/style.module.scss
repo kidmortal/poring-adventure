@@ -43,3 +43,32 @@
   min-width: 40px;
   margin-top: 0.2rem;
 }
+
+.debuffList {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 0.15rem;
+  min-height: 20px;
+}
+
+.debuff {
+  position: relative;
+  display: flex;
+}
+
+// The count sits on the icon: a boss carrying four debuffs would otherwise be
+// a row wider than the sprite it belongs to.
+.debuffDuration {
+  position: absolute;
+  right: -0.15rem;
+  bottom: -0.15rem;
+  padding: 0 0.15rem;
+  border-radius: 0.2rem;
+  background-color: rgba(14, 16, 32, 0.85);
+  color: $error;
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 1.2;
+}

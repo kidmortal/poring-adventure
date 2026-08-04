@@ -1,3 +1,5 @@
+@import "@/styles/variables";
+
 .container {
   width: 100%;
   display: flex;
@@ -6,4 +8,24 @@
   align-items: center;
   gap: 0.2rem;
   min-height: 25px;
+}
+
+.buff {
+  position: relative;
+  display: flex;
+}
+
+// Sits on the corner of the icon rather than beside it: a party carrying
+// barriers would otherwise push the row wider than the character it belongs to.
+.barrier {
+  position: absolute;
+  right: -0.2rem;
+  bottom: -0.2rem;
+  padding: 0 0.15rem;
+  border-radius: 0.2rem;
+  background-color: rgba(14, 16, 32, 0.85);
+  color: $mp;
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 1.2;
 }
