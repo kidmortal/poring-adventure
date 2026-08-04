@@ -130,6 +130,14 @@
     color: $gold;
     background-color: rgba($gold, 0.16);
   }
+
+  // Borrowed health, so it reads as a second health bar rather than as a
+  // blessing — the tag colour is the only thing telling the two apart at a
+  // glance in the list.
+  &.barrier {
+    color: $primary;
+    background-color: rgba($primary, 0.2);
+  }
 }
 
 .target {

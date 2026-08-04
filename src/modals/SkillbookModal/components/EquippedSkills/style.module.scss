@@ -47,6 +47,10 @@
   &.buff {
     border-color: rgba($gold, 0.45);
   }
+
+  &.barrier {
+    border-color: rgba($primary, 0.5);
+  }
 }
 
 .slotName {

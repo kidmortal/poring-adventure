@@ -81,12 +81,17 @@ declare global {
     userId: number;
     duration: number;
     buff: Buff;
+    /**
+     * What is left of a barrier's pool. Only present on a barrier buff, and only
+     * during a fight — its size comes from the caster's stats when it went up.
+     */
+    barrier?: number;
   };
 
   type Buff = {
     id: number;
     name: string;
-    /** power_up, invincible, parry, well_fed, second_wind. */
+    /** power_up, invincible, parry, well_fed, blessed, barrier, second_wind. */
     effect?: string;
     duration: number;
     image: string;

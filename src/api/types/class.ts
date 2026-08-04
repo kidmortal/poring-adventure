@@ -36,6 +36,12 @@ declare global {
     attribute: string;
     multiplier: number;
     classId: number;
+    /** Hits every enemy, or reaches the whole party, instead of one target. */
+    areaOfEffect?: boolean;
+    /** What landing it leaves on the enemy, when it leaves anything. */
+    debuff?: Debuff;
+    /** What casting it puts on the caster or the party, when it puts anything. */
+    buff?: Buff;
   };
 
   type LearnedSkill = {

@@ -10,6 +10,7 @@ import Clock from '@/assets/Clock';
 import { FaBolt, FaFistRaised, FaFlag, FaFlask, FaMagic, FaTimes } from 'react-icons/fa';
 import { useBattleStore } from '@/store/battle';
 import { useUserStore } from '@/store/user';
+import { needsAllyTarget } from '@/modals/SkillbookModal/skillInfo';
 
 type Props = {
   api: WebsocketApi;
@@ -139,7 +140,10 @@ export function BattleActions({ api, isYourTurn, user }: Props) {
               theme="secondary"
               label={<SkillText learnedSkill={equippedSkill} />}
               onClick={() => {
-                if (equippedSkill.skill.category === 'target_ally') {
+                // Only a single-target ally skill waits for a pick. A party heal
+                // or a blessing reaches everyone, so asking who to point it at
+                // would be a click that changes nothing.
+                if (needsAllyTarget(equippedSkill.skill)) {
                   if (battleStore.isTargetingSkill) {
                     castMutation.mutate({
                       skillId: equippedSkill.skillId,
