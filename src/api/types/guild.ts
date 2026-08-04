@@ -39,6 +39,12 @@ declare global {
   type GuildTask = {
     id: number;
     name: string;
+    /**
+     * Sprite of what the task asks you to kill. A map's own image is its boss,
+     * so falling back to it advertises a King Poring for a poring cleanup.
+     * Empty on tasks seeded before the column existed.
+     */
+    image: string;
     mapId: number;
     killCount: number;
     taskPoints: number;

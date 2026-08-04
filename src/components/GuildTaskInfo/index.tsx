@@ -26,7 +26,7 @@ export function GuildTaskInfo(props: Props) {
       })}
     >
       <header className={styles.header}>
-        <img className={styles.mapImage} src={task.target?.image} alt={task.target?.name} />
+        <img className={styles.mapImage} src={task.image || task.target?.image} alt={task.name} />
         <div className={styles.headerText}>
           <h3 className={styles.taskName}>{task.name}</h3>
           <span className={styles.mapName}>{task.target?.name}</span>
