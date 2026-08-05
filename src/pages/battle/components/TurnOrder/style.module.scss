@@ -6,12 +6,24 @@
   width: 100%;
   display: flex;
   flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.25rem 0.4rem 0.25rem 0.15rem;
+  border-bottom: 1px solid rgba($gold, 0.15);
+  background-color: rgba(0, 0, 0, 0.3);
+}
+
+// The queue takes whatever is left and centres itself in it, so the round stays
+// pinned to the edge instead of drifting inward with the flow.
+.actors {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: row;
   justify-content: center;
   align-items: flex-start;
   gap: 0.25rem;
-  padding: 0.25rem 0.4rem;
-  border-bottom: 1px solid rgba($gold, 0.15);
-  background-color: rgba(0, 0, 0, 0.3);
   overflow-x: auto;
 }
 
@@ -96,4 +108,36 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+// Hard against the left edge, and read before the queue rather than alongside
+// it. Separated by a rule rather than a gap, because the strip beside it is a
+// flow of chevrons and this is not part of that flow.
+.round {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 0.45rem 0 0.25rem;
+  border-right: 1px solid rgba($gold, 0.2);
+}
+
+.roundLabel {
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: $text-muted;
+  line-height: 1.2;
+}
+
+// Sized to be read at a glance from across the arena — it is the one number on
+// this strip that is not a portrait.
+.roundValue {
+  font-size: 20px;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  color: $gold;
+  line-height: 1;
 }

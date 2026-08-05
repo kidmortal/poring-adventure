@@ -58,6 +58,7 @@ export function ActiveBattle({ battle }: { battle: Battle }) {
         <TurnOrder
           attackerList={battle.attackerList}
           attackerTurn={battle.attackerTurn}
+          round={battle.round}
           users={battle.users}
           monsters={battle.monsters}
         />

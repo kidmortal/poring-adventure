@@ -8,6 +8,8 @@ type Props = {
   /** Names in the order they act, from the server. */
   attackerList: string[];
   attackerTurn: number;
+  /** Passes through the whole order, counted from 1. */
+  round: number;
   users: BattleUser[];
   monsters: Monster[];
 };
@@ -27,7 +29,7 @@ type Actor = {
  * Who acts now and who comes after. The server keeps one flat order of names,
  * so this reads it forward from the current turn and wraps around.
  */
-export function TurnOrder({ attackerList, attackerTurn, users, monsters }: Props) {
+export function TurnOrder({ attackerList, attackerTurn, round, users, monsters }: Props) {
   const order = attackerList ?? [];
   if (order.length === 0) return null;
 
@@ -46,6 +48,15 @@ export function TurnOrder({ attackerList, attackerTurn, users, monsters }: Props
   // strip now, so there is nothing to wrap it in.
   return (
     <div className={styles.track}>
+        {/* How long this has been going on. A fight that enrages on a round, or
+            a debuff quoted in rounds, is unreadable without it — and it anchors
+            the left edge of a strip that otherwise starts mid-flow. */}
+        <div className={styles.round}>
+          <span className={styles.roundLabel}>Turn</span>
+          <span className={styles.roundValue}>{round}</span>
+        </div>
+
+        <div className={styles.actors}>
         {actors.map((actor) => (
           <Fragment key={`${actor.name}-${actor.distance}`}>
             {/* Drawn in CSS: the order reads as a flow, not a row of tiles. */}
@@ -73,6 +84,7 @@ export function TurnOrder({ attackerList, attackerTurn, users, monsters }: Props
             </div>
           </Fragment>
         ))}
+        </div>
       </div>
   );
 }

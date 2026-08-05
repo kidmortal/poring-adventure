@@ -31,14 +31,32 @@
   font-weight: 600;
 }
 
-.statsContainer {
+// Held to the width of the sprite below it, so three monsters abreast keep
+// their columns instead of the bars deciding the layout. The shared StatBar
+// carries a 6rem floor meant for the party's bars — nearly 100px, which is what
+// made these overlap — so it is overridden here rather than lowered globally.
+.healthBar {
+  width: 100%;
+  max-width: 62px;
   display: flex;
-  flex-direction: row;
   justify-content: center;
-  align-items: center;
-  gap: 0.4rem;
-  color: $text-muted;
-  font-size: 10px;
+
+  > div {
+    min-width: 0;
+    height: 0.8rem;
+    font-size: 8px;
+  }
+}
+
+// Staggered up and down the line so three abreast read as three separate
+// enemies rather than one wall. Transform only: nothing here may move the row
+// it sits in, or the sides of the fight would drift apart as monsters die.
+.monsterContainer:nth-child(odd) {
+  transform: translateY(-5px);
+}
+
+.monsterContainer:nth-child(even) {
+  transform: translateY(5px);
 }
 
 // The monster is the thing being fought, so it keeps its size while the text
