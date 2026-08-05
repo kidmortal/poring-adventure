@@ -45,6 +45,9 @@ the abbreviation rules.
 
 **Others**
 `GuildTaskInfo` · `InviteBox` (rendered inside a toast) · `ErrorMessage` ·
+`EffectList` (buffs and debuffs in one row, either side of a fight — the battle
+bar shows only what *this* fight put on, so meals live on the character sheet
+instead) ·
 `GameToastContainer` (see [data-flow.md](data-flow.md#toasts) — use `notify()`,
 not `toast()`) ·
 `GoogeLoginButton` · `WebsocketDebugPanel` (rides along on every screen,

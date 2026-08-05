@@ -5,8 +5,8 @@ import HealthBar from '@/components/StatsComponents/HealthBar';
 import { When } from '@/components/shared/When';
 import ManaBar from '../../StatsComponents/ManaBar';
 import { CharacterPose } from '../CharacterPose';
-import BuffList from '../../StatsComponents/BuffList';
-import DebuffList from '../../StatsComponents/DebuffList';
+import { EffectList } from '../../StatsComponents/EffectList';
+import { battleBuffs, buffEffects, debuffEffects } from '../../StatsComponents/EffectList/effects';
 
 type Props = {
   user?: BattleUser;
@@ -25,16 +25,14 @@ export function CharacterWithHealthBar({
 }: Props) {
   const buffs = user?.buffs ?? [];
   const buffPose = buffs?.find((b) => b.buff.pose);
+  // Only what this fight put on them: a meal is a standing stat and lives on
+  // the character sheet, not on a bar that is meant to change every turn.
+  const effects = [...buffEffects(battleBuffs(user?.buffs)), ...debuffEffects(user?.debuffs)];
   return (
     <When value={!!user}>
       <div onClick={onClick} className={styles.userContainer}>
         <CharacterPose pose={buffPose?.buff.pose} />
-        <When value={buffs.length > 0}>
-          <BuffList buffs={user?.buffs} />
-        </When>
-        {/* A player can be poisoned, shredded or stunned now, the same as the
-            thing they are fighting. */}
-        <DebuffList debuffs={user?.debuffs} />
+        <EffectList effects={effects} />
 
         <span className={styles.userName}>{user?.name}</span>
         <When value={user?.aggro != undefined}>
