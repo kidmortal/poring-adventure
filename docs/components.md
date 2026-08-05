@@ -58,6 +58,14 @@ Two tabs:
 - **log** — the websocket frame log, filterable by direction and searchable.
   `devLogger.ts` records on every build, because the admin flag arrives several
   frames after connect and the connection attempt is the part worth having.
+  The launcher is **held for a second to pick up**, then dragged anywhere and
+  dropped; the spot is remembered in `localStorage`. A plain drag would fight
+  every tap, so the hold is what separates moving it from using it, and moving
+  early cancels the hold. The whole panel is rendered through a **portal onto
+  `document.body`** — the device preview scales the app's frame, and a
+  transformed ancestor would turn its `position: fixed` into something anchored
+  inside the phone it is meant to be driving.
+
 - **tools** (`DevTools.tsx`) — jumps to `/create` so character creation can be
   looked at *without deleting your character* (it is a real route outside
   `CharacterLayout`, and the server refuses a second character for the account,
@@ -66,6 +74,29 @@ Two tabs:
   also get a Battle section — `kill_battle_monsters` drops everything standing
   in your own fight and settles it as a win (drops, rewards, dungeon stage and
   all), and `force_end_battle` throws the fight away.
+
+### Device preview
+
+The Screen section puts the app in a simulated phone: `store/devicePreview.ts`
+holds the chosen `DevicePreset`, and `LimitedSizeLayout` sizes its frame to it
+and scales the result to fit the window (`hooks/useFitScale.ts`, downwards only
+— blowing a 280px screen up to fill a monitor flatters the layout instead of
+testing it).
+
+Three things are simulated because they are the three that actually break a
+mobile layout, and none of them can be seen by making a desktop window narrow:
+
+- **Size in CSS pixels**, not marketing resolution — a phone's advertised width
+  is its physical pixels and is two or three times what the layout sees.
+- **The address bar** (`chrome`), which is the whole difference between `100vh`
+  and `100dvh`. Toggling it is how you catch a bottom row that disappears when
+  the bar slides back in.
+- **Browser text zoom**, applied the way a browser applies it: the viewport gets
+  *narrower* in CSS pixels and is painted back up to size, rather than the text
+  simply growing. That is why zoom, not screen size, is where overflow shows up
+  first — at 150% a 390px phone is a 260px one.
+
+`safeTop` / `safeBottom` pad the frame for the notch and the home indicator.
 
 ## Modals
 

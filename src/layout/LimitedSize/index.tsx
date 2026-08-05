@@ -11,9 +11,12 @@ import * as RevenueCat from '@revenuecat/purchases-capacitor';
 import { UpdateAvailableMessageScreen } from '@/screens/UpdateAvailableMessage';
 import { When } from '@/components/shared/When';
 import { useAdminStore } from '@/store/admin';
+import { useDevicePreviewStore } from '@/store/devicePreview';
+import { useFitScale } from '@/hooks/useFitScale';
 
 export function LimitedSizeLayout() {
   const adminStore = useAdminStore();
+  const preview = useDevicePreviewStore();
   const [isOudated, setIsOudated] = useState(false);
   const plataform = Capacitor.getPlatform();
 
@@ -50,6 +53,12 @@ export function LimitedSizeLayout() {
     }
   }
 
+  const device = preview.device;
+  // What the page actually gets: the screen, less the browser's own bar when it
+  // is showing, less nothing else — the safe areas are padding inside it.
+  const viewportHeight = device ? device.height - (preview.showChrome ? device.chrome : 0) : 0;
+  const scale = useFitScale({ width: device?.width ?? 0, height: viewportHeight });
+
   useEffect(() => {
     if (plataform === 'android') {
       verifyAppVersion();
@@ -58,21 +67,57 @@ export function LimitedSizeLayout() {
     }
   }, []);
 
+  const content = (
+    <>
+      <ToastContainer />
+      <When value={isOudated}>
+        <UpdateAvailableMessageScreen onCancelUpdate={() => setIsOudated(false)} />
+      </When>
+      <When value={!isOudated}>
+        <Outlet />
+      </When>
+    </>
+  );
+
   return (
-    <div className={styles.container}>
+    <div className={cn(styles.container, { [styles.previewStage]: !!device })}>
       <div
         className={cn(styles.limitedContainer, {
-          [styles.limitedDev]: import.meta.env.DEV && import.meta.env.VITE_DEV,
-          [styles.limitSize]: plataform === 'web',
+          // The caps are what the preview is replacing, so they step aside for it.
+          [styles.limitedDev]: !device && import.meta.env.DEV && import.meta.env.VITE_DEV,
+          [styles.limitSize]: !device && plataform === 'web',
+          [styles.previewFrame]: !!device,
         })}
+        style={
+          device
+            ? {
+                width: device.width,
+                height: viewportHeight,
+                paddingTop: device.safeTop,
+                paddingBottom: device.safeBottom,
+                transform: `scale(${scale})`,
+              }
+            : undefined
+        }
       >
-        <ToastContainer />
-        <When value={isOudated}>
-          <UpdateAvailableMessageScreen onCancelUpdate={() => setIsOudated(false)} />
-        </When>
-        <When value={!isOudated}>
-          <Outlet />
-        </When>
+        {device ? (
+          // Page zoom takes CSS pixels away from the viewport rather than
+          // adding them to the text, so the zoomed layer is *narrower* than the
+          // screen and `zoom` paints it back up to full size — which is what
+          // the phone does, and why zoom is where overflow appears first.
+          <div
+            className={styles.zoomLayer}
+            style={{
+              zoom: preview.textZoom,
+              width: device.width / preview.textZoom,
+              height: viewportHeight / preview.textZoom,
+            }}
+          >
+            {content}
+          </div>
+        ) : (
+          content
+        )}
       </div>
     </div>
   );

@@ -4,11 +4,11 @@
 // are debugging is useless.
 $debug-layer: 9000;
 
+// Placed by inline left/top from the drag hook, so no corner of its own here.
 .launcher {
   position: fixed;
-  left: 12px;
-  bottom: 12px;
   z-index: $debug-layer;
+  touch-action: none;
 
   display: flex;
   align-items: center;
@@ -35,6 +35,18 @@ $debug-layer: 9000;
   }
 }
 
+// Held for a second: it swells and lights up, which is the only signal that the
+// next move will carry it rather than scroll the page under it.
+.lifted,
+.lifted:active {
+  opacity: 1;
+  transform: scale(1.45);
+  border-color: rgba($gold, 0.9);
+  color: $gold;
+  box-shadow: 0 0 0 4px rgba($gold, 0.18), $shadow-raised;
+  cursor: grabbing;
+}
+
 .launcherOpen {
   opacity: 1;
 }
@@ -59,8 +71,6 @@ $debug-layer: 9000;
 
 .panel {
   position: fixed;
-  left: 12px;
-  bottom: 58px;
   z-index: $debug-layer;
 
   display: flex;
@@ -357,4 +367,10 @@ $debug-layer: 9000;
     text-overflow: ellipsis;
     white-space: nowrap;
   }
+}
+
+.toolActive {
+  color: $text;
+  background-color: $surface-raised;
+  border-color: rgba($primary, 0.7);
 }

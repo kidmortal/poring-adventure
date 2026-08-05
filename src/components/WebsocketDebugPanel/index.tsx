@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import { createPortal } from 'react-dom';
 import cn from 'classnames';
 import { TbPlugConnected, TbPlugConnectedX } from 'react-icons/tb';
 import { FaTrash, FaTimes } from 'react-icons/fa';
@@ -10,12 +11,16 @@ import { WebsocketLogDirection, WebsocketLogEntry, useWebsocketLogStore } from '
 import { When } from '@/components/shared/When';
 import ForEach from '@/components/shared/ForEach';
 import { DevTools } from './DevTools';
+import { useDraggableLauncher } from './useDraggableLauncher';
 
 const FILTERS = ['all', 'out', 'ack', 'in', 'system', 'errors'] as const;
 type Filter = (typeof FILTERS)[number];
 
 const TABS = ['log', 'tools'] as const;
 type Tab = (typeof TABS)[number];
+
+/** Matches the launcher's size in the stylesheet. */
+const LAUNCHER_SIZE = 38;
 
 const DIRECTION_LABEL: Record<WebsocketLogDirection, string> = {
   out: '↑',
@@ -58,6 +63,7 @@ export function WebsocketDebugPanel() {
   const websocket = useMainStore((s) => s.websocket);
   const wsAuthenticated = useMainStore((s) => s.wsAuthenticated);
   const isAdmin = useUserStore((s) => !!s.user?.admin);
+  const launcher = useDraggableLauncher(LAUNCHER_SIZE);
 
   const errorCount = useMemo(() => entries.filter((e) => e.error).length, [entries]);
 
@@ -78,24 +84,49 @@ export function WebsocketDebugPanel() {
   if (!import.meta.env.DEV && !isAdmin) return <></>;
 
   const connected = !!websocket;
+  // The panel keeps to whichever half of the screen has room for it, so a
+  // launcher parked at the bottom right does not open a sheet off the edge.
+  const anchorRight = launcher.position.x > window.innerWidth / 2;
+  const anchorBottom = launcher.position.y > window.innerHeight / 2;
 
-  return (
+  // Rendered on the body rather than in place: the device preview scales the
+  // app's frame, and a transformed ancestor turns `position: fixed` into
+  // something anchored to that frame — which would shrink the panel and trap it
+  // inside the phone it is meant to be driving.
+  return createPortal(
     <>
       <button
         type="button"
-        title="Websocket log"
+        title="Websocket log — hold to move"
         aria-label="Websocket log"
-        onClick={() => setOpen(!open)}
-        className={cn(styles.launcher, { [styles.offline]: !connected, [styles.launcherOpen]: open })}
+        onClick={() => {
+          if (launcher.consumeDrag()) return;
+          setOpen(!open);
+        }}
+        style={{ left: launcher.position.x, top: launcher.position.y }}
+        className={cn(styles.launcher, {
+          [styles.offline]: !connected,
+          [styles.launcherOpen]: open,
+          [styles.lifted]: launcher.lifted,
+        })}
+        {...launcher.handlers}
       >
         {connected ? <TbPlugConnected /> : <TbPlugConnectedX />}
-        <When value={errorCount > 0 && !open}>
+        <When value={errorCount > 0 && !open && !launcher.lifted}>
           <span className={styles.badge}>{errorCount > 99 ? '99+' : errorCount}</span>
         </When>
       </button>
 
-      <When value={open}>
-        <div className={styles.panel}>
+      <When value={open && !launcher.lifted}>
+        <div
+          className={styles.panel}
+          style={{
+            left: anchorRight ? undefined : Math.max(launcher.position.x, 8),
+            right: anchorRight ? Math.max(window.innerWidth - launcher.position.x - LAUNCHER_SIZE, 8) : undefined,
+            top: anchorBottom ? undefined : launcher.position.y + LAUNCHER_SIZE + 8,
+            bottom: anchorBottom ? window.innerHeight - launcher.position.y + 8 : undefined,
+          }}
+        >
           <header className={styles.header}>
             <span className={cn(styles.status, { [styles.statusOffline]: !connected })}>
               {connected ? `connected · ${websocket?.id ?? '—'}` : 'disconnected'}
@@ -179,7 +210,8 @@ export function WebsocketDebugPanel() {
           </When>
         </div>
       </When>
-    </>
+    </>,
+    document.body,
   );
 }
 

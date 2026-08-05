@@ -39,3 +39,32 @@
   max-width: 400px; // Iphone XR
   max-height: 800px; // Iphone XR
 }
+
+// Device preview. The stage clips rather than scrolls: a scaled frame still
+// occupies its full unscaled box in layout, and letting that spill would put
+// scrollbars on a page that has never had them.
+.previewStage {
+  overflow: hidden;
+}
+
+.previewFrame {
+  flex-shrink: 0;
+  // The frame is sized in device pixels and scaled from its middle, so it grows
+  // and shrinks around the centre of the stage rather than crawling off it.
+  transform-origin: center center;
+  max-width: none;
+  max-height: none;
+  border: 1px solid $border-strong;
+  border-radius: 1.6rem;
+  box-shadow: $shadow-raised;
+}
+
+// Carries the flex column the frame would normally be, so the pieces inside
+// lay out exactly as they do without a preview running.
+.zoomLayer {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  overflow: hidden;
+}

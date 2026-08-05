@@ -1,3 +1,4 @@
+import cn from 'classnames';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 
@@ -10,6 +11,8 @@ import { useBattleStore } from '@/store/battle';
 import { useWebsocketApi } from '@/api/websocketServer';
 import { When } from '@/components/shared/When';
 import { Query } from '@/store/query';
+import { useDevicePreviewStore } from '@/store/devicePreview';
+import { DEVICES, TEXT_ZOOMS } from './devices';
 
 /**
  * Every modal that opens with no argument. The ones that need a subject — an
@@ -53,6 +56,7 @@ export function DevTools() {
   const user = useUserStore((s) => s.user);
   const websocket = useMainStore((s) => s.websocket);
   const battle = useBattleStore((s) => s.battle);
+  const preview = useDevicePreviewStore();
   const api = useWebsocketApi();
 
   const isAdmin = !!user?.admin;
@@ -61,6 +65,9 @@ export function DevTools() {
   const inBattle = !!battle && !battle.battleFinished;
 
   const onCreationScreen = location.pathname === '/create';
+  const viewportHeight = preview.device
+    ? preview.device.height - (preview.showChrome ? preview.device.chrome : 0)
+    : 0;
 
   return (
     <div className={styles.tools}>
@@ -102,6 +109,63 @@ export function DevTools() {
           />
         </div>
         <span className={styles.toolHint}>A modal wants a character — most read one, and show empty without.</span>
+      </section>
+
+      <section className={styles.toolSection}>
+        <span className={styles.toolTitle}>Screen</span>
+        <div className={styles.toolRow}>
+          <ForEach
+            items={DEVICES}
+            render={(device) => (
+              <button
+                key={device.name}
+                type="button"
+                className={cn(styles.tool, { [styles.toolActive]: preview.device?.name === device.name })}
+                title={`${device.width} × ${device.height} css px`}
+                onClick={() => preview.setDevice(preview.device?.name === device.name ? undefined : device)}
+              >
+                {device.name}
+              </button>
+            )}
+          />
+        </div>
+
+        <When value={!!preview.device}>
+          <div className={styles.toolRow}>
+            <button
+              type="button"
+              className={cn(styles.tool, { [styles.toolActive]: preview.showChrome })}
+              // The bar is the difference between 100vh and 100dvh, and the
+              // usual reason a bottom row goes missing on a real phone.
+              title="Address bar visible — the shorter viewport"
+              onClick={() => preview.setShowChrome(!preview.showChrome)}
+            >
+              Address bar
+            </button>
+            <ForEach
+              items={TEXT_ZOOMS}
+              render={(zoom) => (
+                <button
+                  key={zoom}
+                  type="button"
+                  className={cn(styles.tool, { [styles.toolActive]: preview.textZoom === zoom })}
+                  title="Browser text zoom — takes width away rather than adding it"
+                  onClick={() => preview.setTextZoom(zoom)}
+                >
+                  {Math.round(zoom * 100)}%
+                </button>
+              )}
+            />
+            <button type="button" className={styles.tool} onClick={() => preview.reset()}>
+              Off
+            </button>
+          </div>
+          <span className={styles.toolHint}>
+            {preview.device?.width} × {viewportHeight} css px
+            {preview.showChrome ? ` · ${preview.device?.chrome}px lost to the address bar` : ' · bar hidden'}
+            {preview.textZoom > 1 ? ` · ${Math.round((preview.device?.width ?? 0) / preview.textZoom)}px wide at this zoom` : ''}
+          </span>
+        </When>
       </section>
 
       <When value={isAdmin}>
