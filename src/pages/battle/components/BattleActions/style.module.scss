@@ -29,10 +29,16 @@
   white-space: nowrap;
 }
 
+// The skill tray and the item tray are the same drawer opening in the same
+// place, so they are anchored to the bar rather than hung from a fixed top.
+// They used to set `top` and `bottom` together with a `fit-content` height,
+// which is over-constrained — `bottom` was dropped, both grew downward from one
+// top edge, and the taller skill buttons therefore sat lower than the item ones.
+// Anchored from below, content height cannot move either of them.
 .skillsContainer {
   height: fit-content;
-  top: -70%;
-  bottom: 0;
+  bottom: 100%;
+  margin-bottom: 0.2rem;
   left: 0;
   right: 0;
   position: absolute;
@@ -87,8 +93,11 @@
   }
 }
 
+// One height for both trays, so a skill with a cooldown row and a potion with a
+// bare stack count still open a drawer of the same size.
 .skillButton {
   width: fit-content;
+  min-height: 2.6rem;
   padding: 0.4rem;
   border-radius: 8px;
 }
