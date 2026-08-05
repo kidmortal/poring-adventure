@@ -1,4 +1,5 @@
 import styles from './style.module.scss';
+import { useEffect } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { useWebsocketApi } from '@/api/websocketServer';
 import { When } from '@/components/shared/When';
@@ -31,6 +32,20 @@ export function ActiveBattle({ battle }: { battle: Battle }) {
   const isYourTurn = userStore.user?.name === turnName;
   const battleUser = battle.users.find((u) => u.email === userStore.user?.email);
   const focusedPlayer = highestAggroUser(battle.users);
+
+  /**
+   * What the next swing lands on. The player's pick holds as long as it is still
+   * standing; once it dies the target moves to whatever is left, so the attack
+   * button is never pointed at a corpse. The server does the same fallback on
+   * its side — this is only so the box on screen agrees with it.
+   */
+  const aliveMonsters = battle.monsters.filter((m) => m.health > 0);
+  const picked = aliveMonsters.find((m) => m.name === battleStore.targetName);
+  const targetName = picked?.name ?? aliveMonsters[0]?.name;
+
+  useEffect(() => {
+    if (battleStore.targetName !== targetName) battleStore.setTargetName(targetName);
+  }, [targetName]);
 
   /** Skills that target an ally wait for the player to pick one. */
   function castOnAlly(targetName: string) {
@@ -70,7 +85,14 @@ export function ActiveBattle({ battle }: { battle: Battle }) {
         <div className={styles.monsterSection}>
           <ForEach
             items={battle.monsters}
-            render={(m, idx) => <BattleMonsterInfo key={`${m.name}-${idx}`} monster={m} />}
+            render={(m, idx) => (
+              <BattleMonsterInfo
+                key={`${m.name}-${idx}`}
+                monster={m}
+                selected={m.name === targetName}
+                onClick={() => battleStore.setTargetName(m.name)}
+              />
+            )}
           />
         </div>
 

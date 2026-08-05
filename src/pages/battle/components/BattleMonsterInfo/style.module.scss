@@ -2,6 +2,18 @@
 
 .monsterContainer {
   position: relative;
+  // A button now, so it can be picked as a target — but it must still read as a
+  // monster standing in a field, not a control.
+  border: 1px solid transparent;
+  background: none;
+  font-family: inherit;
+  color: inherit;
+  cursor: pointer;
+
+  &:disabled {
+    cursor: default;
+  }
+
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -67,4 +79,26 @@
   min-width: 40px;
   max-width: 68px;
   margin-top: 0.1rem;
+}
+
+// The one the next swing lands on. Deliberately faint: it has to be legible
+// across a row of three without competing with the health bars or the turn
+// strip, both of which already use gold to mean "now".
+.selected {
+  border-color: rgba($gold, 0.45);
+  border-radius: $radius-sm;
+  background-color: rgba($gold, 0.07);
+  box-shadow: inset 0 0 0 1px rgba($gold, 0.12);
+}
+
+// A corpse keeps its name and nothing else. Drained of colour so a glance at
+// the row counts what is still standing.
+.dead {
+  opacity: 0.5;
+  filter: grayscale(1);
+
+  .monsterName {
+    color: $text-muted;
+    font-weight: 600;
+  }
 }

@@ -33,7 +33,9 @@ export function BattleActions({ api, isYourTurn, user }: Props) {
   );
 
   const attackMutation = useMutation({
-    mutationFn: () => api.battle.requestBattleAttack(),
+    // Whatever the player has highlighted. The server falls through to another
+    // monster if this one died between the pick and the swing.
+    mutationFn: () => api.battle.requestBattleAttack({ targetName: battleStore.targetName }),
   });
 
   const castMutation = useMutation({
@@ -159,8 +161,13 @@ export function BattleActions({ api, isYourTurn, user }: Props) {
                   return;
                 }
 
+                // The same pick the attack button uses. An area skill ignores it
+                // server-side, and a self-cast has no target to read — so this is
+                // only ever the single-target enemy line, which would otherwise
+                // fly at a different monster than the one boxed on screen.
                 castMutation.mutate({
                   skillId: equippedSkill.skillId,
+                  targetName: battleStore.targetName,
                 });
                 battleStore.setIsCasting(false);
               }}

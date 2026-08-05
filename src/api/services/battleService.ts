@@ -18,9 +18,10 @@ export function battleService({ websocket }: { websocket?: Socket }) {
     return asyncEmit<Battle>(websocket, "battle_create_guild_boss", "");
   }
 
-  async function requestBattleAttack() {
+  /** `targetName` is the monster the player picked; omitted, the server chooses. */
+  async function requestBattleAttack(params?: { targetName?: string }) {
     if (!websocket) return undefined;
-    return asyncEmit<Battle>(websocket, "battle_attack", "");
+    return asyncEmit<Battle>(websocket, "battle_attack", params ?? {});
   }
 
   async function requestBattleCast(params: {
