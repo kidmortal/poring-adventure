@@ -98,12 +98,17 @@ declare global {
      * during a fight — its size comes from the caster's stats when it went up.
      */
     barrier?: number;
+    /**
+     * What a regeneration buff hands back at the top of each of the holder's
+     * turns. Sized off the caster when it went up, like a barrier's pool.
+     */
+    regen?: number;
   };
 
   type Buff = {
     id: number;
     name: string;
-    /** power_up, invincible, parry, well_fed, blessed, barrier, second_wind. */
+    /** power_up, invincible, parry, well_fed, blessed, barrier, regeneration, second_wind. */
     effect?: string;
     duration: number;
     image: string;

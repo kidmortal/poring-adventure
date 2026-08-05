@@ -9,22 +9,39 @@
   gap: 0.2rem;
 }
 
+// A button now, but it must still read as a bare icon — the sheet has no room
+// for chrome around something this small.
 .buff {
   position: relative;
   display: flex;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
 }
 
-// Sits on the corner of the icon rather than beside it: a party carrying
-// barriers would otherwise push the row wider than the character it belongs to.
-.barrier {
+// Both counters sit on the corner of the icon rather than beside it: a party
+// carrying buffs would otherwise push the row wider than the character it
+// belongs to.
+.barrier,
+.duration {
   position: absolute;
   right: -0.2rem;
   bottom: -0.2rem;
   padding: 0 0.15rem;
   border-radius: 0.2rem;
   background-color: rgba(14, 16, 32, 0.85);
-  color: $mp;
   font-size: 9px;
   font-weight: 700;
   line-height: 1.2;
+}
+
+.barrier {
+  color: $mp;
+}
+
+// Deliberately not the barrier's colour: one is a pool being spent, the other
+// is time running out, and they share a corner.
+.duration {
+  color: $text-muted;
 }
