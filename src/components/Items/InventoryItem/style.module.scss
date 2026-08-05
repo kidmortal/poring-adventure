@@ -1,10 +1,12 @@
 @import "@/styles/variables";
 
+// The size is a variable so a cramped parent can tighten the whole rail at once
+// — on a 280px phone the four columns of the profile want every pixel back.
 .inventoryItemContainer {
   cursor: pointer;
   position: relative;
-  width: 54px;
-  height: 54px;
+  width: var(--slot-size, 54px);
+  height: var(--slot-size, 54px);
   display: flex;
   flex-direction: column;
   justify-content: center;

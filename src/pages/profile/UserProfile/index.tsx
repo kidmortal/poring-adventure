@@ -25,19 +25,22 @@ export function UserProfile() {
 
   return (
     <div className={styles.container}>
-      {/* Equips | character | shortcuts, then a full-width exp bar underneath. */}
+      {/* Identity across the top, then equips | character | shortcuts, then a
+          full-width exp bar. The name used to share the character's column and
+          was the first thing to be squeezed out of a narrow screen — as its own
+          row it has the whole card to sit in and never truncates. */}
       <section className={styles.heroCard}>
+        <div className={styles.identityRow}>
+          <h2 className={styles.name}>{userStore.user?.name}</h2>
+          <span className={styles.identityMeta}>
+            {userStore.user?.class?.name} · Lv {userStore.user?.stats?.level}
+          </span>
+        </div>
+
         <div className={styles.heroRow}>
           <Equipments equips={equippedItems} />
 
           <div className={styles.userCharacterInfoContainer}>
-            <div className={styles.nameContainer}>
-              <h2>{userStore.user?.name}</h2>
-              <span className={styles.subtitle}>
-                Lv {userStore.user?.stats?.level} · {userStore.user?.class?.name}
-              </span>
-            </div>
-
             <CharacterInfo
               costume={userStore.user?.appearance?.costume ?? ''}
               gender={userStore.user?.appearance?.gender ?? 'female'}

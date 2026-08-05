@@ -17,19 +17,92 @@
   gap: 0.6rem;
   padding: 0.6rem;
   @include panel-gold();
+
+  // Queried rather than the viewport: the app is a fixed frame inside the page,
+  // so a viewport media query describes the browser window and not the width
+  // this card actually got. It is also what makes the device preview honest.
+  container-type: inline-size;
+}
+
+// Name, class and level on one line above the gear. It wraps rather than
+// truncating, because a name is the one thing on this card that should never be
+// answered with an ellipsis.
+.identityRow {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 0.1rem 0.4rem;
+  text-align: center;
+}
+
+.name {
+  font-size: 17px;
+  font-weight: 700;
+  color: $gold;
+  letter-spacing: 0.3px;
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.identityMeta {
+  font-size: 11px;
+  font-weight: 500;
+  color: $text-muted;
+  white-space: nowrap;
 }
 
 // Four columns: equipment rail, character, accessory, shortcut rail. The two
-// outer rails get equal 1fr tracks so the character stays near the card's centre
+// outer rails take equal tracks so the character stays near the card's centre
 // line even though they have different widths; the accessory sits on the auto
 // track right beside the character, which is where it belongs — it is gear, and
 // the only reason it is not on the 2x2 rail is that the rail has no fifth box.
 .heroRow {
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr auto auto 1fr;
+  // minmax(0, 1fr) rather than 1fr: a bare 1fr floors at the content's own
+  // width, which is what stopped the rails giving anything back and left the
+  // character with nothing on a narrow screen.
+  grid-template-columns: minmax(0, 1fr) auto auto minmax(0, 1fr);
   align-items: stretch;
   gap: 0.5rem;
+}
+
+// Under about 380px the four columns want more than the card has: the slots
+// come down a size and the gaps tighten before anything is allowed to overlap.
+@container (max-width: 380px) {
+  .heroRow {
+    --slot-size: 46px;
+    gap: 0.3rem;
+  }
+
+  .shortcut {
+    padding: 0.25rem 0.3rem;
+  }
+
+  .name {
+    font-size: 15px;
+  }
+}
+
+// Narrower still — a Fold is 280px — and four columns is one too many. The
+// shortcuts become a row of their own beneath, which buys the character back
+// the width it needs to be looked at.
+@container (max-width: 330px) {
+  .heroRow {
+    --slot-size: 42px;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+  }
+
+  .extraMenus {
+    grid-column: 1 / -1;
+    flex-direction: row;
+    justify-content: space-around;
+    justify-self: stretch;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding-top: 0.25rem;
+  }
 }
 
 .accessoryColumn {
@@ -42,34 +115,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-end;
   text-align: center;
-  gap: 0.25rem;
-}
-
-.nameContainer {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.1rem;
-  max-width: 100%;
-
-  h2 {
-    font-size: 17px;
-    font-weight: 700;
-    color: $gold;
-    letter-spacing: 0.3px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 100%;
-  }
-}
-
-.subtitle {
-  font-size: 11px;
-  font-weight: 500;
-  color: $text-muted;
-  white-space: nowrap;
 }
 
 // Shortcut rail: flat icon + caption entries instead of button chrome, so the
