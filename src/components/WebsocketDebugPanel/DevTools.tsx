@@ -247,6 +247,23 @@ export function DevTools() {
         </section>
       </When>
 
+      <When value={isAdmin}>
+        <section className={styles.toolSection}>
+          <span className={styles.toolTitle}>Repair</span>
+          <div className={styles.toolRow}>
+            <button type="button" className={styles.tool} onClick={() => api.admin.resyncLevels()}>
+              Resync levels
+            </button>
+          </div>
+          {/* The repair for a character whose level ran away from its
+              experience — it gives back exactly the stat blocks the wrong
+              levels took, and leaves gear and blessings alone. */}
+          <span className={styles.toolHint}>
+            Puts every character's level back where their experience says, and returns the stats with it.
+          </span>
+        </section>
+      </When>
+
       <section className={styles.toolSection}>
         <span className={styles.toolTitle}>Cache</span>
         <div className={styles.toolRow}>

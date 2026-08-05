@@ -107,6 +107,12 @@ export function adminService({ websocket }: { websocket?: Socket }) {
     return asyncEmit(websocket, "battle_debug_action", args);
   }
 
+  /** No email repairs every character. */
+  async function resyncLevels(args?: { email?: string }) {
+    if (!websocket) return undefined;
+    return asyncEmit(websocket, "resync_levels", args?.email ?? "");
+  }
+
   async function clearUserCache(args: { email: string }) {
     if (!websocket) return undefined;
     return asyncEmit(websocket, "clear_user_cache", args.email);
@@ -149,6 +155,7 @@ export function adminService({ websocket }: { websocket?: Socket }) {
     forceEndBattle,
     killBattleMonsters,
     battleDebugAction,
+    resyncLevels,
     clearUserCache,
   };
 }
