@@ -11,5 +11,8 @@ declare global {
   type EquipItemDto = InventoryIdDto;
   type UnequipItemDto = InventoryIdDto;
   type EnhanceItemDto = InventoryIdDto;
-  type UpgradeItemDto = InventoryIdDto;
+  type UpgradeItemDto = InventoryIdDto & {
+    /** The duplicate to feed in. Left out, the server picks the least enhanced. */
+    materialInventoryId?: number;
+  };
 }

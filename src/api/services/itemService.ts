@@ -27,9 +27,13 @@ export function itemService({ websocket }: { websocket?: Socket }) {
     return asyncEmit<EnhanceResult | false>(websocket, 'enhance_item', dto);
   }
 
-  async function upgradeItem(dto: UpgradeItemDto) {
+  /**
+   * Feeds a duplicate in for a chance at the next rarity. Resolves to the roll's
+   * outcome, or false when the attempt was refused.
+   */
+  async function upgradeItem(dto: UpgradeItemDto): Promise<UpgradeResult | false | undefined> {
     if (!websocket) return undefined;
-    return asyncEmit<string>(websocket, 'upgrade_item', dto);
+    return asyncEmit<UpgradeResult | false>(websocket, 'upgrade_item', dto);
   }
 
   return {

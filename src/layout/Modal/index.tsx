@@ -18,9 +18,11 @@ import { useUserStore } from '@/store/user';
 import { GuildBlessingModal } from '@/modals/GuildBlessingModal';
 import { DiscordIntegrationModal } from '@/modals/DiscordIntegrationModal';
 import { EnhanceItemModal } from '@/modals/EnhanceItemModal';
+import { UpgradeItemModal } from '@/modals/UpgradeItemModal';
 import { SwapProfessionModal } from '@/modals/SwapProfessionModal';
 import { MonsterInfoModal } from '@/modals/MonsterInfoModal';
 import { SkillInfoModal } from '@/modals/SkillInfoModal';
+import { BuffInfoModal } from '@/modals/BuffInfoModal';
 import { DungeonBossModal } from '@/modals/DungeonBossModal';
 import { ItemInfoModal } from '@/modals/ItemInfoModal';
 import { CraftDetailsModal } from '@/modals/CraftDetailsModal';
@@ -100,6 +102,16 @@ export function ModalLayout() {
       <EnhanceItemModal
         onRequestClose={() => modalStore.setEnhanceItem({ open: false })}
         isOpen={modalStore.enhanceItem.open}
+        inventoryItem={modalStore.inventoryItem.selectedItem}
+      />
+      <BuffInfoModal
+        onRequestClose={() => modalStore.setBuffInfo({ open: false })}
+        isOpen={modalStore.buffInfo.open}
+        buff={modalStore.buffInfo.buff}
+      />
+      <UpgradeItemModal
+        onRequestClose={() => modalStore.setUpgradeItem({ open: false })}
+        isOpen={modalStore.upgradeItem.open}
         inventoryItem={modalStore.inventoryItem.selectedItem}
       />
       <MonsterInfoModal

@@ -139,6 +139,23 @@ declare global {
     forgePrice: number;
   };
 
+  /**
+   * Outcome of feeding a duplicate into an item for a chance at the next
+   * rarity. `quality` is where it ended up — unchanged on a failure — and the
+   * enhancement is back at zero either way.
+   */
+  type UpgradeResult = {
+    item: string;
+    success: boolean;
+    chance: number;
+    quality: number;
+    previousQuality: number;
+    enhancement: number;
+    previousEnhancement: number;
+    /** The enhancement the consumed duplicate was carrying. */
+    consumedEnhancement: number;
+  };
+
   type HiredEnhanceResult = {
     item: string;
     enhancement: number;

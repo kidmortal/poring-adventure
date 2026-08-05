@@ -81,6 +81,12 @@ type ItemInfoState = {
   item?: Item;
 };
 
+type BuffInfoState = {
+  open?: boolean;
+  /** The holder's row, not the template — the remaining duration lives on it. */
+  buff?: UserBuff;
+};
+
 type SkillInfoState = {
   open?: boolean;
   skill?: Skill;
@@ -99,6 +105,8 @@ export interface ModalState {
   setUserConfig: (v: GenericModalState) => void;
   enhanceItem: GenericModalState;
   setEnhanceItem: (v: GenericModalState) => void;
+  upgradeItem: GenericModalState;
+  setUpgradeItem: (v: GenericModalState) => void;
   discordIntegration: GenericModalState;
   setDiscordIntegration: (v: GenericModalState) => void;
   guildBlessing: GenericModalState;
@@ -133,6 +141,8 @@ export interface ModalState {
   setMonsterInfo: (v: MonsterInfoState) => void;
   skillInfo: SkillInfoState;
   setSkillInfo: (v: SkillInfoState) => void;
+  buffInfo: BuffInfoState;
+  setBuffInfo: (v: BuffInfoState) => void;
   dungeonBoss: DungeonBossState;
   setDungeonBoss: (v: DungeonBossState) => void;
   itemInfo: ItemInfoState;
@@ -152,6 +162,8 @@ export interface ModalState {
 export const useModalStore = create<ModalState>()((set) => ({
   enhanceItem: { open: false },
   setEnhanceItem: (v) => set(() => ({ enhanceItem: v })),
+  upgradeItem: { open: false },
+  setUpgradeItem: (v) => set(() => ({ upgradeItem: v })),
   userConfig: { open: false },
   setUserConfig: (v) => set(() => ({ userConfig: v })),
   discordIntegration: { open: false },
@@ -168,6 +180,7 @@ export const useModalStore = create<ModalState>()((set) => ({
   swapProfession: { open: false },
   monsterInfo: { open: false },
   skillInfo: { open: false },
+  buffInfo: { open: false },
   dungeonBoss: { open: false },
   itemInfo: { open: false },
   craftDetails: { open: false },
@@ -195,6 +208,7 @@ export const useModalStore = create<ModalState>()((set) => ({
   setSwapProfession: (v) => set(() => ({ swapProfession: v })),
   setMonsterInfo: (v) => set(() => ({ monsterInfo: v })),
   setSkillInfo: (v) => set(() => ({ skillInfo: v })),
+  setBuffInfo: (v) => set(() => ({ buffInfo: v })),
   setDungeonBoss: (v) => set(() => ({ dungeonBoss: v })),
   setItemInfo: (v) => set(() => ({ itemInfo: v })),
   setCraftDetails: (v) => set(() => ({ craftDetails: v })),

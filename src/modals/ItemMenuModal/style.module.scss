@@ -64,6 +64,12 @@
   color: $text;
 }
 
+// Why the buttons above are dead: every copy is promised to the board.
+.saleLocked {
+  font-size: 11px;
+  color: $text-muted;
+}
+
 .buttonsContainer {
   width: 100%;
   display: flex;

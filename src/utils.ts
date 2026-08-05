@@ -15,12 +15,54 @@ function enhanceChance(enhanceLevel: number): number {
   return currentChance;
 }
 
-function enhancePrice(enhanceLevel: number): number {
-  let currentPrice = 100;
+/**
+ * What the forge charges for one attempt. Mirrors `enhancePrice` in the API's
+ * `items.rules.ts` — the number shown has to be the number charged.
+ *
+ * The curve on the enhancement level is only the start of it: an enhancement
+ * level is worth five times as much on a Legendary as on a Common, and gear is
+ * tiered by `requiredLevel`, so both of those move the price too.
+ */
+function enhancePrice(enhanceLevel: number, requiredLevel = 1, quality = 1): number {
+  let base = 100;
   for (let index = 0; index < enhanceLevel; index++) {
-    currentPrice += Math.round(currentPrice * 0.5);
+    base += Math.round(base * 0.5);
   }
-  return currentPrice;
+
+  const levelFactor = 1 + (Math.max(requiredLevel, 1) - 1) * 0.1;
+  const qualityFactor = 1 + (Math.max(quality, 1) - 1) * 0.5;
+  return Math.floor(base * levelFactor * qualityFactor);
+}
+
+/** The top of the quality ladder — Legendary. Mirrors the server. */
+const MAX_QUALITY = 5;
+
+/** Where an item has to be before a duplicate can be fed into it. */
+const UPGRADE_MIN_ENHANCEMENT = 5;
+
+/**
+ * The odds of the rarity moving, read off the quality it is leaving. Falls away
+ * sharply, because the item being fed in is a monster drop and costs nothing but
+ * the time it took to find.
+ */
+function upgradeChance(quality: number): number {
+  switch (Math.max(quality, 1)) {
+    case 1:
+      return 70;
+    case 2:
+      return 50;
+    case 3:
+      return 30;
+    case 4:
+      return 10;
+    default:
+      return 0;
+  }
+}
+
+/** Whether this stack is far enough along, and low enough, to be upgraded. */
+function canUpgradeQuality(args: { quality: number; enhancement: number }) {
+  return args.quality < MAX_QUALITY && args.enhancement >= UPGRADE_MIN_ENHANCEMENT;
 }
 
 function randomDamage(value: number, oscillationPercentage: number): number {
@@ -152,6 +194,10 @@ export const Utils = {
   isSuccess,
   enhanceChance,
   enhancePrice,
+  upgradeChance,
+  canUpgradeQuality,
+  MAX_QUALITY,
+  UPGRADE_MIN_ENHANCEMENT,
   getRandomNumberBetween,
   getLevelFromExp,
   itemStatsMultiplier,

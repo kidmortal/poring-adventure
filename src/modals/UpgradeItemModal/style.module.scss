@@ -1,0 +1,218 @@
+@import '@/styles/variables';
+
+.itemInfoContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem 0rem;
+}
+
+// The result floats up out of the item and fades — the modal stays open so a
+// second attempt is one tap away.
+@keyframes outcomeFloat {
+  0% {
+    transform: translate(-50%, 0);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -60px);
+    opacity: 0;
+  }
+}
+
+.outcome {
+  position: absolute;
+  top: 0.5rem;
+  left: 50%;
+  z-index: 2;
+  pointer-events: none;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 1.5px;
+  color: $error;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+  animation: outcomeFloat 1600ms ease-out forwards;
+}
+
+.outcomeSuccess {
+  color: $rarity-legendary;
+}
+
+// Where it is, the item, and where it is going — the whole transaction on one
+// line, so the point of the screen is legible before any text is read.
+.tierRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.tier {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.tierMuted {
+  color: $text-muted;
+}
+
+.tierArrow {
+  font-size: 16px;
+  font-weight: 700;
+  color: $text-muted;
+}
+
+.chance {
+  font-size: 15px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: $text;
+}
+
+// The real cost of the attempt, and the one thing that must not be discovered
+// afterwards — so it sits directly above the button.
+.resetWarning {
+  font-size: 11px;
+  font-weight: 600;
+  color: $orange;
+  text-align: center;
+}
+
+.blocked {
+  font-size: 11px;
+  color: $text-muted;
+  text-align: center;
+}
+
+.buttonsContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.buttonLabel {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.materialSection {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid $border;
+}
+
+.sectionTitle {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: $text-muted;
+}
+
+.sectionHint {
+  font-size: 11px;
+  line-height: 1.35;
+  color: $text-muted;
+}
+
+// A picker, not an action: clicking chooses which copy is destroyed.
+.materialRow {
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem 0.5rem;
+  border-radius: $radius-sm;
+  border: 1px solid transparent;
+  background-color: rgba(0, 0, 0, 0.18);
+  font-family: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 150ms, border-color 150ms;
+
+  &:hover:not(:disabled) {
+    background-color: rgba(255, 255, 255, 0.06);
+  }
+}
+
+// Gold rather than red: this row is the one that will be spent, and the danger
+// worth colouring on this screen is the enhancement reset, not the duplicate.
+.materialSelected {
+  border-color: rgba($gold, 0.5);
+  background-color: rgba($gold, 0.12);
+}
+
+.materialText {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.materialName {
+  font-size: 13px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: $text;
+}
+
+.materialNote {
+  font-size: 10px;
+  color: $text-muted;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.materialStack {
+  justify-self: end;
+  font-size: 11px;
+  font-weight: 600;
+  color: $text-muted;
+  white-space: nowrap;
+}
+
+.empty {
+  font-size: 11px;
+  color: $text-muted;
+  text-align: center;
+}
+
+// Quality colours match the rarity borders used on inventory slots.
+.Common {
+  color: $rarity-common;
+}
+.Uncommon {
+  color: $rarity-uncommon;
+}
+.Rare {
+  color: $rarity-rare;
+}
+.Epic {
+  color: $rarity-epic;
+}
+.Legendary {
+  color: $rarity-legendary;
+}
+.Mythical {
+  color: $rarity-mythic;
+}

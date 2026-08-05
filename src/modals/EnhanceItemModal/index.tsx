@@ -94,7 +94,13 @@ export function EnhanceItemModal(props: Props) {
 
   const nextEnhancement = (props.inventoryItem?.enhancement ?? 0) + 1;
   const baseChance = Utils.enhanceChance(nextEnhancement);
-  const forgePrice = Utils.enhancePrice(nextEnhancement);
+  // The forge charges by what the enhancement is worth, and that is decided by
+  // the tier of gear and its rarity as much as by the level being bought.
+  const forgePrice = Utils.enhancePrice(
+    nextEnhancement,
+    props.inventoryItem?.item?.requiredLevel ?? 1,
+    props.inventoryItem?.quality ?? 1,
+  );
   const silver = userStore.user?.silver ?? 0;
   const busy = enhanceItemMutation.isPending || hireEnhanceMutation.isPending || selfAssistedMutation.isPending;
 

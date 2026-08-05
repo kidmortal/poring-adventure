@@ -13,6 +13,7 @@ import { Button } from '@/components/shared/Button';
 import { useModalStore } from '@/store/modal';
 import { useWebsocketApi } from '@/api/websocketServer';
 import { ItemIdentity, ItemStats } from '@/components/Items/ItemStats';
+import { Utils } from '@/utils';
 
 type Props = {
   isOpen?: boolean;
@@ -24,6 +25,9 @@ function ItemDetails({ inventoryItem }: { inventoryItem?: InventoryItem }) {
   const isOnSale = !!inventoryItem?.marketListing;
   const stack = inventoryItem?.marketListing?.stack ?? 0;
   const totalPrice = (inventoryItem?.marketListing?.price ?? 0) * (inventoryItem?.marketListing?.stack ?? 1);
+  // Every copy is spoken for, so the actions above it are greyed out. Saying so
+  // here is what turns a dead button into an explained one.
+  const allListed = isOnSale && (inventoryItem?.stack ?? 0) <= stack;
 
   return (
     <div className={styles.itemDetailContainer}>
@@ -40,6 +44,9 @@ function ItemDetails({ inventoryItem }: { inventoryItem?: InventoryItem }) {
             <span className={styles.saleAmount}>{stack}x listed for</span>
             <Silver amount={totalPrice} />
           </div>
+          <When value={allListed}>
+            <span className={styles.saleLocked}>Revoke the sale to equip or enhance it</span>
+          </When>
         </section>
       </When>
     </div>
@@ -135,6 +142,10 @@ export function ItemMenuModal(props: Props) {
 
   const isAlreadyEquipped = inventoryItem?.equipped ?? false;
 
+  // Feeding a duplicate in for a chance at the next rarity only becomes an
+  // option at +5, and stops mattering at Legendary.
+  const canUpgrade = !!inventoryItem && Utils.canUpgradeQuality(inventoryItem);
+
   return (
     <BaseModal onRequestClose={props.onRequestClose} isOpen={props.isOpen}>
       <div className={styles.itemInfoContainer}>
@@ -161,7 +172,7 @@ export function ItemMenuModal(props: Props) {
           <When value={!isAlreadyEquipped}>
             <Button
               label="Equip item"
-              disabled={equipItemMutation.isPending}
+              disabled={equipItemMutation.isPending || !hasRemainingStock}
               onClick={() => {
                 if (props.inventoryItem?.itemId) {
                   equipItemMutation.mutate(props.inventoryItem.id);
@@ -188,9 +199,23 @@ export function ItemMenuModal(props: Props) {
             <Button
               label="Enhance"
               theme="neutral"
+              disabled={!hasRemainingStock}
               onClick={() => {
                 modalStore.setInventoryItem({ open: false });
                 modalStore.setEnhanceItem({ open: true });
+              }}
+            />
+          </When>
+          {/* Only once the item is finished being enhanced — before that the
+              screen has nothing to offer but a refusal. */}
+          <When value={!isConsumable && canUpgrade}>
+            <Button
+              label="Upgrade"
+              theme="neutral"
+              disabled={!hasRemainingStock}
+              onClick={() => {
+                modalStore.setInventoryItem({ open: false });
+                modalStore.setUpgradeItem({ open: true });
               }}
             />
           </When>

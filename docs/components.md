@@ -37,7 +37,8 @@ and party representation).
 the abbreviation rules.
 
 **`components/Items/`**
-`Inventory` · `InventoryItem` (quality border, enhancement suffix, stack count) ·
+`Inventory` (5 x 3 slots, paginated past fifteen) · `InventoryItem` (quality
+border, enhancement suffix, stack count) ·
 `Equipments` · `ItemStats` · `ItemCategoryFilter`.
 
 **`components/Monsters/`**
@@ -135,13 +136,32 @@ modalStore.setItemInfo({ open: true, item: drop.item });
 ### The roster
 
 `BaseModal` · `ConfirmationModal` · `ItemMenuModal` · `ItemInfoModal` ·
-`SellItemModal` · `BuyItemModal` · `EnhanceItemModal` · `CraftDetailsModal` ·
+`SellItemModal` · `BuyItemModal` · `EnhanceItemModal` · `UpgradeItemModal` ·
+`CraftDetailsModal` ·
 `SwapProfessionModal` · `MonsterInfoModal` · `DungeonBossModal` ·
-`SkillbookModal` · `SkillInfoModal` · `MailBoxModal` · `GiftModal` · `FriendListModal` ·
+`SkillbookModal` · `SkillInfoModal` · `BuffInfoModal` · `MailBoxModal` · `GiftModal` ·
+`FriendListModal` ·
 `InteractUserModal` · `PartyMemberModal` · `GuildInfoModal` ·
 `GuildMemberModal` · `GuildTaskSelectModal` · `GuildBossSummonModal` ·
 `GuildBlessingModal` · `UserSettingsModal` · `UserEditCharacterModal` ·
 `DeleteCharConfirmation` · `DiscordIntegrationModal`
+
+`UpgradeItemModal` is the rarity gamble: it feeds a duplicate of the item in for
+a chance at the next quality tier. Two things it has to get right, because the
+server will not save the player from either — the material list mirrors the
+server's own search (same item, same rarity, unlocked, unequipped, nothing
+promised to a market listing, and the item's *own* stack only when it holds a
+second copy), and the enhancement reset is stated above the button rather than
+in a hint, because losing the +5 is the real price of the roll and both outcomes
+charge it. `ItemMenuModal` only shows the entry point once `Utils.canUpgradeQuality`
+passes, so the screen never opens just to refuse.
+
+`BuffInfoModal` opens from any icon in `BuffList` on the profile. The unit its
+countdown is spoken in comes from `buff.persist` and nothing else: a persisted
+buff is a database row that ticks once per **fight won**, which is what makes a
+meal a night's supply, while everything else lives inside one battle and ticks
+on the holder's **turn**. `describe.ts` next to `BuffList` holds that rule along
+with the stat lines, so the icon's tooltip and the modal can never disagree.
 
 ## Constants
 
