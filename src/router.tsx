@@ -30,10 +30,15 @@ export function Router() {
             <Route element={<AuthLayout />}>
               <Route path="/login" element={<LoginPage />} />
               <Route element={<WebsocketLayout />}>
-                <Route path="/create" element={<CharacterCreationPage />} />
-                <Route element={<PageLoadingLayout />}>
-                  <Route element={<CharacterLayout />}>
-                    <Route element={<ModalLayout />}>
+                {/* Above the character, not inside it: character creation is
+                    reached both at /create and as CharacterLayout's own early
+                    return for an account with no character, and neither of
+                    those sits under a ModalLayout mounted further down — which
+                    is why tapping a skill there opened nothing. */}
+                <Route element={<ModalLayout />}>
+                  <Route path="/create" element={<CharacterCreationPage />} />
+                  <Route element={<PageLoadingLayout />}>
+                    <Route element={<CharacterLayout />}>
                       <Route path="/" element={<ProfilePage />} />
                       <Route path="/ranking" element={<RankingPage />} />
                       <Route path="/market" element={<MarketPage />} />

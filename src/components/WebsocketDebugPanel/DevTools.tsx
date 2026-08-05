@@ -94,7 +94,6 @@ export function DevTools() {
                 key={modal.label}
                 type="button"
                 className={styles.tool}
-                disabled={onCreationScreen}
                 onClick={() => (modalStore[modal.setter] as (v: { open: boolean }) => void)({ open: true })}
               >
                 {modal.label}
@@ -102,9 +101,7 @@ export function DevTools() {
             )}
           />
         </div>
-        {/* ModalLayout is mounted under CharacterLayout, so there is nothing
-            listening for these while creation is on screen. */}
-        <span className={styles.toolHint}>Only on game screens — creation mounts no modals.</span>
+        <span className={styles.toolHint}>A modal wants a character — most read one, and show empty without.</span>
       </section>
 
       <When value={isAdmin}>
