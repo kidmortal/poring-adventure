@@ -138,6 +138,18 @@
     color: $primary;
     background-color: rgba($primary, 0.2);
   }
+
+  // A curse deals nothing, and a cleanse restores nothing — neither belongs
+  // under the damage or heal colours, so each gets its own.
+  &.curse {
+    color: $rarity-epic;
+    background-color: rgba($rarity-epic, 0.18);
+  }
+
+  &.cleanse {
+    color: $orange;
+    background-color: rgba($orange, 0.16);
+  }
 }
 
 .target {

@@ -30,12 +30,15 @@ declare global {
    */
   type BattleDebuff = {
     name: string;
-    /** defense_down, attack_down, poison, stun. */
+    /** defense_down, attack_down, poison, burn, stun. */
     effect: string;
     image: string;
+    /** A percentage. Unused by `burn`, which carries a flat `amount` instead. */
     potency: number;
     /** Turns of the monster's own turns still to run. */
     duration: number;
+    /** What a burn costs per turn, fixed from the caster's stats when it landed. */
+    amount?: number;
   };
 
   /** The catalogue entry a skill points at, before it is put on anything. */

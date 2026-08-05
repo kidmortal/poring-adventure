@@ -51,6 +51,14 @@
   &.barrier {
     border-color: rgba($primary, 0.5);
   }
+
+  &.curse {
+    border-color: rgba($rarity-epic, 0.5);
+  }
+
+  &.cleanse {
+    border-color: rgba($orange, 0.45);
+  }
 }
 
 .slotName {

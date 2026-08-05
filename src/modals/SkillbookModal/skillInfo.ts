@@ -1,10 +1,14 @@
 /**
  * How the server reads a skill, put into words. Category decides who it hits,
- * effect splits the two supporting ones apart, and potency is
+ * effect splits the supporting ones apart, and potency is
  * `attribute * multiplier * masteryLevel` — see battle.ts.
+ *
+ * Two of the kinds below scale off nothing at all: a curse is worth whatever it
+ * leaves on the enemy, and a cleanse whatever the fight had already left on the
+ * party.
  */
 
-export type SkillKind = 'damage' | 'heal' | 'mana' | 'buff' | 'barrier';
+export type SkillKind = 'damage' | 'heal' | 'mana' | 'buff' | 'barrier' | 'curse' | 'cleanse';
 
 export function skillKind(skill?: Skill): SkillKind {
   if (skill?.category === 'buff_self' || skill?.category === 'buff_party') {
@@ -13,8 +17,15 @@ export function skillKind(skill?: Skill): SkillKind {
     // named for what it does rather than filed under "buff".
     return skill.buff?.effect === 'barrier' ? 'barrier' : 'buff';
   }
+  // A turn spent making the enemy worse rather than smaller. It deals no
+  // damage at all, so filing it under damage would promise a number the player
+  // is never going to see.
+  if (skill?.category === 'debuff_enemy') return 'curse';
   if (skill?.category === 'self_restore') return skill.effect === 'healing' ? 'heal' : 'mana';
-  if (skill?.category === 'target_ally') return skill.effect === 'infusion' ? 'mana' : 'heal';
+  if (skill?.category === 'target_ally') {
+    if (skill.effect === 'cleanse') return 'cleanse';
+    return skill.effect === 'infusion' ? 'mana' : 'heal';
+  }
   return 'damage';
 }
 
@@ -24,6 +35,8 @@ const KIND_LABEL: Record<SkillKind, string> = {
   mana: 'Mana',
   buff: 'Buff',
   barrier: 'Barrier',
+  curse: 'Curse',
+  cleanse: 'Cleanse',
 };
 
 /**
@@ -35,6 +48,9 @@ export function skillKindLabel(skill?: Skill) {
   const kind = KIND_LABEL[skillKind(skill)];
   if (skill?.category === 'buff_party') return `Party ${kind.toLowerCase()}`;
   if (skill?.category === 'buff_self') return `Self ${kind.toLowerCase()}`;
+  // "Area" is what a skill does to a pack of monsters. One that reaches the
+  // whole party is doing something else, and says so.
+  if (skill?.category === 'target_ally' && skill.areaOfEffect) return `Party ${kind.toLowerCase()}`;
   if (isAreaSkill(skill)) return `Area ${kind.toLowerCase()}`;
   return kind;
 }
@@ -66,6 +82,10 @@ export function needsAllyTarget(skill?: Skill) {
  */
 export function skillScaling(skill?: Skill, masteryLevel?: number) {
   if (!skill?.multiplier || !skill.attribute) return undefined;
+  // A curse and a cleanse scale off nothing: what they are worth is written on
+  // the debuff they land or the debuffs they lift, and showing the multiplier
+  // the row happens to carry would be a number that means nothing.
+  if (skillKind(skill) === 'curse' || skillKind(skill) === 'cleanse') return undefined;
 
   const total = skill.multiplier * (masteryLevel ?? 1);
   return `${trim(total)}× ${skill.attribute.toUpperCase()}`;
