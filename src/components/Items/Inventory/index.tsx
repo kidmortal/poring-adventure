@@ -1,3 +1,6 @@
+import { useEffect, useState } from 'react';
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+
 import styles from './style.module.scss';
 
 import { InventoryItem } from '../InventoryItem';
@@ -5,6 +8,7 @@ import { useModalStore } from '@/store/modal';
 
 import { InventoryFilters, useMainStore } from '@/store/main';
 import { ItemCategoryFilter } from '../ItemCategoryFilter';
+import { When } from '@/components/shared/When';
 
 /** Item categories each filter accepts; 'all' matches everything. */
 const CATEGORIES_BY_FILTER: Record<Exclude<InventoryFilters, 'all'>, string[]> = {
@@ -46,17 +50,31 @@ function InventoryItems(props: { items: InventoryItem[]; onClick?: (i: Inventory
   );
 }
 
+/** Five to a row, three rows — the grid the panel is sized for. */
+const COLUMNS = 5;
+const ROWS = 3;
+const PAGE_SIZE = COLUMNS * ROWS;
+
 export function Inventory(props: Props) {
   const store = useMainStore();
   const modalStore = useModalStore();
+  const [page, setPage] = useState(0);
   const filteredInventory = filterInventory(props.items ?? [], store.inventoryFilter);
+
+  const pageCount = Math.max(Math.ceil(filteredInventory.length / PAGE_SIZE), 1);
+  // A bag that shrinks under you — the last potion drunk, a filter switched —
+  // must not strand the view on a page that no longer exists.
+  const currentPage = Math.min(page, pageCount - 1);
+  const pageItems = filteredInventory.slice(currentPage * PAGE_SIZE, (currentPage + 1) * PAGE_SIZE);
+
+  useEffect(() => setPage(0), [store.inventoryFilter]);
 
   return (
     <div className={styles.container}>
       <ItemCategoryFilter selected={store.inventoryFilter} onClick={(option) => store.setInventoryFilter(option)} />
       <InventoryItems
-        items={filteredInventory}
-        limit={15}
+        items={pageItems}
+        limit={PAGE_SIZE}
         onClick={(i) => {
           modalStore.setInventoryItem({
             open: true,
@@ -64,6 +82,34 @@ export function Inventory(props: Props) {
           });
         }}
       />
+
+      {/* Only once there is somewhere to go — a single page keeps the panel the
+          height it has always been. */}
+      <When value={pageCount > 1}>
+        <div className={styles.pagination}>
+          <button
+            type="button"
+            className={styles.pageButton}
+            disabled={currentPage === 0}
+            onClick={() => setPage(currentPage - 1)}
+            aria-label="Previous page"
+          >
+            <FaChevronLeft size={12} />
+          </button>
+          <span className={styles.pageCount}>
+            {currentPage + 1} / {pageCount}
+          </span>
+          <button
+            type="button"
+            className={styles.pageButton}
+            disabled={currentPage >= pageCount - 1}
+            onClick={() => setPage(currentPage + 1)}
+            aria-label="Next page"
+          >
+            <FaChevronRight size={12} />
+          </button>
+        </div>
+      </When>
     </div>
   );
 }
