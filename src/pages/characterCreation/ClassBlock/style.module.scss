@@ -1,8 +1,8 @@
 @import '@/styles/variables';
 
-// Identity and stats on one row, the skill strip full width beneath it: the
-// strip is the part that grows with the class, and the card's full width is
-// the cheapest place to put it.
+// Portrait and identity on one row, then the stat block and the skill strip
+// each full width beneath it. Everything that grows with the class gets the
+// card's whole width; only the name and its line share space with the sprite.
 .container {
   width: 100%;
   display: flex;
@@ -18,7 +18,7 @@
 
 .head {
   display: grid;
-  grid-template-columns: 58px minmax(0, 1fr) auto;
+  grid-template-columns: 58px minmax(0, 1fr);
   align-items: center;
   gap: 0.5rem;
 }
@@ -61,19 +61,22 @@
   text-overflow: ellipsis;
 }
 
-.hint {
-  font-size: 9px;
-  line-height: 1.2;
+.description {
+  font-size: 10px;
+  line-height: 1.35;
   color: $text-muted;
 }
 
-// Four then three: the vitals and defence read as one row and the attributes
-// as the next, which keeps seven stats no wider than six were.
+// Seven chips across the card's full width, wrapping as the width allows. The
+// icons come down from the character sheet's 28px: a chip here is a glanceable
+// "+5", not a stat sheet, and seven of them beside a sprite and a skill strip
+// is where a 28px icon stops earning its space and starts being the reason
+// nothing else fits.
 .stats {
-  flex-shrink: 0;
+  --stat-icon-size: 18px;
   display: grid;
-  grid-template-columns: repeat(4, auto);
-  gap: 0.2rem;
+  grid-template-columns: repeat(auto-fit, minmax(58px, 1fr));
+  gap: 0.25rem;
   font-size: 11px;
 }
 

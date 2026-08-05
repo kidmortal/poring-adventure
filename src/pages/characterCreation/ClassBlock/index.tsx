@@ -23,6 +23,35 @@ type Props = {
  * lives in the preview a tap opens, along with the numbers the player is
  * actually choosing between.
  */
+/**
+ * What the class is, in one line.
+ *
+ * Every seeded class carries its own description and that is what shows. The
+ * fallback is for a class seeded without one — rather than leave a blank line,
+ * it reads the per-level stat block and says which two numbers are the tallest,
+ * which is the honest summary anyway: what a class does here *is* what it grows.
+ */
+function describeClass(characterClass?: Class) {
+  if (characterClass?.description) return characterClass.description;
+  if (!characterClass) return '';
+
+  const growth = [
+    { label: 'health', value: characterClass.health / 5 },
+    { label: 'mana', value: characterClass.mana / 5 },
+    { label: 'attack', value: characterClass.attack },
+    { label: 'armour', value: characterClass.defense ?? 0 },
+    { label: 'strength', value: characterClass.str },
+    { label: 'agility', value: characterClass.agi },
+    { label: 'intelligence', value: characterClass.int },
+  ]
+    .filter((stat) => stat.value > 0)
+    .sort((a, b) => b.value - a.value);
+
+  if (growth.length === 0) return 'Grows nothing in particular — a blank slate.';
+  const [first, second] = growth;
+  return second ? `Grows mostly ${first.label} and ${second.label}.` : `Grows mostly ${first.label}.`;
+}
+
 export function ClassBlock({ characterClass, selected, selectedGender = 'male', onClick }: Props) {
   const modalStore = useModalStore();
 
@@ -39,18 +68,20 @@ export function ClassBlock({ characterClass, selected, selectedGender = 'male', 
 
         <div className={styles.details}>
           <h3 className={styles.name}>{characterClass?.name}</h3>
-          <span className={styles.hint}>Per level · tap a skill to read it</span>
+          <p className={styles.description}>{describeClass(characterClass)}</p>
         </div>
+      </div>
 
-        <div className={styles.stats}>
-          <Stat assetName="health" label={`+${characterClass?.health}`} />
-          <Stat assetName="mana" label={`+${characterClass?.mana}`} />
-          <Stat assetName="attack" label={`+${characterClass?.attack}`} />
-          <Stat assetName="def" label={`+${characterClass?.defense ?? 0}`} />
-          <Stat assetName="str" label={`+${characterClass?.str}`} />
-          <Stat assetName="agi" label={`+${characterClass?.agi}`} />
-          <Stat assetName="int" label={`+${characterClass?.int}`} />
-        </div>
+      {/* Under the description rather than beside it: sharing the row left the
+          name a column two letters wide on a small phone. */}
+      <div className={styles.stats} title="Gained per level">
+        <Stat assetName="health" label={`+${characterClass?.health}`} />
+        <Stat assetName="mana" label={`+${characterClass?.mana}`} />
+        <Stat assetName="attack" label={`+${characterClass?.attack}`} />
+        <Stat assetName="def" label={`+${characterClass?.defense ?? 0}`} />
+        <Stat assetName="str" label={`+${characterClass?.str}`} />
+        <Stat assetName="agi" label={`+${characterClass?.agi}`} />
+        <Stat assetName="int" label={`+${characterClass?.int}`} />
       </div>
 
       <div className={styles.skills}>

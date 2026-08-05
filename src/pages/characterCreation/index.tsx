@@ -71,7 +71,9 @@ export function CharacterCreationPage() {
       {/* Only the class list scrolls, so the name, the gender and the button
           stay put however many classes there are. */}
       <div className={styles.classList}>
-        <span className={styles.fieldLabel}>Class</span>
+        {/* Said once for the list rather than on every card, where five copies
+            of the same sentence were louder than the classes. */}
+        <span className={styles.fieldLabel}>Class · tap a skill to read it</span>
         <ForEach
           items={query.data}
           render={(characterClass) => (

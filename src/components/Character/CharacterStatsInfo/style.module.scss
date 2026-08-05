@@ -47,8 +47,11 @@
   img {
     grid-column: 1;
     grid-row: 1 / span 2;
-    width: 28px;
-    height: 28px;
+    // A variable so a chip used somewhere tighter than the character sheet —
+    // the class picker, where nine of them share a card with a sprite and a
+    // skill strip — can come down a size without a second component.
+    width: var(--stat-icon-size, 28px);
+    height: var(--stat-icon-size, 28px);
     flex-shrink: 0;
     // The stat icons are pixel art, so the browser's smoothing only blurs them.
     image-rendering: pixelated;
