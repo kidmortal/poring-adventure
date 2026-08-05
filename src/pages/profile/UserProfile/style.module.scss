@@ -53,32 +53,26 @@
   white-space: nowrap;
 }
 
-// Four columns: equipment rail, character, accessory, shortcut rail. The two
-// outer rails take equal tracks so the character stays near the card's centre
-// line even though they have different widths; the accessory sits on the auto
-// track right beside the character, which is where it belongs — it is gear, and
-// the only reason it is not on the 2x2 rail is that the rail has no fifth box.
+// The paper doll: a gear rail either side of the character, each as tall as the
+// sprite between them. The rails take equal tracks so the character sits on the
+// card's centre line, and minmax(0, …) rather than a bare 1fr because 1fr floors
+// at the content's own width and would never give anything back on a narrow
+// screen.
 .heroRow {
   width: 100%;
   display: grid;
-  // minmax(0, 1fr) rather than 1fr: a bare 1fr floors at the content's own
-  // width, which is what stopped the rails giving anything back and left the
-  // character with nothing on a narrow screen.
-  grid-template-columns: minmax(0, 1fr) auto auto minmax(0, 1fr);
-  align-items: stretch;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
   gap: 0.5rem;
+  --rail-columns: auto;
 }
 
-// Under about 380px the four columns want more than the card has: the slots
-// come down a size and the gaps tighten before anything is allowed to overlap.
+// Under about 380px the slots come down a size and the gaps tighten, so the
+// sprite keeps a column worth looking at instead of the rails taking it all.
 @container (max-width: 380px) {
   .heroRow {
     --slot-size: 46px;
-    gap: 0.3rem;
-  }
-
-  .shortcut {
-    padding: 0.25rem 0.3rem;
+    gap: 0.35rem;
   }
 
   .name {
@@ -86,48 +80,38 @@
   }
 }
 
-// Narrower still — a Fold is 280px — and four columns is one too many. The
-// shortcuts become a row of their own beneath, which buys the character back
-// the width it needs to be looked at.
 @container (max-width: 330px) {
   .heroRow {
     --slot-size: 42px;
-    grid-template-columns: auto minmax(0, 1fr) auto;
   }
 
-  .extraMenus {
-    grid-column: 1 / -1;
-    flex-direction: row;
-    justify-content: space-around;
-    justify-self: stretch;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-    padding-top: 0.25rem;
+  .shortcut {
+    padding: 0.3rem 0.2rem;
   }
 }
 
-.accessoryColumn {
-  display: flex;
-  align-items: center;
-}
-
+// The sprite is shorter than a three-slot rail, so it centres between them
+// rather than sitting on the bottom edge the way it did when the name was
+// stacked above it.
 .userCharacterInfoContainer {
   min-width: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: center;
   text-align: center;
 }
 
-// Shortcut rail: flat icon + caption entries instead of button chrome, so the
-// gold hero panel stays the only framed surface in this row.
+// Shortcut row: flat icon + caption entries instead of button chrome, so the
+// gold hero panel stays the only framed surface on the card. Three equal
+// columns, divided from the experience bar by a hairline rather than by the gap
+// alone — they are somewhere to go, and the bar is something you have.
 .extraMenus {
-  justify-self: end;
-  display: flex;
-  flex-direction: column;
-  align-items: stretch;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.15rem;
+  padding-top: 0.4rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .shortcut {

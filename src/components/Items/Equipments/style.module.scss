@@ -1,12 +1,13 @@
 @import "@/styles/variables";
 
-// Equipment rail: weapon / armor / legs / boots in a 2x2 block. The rows spread
-// over the full height of the hero row so the block reaches the character's
-// baseline instead of leaving a gap under it.
+// Equipment rail. The track list is a variable so the same component is a 2x2
+// block in one place and a single column in another: the profile stands two
+// vertical rails either side of the character, and passing a whole value rather
+// than a repeat() count keeps the substitution something every browser does.
 .inventoryContainer {
-  height: 100%;
   display: grid;
-  grid-template-columns: repeat(2, auto);
-  justify-content: flex-start;
+  grid-template-columns: var(--rail-columns, repeat(2, auto));
+  align-content: center;
+  justify-content: center;
   gap: 0.4rem;
 }

@@ -12,8 +12,11 @@ import { useModalStore } from '@/store/modal';
 import ExperienceBar from '@/components/StatsComponents/ExperienceBar';
 import { useUserStore } from '@/store/user';
 
-/** The one slot that does not belong on the 2x2 rail — it sits by the shortcuts. */
-const ACCESSORY_SLOT = ['accessory'] as const;
+// The paper doll: three pieces down the left of the character, two down the
+// right. Splitting them 3/2 is what makes the gear as tall as the sprite, so the
+// card has no corner left over for something to be stranded in.
+const LEFT_SLOTS = ['weapon', 'armor', 'legs'] as const;
+const RIGHT_SLOTS = ['boots', 'accessory'] as const;
 
 export function UserProfile() {
   const navigate = useNavigate();
@@ -25,10 +28,10 @@ export function UserProfile() {
 
   return (
     <div className={styles.container}>
-      {/* Identity across the top, then equips | character | shortcuts, then a
-          full-width exp bar. The name used to share the character's column and
-          was the first thing to be squeezed out of a narrow screen — as its own
-          row it has the whole card to sit in and never truncates. */}
+      {/* Identity, then the paper doll, then the bar, then the shortcuts: four
+          full-width bands rather than four columns fighting over one row. The
+          old shape left the gear floating in one corner, the accessory stranded
+          in another and a hole in the middle of a tall card. */}
       <section className={styles.heroCard}>
         <div className={styles.identityRow}>
           <h2 className={styles.name}>{userStore.user?.name}</h2>
@@ -38,7 +41,7 @@ export function UserProfile() {
         </div>
 
         <div className={styles.heroRow}>
-          <Equipments equips={equippedItems} />
+          <Equipments equips={equippedItems} slots={LEFT_SLOTS} />
 
           <div className={styles.userCharacterInfoContainer}>
             <CharacterInfo
@@ -54,29 +57,28 @@ export function UserProfile() {
             />
           </div>
 
-          {/* Its own column between the character and the shortcuts, so the
-              accessory reads as gear rather than as another shortcut. */}
-          <div className={styles.accessoryColumn}>
-            <Equipments equips={equippedItems} slots={ACCESSORY_SLOT} />
-          </div>
-
-          <div className={styles.extraMenus}>
-            <button className={styles.shortcut} onClick={() => navigate('/guild')}>
-              <img width={28} height={28} src="https://kidmortal.sirv.com/misc/guild_level.webp" />
-              <span>Guild</span>
-            </button>
-            <button className={styles.shortcut} onClick={() => navigate('/party')}>
-              <PartyInfo size={28} />
-              <span>Party</span>
-            </button>
-            <button className={styles.shortcut} onClick={() => modal.setSkillbook({ open: true })}>
-              <img width={28} height={28} src="https://kidmortal.sirv.com/misc/skillbook.webp?w=28&h=28" />
-              <span>Spells</span>
-            </button>
-          </div>
+          <Equipments equips={equippedItems} slots={RIGHT_SLOTS} />
         </div>
 
         <ExperienceBar currentExp={userStore.user?.stats?.experience} level={userStore.user?.stats?.level} />
+
+        {/* Across the bottom rather than stacked in the corner: these are three
+            places to go, not a third rail of gear, and a full-width row gives
+            them a thumb-sized target each. */}
+        <div className={styles.extraMenus}>
+          <button className={styles.shortcut} onClick={() => navigate('/guild')}>
+            <img width={26} height={26} src="https://kidmortal.sirv.com/misc/guild_level.webp" />
+            <span>Guild</span>
+          </button>
+          <button className={styles.shortcut} onClick={() => navigate('/party')}>
+            <PartyInfo size={26} />
+            <span>Party</span>
+          </button>
+          <button className={styles.shortcut} onClick={() => modal.setSkillbook({ open: true })}>
+            <img width={26} height={26} src="https://kidmortal.sirv.com/misc/skillbook.webp?w=28&h=28" />
+            <span>Spells</span>
+          </button>
+        </div>
       </section>
 
       <CharacterStatsInfo />
