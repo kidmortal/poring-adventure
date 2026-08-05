@@ -6,9 +6,8 @@ import { FaGift, FaUserPlus } from 'react-icons/fa';
 import { BaseModal } from '../BaseModal';
 import { CharacterInfo } from '@/components/Character/CharacterInfo';
 import { Stat } from '@/components/Character/CharacterStatsInfo';
-import { InventoryItem } from '@/components/Items/InventoryItem';
+import { Equipments } from '@/components/Items/Equipments';
 import { Button } from '@/components/shared/Button';
-import ForEach from '@/components/shared/ForEach';
 import { When } from '@/components/shared/When';
 import { Silver } from '@/components/StatsComponents/Silver';
 import { useWebsocketApi } from '@/api/websocketServer';
@@ -90,18 +89,13 @@ export function InteractUserModal(props: Props) {
 
       <section className={styles.section}>
         <span className={styles.sectionTitle}>Equipped</span>
-        <When value={equipped.length === 0}>
-          <span className={styles.empty}>Wearing nothing at all</span>
-        </When>
+        {/* The same five-slot rail the profile draws, so a slot they have
+            nothing in — the accessory, most often — reads as empty rather than
+            vanishing from a list of whatever happened to be worn. Read-only:
+            this gear belongs to someone else, and the item menu offers to equip
+            and sell it. */}
         <div className={styles.gear}>
-          <ForEach
-            items={equipped}
-            render={(item) => (
-              // Display only: this gear belongs to someone else, so it opens no
-              // menu of things to do with it.
-              <InventoryItem key={item.id} inventoryItem={item} customSize={42} />
-            )}
-          />
+          <Equipments equips={equipped} readOnly />
         </div>
       </section>
 

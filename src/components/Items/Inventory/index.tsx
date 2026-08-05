@@ -9,10 +9,17 @@ import { useModalStore } from '@/store/modal';
 import { InventoryFilters, useMainStore } from '@/store/main';
 import { ItemCategoryFilter } from '../ItemCategoryFilter';
 import { When } from '@/components/shared/When';
+import { EQUIPABLE_CATEGORIES } from '@/constants';
 
-/** Item categories each filter accepts; 'all' matches everything. */
-const CATEGORIES_BY_FILTER: Record<Exclude<InventoryFilters, 'all'>, string[]> = {
-  equipment: ['weapon', 'armor', 'legs', 'boots'],
+/**
+ * Item categories each filter accepts; 'all' matches everything.
+ *
+ * `equipment` reads the shared list rather than repeating it — spelled out here
+ * it was missing `accessory`, so the one slot the whole party shops the same
+ * list for was invisible under the filter named after it.
+ */
+const CATEGORIES_BY_FILTER: Record<Exclude<InventoryFilters, 'all'>, readonly string[]> = {
+  equipment: EQUIPABLE_CATEGORIES,
   consumable: ['consumable'],
   material: ['material'],
 };

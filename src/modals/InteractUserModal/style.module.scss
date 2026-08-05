@@ -83,11 +83,13 @@
   gap: 0.25rem;
 }
 
+// The five slots in one row. The profile splits the same rail into two vertical
+// columns either side of the character; there is no character to stand between
+// them here, so it lies flat.
 .gear {
+  --rail-columns: repeat(5, auto);
   display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: 0.35rem;
+  justify-content: center;
 }
 
 .empty {
