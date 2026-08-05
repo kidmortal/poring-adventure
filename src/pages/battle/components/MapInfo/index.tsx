@@ -1,3 +1,6 @@
+import { useState } from 'react';
+import { FaChevronDown } from 'react-icons/fa';
+
 import { Button } from '@/components/shared/Button';
 import styles from './style.module.scss';
 import { useMutation } from '@tanstack/react-query';
@@ -11,6 +14,14 @@ import { useModalStore } from '@/store/modal';
 type Props = {
   map: MonsterMap;
 };
+
+/**
+ * Roughly what fits on one line at the card's width. The grid is auto-filled,
+ * so the real number is whatever the browser worked out — this only decides
+ * whether collapsing is worth doing at all, and being a slot out either way
+ * costs nothing.
+ */
+const DROPS_PER_ROW = 6;
 
 type MapDrop = {
   item: Item;
@@ -50,8 +61,11 @@ export function MapInfo({ map }: Props) {
     mutationFn: (mapId: number) => api.battle.createBattleInstance(mapId),
   });
 
+  const [showAllDrops, setShowAllDrops] = useState(false);
+
   const drops = getDropsFromMonsters(map.monster);
   const hasBoss = map.monster.some((monster) => monster.boss);
+  const collapsible = drops.length > DROPS_PER_ROW;
 
   return (
     <article className={styles.card}>
@@ -81,9 +95,25 @@ export function MapInfo({ map }: Props) {
         </div>
       </section>
 
+      {/* Twenty drops is four rows of icons under every map on the list, which
+          buried the maps themselves. The first row stands, fading out at the
+          bottom to say there is more, and the arrow brings the rest. */}
       <section className={styles.section}>
-        <span className={styles.sectionTitle}>Possible drops</span>
-        <div className={styles.dropGrid}>
+        <div className={styles.sectionHead}>
+          <span className={styles.sectionTitle}>Possible drops</span>
+          {collapsible && (
+            <button
+              type="button"
+              className={styles.reveal}
+              onClick={() => setShowAllDrops(!showAllDrops)}
+              aria-expanded={showAllDrops}
+            >
+              <span>{showAllDrops ? 'Less' : `All ${drops.length}`}</span>
+              <FaChevronDown className={cn(styles.chevron, { [styles.chevronOpen]: showAllDrops })} />
+            </button>
+          )}
+        </div>
+        <div className={cn(styles.dropGrid, { [styles.dropGridCollapsed]: collapsible && !showAllDrops })}>
           <ForEach
             items={drops}
             render={(drop) => (

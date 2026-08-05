@@ -61,6 +61,46 @@
   gap: 0.3rem;
 }
 
+.sectionHead {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+// The count doubles as the affordance: "All 20" says both how many there are
+// and that there are more than the row showing.
+.reveal {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.1rem 0.35rem;
+  border: 1px solid $border;
+  border-radius: 999px;
+  background-color: rgba(255, 255, 255, 0.05);
+  color: $text-muted;
+  font-family: inherit;
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+
+  &:hover {
+    color: $text;
+    border-color: $border-strong;
+  }
+}
+
+.chevron {
+  font-size: 9px;
+  transition: transform 180ms ease;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+}
+
 .sectionTitle {
   font-size: 10px;
   font-weight: 700;
@@ -86,6 +126,17 @@
   grid-template-columns: repeat(auto-fill, minmax(46px, 1fr));
   gap: 0.35rem;
   justify-items: center;
+}
+
+// One row, plus a sliver of the next fading out under it — a hard cut reads as
+// the end of the list, and a fade reads as more of it. The mask is what does
+// the fading; overflow alone would clip the second row mid-icon and leave it
+// looking broken rather than continued.
+.dropGridCollapsed {
+  max-height: 60px;
+  overflow: hidden;
+  mask-image: linear-gradient(180deg, #000 46px, rgba(0, 0, 0, 0.35) 54px, transparent 100%);
+  -webkit-mask-image: linear-gradient(180deg, #000 46px, rgba(0, 0, 0, 0.35) 54px, transparent 100%);
 }
 
 .dropSlot {
