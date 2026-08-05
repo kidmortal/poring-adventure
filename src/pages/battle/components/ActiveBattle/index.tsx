@@ -49,41 +49,47 @@ export function ActiveBattle({ battle }: { battle: Battle }) {
 
   return (
     <>
-      {/* Who is acting and who follows, so a co-op fight can be planned. */}
-      <TurnOrder
-        attackerList={battle.attackerList}
-        attackerTurn={battle.attackerTurn}
-        users={battle.users}
-        monsters={battle.monsters}
-      />
-
-      <div className={styles.logContainer}>
-        <BattleLogs logs={battle.log} />
-      </div>
-
-      <div className={styles.monsterSection}>
-        <ForEach
-          items={battle.monsters}
-          render={(m, idx) => <BattleMonsterInfo key={`${m.name}-${idx}`} monster={m} />}
+      {/* The arena scrolls, the action bar does not. The battlefield clips what
+          does not fit, so a big party or a short phone used to cut the buttons
+          off the bottom of the screen — the one part of the fight that has to be
+          reachable. */}
+      <div className={styles.arena}>
+        {/* Who is acting and who follows, so a co-op fight can be planned. */}
+        <TurnOrder
+          attackerList={battle.attackerList}
+          attackerTurn={battle.attackerTurn}
+          users={battle.users}
+          monsters={battle.monsters}
         />
-      </div>
 
-      <div className={styles.userSection}>
-        <When value={battleStore.isTargetingSkill}>
-          <h2 className={styles.targetingSkillLabel}>Click on Ally or press again to auto-choose</h2>
-        </When>
-        <ForEach
-          items={battle.users}
-          render={(u) => (
-            <CharacterWithHealthBar
-              orientation="back"
-              key={u.email}
-              user={u}
-              highestAggro={focusedPlayer?.name === u.name}
-              onClick={() => castOnAlly(u.name)}
-            />
-          )}
-        />
+        <div className={styles.logContainer}>
+          <BattleLogs logs={battle.log} />
+        </div>
+
+        <div className={styles.monsterSection}>
+          <ForEach
+            items={battle.monsters}
+            render={(m, idx) => <BattleMonsterInfo key={`${m.name}-${idx}`} monster={m} />}
+          />
+        </div>
+
+        <div className={styles.userSection}>
+          <When value={battleStore.isTargetingSkill}>
+            <h2 className={styles.targetingSkillLabel}>Click on Ally or press again to auto-choose</h2>
+          </When>
+          <ForEach
+            items={battle.users}
+            render={(u) => (
+              <CharacterWithHealthBar
+                orientation="back"
+                key={u.email}
+                user={u}
+                highestAggro={focusedPlayer?.name === u.name}
+                onClick={() => castOnAlly(u.name)}
+              />
+            )}
+          />
+        </div>
       </div>
 
       <BattleActions user={battleUser} api={api} isYourTurn={isYourTurn} />

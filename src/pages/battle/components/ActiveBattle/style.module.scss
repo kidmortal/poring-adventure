@@ -1,5 +1,20 @@
 @import "@/styles/variables";
 
+// Everything above the action bar. It takes the height that is left and scrolls
+// if the fight still wants more, which is what keeps the buttons on screen
+// rather than clipped off the bottom by the battlefield's own overflow.
+.arena {
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
 // The enemy side fills from the right edge inward, so the first monster is the
 // one furthest from the party.
 .monsterSection {
@@ -9,11 +24,13 @@
   justify-content: flex-start;
   align-items: flex-start;
   flex-wrap: wrap;
-  gap: 0.5rem;
+  gap: 0.25rem;
   // A plain gap, not `auto`: that pushed the party to the floor and left a dead
   // band across the middle of the arena.
-  margin-bottom: 0.5rem;
-  padding: 0 1.5rem 0 1rem;
+  margin-bottom: 0.25rem;
+  // The side insets set the two lines against each other; on a phone they were
+  // costing a third of a monster's width for the sake of the pose.
+  padding: 0 0.6rem 0 0.3rem;
 }
 
 // The party lines up from the left edge, facing the monsters. Four fit before
@@ -25,8 +42,11 @@
   justify-content: flex-start;
   align-items: flex-end;
   flex-wrap: wrap;
-  gap: 0.5rem 0.5rem;
-  padding: 0 1rem 0 1.5rem;
+  gap: 0.25rem;
+  padding: 0 0.3rem 0 0.6rem;
+  // The party is five separate readouts stacked over a doll each; at full size
+  // four of them do not fit a 390px screen without the actions falling off it.
+  --sprite-zoom: 0.8;
 }
 
 // The log sits on the arena floor now, so it carries its own surface. It takes
@@ -34,13 +54,13 @@
 // between the two sides of the fight.
 .logContainer {
   flex: 1;
-  min-height: 4.5rem;
+  min-height: 3rem;
   width: calc(100% - 1rem);
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  margin: 0.4rem 0 0.5rem;
+  margin: 0.3rem 0;
   padding: 0.25rem 0.35rem;
   border-radius: $radius-sm;
   background-color: rgba(0, 0, 0, 0.25);

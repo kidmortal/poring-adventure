@@ -1,3 +1,8 @@
+// The sprite's geometry is fiddly — an absolutely placed head hanging above a
+// body, with a margin reserving the room it overhangs into — so a caller that
+// wants a smaller doll scales the whole assembly rather than restating six
+// numbers. `zoom` and not `transform`, because only zoom takes the layout box
+// down with it: a transform would shrink the picture and keep the hole.
 .characterContainer {
   display: flex;
   flex-direction: column;
@@ -6,6 +11,7 @@
   width: 70px;
   height: 80px;
   margin-top: 1.5rem;
+  zoom: var(--sprite-zoom, 1);
 }
 
 .character {

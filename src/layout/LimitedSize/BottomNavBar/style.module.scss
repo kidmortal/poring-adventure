@@ -8,9 +8,9 @@
   justify-content: space-between;
   align-items: stretch;
   gap: 0.25rem;
-  padding: 0.3rem;
+  padding: 0.15rem 0.3rem;
   // Sits above the home indicator on notched devices.
-  padding-bottom: calc(0.3rem + env(safe-area-inset-bottom, 0px));
+  padding-bottom: calc(0.15rem + env(safe-area-inset-bottom, 0px));
   @include panel(12px);
 }
 
@@ -21,8 +21,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 0.15rem;
-  padding: 0.4rem 0.15rem;
+  gap: 0.1rem;
+  padding: 0.25rem 0.15rem;
   border: none;
   border-radius: 8px;
   background: transparent;
@@ -39,12 +39,12 @@
 
 .icon {
   display: flex;
-  font-size: 19px;
+  font-size: 17px;
   line-height: 1;
 }
 
 .label {
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 600;
   letter-spacing: 0.2px;
   white-space: nowrap;

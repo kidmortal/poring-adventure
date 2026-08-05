@@ -36,8 +36,8 @@ export function CharacterWithHealthBar({
         <When value={user?.aggro != undefined}>
           <div className={styles.aggroContainer}>
             <img
-              width={25}
-              height={25}
+              width={16}
+              height={16}
               src={`https://kidmortal.sirv.com/misc/${highestAggro ? 'bossrage' : 'boss'}.webp?w=25&h=25`}
             />
             <span>{user?.aggro}</span>
@@ -49,17 +49,19 @@ export function CharacterWithHealthBar({
             LV {user?.stats?.level} {user?.class?.name}
           </span>
         </When>
+        {/* Both bars the same height: the mana bar was the taller of the two,
+            which read as the more important number. */}
         <HealthBar
           currentHealth={user?.stats?.health ?? 0}
           maxHealth={user?.stats?.maxHealth ?? 0}
-          minWidth="5rem"
+          minWidth="4.5rem"
           minHeight="0.3rem"
         />
         <ManaBar
           currentHealth={user?.stats?.mana ?? 0}
           maxHealth={user?.stats?.maxMana ?? 0}
-          minWidth="5rem"
-          minHeight="0.5rem"
+          minWidth="4.5rem"
+          minHeight="0.3rem"
         />
         <CharacterInfo
           costume={`${user?.appearance.costume}`}

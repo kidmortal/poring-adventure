@@ -6,8 +6,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 0.1rem;
-  padding: 0.2rem 0.4rem;
+  gap: 0.05rem;
+  padding: 0.1rem 0.3rem;
   // No surface of its own: the arena is dark enough, and the text shadow keeps
   // it legible over the glow.
   font-size: 11px;
@@ -15,8 +15,9 @@
 }
 
 .monsterName {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
+  line-height: 1.2;
 }
 
 .levelContainer {
@@ -24,8 +25,9 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: 0.3rem;
+  gap: 0.2rem;
   color: $gold;
+  font-size: 10px;
   font-weight: 600;
 }
 
@@ -34,14 +36,19 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.4rem;
   color: $text-muted;
+  font-size: 10px;
 }
 
+// The monster is the thing being fought, so it keeps its size while the text
+// around it gives ground — but it stops growing past the width one of three
+// abreast can have on a small phone.
 .sprite {
   min-height: 40px;
   min-width: 40px;
-  margin-top: 0.2rem;
+  max-width: 68px;
+  margin-top: 0.1rem;
 }
 
 .debuffList {
@@ -50,7 +57,7 @@
   justify-content: center;
   align-items: center;
   gap: 0.15rem;
-  min-height: 20px;
+  min-height: 16px;
 }
 
 .debuff {
