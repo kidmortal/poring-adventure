@@ -1,5 +1,6 @@
 import { Socket } from "socket.io-client";
 import { asyncEmit } from "../websocketServer";
+import { BattleDebugAction } from "@/components/WebsocketDebugPanel/battleActions";
 
 export type ServerInfo = {
   branchHash: string;
@@ -92,6 +93,20 @@ export function adminService({ websocket }: { websocket?: Socket }) {
     return asyncEmit(websocket, "kill_battle_monsters", args?.email ?? "");
   }
 
+  /**
+   * Every battle debug action goes through one event, with the verb in the
+   * payload. No email means your own fight.
+   */
+  async function battleDebugAction(args: {
+    action: BattleDebugAction;
+    email?: string;
+    name?: string;
+    amount?: number;
+  }) {
+    if (!websocket) return undefined;
+    return asyncEmit(websocket, "battle_debug_action", args);
+  }
+
   async function clearUserCache(args: { email: string }) {
     if (!websocket) return undefined;
     return asyncEmit(websocket, "clear_user_cache", args.email);
@@ -133,6 +148,7 @@ export function adminService({ websocket }: { websocket?: Socket }) {
     giveSilver,
     forceEndBattle,
     killBattleMonsters,
+    battleDebugAction,
     clearUserCache,
   };
 }

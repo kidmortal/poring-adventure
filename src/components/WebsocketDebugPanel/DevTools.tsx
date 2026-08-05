@@ -1,4 +1,5 @@
 import cn from 'classnames';
+import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useQueryClient } from '@tanstack/react-query';
 
@@ -13,6 +14,7 @@ import { When } from '@/components/shared/When';
 import { Query } from '@/store/query';
 import { useDevicePreviewStore } from '@/store/devicePreview';
 import { DEVICES, TEXT_ZOOMS } from './devices';
+import { BATTLE_DEBUG_GROUPS } from './battleActions';
 
 /**
  * Every modal that opens with no argument. The ones that need a subject — an
@@ -58,6 +60,10 @@ export function DevTools() {
   const battle = useBattleStore((s) => s.battle);
   const preview = useDevicePreviewStore();
   const api = useWebsocketApi();
+
+  // The buff or debuff to hand out, by name. Left empty, the server picks the
+  // first one it has seeded, which is enough to see the icons draw.
+  const [effectName, setEffectName] = useState('');
 
   const isAdmin = !!user?.admin;
   // The battle the client knows about. A settled one is still on screen until
@@ -193,6 +199,50 @@ export function DevTools() {
               the experience and a dungeon's next stage all happen for real. */}
           <span className={styles.toolHint}>
             Kill pays the fight out as a win — drops, rewards and dungeon stage included.
+          </span>
+
+          {/* None of these spend your turn, so a scenario can be built up one
+              piece at a time and then played from the position you wanted. */}
+          <ForEach
+            items={BATTLE_DEBUG_GROUPS}
+            render={(group) => (
+              <div key={group.title} className={styles.toolGroup}>
+                <span className={styles.toolSubtitle}>{group.title}</span>
+                <div className={styles.toolRow}>
+                  <ForEach
+                    items={group.actions}
+                    render={(entry) => (
+                      <button
+                        key={entry.action}
+                        type="button"
+                        className={styles.tool}
+                        title={entry.hint}
+                        disabled={!inBattle}
+                        onClick={() =>
+                          api.admin.battleDebugAction({
+                            action: entry.action,
+                            name: entry.needs ? effectName || undefined : undefined,
+                          })
+                        }
+                      >
+                        {entry.label}
+                      </button>
+                    )}
+                  />
+                </div>
+              </div>
+            )}
+          />
+
+          <input
+            className={styles.toolInput}
+            value={effectName}
+            placeholder="Buff or debuff by name — blank picks the first"
+            onChange={(event) => setEffectName(event.target.value)}
+          />
+          <span className={styles.toolHint}>
+            Nothing here takes your turn except Pass turn. A monster carries debuffs and a player carries buffs — the
+            engine has nowhere to put the other way round.
           </span>
         </section>
       </When>

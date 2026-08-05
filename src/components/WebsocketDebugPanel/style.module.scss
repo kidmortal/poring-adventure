@@ -374,3 +374,33 @@ $debug-layer: 9000;
   background-color: $surface-raised;
   border-color: rgba($primary, 0.7);
 }
+
+.toolGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.toolSubtitle {
+  font-size: 9px;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: $text-muted;
+  opacity: 0.75;
+}
+
+.toolInput {
+  width: 100%;
+  padding: 3px 8px;
+  font-family: inherit;
+  font-size: 11px;
+  color: $text;
+  background-color: $neutral;
+  border: 1px solid $border;
+  border-radius: $radius-sm;
+  outline: none;
+
+  &:focus {
+    border-color: $primary;
+  }
+}
