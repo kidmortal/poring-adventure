@@ -1,4 +1,4 @@
-import { ServerInfo } from '@/api/services/adminService';
+import { CatalogItem, ServerInfo } from '@/api/services/adminService';
 import { create } from 'zustand';
 
 type NativeServices = {
@@ -13,6 +13,9 @@ export interface AdminStoreState {
   connectedSockets: number;
   nativeServices: NativeServices;
   serverInfo?: ServerInfo;
+  /** The whole item catalogue, fetched once when the spawn panel opens. */
+  itemCatalog: CatalogItem[];
+  setItemCatalog: (v: CatalogItem[]) => void;
   setConnectedIntegrations: (v: string[]) => void;
   setNativeServices: (v: NativeServices) => void;
   setConnectedUsers: (v: User[]) => void;
@@ -25,6 +28,8 @@ export const useAdminStore = create<AdminStoreState>()((set) => ({
   connectedIntegrations: [],
   setConnectedIntegrations: (v) => set(() => ({ connectedIntegrations: v })),
   serverInfo: undefined,
+  itemCatalog: [],
+  setItemCatalog: (v) => set(() => ({ itemCatalog: v })),
   nativeServices: {},
   connectedSockets: 0,
   setConnectedSockets: (v) => set(() => ({ connectedSockets: v })),

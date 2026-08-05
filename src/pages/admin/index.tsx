@@ -15,6 +15,7 @@ import { ServerInfoBox } from './components/ServerInfoBox';
 import { ConnectedUser } from './components/ConnectedUser';
 import { ConnectedIntegration } from './components/ConnectedIntegration';
 import { AdminAction } from './components/AdminAction';
+import { SpawnItem } from './components/SpawnItem';
 
 export function AdminPage() {
   const navigate = useNavigate();
@@ -127,6 +128,11 @@ export function AdminPage() {
             onClick={() => restartServer.mutate()}
           />
         </div>
+      </section>
+
+      <section className={styles.section}>
+        <span className={styles.sectionTitle}>Spawn item</span>
+        <SpawnItem />
       </section>
 
       <section className={styles.section}>

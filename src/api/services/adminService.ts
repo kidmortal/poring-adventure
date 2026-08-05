@@ -2,6 +2,14 @@ import { Socket } from "socket.io-client";
 import { asyncEmit } from "../websocketServer";
 import { BattleDebugAction } from "@/components/WebsocketDebugPanel/battleActions";
 
+/** One row of the item catalogue, for the spawn picker. */
+export type CatalogItem = {
+  id: number;
+  name: string;
+  category: string;
+  image: string;
+};
+
 export type ServerInfo = {
   branchHash: string;
   memoryInfo: MemoryInfo;
@@ -75,6 +83,28 @@ export function adminService({ websocket }: { websocket?: Socket }) {
   async function clearGuildBosses() {
     if (!websocket) return undefined;
     return asyncEmit(websocket, "clear_guild_bosses", "");
+  }
+
+  /**
+   * Puts any item straight into a bag. No email spawns into your own.
+   * Quality and enhancement are settable because the states worth testing are
+   * the ones that take an evening to reach honestly.
+   */
+  async function spawnItem(args: {
+    itemId: number;
+    email?: string;
+    stack?: number;
+    quality?: number;
+    enhancement?: number;
+  }) {
+    if (!websocket) return undefined;
+    return asyncEmit(websocket, "spawn_item", args);
+  }
+
+  /** Asks for the catalogue; it arrives on the `item_catalog` event. */
+  async function getItemCatalog() {
+    if (!websocket) return undefined;
+    return asyncEmit(websocket, "get_item_catalog", "");
   }
 
   async function giveSilver(args: { email: string; amount: number }) {
@@ -152,6 +182,8 @@ export function adminService({ websocket }: { websocket?: Socket }) {
     resetBossEntry,
     clearGuildBosses,
     giveSilver,
+    spawnItem,
+    getItemCatalog,
     forceEndBattle,
     killBattleMonsters,
     battleDebugAction,

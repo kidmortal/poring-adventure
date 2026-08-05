@@ -1,7 +1,7 @@
 import { Socket } from 'socket.io-client';
 
 import { AdminStoreState } from '@/store/admin';
-import { ServerInfo } from '@/api/services/adminService';
+import { CatalogItem, ServerInfo } from '@/api/services/adminService';
 
 export function addAdminWebsocketListeners({ websocket, store }: { websocket: Socket; store: AdminStoreState }) {
   websocket.on('connected_users', (sockets: { users: User[]; connectedSockets: number; integrations: string[] }) => {
@@ -11,5 +11,8 @@ export function addAdminWebsocketListeners({ websocket, store }: { websocket: So
   });
   websocket.on('server_info', (server: ServerInfo) => {
     store.setServerInfo(server);
+  });
+  websocket.on('item_catalog', (items: CatalogItem[]) => {
+    store.setItemCatalog(items);
   });
 }
