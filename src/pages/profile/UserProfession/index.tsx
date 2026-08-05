@@ -141,6 +141,13 @@ export function UserProfession() {
     ? nodes.filter((node) => node.professionId === current.professionId).length - workable.length
     : 0;
 
+  // The bench only shows your own trade's recipes. A blacksmith has no use for
+  // the cook's list, and a gatherer has no bench at all — the Hire tab is where
+  // someone else's recipes belong, which is why the filter is here and not in
+  // `get_recipes`.
+  const isCrafter = current?.profession?.kind === 'crafting';
+  const ownRecipes = isCrafter ? recipes.filter((recipe) => recipe.professionId === current.professionId) : [];
+
   const board = commissionsQuery.data;
   const commissions = board?.commissions ?? [];
   const readyCommissions = commissions.filter(
@@ -272,11 +279,19 @@ export function UserProfession() {
           <When value={recipesQuery.isLoading}>
             <LoadingBlock info="Loading recipes" />
           </When>
-          <When value={!recipesQuery.isLoading && recipes.length === 0}>
+          {/* Said once for the whole tab, the same way the Gather tab says it. */}
+          <When value={!recipesQuery.isLoading && !isCrafter}>
+            <span className={styles.empty}>
+              {current
+                ? `${current.profession.name} works nodes, not a bench — learn a crafting trade to craft`
+                : 'Learn a crafting trade to craft'}
+            </span>
+          </When>
+          <When value={!recipesQuery.isLoading && isCrafter && ownRecipes.length === 0}>
             <span className={styles.empty}>No recipe available yet</span>
           </When>
           <ForEach
-            items={recipes}
+            items={ownRecipes}
             render={(recipe) => (
               <RecipeCard
                 key={recipe.id}
