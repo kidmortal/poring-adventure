@@ -251,3 +251,110 @@ $debug-layer: 9000;
   white-space: pre-wrap;
   word-break: break-word;
 }
+
+// Tabs read as the panel's own chrome rather than as another filter row, so
+// they sit above the search box and carry an underline instead of a pill.
+.tabs {
+  display: flex;
+  gap: 4px;
+  border-bottom: 1px solid $border;
+}
+
+.tab {
+  padding: 3px 10px;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: $text-muted;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  cursor: pointer;
+
+  &:hover {
+    color: $text;
+  }
+}
+
+.tabActive {
+  color: $text;
+  border-bottom-color: $primary;
+}
+
+.tools {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: auto;
+}
+
+.toolSection {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.toolTitle {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  color: $text-muted;
+}
+
+.toolRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.tool {
+  padding: 3px 8px;
+  font-size: 11px;
+  color: $text;
+  background-color: $neutral;
+  border: 1px solid $border;
+  border-radius: $radius-sm;
+  cursor: pointer;
+
+  &:hover:not(:disabled) {
+    background-color: $surface-raised;
+    border-color: $border-strong;
+  }
+
+  &:disabled {
+    color: $text-muted;
+    opacity: 0.5;
+    cursor: default;
+  }
+}
+
+.toolHint {
+  font-size: 10px;
+  color: $text-muted;
+}
+
+// Read-only facts about the session, monospaced so the socket id lines up with
+// whatever the log is showing.
+.facts {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 2px 8px;
+  font-family: ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  font-size: 10px;
+}
+
+.fact {
+  display: contents;
+
+  dt {
+    color: $text-muted;
+  }
+
+  dd {
+    color: $text;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}

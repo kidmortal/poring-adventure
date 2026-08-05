@@ -48,6 +48,25 @@ the abbreviation rules.
 `GoogeLoginButton` · `WebsocketDebugPanel` (rides along on every screen,
 including failed connections — that is when the log matters most).
 
+The debug panel renders for **any dev build, and for an admin in production** —
+live operations needs the frame log and the battle tools on the server people
+actually play on. Hiding it from everyone else is a matter of clutter, not of
+trust: every admin event it sends goes through `AdminGuard` server-side.
+
+Two tabs:
+
+- **log** — the websocket frame log, filterable by direction and searchable.
+  `devLogger.ts` records on every build, because the admin flag arrives several
+  frames after connect and the connection attempt is the part worth having.
+- **tools** (`DevTools.tsx`) — jumps to `/create` so character creation can be
+  looked at *without deleting your character* (it is a real route outside
+  `CharacterLayout`, and the server refuses a second character for the account,
+  so it is a preview), openers for every modal that needs no argument, the
+  query-cache buttons, and the session's socket id, character and route. Admins
+  also get a Battle section — `kill_battle_monsters` drops everything standing
+  in your own fight and settles it as a win (drops, rewards, dungeon stage and
+  all), and `force_end_battle` throws the fight away.
+
 ## Modals
 
 **Every modal is mounted once, in `layout/Modal/index.tsx`, and opened by

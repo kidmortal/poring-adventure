@@ -86,6 +86,12 @@ export function adminService({ websocket }: { websocket?: Socket }) {
     return asyncEmit(websocket, "force_end_battle", args.email);
   }
 
+  /** No email kills the monsters in your own fight. */
+  async function killBattleMonsters(args?: { email?: string }) {
+    if (!websocket) return undefined;
+    return asyncEmit(websocket, "kill_battle_monsters", args?.email ?? "");
+  }
+
   async function clearUserCache(args: { email: string }) {
     if (!websocket) return undefined;
     return asyncEmit(websocket, "clear_user_cache", args.email);
@@ -126,6 +132,7 @@ export function adminService({ websocket }: { websocket?: Socket }) {
     clearGuildBosses,
     giveSilver,
     forceEndBattle,
+    killBattleMonsters,
     clearUserCache,
   };
 }

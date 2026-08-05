@@ -19,7 +19,7 @@ export type WebsocketLogEntry = {
   error?: boolean;
 };
 
-/** Dev-only buffer: old frames are dropped so a long session cannot eat memory. */
+/** Ring buffer: old frames are dropped so a long session cannot eat memory. */
 const MAX_ENTRIES = 500;
 
 let nextId = 0;

@@ -29,11 +29,13 @@ function collapse(args: unknown[]) {
  * service: everything funnels through `asyncEmit`, and wrapping the socket also
  * lets us pair a request with the ack the server sends back.
  *
- * No-ops outside development.
+ * Attached on every build, not only in development. Whether the panel is
+ * *shown* depends on the admin flag, which does not arrive until the profile
+ * does — several frames after connect, and the connection attempt is exactly
+ * the part worth having a log of. Recording always and rendering selectively is
+ * the only order that works; the cost is a bounded 500-frame buffer.
  */
 export function attachWebsocketDevLogger(socket: Socket) {
-  if (!import.meta.env.DEV) return;
-
   const tagged = socket as TaggedSocket;
   if (tagged[ATTACHED]) return;
   tagged[ATTACHED] = true;

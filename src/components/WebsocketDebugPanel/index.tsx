@@ -5,12 +5,17 @@ import { FaTrash, FaTimes } from 'react-icons/fa';
 
 import styles from './style.module.scss';
 import { useMainStore } from '@/store/main';
+import { useUserStore } from '@/store/user';
 import { WebsocketLogDirection, WebsocketLogEntry, useWebsocketLogStore } from '@/store/websocketLog';
 import { When } from '@/components/shared/When';
 import ForEach from '@/components/shared/ForEach';
+import { DevTools } from './DevTools';
 
 const FILTERS = ['all', 'out', 'ack', 'in', 'system', 'errors'] as const;
 type Filter = (typeof FILTERS)[number];
+
+const TABS = ['log', 'tools'] as const;
+type Tab = (typeof TABS)[number];
 
 const DIRECTION_LABEL: Record<WebsocketLogDirection, string> = {
   out: '↑',
@@ -32,13 +37,18 @@ function preview(payload: unknown) {
 }
 
 /**
- * Dev-only websocket inspector: a floating button that opens the frame log.
+ * The debug panel: a floating button that opens the frame log, and the dev
+ * shortcuts that want to live in the same place — a screen you cannot normally
+ * reach is as much a debugging problem as a frame you cannot read.
  *
- * Renders nothing in a production build — the whole component is behind
- * `import.meta.env.DEV` so the bundle drops it.
+ * Renders nothing for an ordinary player in a production build. It is not a
+ * security boundary — every tool in it goes through `AdminGuard` on the server,
+ * which is what makes hiding the button a matter of clutter rather than of
+ * trust.
  */
 export function WebsocketDebugPanel() {
   const [open, setOpen] = useState(false);
+  const [tab, setTab] = useState<Tab>('log');
   const [filter, setFilter] = useState<Filter>('all');
   const [search, setSearch] = useState('');
   const [expanded, setExpanded] = useState<number>();
@@ -47,6 +57,7 @@ export function WebsocketDebugPanel() {
   const clear = useWebsocketLogStore((s) => s.clear);
   const websocket = useMainStore((s) => s.websocket);
   const wsAuthenticated = useMainStore((s) => s.wsAuthenticated);
+  const isAdmin = useUserStore((s) => !!s.user?.admin);
 
   const errorCount = useMemo(() => entries.filter((e) => e.error).length, [entries]);
 
@@ -60,7 +71,11 @@ export function WebsocketDebugPanel() {
     });
   }, [entries, filter, search]);
 
-  if (!import.meta.env.DEV) return <></>;
+  // Admins keep the panel in a production build: the tools that matter for
+  // live operations — killing a stuck fight, reading the frames a bug report
+  // describes — are needed on the server people actually play on. Everyone else
+  // never renders it, and `AdminGuard` is what actually refuses the events.
+  if (!import.meta.env.DEV && !isAdmin) return <></>;
 
   const connected = !!websocket;
 
@@ -100,6 +115,27 @@ export function WebsocketDebugPanel() {
             </button>
           </header>
 
+          <div className={styles.tabs}>
+            <ForEach
+              items={[...TABS]}
+              render={(t) => (
+                <button
+                  key={t}
+                  type="button"
+                  onClick={() => setTab(t)}
+                  className={cn(styles.tab, { [styles.tabActive]: tab === t })}
+                >
+                  {t}
+                </button>
+              )}
+            />
+          </div>
+
+          <When value={tab === 'tools'}>
+            <DevTools />
+          </When>
+
+          <When value={tab === 'log'}>
           <div className={styles.filters}>
             <ForEach
               items={[...FILTERS]}
@@ -140,6 +176,7 @@ export function WebsocketDebugPanel() {
               )}
             />
           </div>
+          </When>
         </div>
       </When>
     </>
