@@ -164,7 +164,7 @@ export function UserProfession() {
   const tabs: TabOption<ProfessionTab>[] = [
     // The badge nudges toward picking a first profession; once one is chosen the
     // rest are swaps, not something to nag about.
-    { value: 'professions', label: 'Professions', badge: current ? undefined : available.length },
+    { value: 'professions', label: 'Jobs', badge: current ? undefined : available.length },
     { value: 'gather', label: 'Gather' },
     { value: 'craft', label: 'Craft' },
     // The badge counts what could be handed over right now, which is the only
