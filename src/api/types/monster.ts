@@ -20,6 +20,8 @@ declare global {
     maxHealth?: number;
     /** Everything the party has stuck on it, for the icons beside its bar. */
     debuffs?: BattleDebuff[];
+    /** And everything put *on* it. Same shape a player's buffs arrive in. */
+    buffs?: UserBuff[];
   };
 
   /**

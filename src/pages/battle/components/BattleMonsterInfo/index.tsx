@@ -10,6 +10,7 @@ export function BattleMonsterInfo({ monster }: Props) {
   if (!monster) return <></>;
 
   const debuffs = monster.debuffs ?? [];
+  const buffs = monster.buffs ?? [];
   return (
     <div className={styles.monsterContainer}>
       <div className={styles.levelContainer}>
@@ -27,6 +28,20 @@ export function BattleMonsterInfo({ monster }: Props) {
       {/* What the party has stuck on it, beside the health it is spending. The
           duration is on the icon because a shred expiring next turn and one
           that lasts three more are different plays. */}
+      <When value={buffs.length > 0}>
+        <div className={styles.debuffList}>
+          <ForEach
+            items={buffs}
+            render={({ buff, duration }, index) => (
+              <div key={`${buff.name}-${index}`} className={styles.debuff} title={buff.name}>
+                <img width={20} height={20} src={buff.image} alt={buff.name} />
+                <span className={styles.buffDuration}>{duration}</span>
+              </div>
+            )}
+          />
+        </div>
+      </When>
+
       <When value={debuffs.length > 0}>
         <div className={styles.debuffList}>
           <ForEach

@@ -241,8 +241,7 @@ export function DevTools() {
             onChange={(event) => setEffectName(event.target.value)}
           />
           <span className={styles.toolHint}>
-            Nothing here takes your turn except Pass turn. A monster carries debuffs and a player carries buffs — the
-            engine has nowhere to put the other way round.
+            Nothing here takes your turn except Pass turn.
           </span>
         </section>
       </When>

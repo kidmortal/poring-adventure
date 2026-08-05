@@ -26,6 +26,12 @@ declare global {
   type BattleUser = User & {
     isDead?: boolean;
     aggro?: number;
+    /**
+     * What has been stuck on them for this fight. Battle-only — unlike a buff
+     * there is no row of it to fetch, so it arrives with the battle or not at
+     * all.
+     */
+    debuffs?: BattleDebuff[];
   };
 
   type Stats = {

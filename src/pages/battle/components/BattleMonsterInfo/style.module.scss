@@ -79,3 +79,18 @@
   font-weight: 700;
   line-height: 1.2;
 }
+
+// A monster's own buffs read as help rather than harm, so the corner number is
+// the friendly colour the party's own buffs use.
+.buffDuration {
+  position: absolute;
+  right: -0.15rem;
+  bottom: -0.15rem;
+  padding: 0 0.15rem;
+  border-radius: 0.2rem;
+  background-color: rgba(14, 16, 32, 0.85);
+  color: $exp;
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 1.2;
+}

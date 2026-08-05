@@ -6,6 +6,7 @@ import { When } from '@/components/shared/When';
 import ManaBar from '../../StatsComponents/ManaBar';
 import { CharacterPose } from '../CharacterPose';
 import BuffList from '../../StatsComponents/BuffList';
+import DebuffList from '../../StatsComponents/DebuffList';
 
 type Props = {
   user?: BattleUser;
@@ -31,6 +32,9 @@ export function CharacterWithHealthBar({
         <When value={buffs.length > 0}>
           <BuffList buffs={user?.buffs} />
         </When>
+        {/* A player can be poisoned, shredded or stunned now, the same as the
+            thing they are fighting. */}
+        <DebuffList debuffs={user?.debuffs} />
 
         <span className={styles.userName}>{user?.name}</span>
         <When value={user?.aggro != undefined}>

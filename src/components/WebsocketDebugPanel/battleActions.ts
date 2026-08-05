@@ -3,10 +3,8 @@
  * server. None of these spend your turn — the fight is a state machine driven
  * by turns, and a tool that advanced it would change the thing being tested.
  *
- * What is missing is missing because the engine has no such thing: monsters
- * carry debuffs and never buffs, players carry buffs and never debuffs. There
- * is nowhere to put a buff on an enemy, so rather than pretend, the list says
- * what the fight can actually hold.
+ * Both sides carry both kinds now, so the four combinations are all here: a
+ * buff or a debuff, on the party or on the enemy.
  */
 export type BattleDebugAction =
   | 'heal_allies'
@@ -15,8 +13,10 @@ export type BattleDebugAction =
   | 'heal_monsters'
   | 'hurt_monsters'
   | 'buff_allies'
+  | 'buff_monsters'
   | 'clear_buffs'
   | 'debuff_monsters'
+  | 'debuff_allies'
   | 'clear_debuffs'
   | 'restore_mana'
   | 'drain_mana'
@@ -51,9 +51,11 @@ export const BATTLE_DEBUG_GROUPS: BattleDebugGroup[] = [
     title: 'Effects',
     actions: [
       { action: 'buff_allies', label: 'Buff party', hint: 'By name, or the first seeded buff', needs: 'buff' },
-      { action: 'clear_buffs', label: 'Clear buffs', hint: 'Strip the party' },
+      { action: 'buff_monsters', label: 'Buff enemy', hint: 'Raises what it swings for, and cuts what it takes', needs: 'buff' },
+      { action: 'debuff_allies', label: 'Debuff party', hint: 'Weakens, shreds, poisons or stuns them', needs: 'debuff' },
       { action: 'debuff_monsters', label: 'Debuff enemy', hint: 'By name, or the first seeded debuff', needs: 'debuff' },
-      { action: 'clear_debuffs', label: 'Cleanse', hint: 'Strip the monsters' },
+      { action: 'clear_buffs', label: 'Clear buffs', hint: 'Strip both sides' },
+      { action: 'clear_debuffs', label: 'Cleanse', hint: 'Strip both sides' },
     ],
   },
   {
