@@ -8,13 +8,30 @@ import styles from './style.module.scss';
  * `label` alone renders as plain text (item tooltips, profession picker).
  * Passing `value`/`bonus` renders the base number and the equipment bonus separately.
  */
-export function Stat(props: { label: string; assetName: string; value?: number; bonus?: number }) {
+export function Stat(props: {
+  label: string;
+  assetName: string;
+  value?: number;
+  bonus?: number;
+  /** For the stats that are read as a percentage rather than a flat amount. */
+  suffix?: string;
+}) {
   return (
     <div className={styles.statContainer}>
       <img src={`https://kidmortal.sirv.com/misc/${props.assetName}.webp`} />
       <span className={styles.statLabel}>{props.label}</span>
-      {props.value !== undefined && <span className={styles.statValue}>{props.value}</span>}
-      {!!props.bonus && <span className={styles.statBonus}>+{props.bonus}</span>}
+      {props.value !== undefined && (
+        <span className={styles.statValue}>
+          {props.value}
+          {props.suffix}
+        </span>
+      )}
+      {!!props.bonus && (
+        <span className={styles.statBonus}>
+          +{props.bonus}
+          {props.suffix}
+        </span>
+      )}
     </div>
   );
 }
@@ -28,6 +45,9 @@ export function CharacterStatsInfo() {
   let bonusStr = 0;
   let bonusAgi = 0;
   let bonusInt = 0;
+  let bonusDefense = 0;
+  let bonusCritRate = 0;
+  let bonusCritDamage = 0;
   const equippedItems = userStore.user?.inventory.filter((item) => item.equipped) ?? [];
   const user = userStore.user;
   const stats = user?.stats;
@@ -51,6 +71,15 @@ export function CharacterStatsInfo() {
       if (equip?.item?.int) {
         bonusInt += equip.item.int;
       }
+      if (equip?.item?.defense) {
+        bonusDefense += equip.item.defense;
+      }
+      if (equip?.item?.critRate) {
+        bonusCritRate += equip.item.critRate;
+      }
+      if (equip?.item?.critDamage) {
+        bonusCritDamage += equip.item.critDamage;
+      }
     });
   }
   const rawHealth = (stats?.maxHealth || 0) - bonusHealth;
@@ -59,6 +88,9 @@ export function CharacterStatsInfo() {
   const rawStr = (stats?.str || 0) - bonusStr;
   const rawAgi = (stats?.agi || 0) - bonusAgi;
   const rawInt = (stats?.int || 0) - bonusInt;
+  const rawDefense = (stats?.defense || 0) - bonusDefense;
+  const rawCritRate = (stats?.critRate || 0) - bonusCritRate;
+  const rawCritDamage = (stats?.critDamage || 0) - bonusCritDamage;
 
   return (
     <div className={styles.container}>
@@ -77,6 +109,9 @@ export function CharacterStatsInfo() {
         <Stat assetName="str" label="STR" value={rawStr} bonus={bonusStr} />
         <Stat assetName="agi" label="AGI" value={rawAgi} bonus={bonusAgi} />
         <Stat assetName="int" label="INT" value={rawInt} bonus={bonusInt} />
+        <Stat assetName="def" label="DEF" value={rawDefense} bonus={bonusDefense} />
+        <Stat assetName="critr" label="CRIT" value={rawCritRate} bonus={bonusCritRate} suffix="%" />
+        <Stat assetName="critd" label="CRIT DMG" value={rawCritDamage} bonus={bonusCritDamage} suffix="%" />
       </div>
     </div>
   );

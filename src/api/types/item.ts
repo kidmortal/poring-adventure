@@ -15,6 +15,9 @@ declare global {
     agi?: number;
     health?: number;
     mana?: number;
+    defense?: number;
+    critRate?: number;
+    critDamage?: number;
 
     /** The buff eating it grants. What a cook's whole output is made of. */
     buffId?: number | null;

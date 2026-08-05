@@ -12,6 +12,9 @@ import { useModalStore } from '@/store/modal';
 import ExperienceBar from '@/components/StatsComponents/ExperienceBar';
 import { useUserStore } from '@/store/user';
 
+/** The one slot that does not belong on the 2x2 rail — it sits by the shortcuts. */
+const ACCESSORY_SLOT = ['accessory'] as const;
+
 export function UserProfile() {
   const navigate = useNavigate();
   const store = useMainStore();
@@ -46,6 +49,12 @@ export function UserProfile() {
                 }
               }}
             />
+          </div>
+
+          {/* Its own column between the character and the shortcuts, so the
+              accessory reads as gear rather than as another shortcut. */}
+          <div className={styles.accessoryColumn}>
+            <Equipments equips={equippedItems} slots={ACCESSORY_SLOT} />
           </div>
 
           <div className={styles.extraMenus}>

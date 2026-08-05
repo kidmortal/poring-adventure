@@ -40,6 +40,12 @@ declare global {
     str: number;
     agi: number;
     int: number;
+    /** Flat mitigation from class levels and gear. */
+    defense: number;
+    /** Percent chance a hit or a heal lands critical. Everyone starts on 5. */
+    critRate: number;
+    /** What a critical is worth, as a percent of the plain value. 200 is double. */
+    critDamage: number;
     stamina: number;
     maxStamina: number;
     staminaRefilledAt: string;
@@ -101,5 +107,8 @@ declare global {
     /** Percentages the "well_fed" effect reads. Meals carry these. */
     attackBonus?: number;
     healthBonus?: number;
+    /** Percentage points added to the holder's crit while the buff is up. */
+    critRateBonus?: number;
+    critDamageBonus?: number;
   };
 }

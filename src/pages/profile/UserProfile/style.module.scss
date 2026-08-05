@@ -19,15 +19,22 @@
   @include panel-gold();
 }
 
-// Three columns: equipment rail, character, shortcut rail. The side columns get
-// equal 1fr tracks so the character stays on the card's centre line even though
-// the two rails have different widths.
+// Four columns: equipment rail, character, accessory, shortcut rail. The two
+// outer rails get equal 1fr tracks so the character stays near the card's centre
+// line even though they have different widths; the accessory sits on the auto
+// track right beside the character, which is where it belongs — it is gear, and
+// the only reason it is not on the 2x2 rail is that the rail has no fifth box.
 .heroRow {
   width: 100%;
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  grid-template-columns: 1fr auto auto 1fr;
   align-items: stretch;
   gap: 0.5rem;
+}
+
+.accessoryColumn {
+  display: flex;
+  align-items: center;
 }
 
 .userCharacterInfoContainer {

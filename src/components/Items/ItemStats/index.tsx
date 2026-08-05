@@ -2,7 +2,7 @@ import { Utils } from '@/utils';
 import { Stat } from '../../Character/CharacterStatsInfo';
 import { When } from '../../shared/When';
 import styles from './style.module.scss';
-import { ITEM_QUALITY } from '@/constants';
+import { EQUIPABLE_CATEGORIES, EquipableCategory, ITEM_QUALITY } from '@/constants';
 import cn from 'classnames';
 
 /** Item name coloured by quality, with the quality/category line under it. */
@@ -16,8 +16,10 @@ export function ItemIdentity({ inventoryItem }: { inventoryItem?: InventoryItem 
       <h3 className={cn(styles.itemName, styles[qualityName])}>{item?.name}</h3>
       <span className={styles.itemMeta}>
         {qualityName} · {item?.category}
-        {/* Gear is tiered, so the level it asks for belongs next to its name. */}
-        <When value={(item?.requiredLevel ?? 1) > 1}>
+        {/* Gear is tiered, so the level it asks for belongs next to its name —
+            including Lv 1, which is what tells a new player the piece they just
+            found is wearable right now rather than saying nothing at all. */}
+        <When value={EQUIPABLE_CATEGORIES.includes(item?.category as EquipableCategory)}>
           <span className={styles.requiredLevel}>Lv {item?.requiredLevel}</span>
         </When>
         <When value={enhancement > 0}>
@@ -49,7 +51,10 @@ export function ItemStats({
   const str = item?.str ?? 0;
   const agi = item?.agi ?? 0;
   const int = item?.int ?? 0;
-  const hasStats = !!(health || mana || attack || str || agi || int);
+  const defense = item?.defense ?? 0;
+  const critRate = item?.critRate ?? 0;
+  const critDamage = item?.critDamage ?? 0;
+  const hasStats = !!(health || mana || attack || str || agi || int || defense || critRate || critDamage);
 
   return (
     <div className={styles.statsContainer}>
@@ -77,6 +82,27 @@ export function ItemStats({
           </When>
           <When value={!!int}>
             <Stat assetName="int" label="INT" value={int} bonus={Math.floor(int * multiplier)} />
+          </When>
+          <When value={!!defense}>
+            <Stat assetName="def" label="DEF" value={defense} bonus={Math.floor(defense * multiplier)} />
+          </When>
+          <When value={!!critRate}>
+            <Stat
+              assetName="critr"
+              label="CRIT"
+              value={critRate}
+              bonus={Math.floor(critRate * multiplier)}
+              suffix="%"
+            />
+          </When>
+          <When value={!!critDamage}>
+            <Stat
+              assetName="critd"
+              label="CRIT DMG"
+              value={critDamage}
+              bonus={Math.floor(critDamage * multiplier)}
+              suffix="%"
+            />
           </When>
         </div>
       </When>
@@ -122,6 +148,12 @@ function ConsumableEffect({
           </When>
           <When value={!!buff?.healthBonus}>
             <span>-{buff?.healthBonus}% damage taken</span>
+          </When>
+          <When value={!!buff?.critRateBonus}>
+            <span>+{buff?.critRateBonus}% crit rate</span>
+          </When>
+          <When value={!!buff?.critDamageBonus}>
+            <span>+{buff?.critDamageBonus}% crit damage</span>
           </When>
         </div>
       </When>

@@ -18,48 +18,71 @@
   gap: 0.35rem;
 }
 
-// Two columns of stat chips: fits any phone width, no horizontal overflow.
+// Three columns of stat chips. Nine stats in two columns ran five rows deep and
+// left a half-empty one at the bottom; three fits the same list in three tidy
+// rows on any phone width, with no horizontal overflow.
 .statGrid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.35rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.3rem;
 }
 
+// The icon holds the full height on the left, with the label stacked over the
+// value beside it — a narrower chip than one flat row of the same three parts,
+// which is what makes the third column fit.
 .statContainer {
-  display: flex;
-  flex-direction: row;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
-  gap: 0.35rem;
+  column-gap: 0.3rem;
   min-width: 0;
-  padding: 0.3rem 0.45rem;
+  padding: 0.3rem 0.4rem;
   border-radius: $radius-sm;
-  background-color: rgba(0, 0, 0, 0.22);
+  border: 1px solid $border;
+  background-color: $neutral;
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(0, 0, 0, 0.18));
   font-size: 13px;
   color: $text;
 
   img {
-    width: 18px;
-    height: 18px;
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    width: 28px;
+    height: 28px;
     flex-shrink: 0;
+    // The stat icons are pixel art, so the browser's smoothing only blurs them.
+    image-rendering: pixelated;
   }
 }
 
 .statLabel {
+  grid-column: 2 / span 2;
+  grid-row: 1;
   color: $text-muted;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.4px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .statValue {
-  margin-left: auto;
-  font-weight: 600;
+  grid-column: 2;
+  grid-row: 2;
+  font-size: 14px;
+  font-weight: 700;
   font-variant-numeric: tabular-nums;
+  line-height: 1.1;
 }
 
 .statBonus {
+  grid-column: 3;
+  grid-row: 2;
   color: $exp;
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 700;
   font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
