@@ -1,7 +1,7 @@
 import styles from './style.module.scss';
 
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { toast } from 'react-toastify';
+import { notify } from '@/components/Toast/notify';
 import { FaMinus, FaPlus } from 'react-icons/fa';
 
 import { Query } from '@/store/query';
@@ -37,7 +37,7 @@ export function BuyItemModal(props: Props) {
       }),
     onSuccess: () => {
       props.onRequestClose();
-      toast('Purchase successful', { type: 'success', autoClose: 1000 });
+      notify('Purchase successful', { type: 'success' });
       queryClient.refetchQueries({
         queryKey: [Query.ALL_MARKET],
       });

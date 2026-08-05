@@ -1,0 +1,96 @@
+@import '@/styles/variables';
+
+// The stack sits under the header rather than over it, and never wider than the
+// text it carries. Pointer events stay off the column itself so a toast in the
+// middle of the screen cannot swallow a tap meant for the game underneath.
+.container {
+  width: auto;
+  max-width: min(88%, 320px);
+  padding: 0;
+  top: 0.4rem;
+  pointer-events: none;
+}
+
+// A pill, not a card: one line of text, the height of the text plus a little.
+// react-toastify's own minimum is 64px, which is what made three of these fill
+// a third of a phone screen.
+.toast {
+  min-height: 0;
+  margin-bottom: 0.3rem;
+  padding: 0.35rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid $border-strong;
+  background-color: rgba(14, 16, 32, 0.94);
+  box-shadow: $shadow-raised;
+  color: $text;
+  font-family: inherit;
+  font-size: 12px;
+  line-height: 1.3;
+  pointer-events: auto;
+  cursor: pointer;
+
+  // The type is a stripe down the leading edge instead of a full colour wash —
+  // a coloured block the width of the screen reads as an alert, and most of
+  // these are only news.
+  &:global(.Toastify__toast--error) {
+    border-color: rgba($error, 0.65);
+    box-shadow: inset 3px 0 0 $error, $shadow-raised;
+  }
+
+  &:global(.Toastify__toast--success) {
+    border-color: rgba($success, 0.6);
+    box-shadow: inset 3px 0 0 $success, $shadow-raised;
+  }
+
+  &:global(.Toastify__toast--info) {
+    border-color: rgba($primary, 0.6);
+    box-shadow: inset 3px 0 0 $primary, $shadow-raised;
+  }
+
+  &:global(.Toastify__toast--warning) {
+    border-color: rgba($gold, 0.6);
+    box-shadow: inset 3px 0 0 $gold, $shadow-raised;
+  }
+}
+
+// A toast with its own contents — the party invitation and its two buttons.
+// It keeps the surface and loses the single-line shape.
+.custom.custom {
+  padding: 0.5rem 0.6rem;
+  border-radius: $radius;
+  font-size: 13px;
+}
+
+.bodyWrapper {
+  margin: 0;
+  padding: 0;
+}
+
+.body {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.4rem;
+  min-width: 0;
+}
+
+.text {
+  min-width: 0;
+  // Two lines is the ceiling: beyond that it is a screen, not a notification.
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+// How many times the same message has arrived while this toast was up.
+.count {
+  flex-shrink: 0;
+  padding: 0 0.3rem;
+  border-radius: 999px;
+  background-color: rgba(255, 255, 255, 0.12);
+  color: $gold;
+  font-size: 11px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}

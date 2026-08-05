@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import cn from 'classnames';
 import { useMutation } from '@tanstack/react-query';
-import { toast } from 'react-toastify';
+import { notify } from '@/components/Toast/notify';
 import { FaGift, FaMinus, FaPlus, FaTimes } from 'react-icons/fa';
 
 import styles from './style.module.scss';
@@ -54,7 +54,7 @@ export function GiftModal({ isOpen, user, onRequestClose }: Props) {
       }),
     onSuccess: (sent) => {
       if (!sent) return;
-      toast(`Gift sent to ${user?.name}`, { type: 'success', autoClose: 1500 });
+      notify(`Gift sent to ${user?.name}`, { type: 'success' });
       onRequestClose();
     },
   });

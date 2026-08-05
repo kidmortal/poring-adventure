@@ -45,6 +45,8 @@ the abbreviation rules.
 
 **Others**
 `GuildTaskInfo` · `InviteBox` (rendered inside a toast) · `ErrorMessage` ·
+`GameToastContainer` (see [data-flow.md](data-flow.md#toasts) — use `notify()`,
+not `toast()`) ·
 `GoogeLoginButton` · `WebsocketDebugPanel` (rides along on every screen,
 including failed connections — that is when the log matters most).
 

@@ -3,7 +3,7 @@ import styles from './style.module.scss';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { Query } from '@/store/query';
-import { toast } from 'react-toastify';
+import { notify } from '@/components/Toast/notify';
 
 import { BaseModal } from '../BaseModal';
 import { When } from '@/components/shared/When';
@@ -83,7 +83,7 @@ export function ItemMenuModal(props: Props) {
       if (!result) return;
       // Says what it actually did, because quality changes the numbers and a
       // meal's whole effect is a buff that would otherwise be invisible.
-      toast(describeConsume(result), { type: 'success', autoClose: 2000 });
+      notify(describeConsume(result), { type: 'success' });
     },
     onSettled: () => {
       props.onRequestClose();
@@ -97,7 +97,7 @@ export function ItemMenuModal(props: Props) {
     mutationFn: (inventoryId: number) => api.items.unequipItem({ inventoryId }),
     onSuccess: (success) => {
       if (!success) return;
-      toast('Item unequipped', { type: 'success' });
+      notify('Item unequipped', { type: 'success' });
     },
     onSettled: () => {
       props.onRequestClose();
@@ -111,7 +111,7 @@ export function ItemMenuModal(props: Props) {
     mutationFn: (inventoryId: number) => api.items.equipItem({ inventoryId }),
     onSuccess: (success) => {
       if (!success) return;
-      toast('Item equipped', { type: 'success' });
+      notify('Item equipped', { type: 'success' });
     },
     onSettled: () => {
       props.onRequestClose();

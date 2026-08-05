@@ -2,7 +2,6 @@ import { Outlet } from 'react-router-dom';
 import { ScreenOrientation } from '@capacitor/screen-orientation';
 import styles from './style.module.scss';
 import { Capacitor } from '@capacitor/core';
-import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import cn from 'classnames';
 import { useEffect, useState } from 'react';
@@ -11,6 +10,7 @@ import * as RevenueCat from '@revenuecat/purchases-capacitor';
 import { UpdateAvailableMessageScreen } from '@/screens/UpdateAvailableMessage';
 import { When } from '@/components/shared/When';
 import { useAdminStore } from '@/store/admin';
+import { GameToastContainer } from '@/components/Toast';
 import { useDevicePreviewStore } from '@/store/devicePreview';
 import { useFitScale } from '@/hooks/useFitScale';
 
@@ -69,7 +69,7 @@ export function LimitedSizeLayout() {
 
   const content = (
     <>
-      <ToastContainer />
+      <GameToastContainer />
       <When value={isOudated}>
         <UpdateAvailableMessageScreen onCancelUpdate={() => setIsOudated(false)} />
       </When>

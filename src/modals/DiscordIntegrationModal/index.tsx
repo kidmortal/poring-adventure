@@ -5,7 +5,7 @@ import { useWebsocketApi } from '@/api/websocketServer';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
 import { When } from '@/components/shared/When';
-import { toast } from 'react-toastify';
+import { notify } from '@/components/Toast/notify';
 import { Query } from '@/store/query';
 import { useMainStore } from '@/store/main';
 
@@ -54,7 +54,7 @@ export function DiscordIntegrationModal(props: Props) {
                   if (token) {
                     navigator.clipboard.writeText(token);
                   }
-                  toast('Token copied to clipboard', { autoClose: 1000 });
+                  notify('Token copied to clipboard');
                 }}
               >
                 <span>{token}</span>

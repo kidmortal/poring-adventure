@@ -1,9 +1,11 @@
 import { Socket } from 'socket.io-client';
-import { toast } from 'react-toastify';
 import { MainStoreState } from '@/store/main';
 import { BattleState } from '@/store/battle';
 import { WebsocketApi } from '@/api/websocketServer';
 import { InviteBox } from '@/components/InviteBox';
+import { dismissToast, notify, notifyCustom } from '@/components/Toast/notify';
+
+const PARTY_INVITE = 'party_invite';
 
 export function addToastListeners({
   websocket,
@@ -16,32 +18,24 @@ export function addToastListeners({
   pushToScreen: (s: string) => void;
 }) {
   websocket.on('party_invite', (party: Party) => {
-    toast(
+    notifyCustom(
+      PARTY_INVITE,
       <InviteBox
         party={party}
-        onRefuse={() => {
-          toast.dismiss({ id: 'party_invite', containerId: '' });
-        }}
+        // Dismissed by id: the object form is react-toastify v11's, and on the
+        // v10 we run it matched nothing, so refusing left the invite on screen.
+        onRefuse={() => dismissToast(PARTY_INVITE)}
         onConfirm={() => {
-          toast.dismiss({ id: 'party_invite', containerId: '' });
+          dismissToast(PARTY_INVITE);
           if (party.id) {
             api.party.joinParty({ partyId: party.id });
           }
         }}
       />,
-      {
-        autoClose: false,
-        toastId: 'party_invite',
-        type: 'info',
-        theme: 'colored',
-      },
+      { type: 'info' },
     );
   });
 
-  websocket.on('notification', (msg: string) => {
-    toast(msg, { type: 'info', autoClose: 3000, theme: 'colored' });
-  });
-  websocket.on('error_notification', (msg: string) => {
-    toast(msg, { type: 'error', autoClose: 3000, theme: 'colored' });
-  });
+  websocket.on('notification', (msg: string) => notify(msg));
+  websocket.on('error_notification', (msg: string) => notify(msg, { type: 'error' }));
 }

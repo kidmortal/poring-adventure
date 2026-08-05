@@ -127,6 +127,20 @@ The server refuses by pushing `error_notification`, which the toast listener
 renders. **A refusal is not a rejected promise** — most mutations resolve with
 `false`. Do not build UI that waits for a throw.
 
+### Toasts
+
+**Always `notify()` from `components/Toast/notify.tsx`, never `toast()` direct.**
+The id is derived from the message text, so a repeat updates the toast already
+on screen and counts up — "Monsters killed ×4" instead of four cards burying the
+fight that produced them. Calling react-toastify directly opts out of that and
+brings back the spam. `notifyCustom` is for a toast with its own contents and
+buttons (the party invitation); `dismissToast(id)` closes one.
+
+The container is `GameToastContainer`, mounted once in `LimitedSizeLayout`:
+top-centred, capped at three, no close button — a toast is dismissed by tapping
+it. The cap is what handles a burst of *different* events, the way the id
+handles a repeated one.
+
 Where the client can know a refusal in advance, it says so before the click
 rather than after: `pages/battle/dungeon.ts` and `pages/guild/guildBoss.ts`
 mirror the server's entry rules so the UI can name everyone blocking a run at
