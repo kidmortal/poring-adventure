@@ -82,7 +82,7 @@ modalStore.setItemInfo({ open: true, item: drop.item });
 `BaseModal` · `ConfirmationModal` · `ItemMenuModal` · `ItemInfoModal` ·
 `SellItemModal` · `BuyItemModal` · `EnhanceItemModal` · `CraftDetailsModal` ·
 `SwapProfessionModal` · `MonsterInfoModal` · `DungeonBossModal` ·
-`SkillbookModal` · `MailBoxModal` · `GiftModal` · `FriendListModal` ·
+`SkillbookModal` · `SkillInfoModal` · `MailBoxModal` · `GiftModal` · `FriendListModal` ·
 `InteractUserModal` · `PartyMemberModal` · `GuildInfoModal` ·
 `GuildMemberModal` · `GuildTaskSelectModal` · `GuildBossSummonModal` ·
 `GuildBlessingModal` · `UserSettingsModal` · `UserEditCharacterModal` ·

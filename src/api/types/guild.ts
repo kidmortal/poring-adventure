@@ -18,6 +18,11 @@ declare global {
     blessing?: GuildBlessing;
   };
 
+  /**
+   * Each field is the **total stat granted**, not a level — the level is that
+   * total divided by the blessing's step, which is also what prices the next
+   * upgrade. See the server's docs/guilds.md.
+   */
   type GuildBlessing = {
     id: number;
     guildId: number;
@@ -26,6 +31,11 @@ declare global {
     str: number;
     int: number;
     agi: number;
+    defense: number;
+    critRate: number;
+    critDamage: number;
+    /** Extra daily profession stamina, not a combat stat. */
+    stamina: number;
   };
 
   type CurrentGuildTask = {

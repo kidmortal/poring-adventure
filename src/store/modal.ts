@@ -81,6 +81,13 @@ type ItemInfoState = {
   item?: Item;
 };
 
+type SkillInfoState = {
+  open?: boolean;
+  skill?: Skill;
+  /** Whose skill it is, for a preview opened outside the skillbook. */
+  className?: string;
+};
+
 type SwapProfessionState = {
   open?: boolean;
   /** The profession the user is about to swap to. */
@@ -124,6 +131,8 @@ export interface ModalState {
   setSwapProfession: (v: SwapProfessionState) => void;
   monsterInfo: MonsterInfoState;
   setMonsterInfo: (v: MonsterInfoState) => void;
+  skillInfo: SkillInfoState;
+  setSkillInfo: (v: SkillInfoState) => void;
   dungeonBoss: DungeonBossState;
   setDungeonBoss: (v: DungeonBossState) => void;
   itemInfo: ItemInfoState;
@@ -158,6 +167,7 @@ export const useModalStore = create<ModalState>()((set) => ({
   confirmDeleteCharacter: { open: false },
   swapProfession: { open: false },
   monsterInfo: { open: false },
+  skillInfo: { open: false },
   dungeonBoss: { open: false },
   itemInfo: { open: false },
   craftDetails: { open: false },
@@ -184,6 +194,7 @@ export const useModalStore = create<ModalState>()((set) => ({
   setSkillbook: (v) => set(() => ({ skillbook: v })),
   setSwapProfession: (v) => set(() => ({ swapProfession: v })),
   setMonsterInfo: (v) => set(() => ({ monsterInfo: v })),
+  setSkillInfo: (v) => set(() => ({ skillInfo: v })),
   setDungeonBoss: (v) => set(() => ({ dungeonBoss: v })),
   setItemInfo: (v) => set(() => ({ itemInfo: v })),
   setCraftDetails: (v) => set(() => ({ craftDetails: v })),

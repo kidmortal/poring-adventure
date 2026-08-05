@@ -20,6 +20,8 @@ declare global {
     str: number;
     agi: number;
     int: number;
+    /** Flat mitigation the class gains per level. Not every class has any. */
+    defense: number;
     skills: Skill[];
   };
 

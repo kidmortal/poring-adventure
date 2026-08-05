@@ -1,19 +1,26 @@
 @import '@/styles/variables';
 
-// Portrait, identity and stats on one row: the card is as tall as its tallest
-// column instead of as tall as a stacked skill list.
+// Identity and stats on one row, the skill strip full width beneath it: the
+// strip is the part that grows with the class, and the card's full width is
+// the cheapest place to put it.
 .container {
   width: 100%;
-  display: grid;
-  grid-template-columns: 58px minmax(0, 1fr) auto;
-  align-items: center;
-  gap: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
   padding: 0.5rem;
   text-align: left;
   color: $text;
   cursor: pointer;
   transition: border-color 150ms, background-color 150ms;
   @include panel();
+}
+
+.head {
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 // No scale() on select — it pushed the card past the edge of the screen.
@@ -42,7 +49,7 @@
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 0.3rem;
+  gap: 0.2rem;
 }
 
 .name {
@@ -54,44 +61,62 @@
   text-overflow: ellipsis;
 }
 
+.hint {
+  font-size: 9px;
+  line-height: 1.2;
+  color: $text-muted;
+}
+
+// Four then three: the vitals and defence read as one row and the attributes
+// as the next, which keeps seven stats no wider than six were.
+.stats {
+  flex-shrink: 0;
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  gap: 0.2rem;
+  font-size: 11px;
+}
+
 .skills {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  gap: 0.3rem;
+  gap: 0.25rem;
+  padding-top: 0.35rem;
+  border-top: 1px solid $border;
 }
 
+// A bare icon: the name is one tap away, and sixteen of these are two rows
+// rather than six.
 .skill {
-  width: 46px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.1rem;
+  position: relative;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: 1px solid $border;
+  border-radius: $radius-sm;
+  background-color: rgba(0, 0, 0, 0.25);
+  cursor: pointer;
 
   img {
-    width: 26px;
-    height: 26px;
-    border-radius: $radius-sm;
-    background-color: rgba(0, 0, 0, 0.25);
-  }
-
-  span {
     width: 100%;
-    font-size: 9px;
-    line-height: 1.2;
-    color: $text-muted;
-    text-align: center;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    height: 100%;
+    object-fit: contain;
+    border-radius: $radius-sm;
   }
 }
 
-// Two rows of three keeps the six stats compact next to the skills.
-.stats {
-  flex-shrink: 0;
-  display: grid;
-  grid-template-columns: repeat(3, auto);
-  gap: 0.2rem;
-  font-size: 11px;
+// The level it unlocks at, tucked into the corner. The strip is sorted by it,
+// so the corner numbers double as the reading order.
+.skillLevel {
+  position: absolute;
+  right: -2px;
+  bottom: -3px;
+  padding: 0 2px;
+  border-radius: $radius-sm;
+  background-color: rgba(0, 0, 0, 0.75);
+  font-size: 8px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: $text-muted;
 }

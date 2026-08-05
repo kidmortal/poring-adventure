@@ -4,23 +4,18 @@ import { Button } from '@/components/shared/Button';
 import { useUserStore } from '@/store/user';
 import { useWebsocketApi } from '@/api/websocketServer';
 import { useMutation } from '@tanstack/react-query';
+import {
+  BLESSINGS,
+  BlessingConfig,
+  MAX_BLESSING_LEVEL,
+  UNLOCK_COST,
+  blessingLevel,
+  blessingUpgradeCost,
+} from './blessings';
 
 type Props = {
   isOpen?: boolean;
   onRequestClose: () => void;
-};
-
-/** Soulshards charged per upgrade, and to unlock blessings in the first place. */
-const UPGRADE_COST = 100;
-const UNLOCK_COST = 100;
-
-type BlessingConfig = {
-  name: string;
-  alias: string;
-  src: string;
-  value?: number;
-  /** Stat granted per blessing level. */
-  multiplier: number;
 };
 
 export function GuildBlessingModal({ isOpen, onRequestClose }: Props) {
@@ -34,14 +29,6 @@ export function GuildBlessingModal({ isOpen, onRequestClose }: Props) {
 
   const blessing = guild?.blessing;
   const soulshards = guild?.taskPoints ?? 0;
-
-  const blessings: BlessingConfig[] = [
-    { name: 'Health', alias: 'health', src: 'blessing_health', value: blessing?.health, multiplier: 5 },
-    { name: 'Mana', alias: 'mana', src: 'blessing_mana', value: blessing?.mana, multiplier: 5 },
-    { name: 'Strength', alias: 'str', src: 'blessing_str', value: blessing?.str, multiplier: 1 },
-    { name: 'Agility', alias: 'agi', src: 'blessing_agi', value: blessing?.agi, multiplier: 1 },
-    { name: 'Intelligence', alias: 'int', src: 'blessing_int', value: blessing?.int, multiplier: 1 },
-  ];
 
   return (
     <BaseModal onRequestClose={onRequestClose} isOpen={isOpen}>
@@ -58,8 +45,8 @@ export function GuildBlessingModal({ isOpen, onRequestClose }: Props) {
 
       {blessing ? (
         <div className={styles.container}>
-          {blessings.map((config) => (
-            <Blessing key={config.alias} config={config} soulshards={soulshards} />
+          {BLESSINGS.map((config) => (
+            <Blessing key={config.alias} config={config} value={blessing[config.alias] ?? 0} soulshards={soulshards} />
           ))}
         </div>
       ) : (
@@ -86,7 +73,7 @@ export function GuildBlessingModal({ isOpen, onRequestClose }: Props) {
   );
 }
 
-function Blessing({ config, soulshards }: { config: BlessingConfig; soulshards: number }) {
+function Blessing({ config, value, soulshards }: { config: BlessingConfig; value: number; soulshards: number }) {
   const api = useWebsocketApi();
   const userStore = useUserStore();
   const guild = userStore.guild;
@@ -95,34 +82,44 @@ function Blessing({ config, soulshards }: { config: BlessingConfig; soulshards: 
     mutationFn: () => api.guild.upgradeBlessing({ guildId: guild?.id ?? 0, blessing: config.alias }),
   });
 
-  const value = config.value ?? 0;
-  const level = Math.floor(value / config.multiplier);
-  const canAfford = soulshards >= UPGRADE_COST;
+  const level = blessingLevel(value, config.multiplier);
+  const maxed = level >= MAX_BLESSING_LEVEL;
+  // The cost climbs with the level, so it is read per blessing, not per shelf.
+  const cost = blessingUpgradeCost(level);
+  const canAfford = soulshards >= cost;
 
   return (
     <div className={styles.blessingContainer}>
-      <img className={styles.blessingIcon} src={`https://kidmortal.sirv.com/misc/${config.src}.png`} alt={config.name} />
+      <img
+        className={styles.blessingIcon}
+        src={`https://kidmortal.sirv.com/misc/${config.src}.webp`}
+        alt={config.name}
+      />
 
       <div className={styles.blessingInfo}>
         <span className={styles.blessingName}>{config.name}</span>
         <div className={styles.blessingMeta}>
           <span className={styles.level}>Lv {level}</span>
           <span className={styles.bonus}>+{value}</span>
-          <span className={styles.nextLevel}>→ +{value + config.multiplier}</span>
+          {!maxed && <span className={styles.nextLevel}>→ +{value + config.multiplier}</span>}
         </div>
       </div>
 
       <Button
         className={styles.upgradeButton}
-        theme={canAfford ? 'primary' : 'neutral'}
+        theme={canAfford && !maxed ? 'primary' : 'neutral'}
         label={
-          <>
-            <span>{UPGRADE_COST}</span>
-            <img width={16} height={16} src="https://kidmortal.sirv.com/misc/soulshard.webp?w=20&h=20" />
-          </>
+          maxed ? (
+            <span>Max</span>
+          ) : (
+            <>
+              <span>{cost}</span>
+              <img width={16} height={16} src="https://kidmortal.sirv.com/misc/soulshard.webp?w=20&h=20" />
+            </>
+          )
         }
         onClick={() => upgradeBlessMutation.mutate()}
-        disabled={!canAfford || upgradeBlessMutation.isPending}
+        disabled={maxed || !canAfford || upgradeBlessMutation.isPending}
       />
     </div>
   );

@@ -1,14 +1,7 @@
 import styles from './style.module.scss';
 import { Button } from '@/components/shared/Button';
 import { useModalStore } from '@/store/modal';
-
-const BLESSING_STATS = [
-  { assetName: 'health', label: 'HP', key: 'health' },
-  { assetName: 'mana', label: 'MP', key: 'mana' },
-  { assetName: 'str', label: 'STR', key: 'str' },
-  { assetName: 'agi', label: 'AGI', key: 'agi' },
-  { assetName: 'int', label: 'INT', key: 'int' },
-] as const;
+import { BLESSINGS, blessingLevel } from '@/modals/GuildBlessingModal/blessings';
 
 /**
  * Blessings buff every member, but the values were only visible inside the
@@ -31,11 +24,15 @@ export function GuildBlessings({ blessing }: { blessing?: GuildBlessing }) {
 
       {blessing ? (
         <div className={styles.statGrid}>
-          {BLESSING_STATS.map((stat) => (
-            <div key={stat.key} className={styles.statChip}>
-              <img src={`https://kidmortal.sirv.com/misc/${stat.assetName}.webp`} alt={stat.label} />
+          {BLESSINGS.map((stat) => (
+            <div
+              key={stat.alias}
+              className={styles.statChip}
+              title={`${stat.name} — level ${blessingLevel(blessing[stat.alias] ?? 0, stat.multiplier)}`}
+            >
+              <img src={`https://kidmortal.sirv.com/misc/${stat.src}.webp`} alt={stat.label} />
               <span className={styles.statLabel}>{stat.label}</span>
-              <span className={styles.statValue}>+{blessing[stat.key]}</span>
+              <span className={styles.statValue}>+{blessing[stat.alias] ?? 0}</span>
             </div>
           ))}
         </div>
