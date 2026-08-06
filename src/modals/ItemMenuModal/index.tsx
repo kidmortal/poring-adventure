@@ -49,6 +49,12 @@ function ItemDetails({ inventoryItem }: { inventoryItem?: InventoryItem }) {
           </When>
         </section>
       </When>
+
+      {/* Same reasoning as a listed stack: the buttons below are dead while the
+          item is worn, so the modal says what unlocks them. */}
+      <When value={inventoryItem?.equipped ?? false}>
+        <span className={styles.saleLocked}>Unequip it to enhance, upgrade or sell it</span>
+      </When>
     </div>
   );
 }
@@ -199,7 +205,7 @@ export function ItemMenuModal(props: Props) {
             <Button
               label="Enhance"
               theme="neutral"
-              disabled={!hasRemainingStock}
+              disabled={!hasRemainingStock || isAlreadyEquipped}
               onClick={() => {
                 modalStore.setInventoryItem({ open: false });
                 modalStore.setEnhanceItem({ open: true });
@@ -212,7 +218,7 @@ export function ItemMenuModal(props: Props) {
             <Button
               label="Upgrade"
               theme="neutral"
-              disabled={!hasRemainingStock}
+              disabled={!hasRemainingStock || isAlreadyEquipped}
               onClick={() => {
                 modalStore.setInventoryItem({ open: false });
                 modalStore.setUpgradeItem({ open: true });
@@ -227,7 +233,7 @@ export function ItemMenuModal(props: Props) {
                 modalStore.setInventoryItem({ open: false });
                 modalStore.setSellItem({ open: true });
               }}
-              disabled={!hasRemainingStock}
+              disabled={!hasRemainingStock || isAlreadyEquipped}
             />
           </When>
         </div>
